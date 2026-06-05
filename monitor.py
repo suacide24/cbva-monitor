@@ -183,31 +183,51 @@ def parse_profile_text(text: str) -> dict:
     return {"rating": rating, "rank": rank, "upcoming_tournaments": upcoming}
 
 
-async def scrape_profile(page, profile_url: str, screenshot_name: str | None = None) -> dict:
+async def scrape_profile(page, profile_url: str, debug_name: str | None = None) -> dict:
     full = f"{BASE_URL}{profile_url}" if profile_url.startswith("/") else profile_url
+
+    api_responses: list[tuple[str, str]] = []
+
+    async def capture_response(response):
+        url = response.url
+        if any(k in url for k in ("tournament", "registr", "upcoming", "cbva.com/api")):
+            try:
+                body = await response.text()
+                api_responses.append((url, body[:500]))
+            except Exception:
+                api_responses.append((url, "<unreadable>"))
+
+    if DEBUG and debug_name:
+        page.on("response", capture_response)
+
     await page.goto(full, wait_until="networkidle")
 
-    # If the page uses tabs, click "Upcoming Tournaments" to surface that section
-    try:
-        tab = await page.query_selector("text=Upcoming Tournaments")
-        if tab:
-            await tab.click()
-            await page.wait_for_timeout(2_000)
-            print("  [tab] Clicked 'Upcoming Tournaments' tab")
-    except Exception:
-        pass
+    if DEBUG and debug_name:
+        if api_responses:
+            print(f"  [debug] Intercepted {len(api_responses)} API response(s):")
+            for url, body in api_responses:
+                print(f"    {url}")
+                print(f"    {body[:200]}")
+        else:
+            print("  [debug] No tournament-related API responses intercepted.")
 
-    if DEBUG and screenshot_name:
-        await page.screenshot(path=f"debug_{screenshot_name}.png", full_page=True)
-        print(f"  [debug] Screenshot saved: debug_{screenshot_name}.png")
+        await page.screenshot(path=f"debug_{debug_name}.png", full_page=True)
+        print(f"  [debug] Screenshot: debug_{debug_name}.png")
 
-    text = await page.evaluate("() => document.body.innerText")
-
-    if DEBUG and screenshot_name:
-        print(f"  [debug] Full page text ({len(text.splitlines())} lines):")
-        for i, line in enumerate(text.splitlines()):
+        text_all = await page.evaluate("() => document.body.innerText")
+        print(f"  [debug] Full innerText ({len(text_all.splitlines())} lines):")
+        for i, line in enumerate(text_all.splitlines()):
             print(f"  {i:03}: {repr(line)}")
 
+        # Also dump all visible links
+        links = await page.evaluate("""
+            () => Array.from(document.querySelectorAll('a,button,[role=tab]'))
+                       .map(el => el.textContent.trim())
+                       .filter(t => t)
+        """)
+        print(f"  [debug] Clickable elements: {links}")
+
+    text = await page.evaluate("() => document.body.innerText")
     data = parse_profile_text(text)
     data["profile_url"] = profile_url
     return data
@@ -331,9 +351,8 @@ async def run() -> None:
                 print(f"  Skipping — profile not found.")
                 continue
 
-            is_first = not state.get("players")
-            screenshot = name.replace(" ", "_") if (DEBUG and is_first) else None
-            cur = await scrape_profile(page, profile_url, screenshot_name=screenshot)
+            debug_name = name.replace(" ", "_") if (DEBUG and name == PLAYER_NAMES[0]) else None
+            cur = await scrape_profile(page, profile_url, debug_name=debug_name)
             print(f"  Rating: {cur['rating']}  Upcoming: {len(cur['upcoming_tournaments'])}")
 
             alert: dict = {
