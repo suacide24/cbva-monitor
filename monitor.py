@@ -142,8 +142,8 @@ async def _trpc_get(page, endpoint: str, input_obj: dict) -> dict | None:
             return out;
         }}
     """)
-    if DEBUG and "getRegistrations" in endpoint:
-        print(f"  [api] {endpoint}: {raw}")
+    if DEBUG:
+        print(f"  [api] {endpoint}: {raw[:300]}")
     try:
         return json.loads(raw).get("result", {}).get("data", {}).get("json")
     except Exception:
@@ -208,61 +208,72 @@ def parse_rank(overview: dict) -> str:
     except Exception:
         return "?"
 
-def _format_gender(gender: str, max_age: int | None) -> str:
-    if gender == "coed":
-        return "Coed"
-    prefix = "Boy's" if max_age else ("Men's" if gender == "male" else "Women's")
-    return prefix
-
-def _format_division(reg: dict) -> str:
-    try:
-        td = reg["tournamentDivision"]
-        name = td.get("name") or ""
-        gender = _format_gender(td.get("gender", "male"), td.get("division", {}).get("maxAge"))
-        level  = td.get("division", {}).get("display") or td.get("division", {}).get("name", "")
-        return f"{gender} {level}".strip() if not name else name
-    except Exception:
-        return ""
-
 def _format_date(date_str: str) -> str:
+    """Convert ISO date (2026-08-08) to readable string (Aug 8, 2026)."""
     try:
         dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
-        return dt.strftime("%b %-d, %Y")
+        return dt.strftime("%b ") + str(dt.day) + dt.strftime(", %Y")
     except Exception:
         return date_str
 
-def _format_status(reg: dict) -> str:
-    status = reg.get("status", "")
-    waitlist_pos = reg.get("waitlistPosition")
-    if status == "waitlisted" and waitlist_pos:
-        return f"Waitlisted #{waitlist_pos}"
-    return status.capitalize() if status else ""
-
-def _format_partner(reg: dict) -> str:
+def _format_division(reg: dict) -> str:
+    """Build 'Men's A' / 'Women's AA' / 'Coed B' from registration data."""
     try:
-        partner = reg.get("partner") or {}
-        return f"{partner.get('firstName','')} {partner.get('lastName','')}".strip() or "TBD"
+        div_outer = reg.get("division", {})
+        div_inner = div_outer.get("division", {})
+        gender    = div_outer.get("gender", "male")
+        level     = (div_inner.get("display") or div_inner.get("name") or "").upper()
+        max_age   = div_inner.get("maxAge")
+        if gender == "coed":
+            prefix = "Coed"
+        elif max_age:
+            prefix = "Boy's" if gender == "male" else "Girl's"
+        else:
+            prefix = "Men's" if gender == "male" else "Women's"
+        return f"{prefix} {level}".strip()
     except Exception:
-        return "TBD"
+        return ""
 
-def parse_registrations(raw_regs: list[dict]) -> list[dict]:
+def _format_partner(reg: dict, own_id: int) -> str:
+    """Extract partner name from teammates list."""
+    try:
+        for tm in reg.get("teammates", []):
+            if tm.get("profileId") == own_id:
+                continue
+            name = (tm.get("preferredName") or tm.get("firstName") or "").strip()
+            last = (tm.get("lastName") or "").strip()
+            return f"{name} {last}".strip() or "TBD"
+    except Exception:
+        pass
+    return "TBD"
+
+def parse_registrations(raw_regs: list[dict], own_id: int = 0) -> list[dict]:
     tournaments = []
     for reg in raw_regs:
         try:
-            t = reg.get("tournament", {})
-            venue = t.get("venue", {})
+            t     = reg.get("tournament", {})
+            venue = reg.get("venue", {})  # venue is top-level, not inside tournament
+            # Use tournament name if set, otherwise fall back to venue name
+            name  = t.get("name") or venue.get("name") or "CBVA Tournament"
             tournaments.append({
-                "name":     t.get("name", ""),
+                "name":     name,
                 "date":     _format_date(t.get("date", "")),
                 "location": f"{venue.get('name','')}, {venue.get('city','')}".strip(", "),
                 "status":   _format_status(reg),
                 "division": _format_division(reg),
-                "partner":  _format_partner(reg),
+                "partner":  _format_partner(reg, own_id),
             })
         except Exception as ex:
             if DEBUG:
                 print(f"  [parse] Registration parse error: {ex} — {reg}")
     return tournaments
+
+def _format_status(reg: dict) -> str:
+    status = reg.get("status", "")
+    pos    = reg.get("waitlistPosition")
+    if status == "waitlisted" and pos:
+        return f"Waitlisted #{pos}"
+    return status.capitalize() if status else ""
 
 
 # ── Change detection ──────────────────────────────────────────────────────────
@@ -277,12 +288,14 @@ def tournament_key(t: dict) -> str:
     return f"{t.get('name')}-{t.get('date')}-{t.get('division')}"
 
 def parse_tournament_date(date_str: str) -> datetime | None:
-    for fmt in ("%b %d, %Y", "%b %-d, %Y"):
-        try:
-            return datetime.strptime(date_str.strip(), fmt)
-        except ValueError:
-            continue
-    return None
+    """Parse 'Aug 8, 2026' or 'Aug 08, 2026' to datetime."""
+    try:
+        s = date_str.strip()
+        # Normalise single-digit day: "Aug 8, 2026" -> "Aug 08, 2026"
+        s = re.sub(r'\b(\d),', r'0\1,', s)
+        return datetime.strptime(s, "%b %d, %Y")
+    except Exception:
+        return None
 
 
 # ── Email templates ───────────────────────────────────────────────────────────
@@ -408,7 +421,7 @@ async def run() -> None:
 
             cur_rating = parse_rating(overview)
             cur_rank   = parse_rank(overview)
-            cur_tournaments = parse_registrations(raw_regs)
+            cur_tournaments = parse_registrations(raw_regs, own_id=profile_id)
 
             print(f"  Rating: {cur_rating}  Rank: {cur_rank}  Upcoming: {len(cur_tournaments)}")
             if cur_tournaments:
