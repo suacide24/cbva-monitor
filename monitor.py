@@ -41,6 +41,7 @@ BASE_URL      = "https://cbva.com"
 DEBUG         = os.environ.get("CBVA_DEBUG") == "1"
 
 RATING_ORDER  = ["N", "U", "B", "A", "AA", "AAA", "Open"]
+_LEVEL_MAP    = {"unrated":"U","n":"N","u":"U","b":"B","a":"A","aa":"AA","aaa":"AAA","open":"Open"}
 
 
 # ── State helpers ─────────────────────────────────────────────────────────────
@@ -119,8 +120,8 @@ async def _trpc_get(page, endpoint: str, input_obj: dict) -> dict | None:
             return out;
         }}
     """)
-    if DEBUG and "getOverview" in endpoint:
-        print(f"  [api] {endpoint} raw: {raw}")
+    if DEBUG:
+        print(f"  [api] {endpoint}: {raw[:300]}")
     try:
         return json.loads(raw).get("result", {}).get("data", {}).get("json")
     except Exception:
@@ -173,7 +174,9 @@ async def find_profile_url(page, name: str) -> str | None:
 
 def parse_rating(overview: dict) -> str:
     try:
-        return overview["level"]["abbreviated"].upper()
+        level = overview.get("level") or {}
+        raw   = (level.get("abbreviated") or level.get("name") or "").strip()
+        return _LEVEL_MAP.get(raw.lower(), raw.upper()) if raw else "?"
     except Exception:
         return "?"
 
