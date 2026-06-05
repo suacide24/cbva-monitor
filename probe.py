@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-One-off script to discover CBVA's tRPC endpoints for tournaments.
-Visits /tournaments and a specific tournament page, logs all API calls.
+Probe CBVA tournament APIs — tries known tRPC endpoints and reads page content.
 """
-import asyncio, json, os
+import asyncio, json, os, urllib.parse
+from datetime import datetime
 from dotenv import load_dotenv
 from playwright.async_api import async_playwright
 
@@ -11,13 +11,32 @@ load_dotenv()
 BASE_URL      = "https://cbva.com"
 CBVA_EMAIL    = os.environ.get("CBVA_EMAIL", "")
 CBVA_PASSWORD = os.environ.get("CBVA_PASSWORD", "")
+TODAY         = datetime.now().strftime("%Y-%m-%d")
+
+async def fetch_trpc(page, endpoint, input_obj):
+    enc = urllib.parse.quote(json.dumps({"json": input_obj}))
+    raw = await page.evaluate(f"""
+        async () => {{
+            const r = await fetch('{BASE_URL}/api/trpc/{endpoint}?input={enc}');
+            const reader = r.body.getReader();
+            const dec = new TextDecoder();
+            let out = '';
+            while (true) {{
+                const {{done, value}} = await reader.read();
+                if (done) break;
+                out += dec.decode(value, {{stream: true}});
+            }}
+            return out;
+        }}
+    """)
+    return raw
 
 async def probe():
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page    = await browser.new_page()
 
-        # Login
+        # Login first
         await page.goto(BASE_URL, wait_until="networkidle")
         login_link = await page.query_selector("a[href*='login'], a:has-text('Log')")
         if login_link:
@@ -28,49 +47,63 @@ async def probe():
             await page.fill("input[type='password']", CBVA_PASSWORD)
             await page.keyboard.press("Enter")
             await page.wait_for_timeout(3_000)
-            print(f"[auth] Logged in")
+            print("[auth] Logged in")
         except Exception as e:
             print(f"[auth] {e}")
 
-        calls = []
+        # Intercept all tRPC calls
+        all_calls = []
         async def capture(response):
             if "cbva.com/api/trpc" in response.url:
                 try:
                     body = await response.text()
-                    calls.append((response.url, body[:2000]))
-                except:
-                    pass
+                    all_calls.append((response.url, body[:3000]))
+                except: pass
         page.on("response", capture)
 
-        # Visit tournaments listing
-        print("\n=== /tournaments ===")
+        # Navigate to tournaments page with longer wait
+        print(f"\n=== Visiting /tournaments (today={TODAY}) ===")
         await page.goto(f"{BASE_URL}/tournaments", wait_until="networkidle")
-        await page.wait_for_timeout(2_000)
-        for url, body in calls:
-            print(f"URL: {url}")
-            print(f"BODY: {body}\n")
-        calls.clear()
+        await page.wait_for_timeout(5_000)
+        print(f"Page text preview: {(await page.evaluate('() => document.body.innerText'))[:300]}")
+        for url, body in all_calls:
+            print(f"  CALL: {url[:120]}")
+            print(f"  BODY: {body[:500]}\n")
+        all_calls.clear()
 
-        # Visit upcoming tournaments page
-        print("\n=== /tournaments/upcoming ===")
-        await page.goto(f"{BASE_URL}/tournaments/upcoming", wait_until="networkidle")
-        await page.wait_for_timeout(2_000)
-        for url, body in calls:
-            print(f"URL: {url}")
-            print(f"BODY: {body}\n")
-        calls.clear()
+        # Try direct tRPC endpoint calls
+        print("\n=== Direct tRPC probe ===")
+        endpoints_to_try = [
+            ("tournaments.list",       {"date": TODAY}),
+            ("tournaments.list",       {}),
+            ("tournaments.upcoming",   {}),
+            ("tournaments.search",     {"date": TODAY}),
+            ("tournaments.getByDate",  {"date": TODAY}),
+            ("tournaments.today",      {}),
+        ]
+        for ep, inp in endpoints_to_try:
+            try:
+                raw = await fetch_trpc(page, ep, inp)
+                print(f"  {ep}({inp}): {raw[:400]}")
+            except Exception as ex:
+                print(f"  {ep}: ERROR {ex}")
 
-        # Find a tournament link and follow it
-        links = await page.query_selector_all("a[href*='/tournaments/']")
-        if links:
-            href = await links[0].get_attribute("href")
-            print(f"\n=== First tournament link: {href} ===")
-            await page.goto(f"{BASE_URL}{href}" if href.startswith("/") else href, wait_until="networkidle")
-            await page.wait_for_timeout(2_000)
-            for url, body in calls:
-                print(f"URL: {url}")
-                print(f"BODY: {body}\n")
-            calls.clear()
+        # Try fetching tournament ID 4704 (the one we know about)
+        print("\n=== Known tournament ID 4704 ===")
+        raw = await fetch_trpc(page, "tournaments.get", {"id": 4704})
+        print(raw[:2000])
+
+        # Visit the tournaments upcoming page and read links
+        print("\n=== Page links on /tournaments ===")
+        await page.goto(f"{BASE_URL}/tournaments", wait_until="networkidle")
+        await page.wait_for_timeout(5_000)
+        links = await page.evaluate("""
+            () => Array.from(document.querySelectorAll('a[href]'))
+                       .map(a => a.href)
+                       .filter(h => h.includes('/tournaments/') && !h.includes('javascript'))
+                       .slice(0, 20)
+        """)
+        print(f"Tournament links: {links}")
 
         await browser.close()
 
