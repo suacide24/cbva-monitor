@@ -85,15 +85,37 @@ async def login(page) -> bool:
         print("[auth] No CBVA credentials — running unauthenticated (registrations unavailable).")
         return False
     try:
-        await page.goto(f"{BASE_URL}/login", wait_until="networkidle")
-        await page.fill("input[type='email']", CBVA_EMAIL)
-        await page.fill("input[type='password']", CBVA_PASSWORD)
-        await page.click("button[type='submit']")
+        # Navigate to home and click LOG IN to open the login modal/form
+        await page.goto(BASE_URL, wait_until="networkidle")
+
+        # Click the LOG IN link to open auth form
+        login_link = await page.query_selector("a[href*='login'], button:has-text('Log'), a:has-text('Log')")
+        if login_link:
+            await login_link.click()
+            await page.wait_for_timeout(2_000)
+
+        # Try to fill whichever email input appears
+        email_sel = "input[type='email'], input[name='email'], input[placeholder*='email' i], input[placeholder*='Email']"
+        pass_sel  = "input[type='password'], input[name='password']"
+
+        await page.wait_for_selector(email_sel, timeout=10_000)
+        await page.fill(email_sel, CBVA_EMAIL)
+        await page.fill(pass_sel, CBVA_PASSWORD)
+        await page.keyboard.press("Enter")
         await page.wait_for_timeout(3_000)
-        if "/login" not in page.url:
+
+        # Confirm we're logged in: look for profile/logout indicator
+        body_text = await page.evaluate("() => document.body.innerText")
+        if "LOG OUT" in body_text.upper() or "SIGN OUT" in body_text.upper() or CBVA_EMAIL.split("@")[0].lower() in body_text.lower():
             print(f"[auth] Logged in as {CBVA_EMAIL}")
             return True
-        print("[auth] Login failed — check CBVA_EMAIL / CBVA_PASSWORD secrets.")
+
+        # Second check: no longer on login page
+        if "login" not in page.url.lower():
+            print(f"[auth] Logged in (URL changed to {page.url})")
+            return True
+
+        print("[auth] Login appears to have failed — check credentials.")
         return False
     except Exception as e:
         print(f"[auth] Login error: {e}")
