@@ -180,11 +180,15 @@ def parse_profile_text(text: str) -> dict:
     return {"rating": rating, "rank": rank, "upcoming_tournaments": upcoming}
 
 
-async def scrape_profile(page, profile_url: str) -> dict:
+async def scrape_profile(page, profile_url: str, debug: bool = False) -> dict:
     full = f"{BASE_URL}{profile_url}" if profile_url.startswith("/") else profile_url
     await page.goto(full)
     await page.wait_for_timeout(2_500)
     text = await page.evaluate("() => document.body.innerText")
+    if debug:
+        print("  [debug] Raw page text (first 80 lines):")
+        for i, line in enumerate(text.split("\n")[:80]):
+            print(f"  {i:03}: {repr(line)}")
     data = parse_profile_text(text)
     data["profile_url"] = profile_url
     return data
@@ -265,7 +269,7 @@ async def run() -> None:
                 print(f"  Skipping - profile not found.")
                 continue
 
-            cur = await scrape_profile(page, profile_url)
+            cur = await scrape_profile(page, profile_url, debug=(name == PLAYER_NAMES[0]))
             print(f"  Rating: {cur['rating']}  Upcoming: {len(cur['upcoming_tournaments'])}")
 
             alert: dict = {
