@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Probe a PAST tournament (roster published) to understand bracket/player structure.
+Probe getTeams full response + match/result endpoints.
 """
 import asyncio, json, os, urllib.parse
 from dotenv import load_dotenv
@@ -10,6 +10,10 @@ load_dotenv()
 BASE_URL      = "https://cbva.com"
 CBVA_EMAIL    = os.environ.get("CBVA_EMAIL", "")
 CBVA_PASSWORD = os.environ.get("CBVA_PASSWORD", "")
+
+# Division with rosterPublished=True from previous probe
+KNOWN_DIV_ID  = 17119   # Girls 12U at Central Beach, June 7 2026
+KNOWN_T_ID    = 4825
 
 async def fetch_trpc(page, endpoint, input_obj):
     raw_input = json.dumps({"json": input_obj})
@@ -46,93 +50,63 @@ async def probe():
         await page.wait_for_timeout(3_000)
         print("[auth] Logged in")
 
-        # Find a past tournament from Ramon's results
-        # We know "Surf City Days" was on 9/6/25 at Huntington Pier
-        print("\n=== Search for past tournament on 2025-09-06 ===")
-        raw = await fetch_trpc(page, "tournaments.search", {"date": "2025-09-06"})
-        result = json.loads(raw).get("result", {}).get("data", {}).get("json", {})
-        data = result.get("data", [])
-        print(f"Found {len(data)} tournaments")
-        past_t = None
-        past_div = None
-        for t in data:
-            print(f"  id={t['id']} name={t.get('name')} venue={t.get('venue',{}).get('name')} date={t['date']}")
-            divs = t.get("tournamentDivisions", [])
-            for d in divs:
-                print(f"    div id={d['id']} gender={d['gender']} div={d.get('division',{}).get('name')} rosterPublished={d.get('rosterPublished')}")
-                if d.get("rosterPublished") and past_t is None:
-                    past_t = t
-                    past_div = d
+        # Navigate to the division page first to set context
+        await page.goto(f"{BASE_URL}/tournaments/{KNOWN_T_ID}/{KNOWN_DIV_ID}", wait_until="networkidle")
+        await page.wait_for_timeout(3_000)
 
-        if past_t and past_div:
-            tid = past_t["id"]
-            did = past_div["id"]
-            print(f"\n=== Using tournament {tid} division {did} (rosterPublished=True) ===")
+        # Full getTeams response
+        print(f"\n=== tournaments.getTeams(tournamentDivisionId={KNOWN_DIV_ID}) ===")
+        raw = await fetch_trpc(page, "tournaments.getTeams", {"tournamentDivisionId": KNOWN_DIV_ID})
+        print(raw)  # full response
 
-            # Visit the division page and read text
-            await page.goto(f"{BASE_URL}/tournaments/{tid}/{did}", wait_until="networkidle")
-            await page.wait_for_timeout(5_000)
-            text = await page.evaluate("() => document.body.innerText")
-            print("PAGE TEXT:")
-            for i, line in enumerate(text.splitlines()):
-                if line.strip():
-                    print(f"  {i:03}: {repr(line.strip())}")
+        # Try match/results endpoints
+        print(f"\n=== Match / result endpoint attempts ===")
+        for ep, inp in [
+            ("tournaments.getMatches",     {"tournamentDivisionId": KNOWN_DIV_ID}),
+            ("tournaments.getMatches",     {"divisionId": KNOWN_DIV_ID}),
+            ("tournaments.getResults",     {"tournamentDivisionId": KNOWN_DIV_ID}),
+            ("tournaments.getResults",     {"id": KNOWN_T_ID, "divisionId": KNOWN_DIV_ID}),
+            ("tournaments.getBracket",     {"tournamentDivisionId": KNOWN_DIV_ID}),
+            ("tournaments.getPools",       {"tournamentDivisionId": KNOWN_DIV_ID}),
+            ("tournaments.getPools",       {"id": KNOWN_DIV_ID}),
+            ("pools.get",                  {"tournamentDivisionId": KNOWN_DIV_ID}),
+            ("pools.list",                 {"tournamentDivisionId": KNOWN_DIV_ID}),
+            ("pools.getAll",               {"tournamentDivisionId": KNOWN_DIV_ID}),
+        ]:
+            try:
+                raw = await fetch_trpc(page, ep, inp)
+                parsed = json.loads(raw)
+                if "error" not in raw[:30]:
+                    print(f"\n  *** HIT: {ep}({inp}):\n{raw[:1000]}")
+                else:
+                    msg = parsed.get("error",{}).get("json",{}).get("message","?")[:80]
+                    print(f"  {ep}: {msg}")
+            except Exception as ex:
+                print(f"  {ep}: {ex}")
 
-            # Intercept the page's API calls
-            all_calls = []
-            async def cap(resp):
-                if "cbva.com/api/trpc" in resp.url and "getDirectors" not in resp.url and "settings" not in resp.url:
-                    all_calls.append(resp.url)
-            page.on("response", cap)
-            await page.reload(wait_until="networkidle")
-            await page.wait_for_timeout(5_000)
-            print(f"\nIntercepted URLs on reload:")
-            for u in all_calls:
-                print(f"  {u[:120]}")
-
-            # Try roster-specific endpoints
-            print("\n=== Roster endpoint attempts ===")
-            for ep, inp in [
-                ("tournaments.getRoster", {"tournamentDivisionId": did}),
-                ("tournaments.getRoster", {"id": did}),
-                ("tournaments.getTeams",  {"tournamentDivisionId": did}),
-                ("tournaments.getTeams",  {"id": tid, "divisionId": did}),
-                ("registrations.list",    {"tournamentDivisionId": did}),
-                ("registrations.list",    {"tournamentId": tid, "divisionId": did}),
-                ("registrations.getTeams", {"tournamentDivisionId": did}),
-                ("matches.list",           {"tournamentDivisionId": did}),
-                ("matches.getByDivision",  {"tournamentDivisionId": did}),
-                ("pools.list",             {"tournamentDivisionId": did}),
-                ("pools.get",              {"tournamentDivisionId": did}),
-                ("brackets.list",          {"tournamentDivisionId": did}),
-            ]:
+        # Also intercept ALL calls made when visiting the page
+        print(f"\n=== All tRPC calls on /tournaments/{KNOWN_T_ID}/{KNOWN_DIV_ID} ===")
+        all_calls = []
+        async def cap(resp):
+            if "cbva.com/api/trpc" in resp.url:
+                all_calls.append(resp.url)
+        page.on("response", cap)
+        await page.reload(wait_until="networkidle")
+        await page.wait_for_timeout(4_000)
+        for u in all_calls:
+            print(f"  {u}")
+            # Read each one via fetch
+            path_parts = u.split("/api/trpc/")
+            if len(path_parts) > 1:
+                endpoint_part = path_parts[1].split("?")[0]
+                input_part = urllib.parse.parse_qs(urllib.parse.urlparse(u).query).get("input", ["{}"])[0]
                 try:
-                    raw = await fetch_trpc(page, ep, inp)
-                    parsed = json.loads(raw)
-                    if "error" not in raw[:30]:
-                        print(f"  *** HIT: {ep}({inp}):\n    {raw[:800]}")
-                    else:
-                        msg = parsed.get("error",{}).get("json",{}).get("message","?")[:60]
-                        print(f"  {ep}: {msg}")
+                    inp_obj = json.loads(input_part)
+                    raw2 = await fetch_trpc(page, endpoint_part, inp_obj.get("json", {}))
+                    if "error" not in raw2[:30]:
+                        print(f"    BODY: {raw2[:600]}")
                 except Exception as ex:
-                    print(f"  {ep}: {ex}")
-
-            # Full tournaments.get for past tournament
-            print(f"\n=== Full tournaments.get id={tid} ===")
-            raw = await fetch_trpc(page, "tournaments.get", {"id": tid})
-            print(raw[:4000])
-        else:
-            print("No past tournament with rosterPublished=True found")
-            # Try an earlier date
-            for d in ["2025-06-07", "2025-08-02", "2026-05-30"]:
-                raw = await fetch_trpc(page, "tournaments.search", {"date": d})
-                result = json.loads(raw).get("result",{}).get("data",{}).get("json",{})
-                data = result.get("data", [])
-                print(f"\nDate {d}: {len(data)} tournaments")
-                for t in data[:2]:
-                    divs = t.get("tournamentDivisions", [])
-                    published = [d for d in divs if d.get("rosterPublished")]
-                    print(f"  id={t['id']} venue={t.get('venue',{}).get('name')} published_divs={len(published)}")
+                    pass
 
         await browser.close()
 
