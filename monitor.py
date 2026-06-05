@@ -190,10 +190,10 @@ async def scrape_profile(page, profile_url: str, debug_name: str | None = None) 
 
     async def capture_response(response):
         url = response.url
-        if any(k in url for k in ("tournament", "registr", "upcoming", "cbva.com/api")):
+        if "cbva.com/api/trpc" in url:
             try:
                 body = await response.text()
-                api_responses.append((url, body))  # full body
+                api_responses.append((url, body))
             except Exception:
                 api_responses.append((url, "<unreadable>"))
 
