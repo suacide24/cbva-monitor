@@ -119,8 +119,8 @@ async def _trpc_get(page, endpoint: str, input_obj: dict) -> dict | None:
             return out;
         }}
     """)
-    if DEBUG:
-        print(f"  [api] {endpoint}: {raw[:400]}")
+    if DEBUG and "getOverview" in endpoint:
+        print(f"  [api] {endpoint} raw: {raw}")
     try:
         return json.loads(raw).get("result", {}).get("data", {}).get("json")
     except Exception:

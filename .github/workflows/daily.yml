@@ -51,6 +51,7 @@ jobs:
           EMAIL_TO:        ${{ secrets.EMAIL_TO }}
           CBVA_EMAIL:      ${{ secrets.CBVA_EMAIL }}
           CBVA_PASSWORD:   ${{ secrets.CBVA_PASSWORD }}
+          CBVA_DEBUG:      "1"
         run: python monitor.py
 
       - name: Commit updated state.json
