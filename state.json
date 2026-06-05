@@ -3,205 +3,214 @@
     "Ramon Sua": {
       "rating": "U",
       "rank": "2275",
-      "upcoming_tournaments": [],
+      "upcoming_tournaments": [
+        {
+          "name": null,
+          "date": "Aug 8, 2026",
+          "location": "",
+          "status": "Waitlisted #2",
+          "division": "",
+          "partner": "TBD"
+        }
+      ],
       "profile_url": "/profile/24219",
-      "last_checked": "2026-06-05T14:26:34.523616"
+      "last_checked": "2026-06-05T14:29:16.289446"
     },
     "Faizan Zubair": {
       "rating": "B",
       "rank": "1373",
       "upcoming_tournaments": [],
       "profile_url": "/profile/5263",
-      "last_checked": "2026-06-05T14:26:36.598043"
+      "last_checked": "2026-06-05T14:29:18.707450"
     },
     "Jeff Zalonka": {
       "rating": "U",
       "rank": "2275",
       "upcoming_tournaments": [],
       "profile_url": "/profile/6154",
-      "last_checked": "2026-06-05T14:26:38.303241"
+      "last_checked": "2026-06-05T14:29:21.242087"
     },
     "Christine Zalonka": {
       "rating": "AA",
       "rank": "465",
       "upcoming_tournaments": [],
       "profile_url": "/profile/29133",
-      "last_checked": "2026-06-05T14:26:41.129861"
+      "last_checked": "2026-06-05T14:29:23.407867"
     },
     "Isaiah Ritchie": {
       "rating": "A",
       "rank": "540",
       "upcoming_tournaments": [],
       "profile_url": "/profile/17675",
-      "last_checked": "2026-06-05T14:26:43.200791"
+      "last_checked": "2026-06-05T14:29:25.935379"
     },
     "Lia Oishi": {
       "rating": "B",
       "rank": "1123",
       "upcoming_tournaments": [],
       "profile_url": "/profile/27885",
-      "last_checked": "2026-06-05T14:26:45.220864"
+      "last_checked": "2026-06-05T14:29:28.839450"
     },
     "Elizabeth Rice": {
       "rating": "B",
       "rank": "1145",
       "upcoming_tournaments": [],
       "profile_url": "/profile/27884",
-      "last_checked": "2026-06-05T14:26:47.206263"
+      "last_checked": "2026-06-05T14:29:31.688516"
     },
     "Scott Rice": {
       "rating": "A",
       "rank": "746",
       "upcoming_tournaments": [],
       "profile_url": "/profile/17229",
-      "last_checked": "2026-06-05T14:26:49.354351"
+      "last_checked": "2026-06-05T14:29:34.456426"
     },
     "Leslie Patino": {
       "rating": "B",
       "rank": "1566",
       "upcoming_tournaments": [],
       "profile_url": "/profile/28208",
-      "last_checked": "2026-06-05T14:26:51.526122"
+      "last_checked": "2026-06-05T14:29:36.672860"
     },
     "Jonathan Le": {
       "rating": "U",
       "rank": "2275",
       "upcoming_tournaments": [],
       "profile_url": "/profile/25754",
-      "last_checked": "2026-06-05T14:26:53.227888"
+      "last_checked": "2026-06-05T14:29:38.506144"
     },
     "Sara Hernandez": {
       "rating": "B",
       "rank": "1132",
       "upcoming_tournaments": [],
       "profile_url": "/profile/29156",
-      "last_checked": "2026-06-05T14:26:54.947112"
+      "last_checked": "2026-06-05T14:29:40.866839"
     },
     "Myah Gomez": {
       "rating": "A",
       "rank": "720",
       "upcoming_tournaments": [],
       "profile_url": "/profile/29774",
-      "last_checked": "2026-06-05T14:26:56.716996"
+      "last_checked": "2026-06-05T14:29:43.115312"
     },
     "Abhinav Dagar": {
       "rating": "AA",
       "rank": "533",
       "upcoming_tournaments": [],
       "profile_url": "/profile/17307",
-      "last_checked": "2026-06-05T14:26:58.753258"
+      "last_checked": "2026-06-05T14:29:45.552715"
     },
     "Alex Bonczyk": {
       "rating": "AA",
       "rank": "359",
       "upcoming_tournaments": [],
       "profile_url": "/profile/17540",
-      "last_checked": "2026-06-05T14:27:00.636788"
+      "last_checked": "2026-06-05T14:29:48.072245"
     },
     "William Hafen": {
       "rating": "B",
       "rank": "1546",
       "upcoming_tournaments": [],
       "profile_url": "/profile/8532",
-      "last_checked": "2026-06-05T14:27:02.498234"
+      "last_checked": "2026-06-05T14:29:50.381673"
     },
     "Dexter Campbell": {
       "rating": "AAA",
       "rank": "75",
       "upcoming_tournaments": [],
       "profile_url": "/profile/8349",
-      "last_checked": "2026-06-05T14:27:04.501315"
+      "last_checked": "2026-06-05T14:29:52.696451"
     },
     "Peter Peck": {
       "rating": "A",
       "rank": "986",
       "upcoming_tournaments": [],
       "profile_url": "/profile/17736",
-      "last_checked": "2026-06-05T14:27:06.403463"
+      "last_checked": "2026-06-05T14:29:55.039806"
     },
     "Ethan Tendler": {
       "rating": "U",
       "rank": "2275",
       "upcoming_tournaments": [],
       "profile_url": "/profile/17733",
-      "last_checked": "2026-06-05T14:27:08.348873"
+      "last_checked": "2026-06-05T14:29:57.373989"
     },
     "Jeffrey Hogan": {
       "rating": "B",
       "rank": "1067",
       "upcoming_tournaments": [],
       "profile_url": "/profile/8518",
-      "last_checked": "2026-06-05T14:27:10.094251"
+      "last_checked": "2026-06-05T14:29:59.526772"
     },
     "Kyle Krauss": {
       "rating": "U",
       "rank": "2275",
       "upcoming_tournaments": [],
       "profile_url": "/profile/8632",
-      "last_checked": "2026-06-05T14:27:12.013719"
+      "last_checked": "2026-06-05T14:30:02.084016"
     },
     "Raymond Guan": {
       "rating": "U",
       "rank": "2275",
       "upcoming_tournaments": [],
       "profile_url": "/profile/9840",
-      "last_checked": "2026-06-05T14:27:13.698828"
+      "last_checked": "2026-06-05T14:30:04.408095"
     },
     "Nick Tomasella": {
       "rating": "U",
       "rank": "2275",
       "upcoming_tournaments": [],
       "profile_url": "/profile/22593",
-      "last_checked": "2026-06-05T14:27:15.238481"
+      "last_checked": "2026-06-05T14:30:06.501373"
     },
     "Angelo Guinasso": {
       "rating": "AA",
       "rank": "338",
       "upcoming_tournaments": [],
       "profile_url": "/profile/17149",
-      "last_checked": "2026-06-05T14:27:17.315416"
+      "last_checked": "2026-06-05T14:30:09.674254"
     },
     "Matt Sexton": {
       "rating": "U",
       "rank": "2275",
       "upcoming_tournaments": [],
       "profile_url": "/profile/8808",
-      "last_checked": "2026-06-05T14:27:19.204691"
+      "last_checked": "2026-06-05T14:30:12.260381"
     },
     "Jenna Strange": {
       "rating": "A",
       "rank": "775",
       "upcoming_tournaments": [],
       "profile_url": "/profile/28519",
-      "last_checked": "2026-06-05T14:27:20.923117"
+      "last_checked": "2026-06-05T14:30:14.466535"
     },
     "Selina Chhay": {
       "rating": "B",
       "rank": "1195",
       "upcoming_tournaments": [],
       "profile_url": "/profile/61233",
-      "last_checked": "2026-06-05T14:27:22.928070"
+      "last_checked": "2026-06-05T14:30:16.961591"
     },
     "Sheeva Haghighat": {
       "rating": "AA",
       "rank": "428",
       "upcoming_tournaments": [],
       "profile_url": "/profile/29766",
-      "last_checked": "2026-06-05T14:27:24.909713"
+      "last_checked": "2026-06-05T14:30:19.520591"
     },
     "Jacklyn Smith": {
       "rating": "B",
       "rank": "1655",
       "upcoming_tournaments": [],
       "profile_url": "/profile/61203",
-      "last_checked": "2026-06-05T14:27:26.610965"
+      "last_checked": "2026-06-05T14:30:21.734994"
     },
     "Alana Cravin": {
       "rating": "U",
       "rank": "2284",
       "upcoming_tournaments": [],
       "profile_url": "/profile/61111",
-      "last_checked": "2026-06-05T14:27:28.208352"
+      "last_checked": "2026-06-05T14:30:23.776958"
     }
   }
 }
