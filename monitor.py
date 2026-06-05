@@ -123,10 +123,14 @@ def parse_profile_text(text: str) -> dict:
 
     rating = rank = "?"
     for i, line in enumerate(lines):
-        if line == "Rating" and i + 1 < len(lines):
+        if line == "Rating" and i + 1 < len(lines) and lines[i + 1] in RATING_ORDER:
             rating = lines[i + 1]
         if line == "Rank" and i + 1 < len(lines):
-            rank = lines[i + 1]
+            try:
+                int(lines[i + 1])
+                rank = lines[i + 1]
+            except ValueError:
+                pass
 
     try:
         start = lines.index("Upcoming Tournaments") + 1
@@ -183,11 +187,12 @@ def parse_profile_text(text: str) -> dict:
 async def scrape_profile(page, profile_url: str, debug: bool = False) -> dict:
     full = f"{BASE_URL}{profile_url}" if profile_url.startswith("/") else profile_url
     await page.goto(full)
-    await page.wait_for_timeout(2_500)
+    await page.wait_for_timeout(5_000)
     text = await page.evaluate("() => document.body.innerText")
     if debug:
-        print("  [debug] Raw page text (first 80 lines):")
-        for i, line in enumerate(text.split("\n")[:80]):
+        all_lines = text.split("\n")
+        print(f"  [debug] Raw page text ({len(all_lines)} lines total):")
+        for i, line in enumerate(all_lines):
             print(f"  {i:03}: {repr(line)}")
     data = parse_profile_text(text)
     data["profile_url"] = profile_url
