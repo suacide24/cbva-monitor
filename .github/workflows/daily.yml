@@ -1,10 +1,15 @@
-name: CBVA Daily Monitor
+name: CBVA Monitor
 
 on:
   schedule:
-    # 9:00 AM Pacific Time (UTC-7 in summer)
+    # Daily 9 AM PT (UTC-7) — rating checks + first tournament scan of the day
     - cron: "0 16 * * *"
-  workflow_dispatch: # allows manual trigger from the GitHub Actions tab
+    # Weekend: every 30 min during tournament hours (7 AM–8 PM PT)
+    # 7 AM–4:30 PM PT = 14:00–23:30 UTC on Sat(6) and Sun(0)
+    - cron: "*/30 14-23 * * 6,0"
+    # 5 PM–8 PM PT bleeds into the next UTC day (Sun/Mon)
+    - cron: "*/30 0-3 * * 0,1"
+  workflow_dispatch:
 
 permissions:
   contents: write   # needed to commit updated state.json
@@ -44,12 +49,6 @@ jobs:
           PLAYER_NAMES=$(curl -fsSL https://gist.githubusercontent.com/suacide24/02b7b07f32a25d0299b6bef8dc7aa4c9/raw/players.txt | tr '\n' ',' | sed 's/,$//')
           echo "PLAYER_NAMES=$PLAYER_NAMES" >> $GITHUB_ENV
 
-      - name: Run CBVA probe
-        env:
-          CBVA_EMAIL:    ${{ secrets.CBVA_EMAIL }}
-          CBVA_PASSWORD: ${{ secrets.CBVA_PASSWORD }}
-        run: python probe.py
-
       - name: Run CBVA monitor
         env:
           EMAIL_FROM:      ${{ secrets.EMAIL_FROM }}
@@ -57,6 +56,7 @@ jobs:
           EMAIL_TO:        ${{ secrets.EMAIL_TO }}
           CBVA_EMAIL:      ${{ secrets.CBVA_EMAIL }}
           CBVA_PASSWORD:   ${{ secrets.CBVA_PASSWORD }}
+          PLAYER_NAMES:    ${{ env.PLAYER_NAMES }}
         run: python monitor.py
 
       - name: Commit updated state.json
@@ -64,6 +64,7 @@ jobs:
           git config user.name  "cbva-monitor[bot]"
           git config user.email "cbva-monitor@users.noreply.github.com"
           git add state.json
-          git diff --staged --quiet || \
-            git commit -m "chore: update player state $(date +%Y-%m-%d)" && \
+          git diff --staged --quiet || (
+            git commit -m "chore: update state $(date +%Y-%m-%d\ %H:%M)" &&
             git push
+          )

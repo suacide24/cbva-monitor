@@ -1,216 +1,178 @@
-{
-  "players": {
-    "Ramon Sua": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [
-        {
-          "name": "Ocean Beach",
-          "date": "Aug 8, 2026",
-          "location": "Ocean Beach, San Diego",
-          "status": "Waitlisted #2",
-          "division": "Men's A",
-          "partner": "Faizan Zubair"
-        }
-      ],
-      "profile_url": "/profile/24219",
-      "last_checked": "2026-06-05T14:53:18.785742"
-    },
-    "Faizan Zubair": {
-      "rating": "B",
-      "rank": "1373",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/5263",
-      "last_checked": "2026-06-05T14:53:21.116945"
-    },
-    "Jeff Zalonka": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/6154",
-      "last_checked": "2026-06-05T14:53:23.228654"
-    },
-    "Christine Zalonka": {
-      "rating": "AA",
-      "rank": "465",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/29133",
-      "last_checked": "2026-06-05T14:53:25.247992"
-    },
-    "Isaiah Ritchie": {
-      "rating": "A",
-      "rank": "540",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/17675",
-      "last_checked": "2026-06-05T14:53:27.694319"
-    },
-    "Lia Oishi": {
-      "rating": "B",
-      "rank": "1123",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/27885",
-      "last_checked": "2026-06-05T14:53:30.043574"
-    },
-    "Elizabeth Rice": {
-      "rating": "B",
-      "rank": "1145",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/27884",
-      "last_checked": "2026-06-05T14:53:32.378847"
-    },
-    "Scott Rice": {
-      "rating": "A",
-      "rank": "746",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/17229",
-      "last_checked": "2026-06-05T14:53:34.942730"
-    },
-    "Leslie Patino": {
-      "rating": "B",
-      "rank": "1566",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/28208",
-      "last_checked": "2026-06-05T14:53:37.217973"
-    },
-    "Jonathan Le": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/25754",
-      "last_checked": "2026-06-05T14:53:39.238940"
-    },
-    "Sara Hernandez": {
-      "rating": "B",
-      "rank": "1132",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/29156",
-      "last_checked": "2026-06-05T14:53:41.408930"
-    },
-    "Myah Gomez": {
-      "rating": "A",
-      "rank": "720",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/29774",
-      "last_checked": "2026-06-05T14:53:43.690305"
-    },
-    "Abhinav Dagar": {
-      "rating": "AA",
-      "rank": "533",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/17307",
-      "last_checked": "2026-06-05T14:53:45.946509"
-    },
-    "Alex Bonczyk": {
-      "rating": "AA",
-      "rank": "359",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/17540",
-      "last_checked": "2026-06-05T14:53:48.334954"
-    },
-    "William Hafen": {
-      "rating": "B",
-      "rank": "1546",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/8532",
-      "last_checked": "2026-06-05T14:53:50.691423"
-    },
-    "Dexter Campbell": {
-      "rating": "AAA",
-      "rank": "75",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/8349",
-      "last_checked": "2026-06-05T14:53:53.092798"
-    },
-    "Peter Peck": {
-      "rating": "A",
-      "rank": "986",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/17736",
-      "last_checked": "2026-06-05T14:53:55.672485"
-    },
-    "Ethan Tendler": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/17733",
-      "last_checked": "2026-06-05T14:53:58.201856"
-    },
-    "Jeffrey Hogan": {
-      "rating": "B",
-      "rank": "1067",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/8518",
-      "last_checked": "2026-06-05T14:54:00.368501"
-    },
-    "Kyle Krauss": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/8632",
-      "last_checked": "2026-06-05T14:54:02.587183"
-    },
-    "Raymond Guan": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/9840",
-      "last_checked": "2026-06-05T14:54:04.615928"
-    },
-    "Nick Tomasella": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/22593",
-      "last_checked": "2026-06-05T14:54:06.720546"
-    },
-    "Angelo Guinasso": {
-      "rating": "AA",
-      "rank": "338",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/17149",
-      "last_checked": "2026-06-05T14:54:09.193639"
-    },
-    "Matt Sexton": {
-      "rating": "U",
-      "rank": "2275",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/8808",
-      "last_checked": "2026-06-05T14:54:11.528913"
-    },
-    "Jenna Strange": {
-      "rating": "A",
-      "rank": "775",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/28519",
-      "last_checked": "2026-06-05T14:54:13.511603"
-    },
-    "Selina Chhay": {
-      "rating": "B",
-      "rank": "1195",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/61233",
-      "last_checked": "2026-06-05T14:54:15.921028"
-    },
-    "Sheeva Haghighat": {
-      "rating": "AA",
-      "rank": "428",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/29766",
-      "last_checked": "2026-06-05T14:54:18.549439"
-    },
-    "Jacklyn Smith": {
-      "rating": "B",
-      "rank": "1655",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/61203",
-      "last_checked": "2026-06-05T14:54:20.829452"
-    },
-    "Alana Cravin": {
-      "rating": "U",
-      "rank": "2284",
-      "upcoming_tournaments": [],
-      "profile_url": "/profile/61111",
-      "last_checked": "2026-06-05T14:54:23.025173"
-    }
-  }
+﻿{
+    "players":  {
+                    "Ramon Sua":  {
+                                      "rating":  "U",
+                                      "rank":  "2275",
+                                      "profile_url":  "/profile/24219",
+                                      "last_checked":  "2026-06-05T14:53:18.785742"
+                                  },
+                    "Faizan Zubair":  {
+                                          "rating":  "B",
+                                          "rank":  "1373",
+                                          "profile_url":  "/profile/5263",
+                                          "last_checked":  "2026-06-05T14:53:21.116945"
+                                      },
+                    "Jeff Zalonka":  {
+                                         "rating":  "U",
+                                         "rank":  "2275",
+                                         "profile_url":  "/profile/6154",
+                                         "last_checked":  "2026-06-05T14:53:23.228654"
+                                     },
+                    "Christine Zalonka":  {
+                                              "rating":  "AA",
+                                              "rank":  "465",
+                                              "profile_url":  "/profile/29133",
+                                              "last_checked":  "2026-06-05T14:53:25.247992"
+                                          },
+                    "Isaiah Ritchie":  {
+                                           "rating":  "A",
+                                           "rank":  "540",
+                                           "profile_url":  "/profile/17675",
+                                           "last_checked":  "2026-06-05T14:53:27.694319"
+                                       },
+                    "Lia Oishi":  {
+                                      "rating":  "B",
+                                      "rank":  "1123",
+                                      "profile_url":  "/profile/27885",
+                                      "last_checked":  "2026-06-05T14:53:30.043574"
+                                  },
+                    "Elizabeth Rice":  {
+                                           "rating":  "B",
+                                           "rank":  "1145",
+                                           "profile_url":  "/profile/27884",
+                                           "last_checked":  "2026-06-05T14:53:32.378847"
+                                       },
+                    "Scott Rice":  {
+                                       "rating":  "A",
+                                       "rank":  "746",
+                                       "profile_url":  "/profile/17229",
+                                       "last_checked":  "2026-06-05T14:53:34.942730"
+                                   },
+                    "Leslie Patino":  {
+                                          "rating":  "B",
+                                          "rank":  "1566",
+                                          "profile_url":  "/profile/28208",
+                                          "last_checked":  "2026-06-05T14:53:37.217973"
+                                      },
+                    "Jonathan Le":  {
+                                        "rating":  "U",
+                                        "rank":  "2275",
+                                        "profile_url":  "/profile/25754",
+                                        "last_checked":  "2026-06-05T14:53:39.238940"
+                                    },
+                    "Sara Hernandez":  {
+                                           "rating":  "B",
+                                           "rank":  "1132",
+                                           "profile_url":  "/profile/29156",
+                                           "last_checked":  "2026-06-05T14:53:41.408930"
+                                       },
+                    "Myah Gomez":  {
+                                       "rating":  "A",
+                                       "rank":  "720",
+                                       "profile_url":  "/profile/29774",
+                                       "last_checked":  "2026-06-05T14:53:43.690305"
+                                   },
+                    "Abhinav Dagar":  {
+                                          "rating":  "AA",
+                                          "rank":  "533",
+                                          "profile_url":  "/profile/17307",
+                                          "last_checked":  "2026-06-05T14:53:45.946509"
+                                      },
+                    "Alex Bonczyk":  {
+                                         "rating":  "AA",
+                                         "rank":  "359",
+                                         "profile_url":  "/profile/17540",
+                                         "last_checked":  "2026-06-05T14:53:48.334954"
+                                     },
+                    "William Hafen":  {
+                                          "rating":  "B",
+                                          "rank":  "1546",
+                                          "profile_url":  "/profile/8532",
+                                          "last_checked":  "2026-06-05T14:53:50.691423"
+                                      },
+                    "Dexter Campbell":  {
+                                            "rating":  "AAA",
+                                            "rank":  "75",
+                                            "profile_url":  "/profile/8349",
+                                            "last_checked":  "2026-06-05T14:53:53.092798"
+                                        },
+                    "Peter Peck":  {
+                                       "rating":  "A",
+                                       "rank":  "986",
+                                       "profile_url":  "/profile/17736",
+                                       "last_checked":  "2026-06-05T14:53:55.672485"
+                                   },
+                    "Ethan Tendler":  {
+                                          "rating":  "U",
+                                          "rank":  "2275",
+                                          "profile_url":  "/profile/17733",
+                                          "last_checked":  "2026-06-05T14:53:58.201856"
+                                      },
+                    "Jeffrey Hogan":  {
+                                          "rating":  "B",
+                                          "rank":  "1067",
+                                          "profile_url":  "/profile/8518",
+                                          "last_checked":  "2026-06-05T14:54:00.368501"
+                                      },
+                    "Kyle Krauss":  {
+                                        "rating":  "U",
+                                        "rank":  "2275",
+                                        "profile_url":  "/profile/8632",
+                                        "last_checked":  "2026-06-05T14:54:02.587183"
+                                    },
+                    "Raymond Guan":  {
+                                         "rating":  "U",
+                                         "rank":  "2275",
+                                         "profile_url":  "/profile/9840",
+                                         "last_checked":  "2026-06-05T14:54:04.615928"
+                                     },
+                    "Nick Tomasella":  {
+                                           "rating":  "U",
+                                           "rank":  "2275",
+                                           "profile_url":  "/profile/22593",
+                                           "last_checked":  "2026-06-05T14:54:06.720546"
+                                       },
+                    "Angelo Guinasso":  {
+                                            "rating":  "AA",
+                                            "rank":  "338",
+                                            "profile_url":  "/profile/17149",
+                                            "last_checked":  "2026-06-05T14:54:09.193639"
+                                        },
+                    "Matt Sexton":  {
+                                        "rating":  "U",
+                                        "rank":  "2275",
+                                        "profile_url":  "/profile/8808",
+                                        "last_checked":  "2026-06-05T14:54:11.528913"
+                                    },
+                    "Jenna Strange":  {
+                                          "rating":  "A",
+                                          "rank":  "775",
+                                          "profile_url":  "/profile/28519",
+                                          "last_checked":  "2026-06-05T14:54:13.511603"
+                                      },
+                    "Selina Chhay":  {
+                                         "rating":  "B",
+                                         "rank":  "1195",
+                                         "profile_url":  "/profile/61233",
+                                         "last_checked":  "2026-06-05T14:54:15.921028"
+                                     },
+                    "Sheeva Haghighat":  {
+                                             "rating":  "AA",
+                                             "rank":  "428",
+                                             "profile_url":  "/profile/29766",
+                                             "last_checked":  "2026-06-05T14:54:18.549439"
+                                         },
+                    "Jacklyn Smith":  {
+                                          "rating":  "B",
+                                          "rank":  "1655",
+                                          "profile_url":  "/profile/61203",
+                                          "last_checked":  "2026-06-05T14:54:20.829452"
+                                      },
+                    "Alana Cravin":  {
+                                         "rating":  "U",
+                                         "rank":  "2284",
+                                         "profile_url":  "/profile/61111",
+                                         "last_checked":  "2026-06-05T14:54:23.025173"
+                                     }
+                }
 }
