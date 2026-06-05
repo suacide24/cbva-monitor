@@ -34,6 +34,7 @@ STATE_FILE   = "state.json"
 BASE_URL     = "https://cbva.com"
 
 RATING_ORDER = ["N", "U", "B", "A", "AA", "AAA", "Open"]
+DEBUG        = os.environ.get("CBVA_DEBUG") == "1"
 
 
 # ── State helpers ─────────────────────────────────────────────────────────────
@@ -182,10 +183,31 @@ def parse_profile_text(text: str) -> dict:
     return {"rating": rating, "rank": rank, "upcoming_tournaments": upcoming}
 
 
-async def scrape_profile(page, profile_url: str) -> dict:
+async def scrape_profile(page, profile_url: str, screenshot_name: str | None = None) -> dict:
     full = f"{BASE_URL}{profile_url}" if profile_url.startswith("/") else profile_url
     await page.goto(full, wait_until="networkidle")
+
+    # If the page uses tabs, click "Upcoming Tournaments" to surface that section
+    try:
+        tab = await page.query_selector("text=Upcoming Tournaments")
+        if tab:
+            await tab.click()
+            await page.wait_for_timeout(2_000)
+            print("  [tab] Clicked 'Upcoming Tournaments' tab")
+    except Exception:
+        pass
+
+    if DEBUG and screenshot_name:
+        await page.screenshot(path=f"debug_{screenshot_name}.png", full_page=True)
+        print(f"  [debug] Screenshot saved: debug_{screenshot_name}.png")
+
     text = await page.evaluate("() => document.body.innerText")
+
+    if DEBUG and screenshot_name:
+        print(f"  [debug] Full page text ({len(text.splitlines())} lines):")
+        for i, line in enumerate(text.splitlines()):
+            print(f"  {i:03}: {repr(line)}")
+
     data = parse_profile_text(text)
     data["profile_url"] = profile_url
     return data
@@ -309,7 +331,9 @@ async def run() -> None:
                 print(f"  Skipping — profile not found.")
                 continue
 
-            cur = await scrape_profile(page, profile_url)
+            is_first = not state.get("players")
+            screenshot = name.replace(" ", "_") if (DEBUG and is_first) else None
+            cur = await scrape_profile(page, profile_url, screenshot_name=screenshot)
             print(f"  Rating: {cur['rating']}  Upcoming: {len(cur['upcoming_tournaments'])}")
 
             alert: dict = {
