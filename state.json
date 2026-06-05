@@ -1,3 +1,18 @@
 {
-  "players": {}
+  "players": {
+    "Ramon Sua": {
+      "rating": "Points",
+      "rank": "2275",
+      "upcoming_tournaments": [],
+      "profile_url": "/profile/24219",
+      "last_checked": "2026-06-05T06:21:14.656787"
+    },
+    "Faizan Zubair": {
+      "rating": "Points",
+      "rank": "1373",
+      "upcoming_tournaments": [],
+      "profile_url": "/profile/5263",
+      "last_checked": "2026-06-05T06:21:19.295049"
+    }
+  }
 }
