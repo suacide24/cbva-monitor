@@ -186,30 +186,38 @@ def parse_profile_text(text: str) -> dict:
 async def scrape_profile(page, profile_url: str, debug_name: str | None = None) -> dict:
     full = f"{BASE_URL}{profile_url}" if profile_url.startswith("/") else profile_url
 
-    api_responses: list[tuple[str, str]] = []
-
-    async def capture_response(response):
-        url = response.url
-        if "cbva.com/api/trpc" in url:
-            try:
-                body = await response.text()
-                api_responses.append((url, body))
-            except Exception:
-                api_responses.append((url, "<unreadable>"))
-
-    if DEBUG and debug_name:
-        page.on("response", capture_response)
-
     await page.goto(full, wait_until="networkidle")
 
     if DEBUG and debug_name:
-        if api_responses:
-            print(f"  [debug] Intercepted {len(api_responses)} API response(s):")
-            for url, body in api_responses:
-                print(f"    URL: {url}")
-                print(f"    BODY: {body}")  # full body
-        else:
-            print("  [debug] No tournament-related API responses intercepted.")
+        # Derive profile ID and call tRPC directly via browser fetch (reads full stream)
+        try:
+            pid = int(full.rstrip("/").split("/")[-1])
+            raw = await page.evaluate(f"""
+                async () => {{
+                    const input = encodeURIComponent(JSON.stringify({{"json":{{"profileId":{pid}}}}}));
+                    const r = await fetch('/api/trpc/profiles.getRegistrations?input=' + input);
+                    const reader = r.body.getReader();
+                    const dec = new TextDecoder();
+                    let out = '';
+                    while (true) {{ const {{done, value}} = await reader.read(); if (done) break; out += dec.decode(value, {{stream:true}}); }}
+                    return out;
+                }}
+            """)
+            print(f"  [debug] getRegistrations full response:\n{raw}")
+            raw2 = await page.evaluate(f"""
+                async () => {{
+                    const input = encodeURIComponent(JSON.stringify({{"json":{{"id":{pid}}}}}));
+                    const r = await fetch('/api/trpc/profiles.getOverview?input=' + input);
+                    const reader = r.body.getReader();
+                    const dec = new TextDecoder();
+                    let out = '';
+                    while (true) {{ const {{done, value}} = await reader.read(); if (done) break; out += dec.decode(value, {{stream:true}}); }}
+                    return out;
+                }}
+            """)
+            print(f"  [debug] getOverview full response:\n{raw2}")
+        except Exception as ex:
+            print(f"  [debug] API fetch error: {ex}")
 
         await page.screenshot(path=f"debug_{debug_name}.png", full_page=True)
         print(f"  [debug] Screenshot: debug_{debug_name}.png")
