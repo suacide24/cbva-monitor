@@ -1,0 +1,46 @@
+name: CBVA Daily Monitor
+
+on:
+  schedule:
+    # 9:00 AM Pacific Time (UTC-7 in summer)
+    - cron: "0 16 * * *"
+  workflow_dispatch: # allows manual trigger from the GitHub Actions tab
+
+permissions:
+  contents: write   # needed to commit updated state.json
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright browser
+        run: playwright install chromium --with-deps
+
+      - name: Run CBVA monitor
+        env:
+          PLAYER_NAMES:    ${{ secrets.PLAYER_NAMES }}
+          EMAIL_FROM:      ${{ secrets.EMAIL_FROM }}
+          EMAIL_PASSWORD:  ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_TO:        ${{ secrets.EMAIL_TO }}
+        run: python monitor.py
+
+      - name: Commit updated state.json
+        run: |
+          git config user.name  "cbva-monitor[bot]"
+          git config user.email "cbva-monitor@users.noreply.github.com"
+          git add state.json
+          git diff --staged --quiet || \
+            git commit -m "chore: update player state $(date +%Y-%m-%d)" && \
+            git push
