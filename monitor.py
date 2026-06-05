@@ -25,7 +25,7 @@ from playwright.async_api import async_playwright
 
 load_dotenv()  # no-op in GitHub Actions; reads .env locally
 
-PLAYER_NAMES = [n.strip() for n in os.environ.get("PLAYER_NAMES", "").split(",") if n.strip()]
+PLAYER_NAMES = [n.strip() for n in re.split(r"[,\n]", os.environ.get("PLAYER_NAMES", "")) if n.strip()]
 EMAIL_FROM   = os.environ.get("EMAIL_FROM", "")
 EMAIL_TO     = os.environ.get("EMAIL_TO") or EMAIL_FROM
 EMAIL_PASS   = os.environ.get("EMAIL_PASSWORD", "")
