@@ -76,7 +76,13 @@ async def find_profile_url(page, name: str) -> str | None:
     await page.goto(f"{BASE_URL}/search")
     await page.wait_for_selector("input", timeout=10_000)
     await page.fill("input", name)
-    await page.wait_for_timeout(2_500)
+    await page.keyboard.press("Enter")
+
+    # Wait for profile links to appear, fall back to fixed delay if none arrive
+    try:
+        await page.wait_for_selector("a[href*='/profile/']", timeout=8_000)
+    except Exception:
+        await page.wait_for_timeout(3_000)
 
     for link in await page.query_selector_all("a[href*='/profile/']"):
         text = (await link.inner_text()).strip()
