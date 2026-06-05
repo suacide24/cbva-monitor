@@ -49,16 +49,9 @@ jobs:
           EMAIL_FROM:      ${{ secrets.EMAIL_FROM }}
           EMAIL_PASSWORD:  ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_TO:        ${{ secrets.EMAIL_TO }}
-          CBVA_DEBUG:      "1"
+          CBVA_EMAIL:      ${{ secrets.CBVA_EMAIL }}
+          CBVA_PASSWORD:   ${{ secrets.CBVA_PASSWORD }}
         run: python monitor.py
-
-      - name: Upload debug screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-screenshots
-          path: debug_*.png
-          if-no-files-found: ignore
 
       - name: Commit updated state.json
         run: |

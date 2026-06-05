@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """
 CBVA Player Monitor
-Scrapes CBVA player profiles to detect new tournament registrations,
-rating changes, and status updates. Sends a daily email digest when
-changes are found, plus a day-of alert when watched players are competing.
+Uses CBVA's tRPC API to detect new tournament registrations, rating changes,
+and status updates. Sends email alerts for changes + day-of tournament notices.
 
-Env vars (set as GitHub Secrets or in a local .env file):
-  EMAIL_FROM     — Gmail address to send from
-  EMAIL_PASSWORD — Gmail App Password (not your login password)
-  EMAIL_TO       — address to receive alerts (defaults to EMAIL_FROM)
-  PLAYER_NAMES   — comma/newline-separated list (loaded from gist in Actions)
+Required secrets (GitHub Actions or local .env):
+  EMAIL_FROM      — Gmail address to send from
+  EMAIL_PASSWORD  — Gmail App Password
+  EMAIL_TO        — recipient address (defaults to EMAIL_FROM)
+  CBVA_EMAIL      — your cbva.com login email
+  CBVA_PASSWORD   — your cbva.com login password
+
+Optional:
+  PLAYER_NAMES    — comma/newline list (loaded from gist in Actions)
+  CBVA_DEBUG      — set to "1" to enable verbose API logging
 """
 
 import asyncio
@@ -17,7 +21,7 @@ import json
 import os
 import re
 import smtplib
-from datetime import datetime
+from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -26,15 +30,17 @@ from playwright.async_api import async_playwright
 
 load_dotenv()
 
-PLAYER_NAMES = [n.strip() for n in re.split(r"[,\n]", os.environ.get("PLAYER_NAMES", "")) if n.strip()]
-EMAIL_FROM   = os.environ.get("EMAIL_FROM", "")
-EMAIL_TO     = os.environ.get("EMAIL_TO") or EMAIL_FROM
-EMAIL_PASS   = os.environ.get("EMAIL_PASSWORD", "")
-STATE_FILE   = "state.json"
-BASE_URL     = "https://cbva.com"
+PLAYER_NAMES  = [n.strip() for n in re.split(r"[,\n]", os.environ.get("PLAYER_NAMES", "")) if n.strip()]
+EMAIL_FROM    = os.environ.get("EMAIL_FROM", "")
+EMAIL_TO      = os.environ.get("EMAIL_TO") or EMAIL_FROM
+EMAIL_PASS    = os.environ.get("EMAIL_PASSWORD", "")
+CBVA_EMAIL    = os.environ.get("CBVA_EMAIL", "")
+CBVA_PASSWORD = os.environ.get("CBVA_PASSWORD", "")
+STATE_FILE    = "state.json"
+BASE_URL      = "https://cbva.com"
+DEBUG         = os.environ.get("CBVA_DEBUG") == "1"
 
-RATING_ORDER = ["N", "U", "B", "A", "AA", "AAA", "Open"]
-DEBUG        = os.environ.get("CBVA_DEBUG") == "1"
+RATING_ORDER  = ["N", "U", "B", "A", "AA", "AAA", "Open"]
 
 
 # ── State helpers ─────────────────────────────────────────────────────────────
@@ -70,15 +76,77 @@ def send_email(subject: str, html: str) -> None:
     print(f"[email] Sent: {subject}")
 
 
-# ── CBVA scraping ─────────────────────────────────────────────────────────────
+# ── CBVA auth ─────────────────────────────────────────────────────────────────
+
+async def login(page) -> bool:
+    """Log in to CBVA. Returns True on success."""
+    if not CBVA_EMAIL or not CBVA_PASSWORD:
+        print("[auth] No CBVA credentials — running unauthenticated (registrations unavailable).")
+        return False
+    try:
+        await page.goto(f"{BASE_URL}/login", wait_until="networkidle")
+        await page.fill("input[type='email']", CBVA_EMAIL)
+        await page.fill("input[type='password']", CBVA_PASSWORD)
+        await page.click("button[type='submit']")
+        await page.wait_for_timeout(3_000)
+        if "/login" not in page.url:
+            print(f"[auth] Logged in as {CBVA_EMAIL}")
+            return True
+        print("[auth] Login failed — check CBVA_EMAIL / CBVA_PASSWORD secrets.")
+        return False
+    except Exception as e:
+        print(f"[auth] Login error: {e}")
+        return False
+
+
+# ── CBVA API helpers ──────────────────────────────────────────────────────────
+
+async def _trpc_get(page, endpoint: str, input_obj: dict) -> dict | None:
+    """Call a single tRPC endpoint via browser fetch and return parsed JSON."""
+    input_enc = json.dumps({"json": input_obj}).replace('"', '\\"')
+    raw = await page.evaluate(f"""
+        async () => {{
+            const input = encodeURIComponent('{input_enc}');
+            const r = await fetch('{BASE_URL}/api/trpc/{endpoint}?input=' + input);
+            const reader = r.body.getReader();
+            const dec = new TextDecoder();
+            let out = '';
+            while (true) {{
+                const {{done, value}} = await reader.read();
+                if (done) break;
+                out += dec.decode(value, {{stream: true}});
+            }}
+            return out;
+        }}
+    """)
+    if DEBUG:
+        print(f"  [api] {endpoint}: {raw[:400]}")
+    try:
+        return json.loads(raw).get("result", {}).get("data", {}).get("json")
+    except Exception:
+        return None
+
+
+async def get_overview(page, profile_id: int) -> dict | None:
+    return await _trpc_get(page, "profiles.getOverview", {"id": profile_id})
+
+
+async def get_registrations(page, profile_id: int) -> list[dict]:
+    data = await _trpc_get(page, "profiles.getRegistrations", {"profileId": profile_id})
+    if not data:
+        return []
+    if not data.get("authorized", True):
+        return []
+    return data.get("registrations", [])
+
+
+# ── Profile search ────────────────────────────────────────────────────────────
 
 async def find_profile_url(page, name: str) -> str | None:
-    """Search CBVA for a player by name and return their /profile/{id} path."""
     await page.goto(f"{BASE_URL}/search", wait_until="networkidle")
     await page.wait_for_selector("input", timeout=10_000)
     await page.fill("input", name)
     await page.keyboard.press("Enter")
-
     try:
         await page.wait_for_selector("a[href*='/profile/']", timeout=8_000)
     except Exception:
@@ -101,147 +169,78 @@ async def find_profile_url(page, name: str) -> str | None:
     return None
 
 
-def parse_profile_text(text: str) -> dict:
-    """
-    Parse plain-text from a CBVA profile page.
+# ── Data parsers ──────────────────────────────────────────────────────────────
 
-    Expected structure when upcoming tournaments exist:
-        Rating / A / Rank / 1234 / Points / 50
-        Upcoming Tournaments
-        [Tournament Name]
-        [Month Day, Year]
-        [Beach, City]
-        [Status]          <- optional (Waitlisted #N, Registered, Confirmed, etc.)
-        [Division]
-        [Partner Name]
-        [Own Name]
-        Results
-        ...
-    """
-    lines = [l.strip() for l in text.split("\n") if l.strip()]
-
-    rating = rank = "?"
-    for i, line in enumerate(lines):
-        if line == "Rating" and i + 1 < len(lines) and lines[i + 1] in RATING_ORDER:
-            rating = lines[i + 1]
-        if line == "Rank" and i + 1 < len(lines):
-            try:
-                int(lines[i + 1])
-                rank = lines[i + 1]
-            except ValueError:
-                pass
-
+def parse_rating(overview: dict) -> str:
     try:
-        start = lines.index("Upcoming Tournaments") + 1
-        end   = next(
-            (i for i in range(start, len(lines)) if lines[i] == "Results"),
-            len(lines),
-        )
-        block = lines[start:end]
-    except ValueError:
-        block = []
+        return overview["level"]["abbreviated"].upper()
+    except Exception:
+        return "?"
 
-    date_re = re.compile(
-        r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d+,\s+\d{4}$"
-    )
-    div_re = re.compile(r"(Men's|Women's|Coed)\s+\w+")
+def parse_rank(overview: dict) -> str:
+    try:
+        return str(overview["rank"])
+    except Exception:
+        return "?"
 
-    upcoming = []
-    i = 0
-    while i < len(block):
-        line = block[i]
-        if date_re.match(line) or div_re.search(line):
-            i += 1
-            continue
+def _format_gender(gender: str, max_age: int | None) -> str:
+    if gender == "coed":
+        return "Coed"
+    prefix = "Boy's" if max_age else ("Men's" if gender == "male" else "Women's")
+    return prefix
 
-        t = {"name": line, "date": "", "location": "", "status": "", "division": "", "partner": ""}
-        i += 1
+def _format_division(reg: dict) -> str:
+    try:
+        td = reg["tournamentDivision"]
+        name = td.get("name") or ""
+        gender = _format_gender(td.get("gender", "male"), td.get("division", {}).get("maxAge"))
+        level  = td.get("division", {}).get("display") or td.get("division", {}).get("name", "")
+        return f"{gender} {level}".strip() if not name else name
+    except Exception:
+        return ""
 
-        if i < len(block) and date_re.match(block[i]):
-            t["date"] = block[i]; i += 1
+def _format_date(date_str: str) -> str:
+    try:
+        dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+        return dt.strftime("%b %-d, %Y")
+    except Exception:
+        return date_str
 
-        if i < len(block) and "," in block[i] and not date_re.match(block[i]):
-            t["location"] = block[i]; i += 1
+def _format_status(reg: dict) -> str:
+    status = reg.get("status", "")
+    waitlist_pos = reg.get("waitlistPosition")
+    if status == "waitlisted" and waitlist_pos:
+        return f"Waitlisted #{waitlist_pos}"
+    return status.capitalize() if status else ""
 
-        if i < len(block) and any(
-            kw in block[i] for kw in ("Waitlist", "Register", "Confirm", "Accept")
-        ):
-            t["status"] = block[i]; i += 1
+def _format_partner(reg: dict) -> str:
+    try:
+        partner = reg.get("partner") or {}
+        return f"{partner.get('firstName','')} {partner.get('lastName','')}".strip() or "TBD"
+    except Exception:
+        return "TBD"
 
-        if i < len(block) and div_re.search(block[i]):
-            t["division"] = block[i]; i += 1
-
-        if i < len(block):
-            t["partner"] = block[i]; i += 1
-
-        if i < len(block):
-            i += 1  # skip player's own name
-
-        if t["name"]:
-            upcoming.append(t)
-
-    return {"rating": rating, "rank": rank, "upcoming_tournaments": upcoming}
-
-
-async def scrape_profile(page, profile_url: str, debug_name: str | None = None) -> dict:
-    full = f"{BASE_URL}{profile_url}" if profile_url.startswith("/") else profile_url
-
-    await page.goto(full, wait_until="networkidle")
-
-    if DEBUG and debug_name:
-        # Derive profile ID and call tRPC directly via browser fetch (reads full stream)
+def parse_registrations(raw_regs: list[dict]) -> list[dict]:
+    tournaments = []
+    for reg in raw_regs:
         try:
-            pid = int(full.rstrip("/").split("/")[-1])
-            raw = await page.evaluate(f"""
-                async () => {{
-                    const input = encodeURIComponent(JSON.stringify({{"json":{{"profileId":{pid}}}}}));
-                    const r = await fetch('/api/trpc/profiles.getRegistrations?input=' + input);
-                    const reader = r.body.getReader();
-                    const dec = new TextDecoder();
-                    let out = '';
-                    while (true) {{ const {{done, value}} = await reader.read(); if (done) break; out += dec.decode(value, {{stream:true}}); }}
-                    return out;
-                }}
-            """)
-            print(f"  [debug] getRegistrations full response:\n{raw}")
-            raw2 = await page.evaluate(f"""
-                async () => {{
-                    const input = encodeURIComponent(JSON.stringify({{"json":{{"id":{pid}}}}}));
-                    const r = await fetch('/api/trpc/profiles.getOverview?input=' + input);
-                    const reader = r.body.getReader();
-                    const dec = new TextDecoder();
-                    let out = '';
-                    while (true) {{ const {{done, value}} = await reader.read(); if (done) break; out += dec.decode(value, {{stream:true}}); }}
-                    return out;
-                }}
-            """)
-            print(f"  [debug] getOverview full response:\n{raw2}")
+            t = reg.get("tournament", {})
+            venue = t.get("venue", {})
+            tournaments.append({
+                "name":     t.get("name", ""),
+                "date":     _format_date(t.get("date", "")),
+                "location": f"{venue.get('name','')}, {venue.get('city','')}".strip(", "),
+                "status":   _format_status(reg),
+                "division": _format_division(reg),
+                "partner":  _format_partner(reg),
+            })
         except Exception as ex:
-            print(f"  [debug] API fetch error: {ex}")
-
-        await page.screenshot(path=f"debug_{debug_name}.png", full_page=True)
-        print(f"  [debug] Screenshot: debug_{debug_name}.png")
-
-        text_all = await page.evaluate("() => document.body.innerText")
-        print(f"  [debug] Full innerText ({len(text_all.splitlines())} lines):")
-        for i, line in enumerate(text_all.splitlines()):
-            print(f"  {i:03}: {repr(line)}")
-
-        # Also dump all visible links
-        links = await page.evaluate("""
-            () => Array.from(document.querySelectorAll('a,button,[role=tab]'))
-                       .map(el => el.textContent.trim())
-                       .filter(t => t)
-        """)
-        print(f"  [debug] Clickable elements: {links}")
-
-    text = await page.evaluate("() => document.body.innerText")
-    data = parse_profile_text(text)
-    data["profile_url"] = profile_url
-    return data
+            if DEBUG:
+                print(f"  [parse] Registration parse error: {ex} — {reg}")
+    return tournaments
 
 
-# ── Change detection helpers ──────────────────────────────────────────────────
+# ── Change detection ──────────────────────────────────────────────────────────
 
 def rating_rank(r: str) -> int:
     try:
@@ -253,10 +252,12 @@ def tournament_key(t: dict) -> str:
     return f"{t.get('name')}-{t.get('date')}-{t.get('division')}"
 
 def parse_tournament_date(date_str: str) -> datetime | None:
-    try:
-        return datetime.strptime(date_str.strip(), "%b %d, %Y")
-    except ValueError:
-        return None
+    for fmt in ("%b %d, %Y", "%b %-d, %Y"):
+        try:
+            return datetime.strptime(date_str.strip(), fmt)
+        except ValueError:
+            continue
+    return None
 
 
 # ── Email templates ───────────────────────────────────────────────────────────
@@ -283,10 +284,10 @@ def _wrap(body: str, title: str) -> str:
       <h1 style='font-size:20px;border-bottom:2px solid #1a2a4a;padding-bottom:8px;margin-bottom:0'>
         {title} — {today}
       </h1>
-      {body}
+      {{body}}
       <hr style='margin-top:2em;border:none;border-top:1px solid #ddd'>
       <p style='font-size:11px;color:#aaa'>cbva-monitor · <a href='{BASE_URL}/search' style='color:#aaa'>cbva.com/search</a></p>
-    </body></html>"""
+    </body></html>""".format(body=body)
 
 
 def build_changes_html(alerts: list) -> str:
@@ -345,10 +346,13 @@ async def run() -> None:
     state  = load_state()
     alerts = []
     today  = datetime.now().date()
+    authenticated = False
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page    = await browser.new_page()
+
+        authenticated = await login(page)
 
         for name in PLAYER_NAMES:
             print(f"\nChecking: {name}")
@@ -359,9 +363,32 @@ async def run() -> None:
                 print(f"  Skipping — profile not found.")
                 continue
 
-            debug_name = name.replace(" ", "_") if (DEBUG and name == PLAYER_NAMES[0]) else None
-            cur = await scrape_profile(page, profile_url, debug_name=debug_name)
-            print(f"  Rating: {cur['rating']}  Upcoming: {len(cur['upcoming_tournaments'])}")
+            # Extract numeric profile ID
+            try:
+                profile_id = int(profile_url.rstrip("/").split("/")[-1])
+            except ValueError:
+                print(f"  Skipping — cannot parse profile ID from {profile_url}")
+                continue
+
+            # Navigate to profile so cookies/session apply to fetch calls
+            await page.goto(f"{BASE_URL}{profile_url}", wait_until="networkidle")
+
+            # Fetch data via tRPC API
+            overview = await get_overview(page, profile_id)
+            raw_regs = await get_registrations(page, profile_id)
+
+            if overview is None:
+                print(f"  Skipping — could not fetch overview data.")
+                continue
+
+            cur_rating = parse_rating(overview)
+            cur_rank   = parse_rank(overview)
+            cur_tournaments = parse_registrations(raw_regs)
+
+            print(f"  Rating: {cur_rating}  Rank: {cur_rank}  Upcoming: {len(cur_tournaments)}")
+            if cur_tournaments:
+                for t in cur_tournaments:
+                    print(f"    - {t['name']} on {t['date']} ({t['status']})")
 
             alert: dict = {
                 "name":            name,
@@ -372,17 +399,18 @@ async def run() -> None:
             }
 
             # Rating change
-            if prev.get("rating") and prev["rating"] != cur["rating"] and cur["rating"] != "?":
+            prev_rating = prev.get("rating", "")
+            if prev_rating and prev_rating != cur_rating and cur_rating != "?":
                 alert["rating_change"] = {
-                    "from":      prev["rating"],
-                    "to":        cur["rating"],
-                    "increased": rating_rank(cur["rating"]) > rating_rank(prev["rating"]),
+                    "from":      prev_rating,
+                    "to":        cur_rating,
+                    "increased": rating_rank(cur_rating) > rating_rank(prev_rating),
                 }
-                print(f"  Rating changed: {prev['rating']} -> {cur['rating']}")
+                print(f"  Rating changed: {prev_rating} -> {cur_rating}")
 
-            # New registrations and status changes
+            # New signups and status changes
             prev_map = {tournament_key(t): t for t in prev.get("upcoming_tournaments", [])}
-            for t in cur["upcoming_tournaments"]:
+            for t in cur_tournaments:
                 key = tournament_key(t)
                 if key not in prev_map:
                     alert["new_tournaments"].append(t)
@@ -398,8 +426,11 @@ async def run() -> None:
                 alerts.append(alert)
 
             state.setdefault("players", {})[name] = {
-                **cur,
-                "last_checked": datetime.now().isoformat(),
+                "rating":               cur_rating,
+                "rank":                 cur_rank,
+                "upcoming_tournaments": cur_tournaments,
+                "profile_url":          profile_url,
+                "last_checked":         datetime.now().isoformat(),
             }
 
         await browser.close()
@@ -420,17 +451,21 @@ async def run() -> None:
                 })
 
     if today_entries:
-        subject = f"CBVA Playing Today — {datetime.now().strftime('%b %d, %Y')}"
+        subject = f"CBVA Playing Today — {datetime.now().strftime('%b %-d, %Y')}"
         send_email(subject, build_today_html(today_entries))
         print(f"Today alerts sent for {len(today_entries)} entry/entries.")
 
     # ── Change digest ─────────────────────────────────────────────────────────
     if alerts:
-        subject = f"CBVA Alert — {datetime.now().strftime('%b %d, %Y')}"
+        subject = f"CBVA Alert — {datetime.now().strftime('%b %-d, %Y')}"
         send_email(subject, build_changes_html(alerts))
         print(f"Change alerts sent for {len(alerts)} player(s).")
     else:
         print("No changes detected — no digest email sent.")
+
+    if not authenticated:
+        print("\nNOTE: Running without CBVA auth — tournament registrations not available.")
+        print("Add CBVA_EMAIL and CBVA_PASSWORD secrets to enable full tracking.")
 
 
 if __name__ == "__main__":
