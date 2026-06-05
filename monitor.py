@@ -193,7 +193,7 @@ async def scrape_profile(page, profile_url: str, debug_name: str | None = None) 
         if any(k in url for k in ("tournament", "registr", "upcoming", "cbva.com/api")):
             try:
                 body = await response.text()
-                api_responses.append((url, body[:500]))
+                api_responses.append((url, body))  # full body
             except Exception:
                 api_responses.append((url, "<unreadable>"))
 
@@ -206,8 +206,8 @@ async def scrape_profile(page, profile_url: str, debug_name: str | None = None) 
         if api_responses:
             print(f"  [debug] Intercepted {len(api_responses)} API response(s):")
             for url, body in api_responses:
-                print(f"    {url}")
-                print(f"    {body[:200]}")
+                print(f"    URL: {url}")
+                print(f"    BODY: {body}")  # full body
         else:
             print("  [debug] No tournament-related API responses intercepted.")
 
