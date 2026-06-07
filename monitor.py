@@ -408,6 +408,9 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
                             partner_id = o_id
                             break
 
+                    # Capture team seed for bracket matching in results
+                    team_seed = team.get("seed")
+
                     entry = {
                         "player_name":     wname,
                         "profile_id":      p_id,
@@ -418,6 +421,8 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
                         "division_id":     div_id,
                         "partner":         partner,
                         "partner_id":      partner_id,
+                        "team_seed":       team_seed,
+                        "team_id":         team.get("teamId"),
                     }
                     td["playing"][wname] = entry
                     print(f"    Found: {wname} · {div_label} · partner: {partner}")
@@ -430,21 +435,14 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
 
 # ── Results tracking ──────────────────────────────────────────────────────────
 
-# Candidate endpoints tried in order until one returns data.
-# Add confirmed endpoint to the front once discovered on a real tournament day.
+# Confirmed working endpoints first, then fallbacks.
 _RESULTS_CANDIDATES = [
-    ("tournaments.getSchedule",      lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getGames",         lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getDivisionGames", lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getPoolPlay",      lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getBracket",       lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getDivision",      lambda d: {"id": d}),
-    ("divisions.get",                lambda d: {"id": d}),
-    ("divisions.getMatches",         lambda d: {"id": d}),
-    ("pools.getForDivision",         lambda d: {"tournamentDivisionId": d}),
-    ("pools.getByDivision",          lambda d: {"id": d}),
-    ("matches.getByDivision",        lambda d: {"tournamentDivisionId": d}),
-    ("games.list",                   lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getPlayoffs",        lambda d: {"tournamentDivisionId": d}),  # ✅ confirmed
+    ("tournaments.getDivisionSummary", lambda d: {"tournamentDivisionId": d}),  # intercepted on page load
+    ("tournaments.getSchedule",        lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getGames",           lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getDivisionGames",   lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getBracket",         lambda d: {"tournamentDivisionId": d}),
 ]
 
 # Cached once we discover the working endpoint: div_id → endpoint name
@@ -574,27 +572,87 @@ def build_playing_today_email(entries: list[dict], state: dict, now_pt: datetime
     return _wrap(body, "CBVA Playing Today", now_pt)
 
 
-def _format_results_body(data) -> str:
-    """Best-effort HTML for unknown result structure — improved once endpoint is known."""
+def _score_str(sets: list) -> str:
+    """Turn a sets array into a readable score like '21-15, 21-18'."""
+    parts = []
+    for s in sets or []:
+        a, b = s.get("teamAScore", 0), s.get("teamBScore", 0)
+        if a == 0 and b == 0 and s.get("status") in ("not_started", None):
+            continue
+        parts.append(f"{a}-{b}")
+    return ", ".join(parts) if parts else "not started"
+
+
+def _format_results_body(data, entry: dict) -> str:
+    """Render bracket (getPlayoffs) results for the tracked player."""
     if not data:
         return "<p style='color:#888'>No result data.</p>"
-    if isinstance(data, list):
-        rows = "".join(
-            f"<li style='margin:.3em 0;font-size:13px'>{json.dumps(item, default=str)[:300]}</li>"
-            for item in data[:10]
-        )
-        return f"<ul style='padding-left:1.5em'>{rows}</ul>"
-    if isinstance(data, dict):
-        lines = []
-        for key in ("pools", "bracket", "matches", "games", "schedule", "results"):
-            if key in data:
-                lines.append(
-                    f"<p style='margin:.4em 0'><b>{key.capitalize()}</b>: "
-                    f"{json.dumps(data[key], default=str)[:400]}</p>"
-                )
-        if lines:
-            return "\n".join(lines)
-    return f"<pre style='font-size:12px;overflow:auto'>{json.dumps(data, default=str)[:800]}</pre>"
+
+    our_seed   = entry.get("team_seed")
+    our_tid    = entry.get("team_id")
+    partner    = entry.get("partner", "")
+    t_url      = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
+    matches    = data if isinstance(data, list) else []
+
+    rows = []
+    for m in matches:
+        a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
+        a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
+        status         = m.get("status", "")
+        winner_id      = m.get("winnerId")
+        round_num      = m.get("round", 0)
+        sets           = m.get("sets", [])
+        court          = m.get("court", "")
+
+        # Is our player in this match?
+        our_side = None
+        if our_seed and (a_seed == our_seed or b_seed == our_seed):
+            our_side = "A" if a_seed == our_seed else "B"
+        elif our_tid and (a_id == our_tid or b_id == our_tid):
+            our_side = "A" if a_id == our_tid else "B"
+
+        if our_side is None and our_seed is None and our_tid is None:
+            # No seed/team info — show all matches
+            our_side = "show"
+
+        if our_side is None:
+            continue
+
+        opp_seed = b_seed if our_side == "A" else a_seed
+        score    = _score_str(sets)
+        if our_side == "B":
+            # Flip score to be from our perspective
+            flipped = []
+            for s in sets or []:
+                a, b = s.get("teamAScore", 0), s.get("teamBScore", 0)
+                if a == 0 and b == 0 and s.get("status") in ("not_started", None):
+                    continue
+                flipped.append(f"{b}-{a}")
+            score = ", ".join(flipped) if flipped else "not started"
+
+        if status == "completed":
+            won = (winner_id == a_id and our_side == "A") or (winner_id == b_id and our_side == "B")
+            result_icon = "✅ Win" if won else "❌ Loss"
+            color, bg = ("#1D9E75", "#f5faf8") if won else ("#cc3333", "#fff5f5")
+        elif status == "in_progress":
+            result_icon, color, bg = "🔄 In Progress", "#E8A020", "#fffaf0"
+        else:
+            result_icon, color, bg = "⏳ Upcoming", "#888", "#f9f9f9"
+
+        rnd_label = f"Round {round_num + 1}" if round_num is not None else "Match"
+        opp_label = f"Seed #{opp_seed}" if opp_seed else "TBD"
+
+        rows.append(_CARD.format(
+            color=color, bg=bg,
+            title=f"{result_icon} — {rnd_label} vs {opp_label}",
+            line2=f"Score: {score}" + (f"  ·  {court}" if court else ""),
+            line3=f"Partner: {partner}",
+        ))
+
+    if not rows:
+        return f"<p style='color:#888'>No bracket matches found yet. <a href='{t_url}'>View on cbva.com</a></p>"
+
+    return "\n".join(rows) + f"<p style='margin:.5em 0;font-size:12px'><a href='{t_url}'>Full bracket →</a></p>"
 
 
 def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> str:
@@ -608,7 +666,7 @@ def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> 
             f"{entry.get('tournament_name','')} · {entry.get('venue','')} · {entry.get('division','')}"
             f" · <a href='{t_url}'>view bracket</a></p>"
         )
-        body += _format_results_body(raw_data)
+        body += _format_results_body(raw_data, entry)
     return _wrap(body, "CBVA Results Update", now_pt)
 
 

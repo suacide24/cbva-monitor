@@ -49,12 +49,6 @@ jobs:
           PLAYER_NAMES=$(curl -fsSL https://gist.githubusercontent.com/suacide24/02b7b07f32a25d0299b6bef8dc7aa4c9/raw/players.txt | tr '\n' ',' | sed 's/,$//')
           echo "PLAYER_NAMES=$PLAYER_NAMES" >> $GITHUB_ENV
 
-      - name: Run results probe
-        env:
-          CBVA_EMAIL:    ${{ secrets.CBVA_EMAIL }}
-          CBVA_PASSWORD: ${{ secrets.CBVA_PASSWORD }}
-        run: python probe_results.py
-
       - name: Run CBVA monitor
         env:
           EMAIL_FROM:      ${{ secrets.EMAIL_FROM }}
