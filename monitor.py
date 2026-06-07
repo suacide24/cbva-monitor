@@ -350,9 +350,16 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
             await page.goto(f"{BASE_URL}/tournaments/{t_id}/{div_id}", wait_until="networkidle")
             teams_data = await _trpc_get(page, "tournaments.getTeams", {"tournamentDivisionId": div_id})
             if not teams_data:
+                print(f"    [scan] getTeams({div_id}) returned nothing")
                 continue
 
-            for team in _extract_teams(teams_data):
+            teams = _extract_teams(teams_data)
+            if DEBUG or True:  # always log on first pass to diagnose structure
+                sample = str(teams_data)[:400]
+                print(f"    [scan] div {div_id} ({div_label}): teams_data type={type(teams_data).__name__} "
+                      f"len={len(teams)} sample={sample}")
+
+            for team in teams:
                 players = _extract_players(team)
                 for player in players:
                     p_id   = player.get("id") or player.get("profileId")
