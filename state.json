@@ -184,7 +184,22 @@
   "last_rating_check": "2026-06-07",
   "tournament_day": {
     "date": "2026-06-07",
-    "notified": [],
-    "playing": {}
+    "notified": [
+      "Benny Hammond"
+    ],
+    "playing": {
+      "Benny Hammond": {
+        "player_name": "Benny Hammond",
+        "profile_id": 21764,
+        "tournament_id": 4635,
+        "tournament_name": "Dockweiler",
+        "venue": "Dockweiler, Los Angeles",
+        "division": "Men's A",
+        "division_id": 16405,
+        "partner": "William Lubs",
+        "partner_id": 8757
+      }
+    },
+    "results": {}
   }
 }
