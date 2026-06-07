@@ -244,9 +244,26 @@ async def check_ratings(page, state: dict) -> list[dict]:
 # ── Tournament scanning ───────────────────────────────────────────────────────
 
 def _full_name(player: dict) -> str:
-    first = (player.get("preferredName") or player.get("firstName") or "").strip()
-    last  = (player.get("lastName") or "").strip()
+    # Name may be at root level (old format) or nested under "profile" (new format)
+    p     = player.get("profile") or player
+    first = (p.get("preferredName") or p.get("firstName") or "").strip()
+    last  = (p.get("lastName") or "").strip()
     return f"{first} {last}".strip()
+
+def _player_profile_id(player: dict) -> int | None:
+    """Extract the CBVA profile ID regardless of where it lives in the object."""
+    # New format: junction record with playerProfileId + nested profile.id
+    for key in ("playerProfileId", "profileId"):
+        v = player.get(key)
+        if v:
+            return int(v)
+    nested = player.get("profile") or {}
+    v = nested.get("id")
+    if v:
+        return int(v)
+    # Fallback: bare id (old format where player IS the profile)
+    v = player.get("id")
+    return int(v) if v else None
 
 def _names_match(api_name: str, watchlist_name: str) -> bool:
     a, w = api_name.strip().lower(), watchlist_name.strip().lower()
@@ -360,18 +377,16 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
                 continue
 
             teams = _extract_teams(teams_data)
-            if DEBUG or True:  # temporary — remove once structure confirmed
+            if DEBUG:
                 first = teams[0] if teams else {}
-                players_sample = _extract_players(first)
-                p0 = players_sample[0] if players_sample else {}
+                p0 = (_extract_players(first) or [{}])[0]
                 print(f"    [scan] div {div_id} ({div_label}): {len(teams)} entries, "
-                      f"player keys={list(p0.keys())[:15]}, "
-                      f"sample={str(p0)[:300]}")
+                      f"sample player={str(p0)[:200]}")
 
             for team in teams:
                 players = _extract_players(team)
                 for player in players:
-                    p_id   = player.get("id") or player.get("profileId")
+                    p_id   = _player_profile_id(player)
                     p_name = _full_name(player)
 
                     # Match by profile ID, fall back to name matching
@@ -387,7 +402,7 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
                     # Partner = other player on same team
                     partner, partner_id = "TBD", None
                     for other in players:
-                        o_id = other.get("id") or other.get("profileId")
+                        o_id = _player_profile_id(other)
                         if o_id != p_id:
                             partner    = _full_name(other) or "TBD"
                             partner_id = o_id
