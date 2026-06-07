@@ -284,9 +284,15 @@ def _extract_teams(data) -> list[dict]:
     return []
 
 def _extract_players(team: dict) -> list[dict]:
+    # Direct on the entry object
     for key in ("profiles", "players", "teammates", "members"):
         if key in team and isinstance(team[key], list):
             return team[key]
+    # Nested under a "team" sub-object (getTeams returns registration entries)
+    nested = team.get("team") or {}
+    for key in ("profiles", "players", "teammates", "members"):
+        if key in nested and isinstance(nested[key], list):
+            return nested[key]
     return []
 
 
@@ -354,10 +360,11 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
                 continue
 
             teams = _extract_teams(teams_data)
-            if DEBUG or True:  # always log on first pass to diagnose structure
-                sample = str(teams_data)[:400]
-                print(f"    [scan] div {div_id} ({div_label}): teams_data type={type(teams_data).__name__} "
-                      f"len={len(teams)} sample={sample}")
+            if DEBUG or True:  # temporary — remove once structure confirmed
+                first = teams[0] if teams else {}
+                print(f"    [scan] div {div_id} ({div_label}): {len(teams)} entries, "
+                      f"first keys={list(first.keys())[:12]}, "
+                      f"players={len(_extract_players(first))}")
 
             for team in teams:
                 players = _extract_players(team)
