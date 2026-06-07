@@ -472,18 +472,21 @@ def _results_fingerprint(data) -> str:
     return json.dumps(data, sort_keys=True, default=str)[:3000]
 
 
-async def check_results(page, state: dict) -> list[tuple[str, dict]]:
+async def check_results(page, state: dict) -> tuple[list, list]:
     """
     For each confirmed-playing watchlist player, fetch latest results.
-    Returns list of (player_name, entry) where results changed since last run.
+    Returns:
+      score_updates   — (wname, entry, data) where scores/status changed
+      playoff_updates — (wname, entry, data) where player newly appeared in bracket
     """
     td = state.get("tournament_day", {})
     playing = td.get("playing", {})
     if not playing:
-        return []
+        return [], []
 
-    results_state = td.setdefault("results", {})
-    updates = []
+    results_state  = td.setdefault("results", {})
+    score_updates  = []
+    playoff_updates = []
 
     for wname, entry in playing.items():
         div_id = entry.get("division_id")
@@ -491,25 +494,37 @@ async def check_results(page, state: dict) -> list[tuple[str, dict]]:
             continue
 
         await page.goto(
-            f"{BASE_URL}/tournaments/{entry['tournament_id']}/{div_id}",
+            f"{BASE_URL}/tournaments/{entry.get('tournament_id', '')}/{div_id}",
             wait_until="networkidle",
         )
         data = await fetch_results(page, div_id)
         if data is None:
             continue
 
+        r_state = results_state.setdefault(wname, {})
+
+        # ── Playoff qualification check ────────────────────────────────────
+        team_id = entry.get("team_id")
+        if team_id and not r_state.get("playoff_notified", False) and isinstance(data, list):
+            in_bracket = any(
+                m.get("teamAId") == team_id or m.get("teamBId") == team_id
+                for m in data
+            )
+            if in_bracket:
+                r_state["playoff_notified"] = True
+                playoff_updates.append((wname, entry, data))
+                print(f"  [playoffs] {wname}: team {team_id} appeared in bracket!")
+
+        # ── Score / status fingerprint ─────────────────────────────────────
         fp = _results_fingerprint(data)
-        prev_fp = results_state.get(wname, {}).get("fingerprint", "")
-        if fp != prev_fp:
-            updates.append((wname, entry, data))
-            results_state[wname] = {
-                "fingerprint":    fp,
-                "raw":            data,
-                "last_updated":   datetime.now().isoformat(),
-            }
+        if fp != r_state.get("fingerprint", ""):
+            score_updates.append((wname, entry, data))
+            r_state["fingerprint"]  = fp
+            r_state["raw"]          = data
+            r_state["last_updated"] = datetime.now().isoformat()
             print(f"  [results] {wname}: results changed")
 
-    return updates
+    return score_updates, playoff_updates
 
 
 # ── Email templates ───────────────────────────────────────────────────────────
@@ -655,6 +670,40 @@ def _format_results_body(data, entry: dict) -> str:
     return "\n".join(rows) + f"<p style='margin:.5em 0;font-size:12px'><a href='{t_url}'>Full bracket →</a></p>"
 
 
+def build_playoffs_email(updates: list[tuple], state: dict, now_pt: datetime) -> str:
+    """'Made Playoffs!' email — fired once per player when their team enters the bracket."""
+    body = ""
+    for wname, entry, playoffs in updates:
+        profile_url = state.get("players", {}).get(wname, {}).get("profile_url", "")
+        t_url = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
+        team_id = entry.get("team_id")
+
+        # Find the first match our team is slotted into
+        our_match = next(
+            (m for m in (playoffs or [])
+             if m.get("teamAId") == team_id or m.get("teamBId") == team_id),
+            None,
+        )
+        our_side   = "A" if (our_match or {}).get("teamAId") == team_id else "B"
+        opp_tid    = (our_match or {}).get("teamBId" if our_side == "A" else "teamAId")
+        court      = (our_match or {}).get("court", "TBD")
+        sched_time = (our_match or {}).get("scheduledTime", "")
+
+        opp_label  = f"Team #{opp_tid}" if opp_tid else "TBD"
+        time_label = f" · {sched_time}" if sched_time else ""
+
+        body += _player_header(wname, profile_url)
+        body += _CARD.format(
+            color="#6A0DAD", bg="#f9f5ff",
+            title=f"🏐 Made Playoffs! — {entry.get('division', '')}",
+            line2=f"{entry.get('tournament_name', '')} · {entry.get('venue', '')}",
+            line3=f"First match vs {opp_label} · {court}{time_label} · Partner: {entry.get('partner','')}",
+        )
+        body += f"<p style='margin:.3em 0;font-size:12px'><a href='{t_url}'>View bracket →</a></p>"
+
+    return _wrap(body, "CBVA Made Playoffs", now_pt)
+
+
 def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> str:
     body = ""
     for wname, entry, raw_data in updates:
@@ -727,19 +776,31 @@ async def run() -> None:
             print(f"\n[scan] No new players found. "
                   f"{n_total} on rosters total, {n_notified} already notified.")
 
-        # ── Results updates ────────────────────────────────────────────────
+        # ── Results + playoff qualification ───────────────────────────────
         playing = state.get("tournament_day", {}).get("playing", {})
         if playing:
             print(f"\n── Results check ({len(playing)} player(s)) ──────────────────")
-            result_updates = await check_results(page, state)
-            if result_updates:
+            score_updates, playoff_updates = await check_results(page, state)
+
+            # Playoff qualification email (fires once per player, before scores)
+            if playoff_updates:
+                names_str = ", ".join(u[0] for u in playoff_updates)
+                send_email(
+                    f"CBVA Made Playoffs! — {_date_str(now_pt)}: {names_str}",
+                    build_playoffs_email(playoff_updates, state, now_pt),
+                )
+                print(f"Playoffs email sent for {len(playoff_updates)} player(s).")
+
+            # Score/status update email
+            if score_updates:
                 send_email(
                     f"CBVA Results Update — {now_pt.strftime('%b')} {now_pt.day} "
                     f"{now_pt.strftime('%I:%M %p')} PT",
-                    build_results_email(result_updates, state, now_pt),
+                    build_results_email(score_updates, state, now_pt),
                 )
-                print(f"Results update sent for {len(result_updates)} player(s).")
-            else:
+                print(f"Results update sent for {len(score_updates)} player(s).")
+
+            if not score_updates and not playoff_updates:
                 print("[results] No changes since last run.")
         else:
             print("\n[results] No confirmed players yet — skipping results check.")
