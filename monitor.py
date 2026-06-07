@@ -362,9 +362,11 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
             teams = _extract_teams(teams_data)
             if DEBUG or True:  # temporary — remove once structure confirmed
                 first = teams[0] if teams else {}
+                players_sample = _extract_players(first)
+                p0 = players_sample[0] if players_sample else {}
                 print(f"    [scan] div {div_id} ({div_label}): {len(teams)} entries, "
-                      f"first keys={list(first.keys())[:12]}, "
-                      f"players={len(_extract_players(first))}")
+                      f"player keys={list(p0.keys())[:15]}, "
+                      f"sample={str(p0)[:300]}")
 
             for team in teams:
                 players = _extract_players(team)
