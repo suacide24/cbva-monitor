@@ -311,42 +311,17 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
         if pid:
             id_to_wname[pid] = wname
 
-    # Navigate to the tournaments listing page before searching (establishes context)
+    # Navigate to tournaments page first to establish session context
     await page.goto(f"{BASE_URL}/tournaments", wait_until="networkidle")
 
     print(f"[scan] Searching tournaments for {today_str}")
-
-    # Try a few date formats CBVA might accept
-    raw = None
-    for date_fmt in [today_str, today_str + "T00:00:00.000Z", today_str.replace("-", "/")]:
-        raw = await _trpc_get(page, "tournaments.search", {"date": date_fmt})
-        if raw:
-            print(f"[scan] Got results with date format: {date_fmt!r}")
-            print(f"[scan] raw type={type(raw).__name__} value={str(raw)[:600]}")
-            break
-        # Also print raw tRPC response for debugging
-        enc = urllib.parse.quote(json.dumps({"json": {"date": date_fmt}}))
-        raw_body = await page.evaluate(f"""
-            async () => {{
-                const r = await fetch('{BASE_URL}/api/trpc/tournaments.search?input={enc}');
-                const reader = r.body.getReader();
-                const dec = new TextDecoder();
-                let out = '';
-                while (true) {{
-                    const {{done, value}} = await reader.read();
-                    if (done) break;
-                    out += dec.decode(value, {{stream: true}});
-                }}
-                return out;
-            }}
-        """)
-        print(f"[scan] Raw response ({date_fmt!r}): {raw_body[:300]}")
-
+    raw = await _trpc_get(page, "tournaments.search", {"date": today_str})
     if not raw:
-        print("[scan] No tournaments returned for any date format.")
+        print("[scan] No tournaments returned.")
         return []
 
-    tournaments = raw if isinstance(raw, list) else (raw.get("tournaments") or [])
+    tournaments = (raw if isinstance(raw, list)
+                   else (raw.get("tournaments") or raw.get("data") or []))
     print(f"[scan] {len(tournaments)} tournament(s) today")
 
     new_entries: list[dict] = []
