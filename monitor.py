@@ -322,6 +322,7 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
         raw = await _trpc_get(page, "tournaments.search", {"date": date_fmt})
         if raw:
             print(f"[scan] Got results with date format: {date_fmt!r}")
+            print(f"[scan] raw type={type(raw).__name__} value={str(raw)[:600]}")
             break
         # Also print raw tRPC response for debugging
         enc = urllib.parse.quote(json.dumps({"json": {"date": date_fmt}}))
