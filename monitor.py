@@ -504,16 +504,28 @@ async def check_results(page, state: dict) -> tuple[list, list]:
         r_state = results_state.setdefault(wname, {})
 
         # ── Playoff qualification check ────────────────────────────────────
-        team_id = entry.get("team_id")
-        if team_id and not r_state.get("playoff_notified", False) and isinstance(data, list):
-            in_bracket = any(
-                m.get("teamAId") == team_id or m.get("teamBId") == team_id
-                for m in data
-            )
+        team_id  = entry.get("team_id")
+        our_seed = entry.get("team_seed")
+        if not r_state.get("playoff_notified", False) and isinstance(data, list) and data:
+            # Primary: match by team ID (populated on some tournaments)
+            # Fallback: match by seed (CBVA often leaves teamAId/teamBId null)
+            if team_id:
+                in_bracket = any(
+                    m.get("teamAId") == team_id or m.get("teamBId") == team_id
+                    for m in data
+                )
+            else:
+                in_bracket = False
+            if not in_bracket and our_seed:
+                in_bracket = any(
+                    m.get("teamASeed") == our_seed or m.get("teamBSeed") == our_seed
+                    for m in data
+                )
             if in_bracket:
                 r_state["playoff_notified"] = True
                 playoff_updates.append((wname, entry, data))
-                print(f"  [playoffs] {wname}: team {team_id} appeared in bracket!")
+                match_method = "team_id" if team_id else f"seed #{our_seed}"
+                print(f"  [playoffs] {wname}: appeared in bracket via {match_method}!")
 
         # ── Score / status fingerprint ─────────────────────────────────────
         fp = _results_fingerprint(data)
