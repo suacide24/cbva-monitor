@@ -820,7 +820,7 @@
         "playoff_notified": true
       },
       "Isaiah Ritchie": {
-        "fingerprint": "[{\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13874, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13878, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65506, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 15\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13875, \"loserFinish\": 9, \"matchNumber\": 2, \"nextMatchId\": 13879, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65507, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 12, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 11\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13876, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13880, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65508, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 11, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 6, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 14\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13877, \"loserFinish\": 9, \"matchNumber\": 4, \"nextMatchId\": 13881, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65509, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 7, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 10, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13878, \"loserFinish\": 5, \"matchNumber\": 5, \"nextMatchId\": 13882, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65510, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}",
+        "fingerprint": "[{\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13874, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13878, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65506, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 15\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13875, \"loserFinish\": 9, \"matchNumber\": 2, \"nextMatchId\": 13879, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65507, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 12, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 11\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13876, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13880, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65508, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 11, \"teamBId\": 224550, \"teamBPoolId\": 6025, \"teamBPreviousMatchId\": null, \"teamBSeed\": 6, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 14\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13877, \"loserFinish\": 9, \"matchNumber\": 4, \"nextMatchId\": 13881, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65509, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 223389, \"teamAPoolId\": 6025, \"teamAPreviousMatchId\": null, \"teamASeed\": 7, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 10, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13878, \"loserFinish\": 5, \"matchNumber\": 5, \"nextMatchId\": 13882, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65510, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": n",
         "raw": [
           {
             "id": 13874,
@@ -910,9 +910,9 @@
             "teamASeed": 11,
             "teamBSeed": 6,
             "teamAId": null,
-            "teamBId": null,
+            "teamBId": 224550,
             "teamAPoolId": null,
-            "teamBPoolId": null,
+            "teamBPoolId": 6025,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
@@ -948,9 +948,9 @@
             "court": "Court 14",
             "teamASeed": 7,
             "teamBSeed": 10,
-            "teamAId": null,
+            "teamAId": 223389,
             "teamBId": null,
-            "teamAPoolId": null,
+            "teamAPoolId": 6025,
             "teamBPoolId": null,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
@@ -1252,11 +1252,11 @@
             "refs": []
           }
         ],
-        "last_updated": "2026-06-13T18:55:48.562420",
+        "last_updated": "2026-06-13T20:20:34.618402",
         "playoff_notified": true
       },
       "Alex Bonczyk": {
-        "fingerprint": "[{\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13874, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13878, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65506, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 15\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13875, \"loserFinish\": 9, \"matchNumber\": 2, \"nextMatchId\": 13879, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65507, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 12, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 11\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13876, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13880, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65508, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 11, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 6, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 14\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13877, \"loserFinish\": 9, \"matchNumber\": 4, \"nextMatchId\": 13881, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65509, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 7, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 10, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13878, \"loserFinish\": 5, \"matchNumber\": 5, \"nextMatchId\": 13882, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65510, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}",
+        "fingerprint": "[{\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13874, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13878, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65506, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 15\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13875, \"loserFinish\": 9, \"matchNumber\": 2, \"nextMatchId\": 13879, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65507, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 12, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 11\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13876, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13880, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65508, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 11, \"teamBId\": 224550, \"teamBPoolId\": 6025, \"teamBPreviousMatchId\": null, \"teamBSeed\": 6, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 14\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13877, \"loserFinish\": 9, \"matchNumber\": 4, \"nextMatchId\": 13881, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65509, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 223389, \"teamAPoolId\": 6025, \"teamAPreviousMatchId\": null, \"teamASeed\": 7, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 10, \"tournamentDivisionId\": 16430, \"winnerId\": null}, {\"court\": \"Court 13\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13878, \"loserFinish\": 5, \"matchNumber\": 5, \"nextMatchId\": 13882, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65510, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": n",
         "raw": [
           {
             "id": 13874,
@@ -1346,9 +1346,9 @@
             "teamASeed": 11,
             "teamBSeed": 6,
             "teamAId": null,
-            "teamBId": null,
+            "teamBId": 224550,
             "teamAPoolId": null,
-            "teamBPoolId": null,
+            "teamBPoolId": 6025,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
@@ -1384,9 +1384,9 @@
             "court": "Court 14",
             "teamASeed": 7,
             "teamBSeed": 10,
-            "teamAId": null,
+            "teamAId": 223389,
             "teamBId": null,
-            "teamAPoolId": null,
+            "teamAPoolId": 6025,
             "teamBPoolId": null,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
@@ -1688,12 +1688,12 @@
             "refs": []
           }
         ],
-        "last_updated": "2026-06-13T18:55:50.345041",
+        "last_updated": "2026-06-13T20:20:36.285231",
         "playoff_notified": true
       },
       "Myah Gomez": {
         "playoff_notified": true,
-        "fingerprint": "[{\"court\": \"Court 4\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13784, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13786, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65410, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 5\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13785, \"loserFinish\": 9, \"matchNumber\": 2, \"nextMatchId\": 13789, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65411, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 7, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 10, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 4\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13786, \"loserFinish\": 5, \"matchNumber\": 3, \"nextMatchId\": 13790, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65412, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 1, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": 13784, \"teamBSeed\": null, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 8\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13787, \"loserFinish\": 5, \"matchNumber\": 4, \"nextMatchId\": 13790, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65413, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 4, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 6\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13788, \"loserFinish\": 5, \"matchNumber\": 5, \"nextMatchId\": 13791, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65414, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], ",
+        "fingerprint": "[{\"court\": \"Court 4\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13784, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13786, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65410, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 8\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13785, \"loserFinish\": 9, \"matchNumber\": 2, \"nextMatchId\": 13789, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65411, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 7, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 10, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 4\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13786, \"loserFinish\": 5, \"matchNumber\": 3, \"nextMatchId\": 13790, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65412, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 1, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": 13784, \"teamBSeed\": null, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 9\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13787, \"loserFinish\": 5, \"matchNumber\": 4, \"nextMatchId\": 13790, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65413, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 4, \"tournamentDivisionId\": 16433, \"winnerId\": null}, {\"court\": \"Court 9\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13788, \"loserFinish\": 5, \"matchNumber\": 5, \"nextMatchId\": 13791, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65414, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 25, \"winnerId\": null}], ",
         "raw": [
           {
             "id": 13784,
@@ -1740,7 +1740,7 @@
             "round": 0,
             "matchNumber": 2,
             "loserFinish": 9,
-            "court": "Court 5",
+            "court": "Court 8",
             "teamASeed": 7,
             "teamBSeed": 10,
             "teamAId": null,
@@ -1818,7 +1818,7 @@
             "round": 1,
             "matchNumber": 4,
             "loserFinish": 5,
-            "court": "Court 8",
+            "court": "Court 9",
             "teamASeed": 5,
             "teamBSeed": 4,
             "teamAId": null,
@@ -1857,7 +1857,7 @@
             "round": 1,
             "matchNumber": 5,
             "loserFinish": 5,
-            "court": "Court 6",
+            "court": "Court 9",
             "teamASeed": 3,
             "teamBSeed": 6,
             "teamAId": null,
@@ -1896,7 +1896,7 @@
             "round": 1,
             "matchNumber": 6,
             "loserFinish": 5,
-            "court": "Court 5",
+            "court": "Court 8",
             "teamASeed": null,
             "teamBSeed": 2,
             "teamAId": null,
@@ -1974,7 +1974,7 @@
             "round": 2,
             "matchNumber": 8,
             "loserFinish": 3,
-            "court": "Court 5",
+            "court": "Court 8",
             "teamASeed": null,
             "teamBSeed": null,
             "teamAId": null,
@@ -2047,7 +2047,7 @@
             "refs": []
           }
         ],
-        "last_updated": "2026-06-13T17:29:35.300585"
+        "last_updated": "2026-06-13T20:20:38.032764"
       }
     }
   }
