@@ -185,7 +185,9 @@
   "tournament_day": {
     "date": "2026-06-14",
     "notified": [
-      "Dexter Campbell"
+      "Dexter Campbell",
+      "Selina Chhay",
+      "Sara Hernandez"
     ],
     "playing": {
       "Dexter Campbell": {
@@ -200,6 +202,32 @@
         "partner_id": 61309,
         "team_seed": 5,
         "team_id": 131392
+      },
+      "Selina Chhay": {
+        "player_name": "Selina Chhay",
+        "profile_id": 61233,
+        "tournament_id": 4890,
+        "tournament_name": "Belmont Shore",
+        "venue": "Belmont Shore, Long Beach",
+        "division": "Women's B",
+        "division_id": 17386,
+        "partner": "JennaVieve Martinez",
+        "partner_id": 28600,
+        "team_seed": 2,
+        "team_id": 130727
+      },
+      "Sara Hernandez": {
+        "player_name": "Sara Hernandez",
+        "profile_id": 29156,
+        "tournament_id": 4890,
+        "tournament_name": "Belmont Shore",
+        "venue": "Belmont Shore, Long Beach",
+        "division": "Women's B",
+        "division_id": 17386,
+        "partner": "Ava Hernandez",
+        "partner_id": 62052,
+        "team_seed": 11,
+        "team_id": 131296
       }
     },
     "results": {
@@ -213,6 +241,28 @@
           "playoffCount": 0
         },
         "last_updated": "2026-06-14T15:52:18.826624"
+      },
+      "Selina Chhay": {
+        "fingerprint": "{\"hasGames\": true, \"hasPendingPoolMatches\": true, \"playoffCount\": 0, \"poolCount\": 6, \"teamCount\": 31}",
+        "raw": {
+          "teamCount": 31,
+          "poolCount": 6,
+          "hasGames": true,
+          "hasPendingPoolMatches": true,
+          "playoffCount": 0
+        },
+        "last_updated": "2026-06-14T17:24:03.792273"
+      },
+      "Sara Hernandez": {
+        "fingerprint": "{\"hasGames\": true, \"hasPendingPoolMatches\": true, \"playoffCount\": 0, \"poolCount\": 6, \"teamCount\": 31}",
+        "raw": {
+          "teamCount": 31,
+          "poolCount": 6,
+          "hasGames": true,
+          "hasPendingPoolMatches": true,
+          "playoffCount": 0
+        },
+        "last_updated": "2026-06-14T17:24:05.550383"
       }
     }
   }
