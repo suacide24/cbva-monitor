@@ -232,7 +232,7 @@
     },
     "results": {
       "Dexter Campbell": {
-        "fingerprint": "[{\"court\": \"Court 1\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13908, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13909, \"refs\": [], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65758, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16880, \"winnerId\": null}, {\"court\": \"Court 1\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13909, \"loserFinish\": 5, \"matchNumber\": 2, \"nextMatchId\": 13913, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65759, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 1, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": 13908, \"teamBSeed\": null, \"tournamentDivisionId\": 16880, \"winnerId\": null}, {\"court\": \"Court 3\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13910, \"loserFinish\": 5, \"matchNumber\": 3, \"nextMatchId\": 13913, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65760, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 4, \"tournamentDivisionId\": 16880, \"winnerId\": null}, {\"court\": \"Court 3\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13911, \"loserFinish\": 5, \"matchNumber\": 4, \"nextMatchId\": 13914, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65761, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": null, \"teamAPoolId\": null, \"teamAPreviousMatchId\": null, \"teamASeed\": 3, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": null, \"teamBSeed\": 6, \"tournamentDivisionId\": 16880, \"winnerId\": null}, {\"court\": \"Court 2\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13912, \"loserFinish\": 5, \"matchNumber\": 5, \"nextMatchId\": 13914, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65762, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"",
+        "fingerprint": "[{\"court\": \"Court 1\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13908, \"loserFinish\": 9, \"matchNumber\": 1, \"nextMatchId\": 13909, \"refs\": [{\"abandoned\": null, \"id\": 27629, \"playoffMatchId\": 13908, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Vaughn\", \"id\": 8388, \"imageSource\": null, \"lastName\": \"Petersen\", \"preferredName\": \"Vaughn\"}, \"profileId\": 8388, \"teamId\": 224763}, {\"abandoned\": null, \"id\": 27630, \"playoffMatchId\": 13908, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Spencer\", \"id\": 17252, \"imageSource\": null, \"lastName\": \"Sauter\", \"preferredName\": \"Spencer\"}, \"profileId\": 17252, \"teamId\": 224763}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65758, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 224559, \"teamAPoolId\": 6051, \"teamAPreviousMatchId\": null, \"teamASeed\": 9, \"teamBId\": 224652, \"teamBPoolId\": 6050, \"teamBPreviousMatchId\": null, \"teamBSeed\": 8, \"tournamentDivisionId\": 16880, \"winnerId\": null}, {\"court\": \"Court 1\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13909, \"loserFinish\": 5, \"matchNumber\": 2, \"nextMatchId\": 13913, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65759, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 224763, \"teamAPoolId\": 6049, \"teamAPreviousMatchId\": null, \"teamASeed\": 1, \"teamBId\": null, \"teamBPoolId\": null, \"teamBPreviousMatchId\": 13908, \"teamBSeed\": null, \"tournamentDivisionId\": 16880, \"winnerId\": null}, {\"court\": \"Court 3\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13910, \"loserFinish\": 5, \"matchNumber\": 3, \"nextMatchId\": 13913, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65760, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 224819, \"teamAPoolId\": 6050, \"teamAPreviousMatchId\": null, \"teamASeed\": 5, \"teamBId\": 225015, \"teamBPoolId\": 6051, \"teamBPreviousMatchId\": null, \"teamBSeed\": 4, \"tournamentDivisionId\": 16880, \"winnerId\": null}, {\"court\": \"Court 3\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13911, \"loserFinish\": 5, \"matchNumber\": 4, \"nextMatchId\": 13914, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65761, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 28, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 225048, \"teamAPoolId\": 6051, \"teamAPreviousMatchId\": null, \"teamASeed\": 3, \"teamBId\": 224503, \"teamBPoolId\": 6049, \"teamBPreviousM",
         "raw": [
           {
             "id": 13908,
@@ -243,10 +243,10 @@
             "court": "Court 1",
             "teamASeed": 9,
             "teamBSeed": 8,
-            "teamAId": null,
-            "teamBId": null,
-            "teamAPoolId": null,
-            "teamBPoolId": null,
+            "teamAId": 224559,
+            "teamBId": 224652,
+            "teamAPoolId": 6051,
+            "teamBPoolId": 6050,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
@@ -271,7 +271,38 @@
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27629,
+                "poolMatchId": null,
+                "playoffMatchId": 13908,
+                "profileId": 8388,
+                "teamId": 224763,
+                "abandoned": null,
+                "profile": {
+                  "id": 8388,
+                  "firstName": "Vaughn",
+                  "preferredName": "Vaughn",
+                  "lastName": "Petersen",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27630,
+                "poolMatchId": null,
+                "playoffMatchId": 13908,
+                "profileId": 17252,
+                "teamId": 224763,
+                "abandoned": null,
+                "profile": {
+                  "id": 17252,
+                  "firstName": "Spencer",
+                  "preferredName": "Spencer",
+                  "lastName": "Sauter",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13909,
@@ -282,9 +313,9 @@
             "court": "Court 1",
             "teamASeed": 1,
             "teamBSeed": null,
-            "teamAId": null,
+            "teamAId": 224763,
             "teamBId": null,
-            "teamAPoolId": null,
+            "teamAPoolId": 6049,
             "teamBPoolId": null,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": 13908,
@@ -321,10 +352,10 @@
             "court": "Court 3",
             "teamASeed": 5,
             "teamBSeed": 4,
-            "teamAId": null,
-            "teamBId": null,
-            "teamAPoolId": null,
-            "teamBPoolId": null,
+            "teamAId": 224819,
+            "teamBId": 225015,
+            "teamAPoolId": 6050,
+            "teamBPoolId": 6051,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
@@ -360,10 +391,10 @@
             "court": "Court 3",
             "teamASeed": 3,
             "teamBSeed": 6,
-            "teamAId": null,
-            "teamBId": null,
-            "teamAPoolId": null,
-            "teamBPoolId": null,
+            "teamAId": 225048,
+            "teamBId": 224503,
+            "teamAPoolId": 6051,
+            "teamBPoolId": 6049,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
@@ -399,10 +430,10 @@
             "court": "Court 2",
             "teamASeed": 7,
             "teamBSeed": 2,
-            "teamAId": null,
-            "teamBId": null,
-            "teamAPoolId": null,
-            "teamBPoolId": null,
+            "teamAId": 225050,
+            "teamBId": 224991,
+            "teamAPoolId": 6049,
+            "teamBPoolId": 6050,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
@@ -547,11 +578,11 @@
             "refs": []
           }
         ],
-        "last_updated": "2026-06-14T18:53:19.214260",
+        "last_updated": "2026-06-14T21:53:40.992440",
         "playoff_notified": true
       },
       "Selina Chhay": {
-        "fingerprint": "[{\"court\": \"Court 15- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13963, \"loserFinish\": 17, \"matchNumber\": 1, \"nextMatchId\": 13965, \"refs\": [{\"abandoned\": null, \"id\": 27543, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Meg\", \"id\": 29817, \"imageSource\": null, \"lastName\": \"Strait\", \"preferredName\": \"Meg\"}, \"profileId\": 29817, \"teamId\": 222831}, {\"abandoned\": null, \"id\": 27544, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Victoria\", \"id\": 29859, \"imageSource\": null, \"lastName\": \"Verbick\", \"preferredName\": \"Victoria\"}, \"profileId\": 29859, \"teamId\": 222831}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65813, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:17.826Z\", \"status\": \"in_progress\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 21, \"winnerId\": null}], \"status\": \"in_progress\", \"teamAId\": 221915, \"teamAPoolId\": 6056, \"teamAPreviousMatchId\": null, \"teamASeed\": 17, \"teamBId\": 223056, \"teamBPoolId\": 6055, \"teamBPreviousMatchId\": null, \"teamBSeed\": 16, \"tournamentDivisionId\": 17386, \"winnerId\": null}, {\"court\": \"Court 16- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13964, \"loserFinish\": 17, \"matchNumber\": 2, \"nextMatchId\": 13972, \"refs\": [{\"abandoned\": null, \"id\": 27545, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"JennaVieve\", \"id\": 28600, \"imageSource\": null, \"lastName\": \"Martinez\", \"preferredName\": \"JennaVieve\"}, \"profileId\": 28600, \"teamId\": 224113}, {\"abandoned\": null, \"id\": 27546, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Selina\", \"id\": 61233, \"imageSource\": \"https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/424aae02-000c-41c0-8ce1-d90bf84725f9-1777841495484.jpeg\", \"lastName\": \"Chhay\", \"preferredName\": \"Selina\"}, \"profileId\": 61233, \"teamId\": 224113}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65814, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:49.682Z\", \"status\": \"in_progress\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 21, \"winnerId\": null}], \"status\": \"in_progress\", \"teamAId\": 222944, \"teamAPoolId\": 6054, \"teamAPreviousMatchId\": null, \"teamASeed\": 15, \"teamBId\": 223625, \"teamBPoolId\": 6057, \"teamBPreviousMatchId\": null, \"teamBSeed\": 18, \"tournamentDivisionId\": 17386, \"winnerId\": null}, {\"court\": \"Court 15- 2nd round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13965, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13973, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65815, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 21, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 222831, \"teamAPoolId\": 6052, \"teamAPreviousMatchId\": null, \"team",
+        "fingerprint": "[{\"court\": \"Court 15- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13963, \"loserFinish\": 17, \"matchNumber\": 1, \"nextMatchId\": 13965, \"refs\": [{\"abandoned\": null, \"id\": 27543, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Meg\", \"id\": 29817, \"imageSource\": null, \"lastName\": \"Strait\", \"preferredName\": \"Meg\"}, \"profileId\": 29817, \"teamId\": 222831}, {\"abandoned\": null, \"id\": 27544, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Victoria\", \"id\": 29859, \"imageSource\": null, \"lastName\": \"Verbick\", \"preferredName\": \"Victoria\"}, \"profileId\": 29859, \"teamId\": 222831}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": \"2026-06-14T20:31:26.744Z\", \"externalRef\": null, \"id\": 65813, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:17.826Z\", \"status\": \"completed\", \"switchScore\": 7, \"teamAScore\": 16, \"teamBScore\": 21, \"version\": 0, \"winScore\": 21, \"winnerId\": 223056}], \"status\": \"completed\", \"teamAId\": 221915, \"teamAPoolId\": 6056, \"teamAPreviousMatchId\": null, \"teamASeed\": 17, \"teamBId\": 223056, \"teamBPoolId\": 6055, \"teamBPreviousMatchId\": null, \"teamBSeed\": 16, \"tournamentDivisionId\": 17386, \"winnerId\": 223056}, {\"court\": \"Court 16- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13964, \"loserFinish\": 17, \"matchNumber\": 2, \"nextMatchId\": 13972, \"refs\": [{\"abandoned\": null, \"id\": 27545, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"JennaVieve\", \"id\": 28600, \"imageSource\": null, \"lastName\": \"Martinez\", \"preferredName\": \"JennaVieve\"}, \"profileId\": 28600, \"teamId\": 224113}, {\"abandoned\": null, \"id\": 27546, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Selina\", \"id\": 61233, \"imageSource\": \"https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/424aae02-000c-41c0-8ce1-d90bf84725f9-1777841495484.jpeg\", \"lastName\": \"Chhay\", \"preferredName\": \"Selina\"}, \"profileId\": 61233, \"teamId\": 224113}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": \"2026-06-14T20:28:44.702Z\", \"externalRef\": null, \"id\": 65814, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:49.682Z\", \"status\": \"completed\", \"switchScore\": 7, \"teamAScore\": 21, \"teamBScore\": 7, \"version\": 0, \"winScore\": 21, \"winnerId\": 222944}], \"status\": \"completed\", \"teamAId\": 222944, \"teamAPoolId\": 6054, \"teamAPreviousMatchId\": null, \"teamASeed\": 15, \"teamBId\": 223625, \"teamBPoolId\": 6057, \"teamBPreviousMatchId\": null, \"teamBSeed\": 18, \"tournamentDivisionId\": 17386, \"winnerId\": 222944}, {\"court\": \"Court 15- 2nd round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13965, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13973, \"refs\": [{\"abandoned\": null, \"id\": 27577, \"playoffMatchId\": 13965, \"poolMatchId\": null, \"profile\": {\"firstName\": \"April\", \"id\": 29977, \"imageSource\": null, \"lastName\": \"Hamud\", \"preferredName\": \"April\"}, \"profileId\": 29977, \"teamId\": 221915}, {\"abandoned\": null, \"id\": 27578, \"playoffMatchId\": 13965, \"poolMatchId\": null,",
         "raw": [
           {
             "id": 13963,
@@ -569,8 +600,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223056,
             "forfeitTeamId": null,
             "nextMatchId": 13965,
             "externalRef": null,
@@ -578,14 +609,14 @@
               {
                 "id": 65813,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 16,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 223056,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:16:17.826Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:31:26.744Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -639,8 +670,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 222944,
             "forfeitTeamId": null,
             "nextMatchId": 13972,
             "externalRef": null,
@@ -648,14 +679,14 @@
               {
                 "id": 65814,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 7,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 222944,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:16:49.682Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:28:44.702Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -703,14 +734,14 @@
             "teamASeed": 1,
             "teamBSeed": null,
             "teamAId": 222831,
-            "teamBId": null,
+            "teamBId": 223056,
             "teamAPoolId": 6052,
             "teamBPoolId": null,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": 13963,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223056,
             "forfeitTeamId": null,
             "nextMatchId": 13973,
             "externalRef": null,
@@ -718,19 +749,50 @@
               {
                 "id": 65815,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 14,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 223056,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:47:19.112Z",
+                "endedAt": "2026-06-14T21:06:18.131Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27577,
+                "poolMatchId": null,
+                "playoffMatchId": 13965,
+                "profileId": 29977,
+                "teamId": 221915,
+                "abandoned": null,
+                "profile": {
+                  "id": 29977,
+                  "firstName": "April",
+                  "preferredName": "April",
+                  "lastName": "Hamud",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27578,
+                "poolMatchId": null,
+                "playoffMatchId": 13965,
+                "profileId": 54063,
+                "teamId": 221915,
+                "abandoned": null,
+                "profile": {
+                  "id": 54063,
+                  "firstName": "Karol",
+                  "preferredName": "Karol",
+                  "lastName": "Magracia",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/1fab3c38-f375-4582-88ad-3b30c47d80e3-1772175825639.png"
+                }
+              }
+            ]
           },
           {
             "id": 13966,
@@ -748,8 +810,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 221234,
             "forfeitTeamId": null,
             "nextMatchId": 13973,
             "externalRef": null,
@@ -757,19 +819,50 @@
               {
                 "id": 65816,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 13,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
-                "version": 0,
+                "winnerId": 221234,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:48:00.615Z",
+                "endedAt": "2026-06-14T21:00:57.906Z",
+                "version": 1,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27591,
+                "poolMatchId": null,
+                "playoffMatchId": 13966,
+                "profileId": 30958,
+                "teamId": 224730,
+                "abandoned": null,
+                "profile": {
+                  "id": 30958,
+                  "firstName": "Carissa",
+                  "preferredName": "Carissa",
+                  "lastName": "Lehmkuhl",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27592,
+                "poolMatchId": null,
+                "playoffMatchId": 13966,
+                "profileId": 54486,
+                "teamId": 224730,
+                "abandoned": null,
+                "profile": {
+                  "id": 54486,
+                  "firstName": "Makenzie",
+                  "preferredName": "Makenzie",
+                  "lastName": "Raab",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13967,
@@ -787,8 +880,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 222902,
             "forfeitTeamId": null,
             "nextMatchId": 13974,
             "externalRef": null,
@@ -796,14 +889,14 @@
               {
                 "id": 65817,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 8,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 222902,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:13:15.076Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:36:56.034Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -857,8 +950,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 224584,
             "forfeitTeamId": null,
             "nextMatchId": 13974,
             "externalRef": null,
@@ -866,14 +959,14 @@
               {
                 "id": 65818,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 9,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 224584,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:13:18.992Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:28:20.848Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -927,8 +1020,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223317,
             "forfeitTeamId": null,
             "nextMatchId": 13975,
             "externalRef": null,
@@ -936,14 +1029,14 @@
               {
                 "id": 65819,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 8,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 223317,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:16:43.364Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:27:24.036Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -997,8 +1090,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223357,
             "forfeitTeamId": null,
             "nextMatchId": 13975,
             "externalRef": null,
@@ -1006,14 +1099,14 @@
               {
                 "id": 65820,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 12,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 223357,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:20:16.521Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:36:17.726Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -1067,8 +1160,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223333,
             "forfeitTeamId": null,
             "nextMatchId": 13976,
             "externalRef": null,
@@ -1076,19 +1169,50 @@
               {
                 "id": 65821,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 17,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 223333,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:47:21.325Z",
+                "endedAt": "2026-06-14T21:06:12.530Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27583,
+                "poolMatchId": null,
+                "playoffMatchId": 13971,
+                "profileId": 29156,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 29156,
+                  "firstName": "Sara",
+                  "preferredName": "Sara",
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27584,
+                "poolMatchId": null,
+                "playoffMatchId": 13971,
+                "profileId": 62052,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 62052,
+                  "firstName": "Ava",
+                  "preferredName": null,
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13972,
@@ -1099,15 +1223,15 @@
             "court": "Court 16- 2nd round",
             "teamASeed": null,
             "teamBSeed": 2,
-            "teamAId": null,
+            "teamAId": 222944,
             "teamBId": 224113,
             "teamAPoolId": null,
             "teamBPoolId": 6053,
             "teamAPreviousMatchId": 13964,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 222944,
             "forfeitTeamId": null,
             "nextMatchId": 13976,
             "externalRef": null,
@@ -1115,19 +1239,50 @@
               {
                 "id": 65822,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 17,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 222944,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:46:31.376Z",
+                "endedAt": "2026-06-14T21:04:21.012Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27575,
+                "poolMatchId": null,
+                "playoffMatchId": 13972,
+                "profileId": 29059,
+                "teamId": 223625,
+                "abandoned": null,
+                "profile": {
+                  "id": 29059,
+                  "firstName": "Brianne",
+                  "preferredName": "Brianne",
+                  "lastName": "Ilagan",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27576,
+                "poolMatchId": null,
+                "playoffMatchId": 13972,
+                "profileId": 61192,
+                "teamId": 223625,
+                "abandoned": null,
+                "profile": {
+                  "id": 61192,
+                  "firstName": "Courtney",
+                  "preferredName": "Courtney",
+                  "lastName": "Souza",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13973,
@@ -1138,15 +1293,15 @@
             "court": "Court 15",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223056,
+            "teamBId": 221234,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13965,
             "teamBPreviousMatchId": 13966,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 221234,
             "forfeitTeamId": null,
             "nextMatchId": 13977,
             "externalRef": null,
@@ -1154,19 +1309,50 @@
               {
                 "id": 65823,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 18,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 221234,
+                "status": "completed",
+                "startedAt": "2026-06-14T21:16:55.653Z",
+                "endedAt": "2026-06-14T21:33:01.249Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27631,
+                "poolMatchId": null,
+                "playoffMatchId": 13973,
+                "profileId": 29817,
+                "teamId": 222831,
+                "abandoned": null,
+                "profile": {
+                  "id": 29817,
+                  "firstName": "Meg",
+                  "preferredName": "Meg",
+                  "lastName": "Strait",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27632,
+                "poolMatchId": null,
+                "playoffMatchId": 13973,
+                "profileId": 29859,
+                "teamId": 222831,
+                "abandoned": null,
+                "profile": {
+                  "id": 29859,
+                  "firstName": "Victoria",
+                  "preferredName": "Victoria",
+                  "lastName": "Verbick",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13974,
@@ -1177,15 +1363,15 @@
             "court": "Court 14",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 222902,
+            "teamBId": 224584,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13967,
             "teamBPreviousMatchId": 13968,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 224584,
             "forfeitTeamId": null,
             "nextMatchId": 13977,
             "externalRef": null,
@@ -1193,19 +1379,50 @@
               {
                 "id": 65824,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 16,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 224584,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:51:08.372Z",
+                "endedAt": "2026-06-14T21:03:29.303Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27605,
+                "poolMatchId": null,
+                "playoffMatchId": 13974,
+                "profileId": 62341,
+                "teamId": 224616,
+                "abandoned": null,
+                "profile": {
+                  "id": 62341,
+                  "firstName": "Steffi",
+                  "preferredName": null,
+                  "lastName": "Rehbein",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/8a36b561-5d95-474c-968c-02ecff684552-1776134195384.jpeg"
+                }
+              },
+              {
+                "id": 27606,
+                "poolMatchId": null,
+                "playoffMatchId": 13974,
+                "profileId": 63416,
+                "teamId": 224616,
+                "abandoned": null,
+                "profile": {
+                  "id": 63416,
+                  "firstName": "Dilara",
+                  "preferredName": null,
+                  "lastName": "Ergun Acosta",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/10e5299d-2910-43de-bbfa-1da3122047b4-1780866773578.jpeg"
+                }
+              }
+            ]
           },
           {
             "id": 13975,
@@ -1216,15 +1433,15 @@
             "court": "Court 13",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223317,
+            "teamBId": 223357,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13969,
             "teamBPreviousMatchId": 13970,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223357,
             "forfeitTeamId": null,
             "nextMatchId": 13978,
             "externalRef": null,
@@ -1232,19 +1449,50 @@
               {
                 "id": 65825,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 20,
+                "teamBScore": 22,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
-                "version": 0,
+                "winnerId": 223357,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:43:57.086Z",
+                "endedAt": "2026-06-14T21:20:04.388Z",
+                "version": 1,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27579,
+                "poolMatchId": null,
+                "playoffMatchId": 13975,
+                "profileId": 29156,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 29156,
+                  "firstName": "Sara",
+                  "preferredName": "Sara",
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27580,
+                "poolMatchId": null,
+                "playoffMatchId": 13975,
+                "profileId": 62052,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 62052,
+                  "firstName": "Ava",
+                  "preferredName": null,
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13976,
@@ -1255,15 +1503,15 @@
             "court": "Court 16",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223333,
+            "teamBId": 222944,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13971,
             "teamBPreviousMatchId": 13972,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223333,
             "forfeitTeamId": null,
             "nextMatchId": 13978,
             "externalRef": null,
@@ -1271,19 +1519,50 @@
               {
                 "id": 65826,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 22,
+                "teamBScore": 20,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 223333,
+                "status": "completed",
+                "startedAt": "2026-06-14T21:17:59.116Z",
+                "endedAt": "2026-06-14T21:47:25.297Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27627,
+                "poolMatchId": null,
+                "playoffMatchId": 13976,
+                "profileId": 28336,
+                "teamId": 224305,
+                "abandoned": null,
+                "profile": {
+                  "id": 28336,
+                  "firstName": "Haley",
+                  "preferredName": "Haley",
+                  "lastName": "Lao",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27628,
+                "poolMatchId": null,
+                "playoffMatchId": 13976,
+                "profileId": 29954,
+                "teamId": 224305,
+                "abandoned": null,
+                "profile": {
+                  "id": 29954,
+                  "firstName": "Caitlin",
+                  "preferredName": "Caitlin",
+                  "lastName": "Stapp",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13977,
@@ -1294,14 +1573,14 @@
             "court": "Court 15",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 221234,
+            "teamBId": 224584,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13973,
             "teamBPreviousMatchId": 13974,
-            "scheduledTime": null,
-            "status": "scheduled",
+            "scheduledTime": "14:38:01",
+            "status": "in_progress",
             "winnerId": null,
             "forfeitTeamId": null,
             "nextMatchId": 13979,
@@ -1315,14 +1594,45 @@
                 "winScore": 21,
                 "switchScore": 7,
                 "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
+                "status": "in_progress",
+                "startedAt": "2026-06-14T21:41:38.590Z",
                 "endedAt": null,
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27647,
+                "poolMatchId": null,
+                "playoffMatchId": 13977,
+                "profileId": 28830,
+                "teamId": 223056,
+                "abandoned": null,
+                "profile": {
+                  "id": 28830,
+                  "firstName": "Bailey",
+                  "preferredName": "Bailey",
+                  "lastName": "O'Brien",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/4a65e31e-7d4f-449c-bbfd-2b6f3e2203fa-1779130515971.png"
+                }
+              },
+              {
+                "id": 27648,
+                "poolMatchId": null,
+                "playoffMatchId": 13977,
+                "profileId": 53485,
+                "teamId": 223056,
+                "abandoned": null,
+                "profile": {
+                  "id": 53485,
+                  "firstName": "Georgia",
+                  "preferredName": "Georgia",
+                  "lastName": "Brennan",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13978,
@@ -1333,13 +1643,13 @@
             "court": "Court 16",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223357,
+            "teamBId": 223333,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13975,
             "teamBPreviousMatchId": 13976,
-            "scheduledTime": null,
+            "scheduledTime": "14:52:25",
             "status": "scheduled",
             "winnerId": null,
             "forfeitTeamId": null,
@@ -1361,7 +1671,38 @@
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27657,
+                "poolMatchId": null,
+                "playoffMatchId": 13978,
+                "profileId": 32185,
+                "teamId": 222944,
+                "abandoned": null,
+                "profile": {
+                  "id": 32185,
+                  "firstName": "Madeline",
+                  "preferredName": "Madeline",
+                  "lastName": "Porter",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27658,
+                "poolMatchId": null,
+                "playoffMatchId": 13978,
+                "profileId": 46321,
+                "teamId": 222944,
+                "abandoned": null,
+                "profile": {
+                  "id": 46321,
+                  "firstName": "Katherine",
+                  "preferredName": "Katherine",
+                  "lastName": "Rosencrance",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13979,
@@ -1403,11 +1744,11 @@
             "refs": []
           }
         ],
-        "last_updated": "2026-06-14T20:22:30.915952",
+        "last_updated": "2026-06-14T21:53:42.701032",
         "playoff_notified": true
       },
       "Sara Hernandez": {
-        "fingerprint": "[{\"court\": \"Court 15- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13963, \"loserFinish\": 17, \"matchNumber\": 1, \"nextMatchId\": 13965, \"refs\": [{\"abandoned\": null, \"id\": 27543, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Meg\", \"id\": 29817, \"imageSource\": null, \"lastName\": \"Strait\", \"preferredName\": \"Meg\"}, \"profileId\": 29817, \"teamId\": 222831}, {\"abandoned\": null, \"id\": 27544, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Victoria\", \"id\": 29859, \"imageSource\": null, \"lastName\": \"Verbick\", \"preferredName\": \"Victoria\"}, \"profileId\": 29859, \"teamId\": 222831}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65813, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:17.826Z\", \"status\": \"in_progress\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 21, \"winnerId\": null}], \"status\": \"in_progress\", \"teamAId\": 221915, \"teamAPoolId\": 6056, \"teamAPreviousMatchId\": null, \"teamASeed\": 17, \"teamBId\": 223056, \"teamBPoolId\": 6055, \"teamBPreviousMatchId\": null, \"teamBSeed\": 16, \"tournamentDivisionId\": 17386, \"winnerId\": null}, {\"court\": \"Court 16- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13964, \"loserFinish\": 17, \"matchNumber\": 2, \"nextMatchId\": 13972, \"refs\": [{\"abandoned\": null, \"id\": 27545, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"JennaVieve\", \"id\": 28600, \"imageSource\": null, \"lastName\": \"Martinez\", \"preferredName\": \"JennaVieve\"}, \"profileId\": 28600, \"teamId\": 224113}, {\"abandoned\": null, \"id\": 27546, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Selina\", \"id\": 61233, \"imageSource\": \"https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/424aae02-000c-41c0-8ce1-d90bf84725f9-1777841495484.jpeg\", \"lastName\": \"Chhay\", \"preferredName\": \"Selina\"}, \"profileId\": 61233, \"teamId\": 224113}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65814, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:49.682Z\", \"status\": \"in_progress\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 21, \"winnerId\": null}], \"status\": \"in_progress\", \"teamAId\": 222944, \"teamAPoolId\": 6054, \"teamAPreviousMatchId\": null, \"teamASeed\": 15, \"teamBId\": 223625, \"teamBPoolId\": 6057, \"teamBPreviousMatchId\": null, \"teamBSeed\": 18, \"tournamentDivisionId\": 17386, \"winnerId\": null}, {\"court\": \"Court 15- 2nd round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13965, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13973, \"refs\": [], \"round\": 1, \"scheduledTime\": null, \"sets\": [{\"endedAt\": null, \"externalRef\": null, \"id\": 65815, \"setNumber\": 1, \"startedAt\": null, \"status\": \"not_started\", \"switchScore\": 7, \"teamAScore\": 0, \"teamBScore\": 0, \"version\": 0, \"winScore\": 21, \"winnerId\": null}], \"status\": \"scheduled\", \"teamAId\": 222831, \"teamAPoolId\": 6052, \"teamAPreviousMatchId\": null, \"team",
+        "fingerprint": "[{\"court\": \"Court 15- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13963, \"loserFinish\": 17, \"matchNumber\": 1, \"nextMatchId\": 13965, \"refs\": [{\"abandoned\": null, \"id\": 27543, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Meg\", \"id\": 29817, \"imageSource\": null, \"lastName\": \"Strait\", \"preferredName\": \"Meg\"}, \"profileId\": 29817, \"teamId\": 222831}, {\"abandoned\": null, \"id\": 27544, \"playoffMatchId\": 13963, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Victoria\", \"id\": 29859, \"imageSource\": null, \"lastName\": \"Verbick\", \"preferredName\": \"Victoria\"}, \"profileId\": 29859, \"teamId\": 222831}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": \"2026-06-14T20:31:26.744Z\", \"externalRef\": null, \"id\": 65813, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:17.826Z\", \"status\": \"completed\", \"switchScore\": 7, \"teamAScore\": 16, \"teamBScore\": 21, \"version\": 0, \"winScore\": 21, \"winnerId\": 223056}], \"status\": \"completed\", \"teamAId\": 221915, \"teamAPoolId\": 6056, \"teamAPreviousMatchId\": null, \"teamASeed\": 17, \"teamBId\": 223056, \"teamBPoolId\": 6055, \"teamBPreviousMatchId\": null, \"teamBSeed\": 16, \"tournamentDivisionId\": 17386, \"winnerId\": 223056}, {\"court\": \"Court 16- 1st round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13964, \"loserFinish\": 17, \"matchNumber\": 2, \"nextMatchId\": 13972, \"refs\": [{\"abandoned\": null, \"id\": 27545, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"JennaVieve\", \"id\": 28600, \"imageSource\": null, \"lastName\": \"Martinez\", \"preferredName\": \"JennaVieve\"}, \"profileId\": 28600, \"teamId\": 224113}, {\"abandoned\": null, \"id\": 27546, \"playoffMatchId\": 13964, \"poolMatchId\": null, \"profile\": {\"firstName\": \"Selina\", \"id\": 61233, \"imageSource\": \"https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/424aae02-000c-41c0-8ce1-d90bf84725f9-1777841495484.jpeg\", \"lastName\": \"Chhay\", \"preferredName\": \"Selina\"}, \"profileId\": 61233, \"teamId\": 224113}], \"round\": 0, \"scheduledTime\": null, \"sets\": [{\"endedAt\": \"2026-06-14T20:28:44.702Z\", \"externalRef\": null, \"id\": 65814, \"setNumber\": 1, \"startedAt\": \"2026-06-14T20:16:49.682Z\", \"status\": \"completed\", \"switchScore\": 7, \"teamAScore\": 21, \"teamBScore\": 7, \"version\": 0, \"winScore\": 21, \"winnerId\": 222944}], \"status\": \"completed\", \"teamAId\": 222944, \"teamAPoolId\": 6054, \"teamAPreviousMatchId\": null, \"teamASeed\": 15, \"teamBId\": 223625, \"teamBPoolId\": 6057, \"teamBPreviousMatchId\": null, \"teamBSeed\": 18, \"tournamentDivisionId\": 17386, \"winnerId\": 222944}, {\"court\": \"Court 15- 2nd round\", \"externalRef\": null, \"forfeitTeamId\": null, \"id\": 13965, \"loserFinish\": 9, \"matchNumber\": 3, \"nextMatchId\": 13973, \"refs\": [{\"abandoned\": null, \"id\": 27577, \"playoffMatchId\": 13965, \"poolMatchId\": null, \"profile\": {\"firstName\": \"April\", \"id\": 29977, \"imageSource\": null, \"lastName\": \"Hamud\", \"preferredName\": \"April\"}, \"profileId\": 29977, \"teamId\": 221915}, {\"abandoned\": null, \"id\": 27578, \"playoffMatchId\": 13965, \"poolMatchId\": null,",
         "raw": [
           {
             "id": 13963,
@@ -1425,8 +1766,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223056,
             "forfeitTeamId": null,
             "nextMatchId": 13965,
             "externalRef": null,
@@ -1434,14 +1775,14 @@
               {
                 "id": 65813,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 16,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 223056,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:16:17.826Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:31:26.744Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -1495,8 +1836,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 222944,
             "forfeitTeamId": null,
             "nextMatchId": 13972,
             "externalRef": null,
@@ -1504,14 +1845,14 @@
               {
                 "id": 65814,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 7,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 222944,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:16:49.682Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:28:44.702Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -1559,14 +1900,14 @@
             "teamASeed": 1,
             "teamBSeed": null,
             "teamAId": 222831,
-            "teamBId": null,
+            "teamBId": 223056,
             "teamAPoolId": 6052,
             "teamBPoolId": null,
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": 13963,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223056,
             "forfeitTeamId": null,
             "nextMatchId": 13973,
             "externalRef": null,
@@ -1574,19 +1915,50 @@
               {
                 "id": 65815,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 14,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 223056,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:47:19.112Z",
+                "endedAt": "2026-06-14T21:06:18.131Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27577,
+                "poolMatchId": null,
+                "playoffMatchId": 13965,
+                "profileId": 29977,
+                "teamId": 221915,
+                "abandoned": null,
+                "profile": {
+                  "id": 29977,
+                  "firstName": "April",
+                  "preferredName": "April",
+                  "lastName": "Hamud",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27578,
+                "poolMatchId": null,
+                "playoffMatchId": 13965,
+                "profileId": 54063,
+                "teamId": 221915,
+                "abandoned": null,
+                "profile": {
+                  "id": 54063,
+                  "firstName": "Karol",
+                  "preferredName": "Karol",
+                  "lastName": "Magracia",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/1fab3c38-f375-4582-88ad-3b30c47d80e3-1772175825639.png"
+                }
+              }
+            ]
           },
           {
             "id": 13966,
@@ -1604,8 +1976,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 221234,
             "forfeitTeamId": null,
             "nextMatchId": 13973,
             "externalRef": null,
@@ -1613,19 +1985,50 @@
               {
                 "id": 65816,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 13,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
-                "version": 0,
+                "winnerId": 221234,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:48:00.615Z",
+                "endedAt": "2026-06-14T21:00:57.906Z",
+                "version": 1,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27591,
+                "poolMatchId": null,
+                "playoffMatchId": 13966,
+                "profileId": 30958,
+                "teamId": 224730,
+                "abandoned": null,
+                "profile": {
+                  "id": 30958,
+                  "firstName": "Carissa",
+                  "preferredName": "Carissa",
+                  "lastName": "Lehmkuhl",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27592,
+                "poolMatchId": null,
+                "playoffMatchId": 13966,
+                "profileId": 54486,
+                "teamId": 224730,
+                "abandoned": null,
+                "profile": {
+                  "id": 54486,
+                  "firstName": "Makenzie",
+                  "preferredName": "Makenzie",
+                  "lastName": "Raab",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13967,
@@ -1643,8 +2046,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 222902,
             "forfeitTeamId": null,
             "nextMatchId": 13974,
             "externalRef": null,
@@ -1652,14 +2055,14 @@
               {
                 "id": 65817,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 8,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 222902,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:13:15.076Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:36:56.034Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -1713,8 +2116,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 224584,
             "forfeitTeamId": null,
             "nextMatchId": 13974,
             "externalRef": null,
@@ -1722,14 +2125,14 @@
               {
                 "id": 65818,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 9,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 224584,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:13:18.992Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:28:20.848Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -1783,8 +2186,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223317,
             "forfeitTeamId": null,
             "nextMatchId": 13975,
             "externalRef": null,
@@ -1792,14 +2195,14 @@
               {
                 "id": 65819,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 8,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 223317,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:16:43.364Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:27:24.036Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -1853,8 +2256,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "in_progress",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223357,
             "forfeitTeamId": null,
             "nextMatchId": 13975,
             "externalRef": null,
@@ -1862,14 +2265,14 @@
               {
                 "id": 65820,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 12,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "in_progress",
+                "winnerId": 223357,
+                "status": "completed",
                 "startedAt": "2026-06-14T20:20:16.521Z",
-                "endedAt": null,
+                "endedAt": "2026-06-14T20:36:17.726Z",
                 "version": 0,
                 "externalRef": null
               }
@@ -1923,8 +2326,8 @@
             "teamAPreviousMatchId": null,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223333,
             "forfeitTeamId": null,
             "nextMatchId": 13976,
             "externalRef": null,
@@ -1932,19 +2335,50 @@
               {
                 "id": 65821,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 17,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 223333,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:47:21.325Z",
+                "endedAt": "2026-06-14T21:06:12.530Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27583,
+                "poolMatchId": null,
+                "playoffMatchId": 13971,
+                "profileId": 29156,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 29156,
+                  "firstName": "Sara",
+                  "preferredName": "Sara",
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27584,
+                "poolMatchId": null,
+                "playoffMatchId": 13971,
+                "profileId": 62052,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 62052,
+                  "firstName": "Ava",
+                  "preferredName": null,
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13972,
@@ -1955,15 +2389,15 @@
             "court": "Court 16- 2nd round",
             "teamASeed": null,
             "teamBSeed": 2,
-            "teamAId": null,
+            "teamAId": 222944,
             "teamBId": 224113,
             "teamAPoolId": null,
             "teamBPoolId": 6053,
             "teamAPreviousMatchId": 13964,
             "teamBPreviousMatchId": null,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 222944,
             "forfeitTeamId": null,
             "nextMatchId": 13976,
             "externalRef": null,
@@ -1971,19 +2405,50 @@
               {
                 "id": 65822,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 21,
+                "teamBScore": 17,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 222944,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:46:31.376Z",
+                "endedAt": "2026-06-14T21:04:21.012Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27575,
+                "poolMatchId": null,
+                "playoffMatchId": 13972,
+                "profileId": 29059,
+                "teamId": 223625,
+                "abandoned": null,
+                "profile": {
+                  "id": 29059,
+                  "firstName": "Brianne",
+                  "preferredName": "Brianne",
+                  "lastName": "Ilagan",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27576,
+                "poolMatchId": null,
+                "playoffMatchId": 13972,
+                "profileId": 61192,
+                "teamId": 223625,
+                "abandoned": null,
+                "profile": {
+                  "id": 61192,
+                  "firstName": "Courtney",
+                  "preferredName": "Courtney",
+                  "lastName": "Souza",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13973,
@@ -1994,15 +2459,15 @@
             "court": "Court 15",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223056,
+            "teamBId": 221234,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13965,
             "teamBPreviousMatchId": 13966,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 221234,
             "forfeitTeamId": null,
             "nextMatchId": 13977,
             "externalRef": null,
@@ -2010,19 +2475,50 @@
               {
                 "id": 65823,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 18,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 221234,
+                "status": "completed",
+                "startedAt": "2026-06-14T21:16:55.653Z",
+                "endedAt": "2026-06-14T21:33:01.249Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27631,
+                "poolMatchId": null,
+                "playoffMatchId": 13973,
+                "profileId": 29817,
+                "teamId": 222831,
+                "abandoned": null,
+                "profile": {
+                  "id": 29817,
+                  "firstName": "Meg",
+                  "preferredName": "Meg",
+                  "lastName": "Strait",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27632,
+                "poolMatchId": null,
+                "playoffMatchId": 13973,
+                "profileId": 29859,
+                "teamId": 222831,
+                "abandoned": null,
+                "profile": {
+                  "id": 29859,
+                  "firstName": "Victoria",
+                  "preferredName": "Victoria",
+                  "lastName": "Verbick",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13974,
@@ -2033,15 +2529,15 @@
             "court": "Court 14",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 222902,
+            "teamBId": 224584,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13967,
             "teamBPreviousMatchId": 13968,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 224584,
             "forfeitTeamId": null,
             "nextMatchId": 13977,
             "externalRef": null,
@@ -2049,19 +2545,50 @@
               {
                 "id": 65824,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 16,
+                "teamBScore": 21,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 224584,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:51:08.372Z",
+                "endedAt": "2026-06-14T21:03:29.303Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27605,
+                "poolMatchId": null,
+                "playoffMatchId": 13974,
+                "profileId": 62341,
+                "teamId": 224616,
+                "abandoned": null,
+                "profile": {
+                  "id": 62341,
+                  "firstName": "Steffi",
+                  "preferredName": null,
+                  "lastName": "Rehbein",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/8a36b561-5d95-474c-968c-02ecff684552-1776134195384.jpeg"
+                }
+              },
+              {
+                "id": 27606,
+                "poolMatchId": null,
+                "playoffMatchId": 13974,
+                "profileId": 63416,
+                "teamId": 224616,
+                "abandoned": null,
+                "profile": {
+                  "id": 63416,
+                  "firstName": "Dilara",
+                  "preferredName": null,
+                  "lastName": "Ergun Acosta",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/10e5299d-2910-43de-bbfa-1da3122047b4-1780866773578.jpeg"
+                }
+              }
+            ]
           },
           {
             "id": 13975,
@@ -2072,15 +2599,15 @@
             "court": "Court 13",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223317,
+            "teamBId": 223357,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13969,
             "teamBPreviousMatchId": 13970,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223357,
             "forfeitTeamId": null,
             "nextMatchId": 13978,
             "externalRef": null,
@@ -2088,19 +2615,50 @@
               {
                 "id": 65825,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 20,
+                "teamBScore": 22,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
-                "version": 0,
+                "winnerId": 223357,
+                "status": "completed",
+                "startedAt": "2026-06-14T20:43:57.086Z",
+                "endedAt": "2026-06-14T21:20:04.388Z",
+                "version": 1,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27579,
+                "poolMatchId": null,
+                "playoffMatchId": 13975,
+                "profileId": 29156,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 29156,
+                  "firstName": "Sara",
+                  "preferredName": "Sara",
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27580,
+                "poolMatchId": null,
+                "playoffMatchId": 13975,
+                "profileId": 62052,
+                "teamId": 224713,
+                "abandoned": null,
+                "profile": {
+                  "id": 62052,
+                  "firstName": "Ava",
+                  "preferredName": null,
+                  "lastName": "Hernandez",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13976,
@@ -2111,15 +2669,15 @@
             "court": "Court 16",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223333,
+            "teamBId": 222944,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13971,
             "teamBPreviousMatchId": 13972,
             "scheduledTime": null,
-            "status": "scheduled",
-            "winnerId": null,
+            "status": "completed",
+            "winnerId": 223333,
             "forfeitTeamId": null,
             "nextMatchId": 13978,
             "externalRef": null,
@@ -2127,19 +2685,50 @@
               {
                 "id": 65826,
                 "setNumber": 1,
-                "teamAScore": 0,
-                "teamBScore": 0,
+                "teamAScore": 22,
+                "teamBScore": 20,
                 "winScore": 21,
                 "switchScore": 7,
-                "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
-                "endedAt": null,
+                "winnerId": 223333,
+                "status": "completed",
+                "startedAt": "2026-06-14T21:17:59.116Z",
+                "endedAt": "2026-06-14T21:47:25.297Z",
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27627,
+                "poolMatchId": null,
+                "playoffMatchId": 13976,
+                "profileId": 28336,
+                "teamId": 224305,
+                "abandoned": null,
+                "profile": {
+                  "id": 28336,
+                  "firstName": "Haley",
+                  "preferredName": "Haley",
+                  "lastName": "Lao",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27628,
+                "poolMatchId": null,
+                "playoffMatchId": 13976,
+                "profileId": 29954,
+                "teamId": 224305,
+                "abandoned": null,
+                "profile": {
+                  "id": 29954,
+                  "firstName": "Caitlin",
+                  "preferredName": "Caitlin",
+                  "lastName": "Stapp",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13977,
@@ -2150,14 +2739,14 @@
             "court": "Court 15",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 221234,
+            "teamBId": 224584,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13973,
             "teamBPreviousMatchId": 13974,
-            "scheduledTime": null,
-            "status": "scheduled",
+            "scheduledTime": "14:38:01",
+            "status": "in_progress",
             "winnerId": null,
             "forfeitTeamId": null,
             "nextMatchId": 13979,
@@ -2171,14 +2760,45 @@
                 "winScore": 21,
                 "switchScore": 7,
                 "winnerId": null,
-                "status": "not_started",
-                "startedAt": null,
+                "status": "in_progress",
+                "startedAt": "2026-06-14T21:41:38.590Z",
                 "endedAt": null,
                 "version": 0,
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27647,
+                "poolMatchId": null,
+                "playoffMatchId": 13977,
+                "profileId": 28830,
+                "teamId": 223056,
+                "abandoned": null,
+                "profile": {
+                  "id": 28830,
+                  "firstName": "Bailey",
+                  "preferredName": "Bailey",
+                  "lastName": "O'Brien",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/4a65e31e-7d4f-449c-bbfd-2b6f3e2203fa-1779130515971.png"
+                }
+              },
+              {
+                "id": 27648,
+                "poolMatchId": null,
+                "playoffMatchId": 13977,
+                "profileId": 53485,
+                "teamId": 223056,
+                "abandoned": null,
+                "profile": {
+                  "id": 53485,
+                  "firstName": "Georgia",
+                  "preferredName": "Georgia",
+                  "lastName": "Brennan",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13978,
@@ -2189,13 +2809,13 @@
             "court": "Court 16",
             "teamASeed": null,
             "teamBSeed": null,
-            "teamAId": null,
-            "teamBId": null,
+            "teamAId": 223357,
+            "teamBId": 223333,
             "teamAPoolId": null,
             "teamBPoolId": null,
             "teamAPreviousMatchId": 13975,
             "teamBPreviousMatchId": 13976,
-            "scheduledTime": null,
+            "scheduledTime": "14:52:25",
             "status": "scheduled",
             "winnerId": null,
             "forfeitTeamId": null,
@@ -2217,7 +2837,38 @@
                 "externalRef": null
               }
             ],
-            "refs": []
+            "refs": [
+              {
+                "id": 27657,
+                "poolMatchId": null,
+                "playoffMatchId": 13978,
+                "profileId": 32185,
+                "teamId": 222944,
+                "abandoned": null,
+                "profile": {
+                  "id": 32185,
+                  "firstName": "Madeline",
+                  "preferredName": "Madeline",
+                  "lastName": "Porter",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 27658,
+                "poolMatchId": null,
+                "playoffMatchId": 13978,
+                "profileId": 46321,
+                "teamId": 222944,
+                "abandoned": null,
+                "profile": {
+                  "id": 46321,
+                  "firstName": "Katherine",
+                  "preferredName": "Katherine",
+                  "lastName": "Rosencrance",
+                  "imageSource": null
+                }
+              }
+            ]
           },
           {
             "id": 13979,
@@ -2259,7 +2910,7 @@
             "refs": []
           }
         ],
-        "last_updated": "2026-06-14T20:22:32.623488",
+        "last_updated": "2026-06-14T21:53:44.387631",
         "playoff_notified": true
       }
     }
