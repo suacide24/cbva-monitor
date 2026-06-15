@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CBVA Watchlist</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f3f8;color:#222;min-height:100vh}
+
+/* ── header ── */
+header{background:#1a2a4a;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+header h1{font-size:17px;font-weight:600;letter-spacing:.2px}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.save-confirm{font-size:13px;opacity:.75;transition:opacity .4s}
+
+/* ── buttons ── */
+.btn{padding:7px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;line-height:1.4;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-save{background:#1D9E75;color:#fff}
+.btn-token{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
+.btn-add-user{width:100%;padding:14px;border:2px dashed #c8d0e0;border-radius:10px;background:none;color:#667;font-size:14px;cursor:pointer;transition:all .15s;margin-top:4px}
+.btn-add-user:hover{border-color:#1a2a4a;color:#1a2a4a;background:#fff}
+
+/* ── setup screen ── */
+#setup{display:none;max-width:420px;margin:72px auto;background:#fff;padding:36px;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,.09)}
+#setup h2{font-size:20px;margin-bottom:8px}
+#setup p{color:#556;font-size:14px;line-height:1.6;margin-bottom:22px}
+.field label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#889;margin-bottom:6px}
+.field input{width:100%;padding:10px 12px;border:1px solid #dde3ee;border-radius:7px;font-size:14px;font-family:monospace}
+.field input:focus{outline:none;border-color:#1a2a4a}
+.setup-footer{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+.btn-setup{width:100%;padding:11px;border-radius:7px;border:none;background:#1a2a4a;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.btn-setup:hover{background:#253d6e}
+.token-hint{font-size:12px;color:#889;text-align:center}
+.token-hint a{color:#1a2a4a}
+
+/* ── main ── */
+main{max-width:680px;margin:0 auto;padding:24px 16px}
+
+/* ── status bar ── */
+.status{padding:10px 14px;border-radius:7px;font-size:13px;margin-bottom:16px}
+.status.error{background:#fff0f0;color:#b02020;border:1px solid #f5c0c0}
+.status.loading{background:#f0f4ff;color:#334;border:1px solid #d0d8f0}
+
+/* ── user card ── */
+.user-card{background:#fff;border:1px solid #dde3ee;border-radius:11px;padding:18px 20px;margin-bottom:14px}
+.card-top{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.email-input{flex:1;font-size:15px;font-weight:600;color:#1a2a4a;border:none;border-bottom:1.5px solid transparent;padding:2px 0;background:transparent;font-family:inherit}
+.email-input::placeholder{color:#bbb;font-weight:400}
+.email-input:focus{outline:none;border-bottom-color:#1a2a4a}
+.del-user{margin-left:auto;background:none;border:none;color:#bbb;cursor:pointer;font-size:20px;line-height:1;padding:2px 4px;border-radius:4px;flex-shrink:0}
+.del-user:hover{color:#cc3333;background:#fff0f0}
+
+/* ── player chips ── */
+.chips{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:#eef2fa;color:#1a2a4a;border-radius:999px;padding:4px 8px 4px 12px;font-size:13px}
+.chip-del{background:none;border:none;color:#8aa;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;border-radius:50%}
+.chip-del:hover{color:#cc3333}
+
+/* ── add player ── */
+.add-player-wrap{position:relative}
+.add-player-input{width:100%;padding:8px 12px;border:1px dashed #c8d0e0;border-radius:7px;font-size:13px;font-family:inherit;background:#fafbfd}
+.add-player-input:focus{outline:none;border:1px solid #1a2a4a;background:#fff}
+.suggestions{position:absolute;top:calc(100% + 2px);left:0;right:0;background:#fff;border:1px solid #dde3ee;border-radius:7px;max-height:200px;overflow-y:auto;z-index:50;box-shadow:0 4px 14px rgba(0,0,0,.1);display:none}
+.suggestions.open{display:block}
+.sugg-item{padding:8px 12px;font-size:13px;cursor:pointer;color:#1a2a4a}
+.sugg-item:hover,.sugg-item.hi{background:#f0f4ff}
+.sugg-empty{padding:8px 12px;font-size:12px;color:#999;font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- setup screen -->
+<div id="setup">
+  <h2>🏐 CBVA Watchlist</h2>
+  <p>Enter the shared GitHub token to load and save the watchlist. It stays in your browser only.</p>
+  <div class="field">
+    <label>GitHub token</label>
+    <input type="password" id="token-input" placeholder="github_pat_…" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="setup-footer">
+    <button class="btn-setup" onclick="submitToken()">Continue</button>
+    <span class="token-hint">
+      Need a token? <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">Create fine-grained PAT</a>
+      → repo: cbva-monitor → Contents: read &amp; write
+    </span>
+  </div>
+</div>
+
+<!-- main app -->
+<header id="app-header" style="display:none">
+  <h1>🏐 CBVA Watchlist</h1>
+  <div class="hdr-right">
+    <span class="save-confirm" id="save-confirm"></span>
+    <button class="btn btn-token" onclick="clearToken()">Token</button>
+    <button class="btn btn-save" id="save-btn" onclick="saveToGitHub()">Save</button>
+  </div>
+</header>
+
+<main id="app-main" style="display:none">
+  <div id="status-bar"></div>
+  <div id="cards"></div>
+  <button class="btn-add-user" onclick="addUser()">+ Add person</button>
+</main>
+
+<script>
+const REPO = 'suacide24/cbva-monitor';
+const FILE = 'users.json';
+const API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+const KEY  = 'cbva_gh_token';
+
+let sha = '';
+let users = [];
+let knownPlayers = [];
+let activeSugg = null;  // {el, idx}
+
+/* ── token ── */
+const tok = () => localStorage.getItem(KEY) || '';
+function clearToken() { localStorage.removeItem(KEY); location.reload(); }
+function submitToken() {
+  const v = document.getElementById('token-input').value.trim();
+  if (!v) return;
+  localStorage.setItem(KEY, v);
+  init();
+}
+
+/* ── screens ── */
+function showSetup() {
+  document.getElementById('setup').style.display = '';
+  document.getElementById('app-header').style.display = 'none';
+  document.getElementById('app-main').style.display = 'none';
+}
+function showApp() {
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('app-header').style.display = '';
+  document.getElementById('app-main').style.display = '';
+}
+
+/* ── status ── */
+function setStatus(msg, type = '') {
+  const el = document.getElementById('status-bar');
+  el.innerHTML = msg ? `<div class="status ${type}">${esc(msg)}</div>` : '';
+}
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+/* ── load ── */
+async function init() {
+  if (!tok()) { showSetup(); return; }
+  showApp();
+  setStatus('Loading watchlist…', 'loading');
+  try {
+    const res = await fetch(API, { headers: authHeaders() });
+    if (res.status === 401) { clearToken(); return; }
+    if (!res.ok) throw new Error(`GitHub returned ${res.status}`);
+    const data = await res.json();
+    sha   = data.sha;
+    users = JSON.parse(atob(data.content.replace(/\s/g, '')));
+    knownPlayers = [...new Set(users.flatMap(u => u.players || []))].sort();
+    render();
+    setStatus('');
+  } catch (e) {
+    setStatus('Failed to load: ' + e.message, 'error');
+  }
+}
+
+/* ── render ── */
+function render() {
+  const c = document.getElementById('cards');
+  c.innerHTML = '';
+  users.forEach((u, i) => c.appendChild(makeCard(u, i)));
+}
+
+function makeCard(u, idx) {
+  const card = document.createElement('div');
+  card.className = 'user-card';
+
+  /* email row */
+  const top = document.createElement('div');
+  top.className = 'card-top';
+
+  const email = document.createElement('input');
+  email.className = 'email-input';
+  email.type = 'email';
+  email.value = u.email || '';
+  email.placeholder = 'email@example.com';
+  email.oninput = () => { users[idx].email = email.value.trim(); };
+
+  const del = document.createElement('button');
+  del.className = 'del-user';
+  del.title = 'Remove person';
+  del.textContent = '×';
+  del.onclick = () => { users.splice(idx, 1); render(); };
+
+  top.append(email, del);
+  card.appendChild(top);
+
+  /* player chips */
+  const chips = document.createElement('div');
+  chips.className = 'chips';
+  (u.players || []).forEach((p, pi) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.innerHTML = `<span>${esc(p)}</span>`;
+    const x = document.createElement('button');
+    x.className = 'chip-del';
+    x.title = 'Remove';
+    x.textContent = '×';
+    x.onclick = () => { users[idx].players.splice(pi, 1); render(); };
+    chip.appendChild(x);
+    chips.appendChild(chip);
+  });
+  card.appendChild(chips);
+
+  /* add-player input + suggestions */
+  const wrap = document.createElement('div');
+  wrap.className = 'add-player-wrap';
+
+  const inp = document.createElement('input');
+  inp.className = 'add-player-input';
+  inp.placeholder = '+ Add player…';
+
+  const suggs = document.createElement('div');
+  suggs.className = 'suggestions';
+
+  const closeSugg = () => { suggs.classList.remove('open'); suggs.innerHTML = ''; };
+  const showSugg  = () => {
+    const q   = inp.value.toLowerCase();
+    const exc = new Set(users[idx].players);
+    const hit = knownPlayers.filter(p => !exc.has(p) && p.toLowerCase().includes(q));
+    if (!hit.length && !inp.value.trim()) { closeSugg(); return; }
+    suggs.innerHTML = '';
+    hit.slice(0, 8).forEach(p => {
+      const d = document.createElement('div');
+      d.className = 'sugg-item';
+      d.textContent = p;
+      d.onmousedown = e => {
+        e.preventDefault();
+        addPlayer(idx, p);
+        inp.value = '';
+        closeSugg();
+      };
+      suggs.appendChild(d);
+    });
+    if (!hit.length && inp.value.trim()) {
+      suggs.innerHTML = `<div class="sugg-empty">Press Enter to add "${esc(inp.value.trim())}"</div>`;
+    }
+    suggs.classList.add('open');
+    activeSugg = { el: suggs, idx };
+  };
+
+  inp.addEventListener('input', showSugg);
+  inp.addEventListener('focus', showSugg);
+  inp.addEventListener('blur',  () => setTimeout(closeSugg, 120));
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const v = inp.value.trim();
+      if (v) { addPlayer(idx, v); inp.value = ''; closeSugg(); }
+    }
+    if (e.key === 'Escape') closeSugg();
+  });
+
+  wrap.append(inp, suggs);
+  card.appendChild(wrap);
+  return card;
+}
+
+function addPlayer(idx, name) {
+  if (!users[idx].players) users[idx].players = [];
+  if (users[idx].players.includes(name)) return;
+  users[idx].players.push(name);
+  if (!knownPlayers.includes(name)) { knownPlayers.push(name); knownPlayers.sort(); }
+  render();
+}
+
+function addUser() {
+  users.push({ email: '', players: [] });
+  render();
+  const cards = document.querySelectorAll('.user-card');
+  const last  = cards[cards.length - 1];
+  if (last) {
+    last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => last.querySelector('.email-input')?.focus(), 300);
+  }
+}
+
+/* ── save ── */
+function authHeaders() {
+  return { Authorization: `Bearer ${tok()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
+}
+
+async function saveToGitHub() {
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  setStatus('');
+  try {
+    const clean  = users.map(u => ({ email: u.email.trim(), players: u.players }))
+                        .filter(u => u.email);
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(clean, null, 2))));
+    const res = await fetch(API, {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ message: 'update watchlist', content, sha }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    sha = data.content.sha;
+    const conf = document.getElementById('save-confirm');
+    conf.textContent = 'Saved ✓';
+    setTimeout(() => { conf.textContent = ''; }, 2500);
+  } catch (e) {
+    setStatus('Save failed: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
