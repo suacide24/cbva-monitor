@@ -33,9 +33,8 @@ from playwright.async_api import async_playwright
 
 load_dotenv()
 
-PLAYER_NAMES  = [n.strip() for n in re.split(r"[,\n]", os.environ.get("PLAYER_NAMES", "")) if n.strip()]
 EMAIL_FROM    = os.environ.get("EMAIL_FROM", "")
-EMAIL_TO      = os.environ.get("EMAIL_TO") or EMAIL_FROM
+EMAIL_TO      = os.environ.get("EMAIL_TO") or EMAIL_FROM  # fallback only
 EMAIL_PASS    = os.environ.get("EMAIL_PASSWORD", "")
 CBVA_EMAIL    = os.environ.get("CBVA_EMAIL", "")
 CBVA_PASSWORD = os.environ.get("CBVA_PASSWORD", "")
@@ -51,6 +50,19 @@ _LEVEL_MAP   = {"unrated":"U","n":"N","u":"U","b":"B","a":"A","aa":"AA","aaa":"A
 
 # ── State ─────────────────────────────────────────────────────────────────────
 
+USERS_FILE = "users.json"
+
+def load_users() -> list[dict]:
+    """Load users.json — list of {email, players} dicts."""
+    try:
+        with open(USERS_FILE) as f:
+            users = json.load(f)
+        return [u for u in users if u.get("email") and u.get("players")]
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"[users] Failed to load {USERS_FILE}: {e}")
+        return []
+
+
 def load_state() -> dict:
     try:
         with open(STATE_FILE) as f:
@@ -65,15 +77,16 @@ def save_state(state: dict) -> None:
 
 # ── Email ─────────────────────────────────────────────────────────────────────
 
-def send_email(subject: str, html: str) -> None:
-    if not all([EMAIL_FROM, EMAIL_TO, EMAIL_PASS]):
+def send_email(subject: str, html: str, to: str = "") -> None:
+    recipient = to or EMAIL_TO
+    if not all([EMAIL_FROM, recipient, EMAIL_PASS]):
         print("[email] Credentials missing — printing instead.\n")
-        print(f"Subject: {subject}\n{html}")
+        print(f"To: {recipient}\nSubject: {subject}\n{html}")
         return
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"]    = EMAIL_FROM
-    msg["To"]      = EMAIL_TO
+    msg["To"]      = recipient
     msg.attach(MIMEText(html, "html"))
     import time
     for attempt in range(3):
@@ -81,7 +94,7 @@ def send_email(subject: str, html: str) -> None:
             with smtplib.SMTP("smtp.gmail.com", 587) as s:
                 s.starttls()
                 s.login(EMAIL_FROM, EMAIL_PASS)
-                s.sendmail(EMAIL_FROM, EMAIL_TO, msg.as_string())
+                s.sendmail(EMAIL_FROM, recipient, msg.as_string())
             print(f"[email] Sent: {subject}")
             return
         except Exception as e:
@@ -204,10 +217,10 @@ def rating_rank(r: str) -> int:
         return -1
 
 
-async def check_ratings(page, state: dict) -> list[dict]:
+async def check_ratings(page, state: dict, player_names: list[str]) -> list[dict]:
     """Fetch ratings for all watchlist players; return list of change alerts."""
     alerts = []
-    for name in PLAYER_NAMES:
+    for name in player_names:
         print(f"  Rating check: {name}")
         prev        = state.get("players", {}).get(name, {})
         profile_url = prev.get("profile_url") or await find_profile_url(page, name)
@@ -322,22 +335,20 @@ def _extract_players(team: dict) -> list[dict]:
     return []
 
 
-async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict]:
+async def scan_today_tournaments(page, today_str: str, state: dict, player_names: list[str]) -> list[dict]:
     """
     Scan published rosters for all of today's tournaments.
-    Returns only newly discovered watchlist players (not previously notified).
+    Returns all discovered watchlist players found on rosters today.
     Updates state['tournament_day'] with playing entries.
     """
     td = state.get("tournament_day", {})
     if td.get("date") != today_str:
-        state["tournament_day"] = {"date": today_str, "notified": [], "playing": {}}
+        state["tournament_day"] = {"date": today_str, "notified": {}, "playing": {}}
         td = state["tournament_day"]
-
-    notified = set(td.get("notified", []))
 
     # Build profile-ID → watchlist-name map for fast lookup
     id_to_wname: dict[int, str] = {}
-    for wname in PLAYER_NAMES:
+    for wname in player_names:
         url = state.get("players", {}).get(wname, {}).get("profile_url", "")
         pid = _profile_id(url)
         if pid:
@@ -444,11 +455,10 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
                         "team_seed":       team_seed,
                         "team_id":         team.get("teamId"),
                     }
+                    if wname not in td["playing"]:
+                        new_entries.append(entry)
                     td["playing"][wname] = entry
                     print(f"    Found: {wname} · {div_label} · partner: {partner}")
-
-                    if wname not in notified:
-                        new_entries.append(entry)
 
     return new_entries
 
@@ -882,9 +892,12 @@ def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 async def run() -> None:
-    if not PLAYER_NAMES:
-        print("PLAYER_NAMES is empty — set the env var and try again.")
+    users = load_users()
+    if not users:
+        print("No users in users.json — nothing to do.")
         return
+
+    all_players = sorted({p for u in users for p in u["players"]})
 
     now_pt   = datetime.now(_PT)
     today_pt = now_pt.date()
@@ -895,7 +908,7 @@ async def run() -> None:
 
     today_str = today_pt.strftime("%Y-%m-%d")
     print(f"CBVA monitor — {today_pt.strftime('%A, %B')} {today_pt.day}, {today_pt.year} PT")
-    print(f"Watching {len(PLAYER_NAMES)} player(s): {', '.join(PLAYER_NAMES)}")
+    print(f"{len(users)} user(s) · {len(all_players)} unique player(s): {', '.join(all_players)}")
 
     state = load_state()
 
@@ -907,62 +920,81 @@ async def run() -> None:
         # ── Ratings (once per day, first run only) ─────────────────────────
         if state.get("last_rating_check") != today_str:
             print("\n── Rating checks ─────────────────────────────────────────")
-            rating_alerts = await check_ratings(page, state)
+            rating_alerts = await check_ratings(page, state, all_players)
             state["last_rating_check"] = today_str
-            if rating_alerts:
-                names_str = ", ".join(a["name"] for a in rating_alerts)
-                send_email(
-                    f"CBVA Rating Alert — {_date_str(now_pt)}: {names_str}",
-                    build_rating_email(rating_alerts, now_pt),
-                )
+            for user in users:
+                user_alerts = [a for a in rating_alerts if a["name"] in user["players"]]
+                if user_alerts:
+                    names_str = ", ".join(a["name"] for a in user_alerts)
+                    send_email(
+                        f"CBVA Rating Alert — {_date_str(now_pt)}: {names_str}",
+                        build_rating_email(user_alerts, now_pt),
+                        to=user["email"],
+                    )
         else:
             print("\n[ratings] Already checked today — skipping.")
 
         # ── Tournament roster scan ─────────────────────────────────────────
         print("\n── Tournament scan ───────────────────────────────────────────")
-        new_entries = await scan_today_tournaments(page, today_str, state)
+        new_entries = await scan_today_tournaments(page, today_str, state, all_players)
 
-        if new_entries:
-            names_playing = [e["player_name"] for e in new_entries]
-            print(f"\nPlaying today (new): {', '.join(names_playing)}")
-            send_email(
-                f"CBVA Playing Today — {_date_str(now_pt)}: {', '.join(names_playing)}",
-                build_playing_today_email(new_entries, state, now_pt),
-            )
-            state["tournament_day"]["notified"].extend(names_playing)
-        else:
-            n_total = len(state.get("tournament_day", {}).get("playing", {}))
-            n_notified = len(state.get("tournament_day", {}).get("notified", []))
-            print(f"\n[scan] No new players found. "
-                  f"{n_total} on rosters total, {n_notified} already notified.")
+        # "Playing Today" — sent per user; track notified as {email: [players]}
+        td       = state.get("tournament_day", {})
+        notified = td.get("notified", {})
+        if isinstance(notified, list):
+            # Migrate old flat list: treat all users as already notified
+            notified = {u["email"]: list(notified) for u in users}
+            td["notified"] = notified
+
+        for user in users:
+            already  = set(notified.get(user["email"], []))
+            user_new = [e for e in new_entries
+                        if e["player_name"] in user["players"]
+                        and e["player_name"] not in already]
+            if user_new:
+                names_playing = [e["player_name"] for e in user_new]
+                print(f"\nPlaying today (new for {user['email']}): {', '.join(names_playing)}")
+                send_email(
+                    f"CBVA Playing Today — {_date_str(now_pt)}: {', '.join(names_playing)}",
+                    build_playing_today_email(user_new, state, now_pt),
+                    to=user["email"],
+                )
+                notified.setdefault(user["email"], []).extend(names_playing)
+
+        if not new_entries:
+            n_total = len(td.get("playing", {}))
+            print(f"\n[scan] No new players found. {n_total} confirmed on rosters.")
 
         # ── Results + playoff qualification ───────────────────────────────
-        playing = state.get("tournament_day", {}).get("playing", {})
+        playing = td.get("playing", {})
         if playing:
             print(f"\n── Results check ({len(playing)} player(s)) ──────────────────")
             score_updates, playoff_updates = await check_results(page, state)
 
-            # Playoff qualification email (fires once per player, before scores)
-            if playoff_updates:
-                names_str = ", ".join(u[0] for u in playoff_updates)
-                send_email(
-                    f"CBVA Made Playoffs! — {_date_str(now_pt)}: {names_str}",
-                    build_playoffs_email(playoff_updates, state, now_pt),
-                )
-                print(f"Playoffs email sent for {len(playoff_updates)} player(s).")
+            for user in users:
+                user_set = set(user["players"])
 
-            # Score/status update email
-            if score_updates:
-                results_html = build_results_email(score_updates, state, now_pt)
-                if results_html:
+                user_playoffs = [(w, e, d) for w, e, d in playoff_updates if w in user_set]
+                if user_playoffs:
+                    names_str = ", ".join(w for w, _, __ in user_playoffs)
                     send_email(
-                        f"CBVA Results Update — {now_pt.strftime('%b')} {now_pt.day} "
-                        f"{now_pt.strftime('%I:%M %p')} PT",
-                        results_html,
+                        f"CBVA Made Playoffs! — {_date_str(now_pt)}: {names_str}",
+                        build_playoffs_email(user_playoffs, state, now_pt),
+                        to=user["email"],
                     )
-                    print(f"Results update sent for {len(score_updates)} player(s).")
-                else:
-                    print("[results] Score changed but no in-progress/completed matches to show — skipping email.")
+                    print(f"Playoffs email → {user['email']} ({len(user_playoffs)} player(s)).")
+
+                user_scores = [(w, e, d) for w, e, d in score_updates if w in user_set]
+                if user_scores:
+                    results_html = build_results_email(user_scores, state, now_pt)
+                    if results_html:
+                        send_email(
+                            f"CBVA Results Update — {now_pt.strftime('%b')} {now_pt.day} "
+                            f"{now_pt.strftime('%I:%M %p')} PT",
+                            results_html,
+                            to=user["email"],
+                        )
+                        print(f"Results email → {user['email']} ({len(user_scores)} player(s)).")
 
             if not score_updates and not playoff_updates:
                 print("[results] No changes since last run.")

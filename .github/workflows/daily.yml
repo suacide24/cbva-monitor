@@ -48,19 +48,12 @@ jobs:
       - name: Install Playwright system deps
         run: playwright install-deps chromium
 
-      - name: Fetch player names
-        run: |
-          PLAYER_NAMES=$(curl -fsSL https://gist.githubusercontent.com/suacide24/02b7b07f32a25d0299b6bef8dc7aa4c9/raw/players.txt | tr '\n' ',' | sed 's/,$//')
-          echo "PLAYER_NAMES=$PLAYER_NAMES" >> $GITHUB_ENV
-
       - name: Run CBVA monitor
         env:
           EMAIL_FROM:      ${{ secrets.EMAIL_FROM }}
           EMAIL_PASSWORD:  ${{ secrets.EMAIL_PASSWORD }}
-          EMAIL_TO:        ${{ secrets.EMAIL_TO }}
           CBVA_EMAIL:      ${{ secrets.CBVA_EMAIL }}
           CBVA_PASSWORD:   ${{ secrets.CBVA_PASSWORD }}
-          PLAYER_NAMES:    ${{ env.PLAYER_NAMES }}
         run: python monitor.py
 
       - name: Commit updated state.json
