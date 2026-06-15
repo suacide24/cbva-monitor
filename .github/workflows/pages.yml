@@ -1,0 +1,44 @@
+name: Deploy Watchlist Page
+
+on:
+  push:
+    branches: [main]
+    paths: [index.html]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inject token
+        env:
+          WATCHLIST_TOKEN: ${{ secrets.WATCHLIST_TOKEN }}
+        run: |
+          python3 -c "
+          import os, pathlib
+          p = pathlib.Path('index.html')
+          p.write_text(p.read_text().replace('%%WATCHLIST_TOKEN%%', os.environ['WATCHLIST_TOKEN']))
+          "
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
