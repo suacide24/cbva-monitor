@@ -75,11 +75,20 @@ def send_email(subject: str, html: str) -> None:
     msg["From"]    = EMAIL_FROM
     msg["To"]      = EMAIL_TO
     msg.attach(MIMEText(html, "html"))
-    with smtplib.SMTP("smtp.gmail.com", 587) as s:
-        s.starttls()
-        s.login(EMAIL_FROM, EMAIL_PASS)
-        s.sendmail(EMAIL_FROM, EMAIL_TO, msg.as_string())
-    print(f"[email] Sent: {subject}")
+    import time
+    for attempt in range(3):
+        try:
+            with smtplib.SMTP("smtp.gmail.com", 587) as s:
+                s.starttls()
+                s.login(EMAIL_FROM, EMAIL_PASS)
+                s.sendmail(EMAIL_FROM, EMAIL_TO, msg.as_string())
+            print(f"[email] Sent: {subject}")
+            return
+        except Exception as e:
+            print(f"[email] Attempt {attempt + 1}/3 failed: {e}")
+            if attempt < 2:
+                time.sleep(5)
+    print(f"[email] All 3 attempts failed for: {subject}")
 
 
 # ── CBVA auth ─────────────────────────────────────────────────────────────────
@@ -467,9 +476,29 @@ async def fetch_results(page, div_id: int):
     return None
 
 
-def _results_fingerprint(data) -> str:
-    """Stable string for change detection — truncated JSON."""
-    return json.dumps(data, sort_keys=True, default=str)[:3000]
+def _player_fingerprint(data, entry: dict) -> str:
+    """Fingerprint only the matches that involve our player.
+
+    Using the full bracket fingerprint caused emails every time *any* match
+    updated, even when our player wasn't playing.  Scoping to our player's
+    matches means emails fire only when their status or score changes.
+    """
+    our_seed    = entry.get("team_seed")
+    our_tid     = entry.get("team_id")
+    bracket_tid = entry.get("bracket_team_id")
+
+    relevant = []
+    for m in (data if isinstance(data, list) else []):
+        a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
+        a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
+        if our_seed and (a_seed == our_seed or b_seed == our_seed):
+            relevant.append(m)
+        elif our_tid and (a_id == our_tid or b_id == our_tid):
+            relevant.append(m)
+        elif bracket_tid and (a_id == bracket_tid or b_id == bracket_tid):
+            relevant.append(m)
+
+    return json.dumps(relevant, sort_keys=True, default=str)
 
 
 async def check_results(page, state: dict) -> tuple[list, list]:
@@ -503,19 +532,40 @@ async def check_results(page, state: dict) -> tuple[list, list]:
 
         r_state = results_state.setdefault(wname, {})
 
+        # ── Discover bracket team_id from seeded matches ───────────────────
+        # CBVA uses different team IDs in the roster vs the playoff bracket.
+        # We capture the bracket ID the first time we find our player by seed
+        # so that in later rounds (where seeds become null) we can still track them.
+        our_seed    = entry.get("team_seed")
+        team_id     = entry.get("team_id")
+        bracket_tid = entry.get("bracket_team_id")
+        if not bracket_tid and our_seed and isinstance(data, list):
+            for m in data:
+                a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
+                a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
+                if a_seed == our_seed and a_id:
+                    bracket_tid = a_id
+                elif b_seed == our_seed and b_id:
+                    bracket_tid = b_id
+                if bracket_tid:
+                    entry["bracket_team_id"] = bracket_tid
+                    td["playing"][wname] = entry
+                    print(f"  [bracket] {wname}: bracket_team_id={bracket_tid}")
+                    break
+
         # ── Playoff qualification check ────────────────────────────────────
-        team_id  = entry.get("team_id")
-        our_seed = entry.get("team_seed")
         if not r_state.get("playoff_notified", False) and isinstance(data, list) and data:
-            # Primary: match by team ID (populated on some tournaments)
-            # Fallback: match by seed (CBVA often leaves teamAId/teamBId null)
+            in_bracket = False
             if team_id:
                 in_bracket = any(
                     m.get("teamAId") == team_id or m.get("teamBId") == team_id
                     for m in data
                 )
-            else:
-                in_bracket = False
+            if not in_bracket and bracket_tid:
+                in_bracket = any(
+                    m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid
+                    for m in data
+                )
             if not in_bracket and our_seed:
                 in_bracket = any(
                     m.get("teamASeed") == our_seed or m.get("teamBSeed") == our_seed
@@ -524,11 +574,13 @@ async def check_results(page, state: dict) -> tuple[list, list]:
             if in_bracket:
                 r_state["playoff_notified"] = True
                 playoff_updates.append((wname, entry, data))
-                match_method = "team_id" if team_id else f"seed #{our_seed}"
+                match_method = ("team_id" if team_id else
+                                f"bracket_team_id #{bracket_tid}" if bracket_tid else
+                                f"seed #{our_seed}")
                 print(f"  [playoffs] {wname}: appeared in bracket via {match_method}!")
 
-        # ── Score / status fingerprint ─────────────────────────────────────
-        fp = _results_fingerprint(data)
+        # ── Score / status fingerprint (scoped to our player's matches) ────
+        fp = _player_fingerprint(data, entry)
         if fp != r_state.get("fingerprint", ""):
             score_updates.append((wname, entry, data))
             r_state["fingerprint"]  = fp
@@ -615,9 +667,10 @@ def _format_results_body(data, entry: dict) -> str:
     if not data:
         return "<p style='color:#888'>No result data.</p>"
 
-    our_seed   = entry.get("team_seed")
-    our_tid    = entry.get("team_id")
-    partner    = entry.get("partner", "")
+    our_seed    = entry.get("team_seed")
+    our_tid     = entry.get("team_id")
+    bracket_tid = entry.get("bracket_team_id")
+    partner     = entry.get("partner", "")
     t_url      = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
     matches    = data if isinstance(data, list) else []
 
@@ -637,9 +690,11 @@ def _format_results_body(data, entry: dict) -> str:
             our_side = "A" if a_seed == our_seed else "B"
         elif our_tid and (a_id == our_tid or b_id == our_tid):
             our_side = "A" if a_id == our_tid else "B"
+        elif bracket_tid and (a_id == bracket_tid or b_id == bracket_tid):
+            our_side = "A" if a_id == bracket_tid else "B"
 
-        if our_side is None and our_seed is None and our_tid is None:
-            # No seed/team info — show all matches
+        if our_side is None and our_seed is None and our_tid is None and bracket_tid is None:
+            # No identifying info at all — show all matches
             our_side = "show"
 
         if our_side is None:

@@ -14,6 +14,10 @@ on:
 permissions:
   contents: write   # needed to commit updated state.json
 
+concurrency:
+  group: cbva-monitor
+  cancel-in-progress: false   # queue new runs; never two at once
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
