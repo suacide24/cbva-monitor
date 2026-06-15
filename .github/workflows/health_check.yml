@@ -1,0 +1,116 @@
+name: CBVA Health Check
+
+on:
+  # Primary trigger: run immediately after every monitor run
+  workflow_run:
+    workflows: ["CBVA Monitor"]
+    types: [completed]
+  # Fallback: hourly on weekends during tournament hours (catches stale runs)
+  schedule:
+    - cron: "45 14-23 * * 6,0"
+    - cron: "45 0-3 * * 0,1"
+  workflow_dispatch:
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (latest main for up-to-date state.json)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Run health check
+        id: check
+        env:
+          WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: python3 check_health.py
+        continue-on-error: true
+
+      - name: Send alert email
+        if: steps.check.outcome == 'failure'
+        env:
+          EMAIL_FROM:     ${{ secrets.EMAIL_FROM }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, smtplib, subprocess
+          from email.mime.multipart import MIMEMultipart
+          from email.mime.text import MIMEText
+
+          # Re-run check_health to get the report text
+          result = subprocess.run(
+              ["python3", "check_health.py"],
+              capture_output=True, text=True,
+              env={**os.environ},
+          )
+          report = (result.stdout + result.stderr).strip()
+
+          # Load last_run for rich context
+          try:
+              with open("state.json") as f:
+                  state = json.load(f)
+              last_run  = state.get("last_run", {})
+              run_errors = last_run.get("errors", [])
+          except Exception:
+              last_run   = {}
+              run_errors = []
+
+          error_blocks = ""
+          for i, err in enumerate(run_errors, 1):
+              raw = err.get("cbva_response_sample") or ""
+              raw_block = (
+                  f"<h4 style='color:#555;margin:.5em 0 .2em'>Raw CBVA response"
+                  f" ({err.get('endpoint','?')})</h4>"
+                  f"<pre style='background:#fff8e1;padding:10px;font-size:11px;"
+                  f"border-radius:4px;overflow:auto;white-space:pre-wrap'>{raw}</pre>"
+              ) if raw else ""
+              error_blocks += (
+                  f"<div style='border:1px solid #f5c0c0;border-radius:8px;"
+                  f"padding:14px;margin:10px 0;background:#fff'>"
+                  f"<strong style='color:#cc3333'>{err['phase']} — {err['exception_type']}</strong>"
+                  f"<p style='margin:.3em 0'>{err['message']}</p>"
+                  f"<pre style='background:#f5f5f5;padding:10px;font-size:11px;"
+                  f"border-radius:4px;overflow:auto;white-space:pre-wrap'>"
+                  f"{err.get('traceback','')}</pre>"
+                  f"{raw_block}</div>"
+              )
+
+          sha      = last_run.get("git_sha", "unknown")
+          ts       = last_run.get("timestamp", "unknown")
+          body = f"""<html><body style='font-family:sans-serif;max-width:640px;
+          margin:0 auto;padding:24px;color:#222'>
+          <h1 style='font-size:20px;border-bottom:2px solid #cc3333;
+          padding-bottom:8px;color:#cc3333'>🚨 CBVA Monitor Health Alert</h1>
+          <pre style='background:#f5f5f5;padding:14px;border-radius:6px;
+          font-size:13px;white-space:pre-wrap'>{report}</pre>
+          <p><strong>Last run:</strong> {ts} &nbsp; <strong>Git SHA:</strong>
+          <code>{sha}</code></p>
+          {error_blocks}
+          <hr style='margin:1.5em 0;border:none;border-top:1px solid #ddd'>
+          <p style='font-size:12px;color:#888'>
+          <a href='https://github.com/suacide24/cbva-monitor/actions'>View Actions →</a>
+          &nbsp;·&nbsp; Diagnostic structured for Layer 4 auto-repair.
+          </p></body></html>"""
+
+          em  = os.environ["EMAIL_FROM"]
+          pw  = os.environ["EMAIL_PASSWORD"]
+          msg = MIMEMultipart("alternative")
+          msg["Subject"] = "🚨 CBVA Monitor Health Alert"
+          msg["From"]    = em
+          msg["To"]      = em
+          msg.attach(MIMEText(body, "html"))
+
+          for attempt in range(3):
+              try:
+                  with smtplib.SMTP("smtp.gmail.com", 587) as s:
+                      s.starttls()
+                      s.login(em, pw)
+                      s.sendmail(em, em, msg.as_string())
+                  print("Alert email sent.")
+                  break
+              except Exception as e:
+                  print(f"Email attempt {attempt+1} failed: {e}")
+          PYEOF

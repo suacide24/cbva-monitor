@@ -48,6 +48,10 @@ _PT          = timezone(timedelta(hours=-7))
 RATING_ORDER = ["N", "U", "B", "A", "AA", "AAA", "Open"]
 _LEVEL_MAP   = {"unrated":"U","n":"N","u":"U","b":"B","a":"A","aa":"AA","aaa":"AAA","open":"Open"}
 
+# ── Run-scoped diagnostics (reset each run()) ─────────────────────────────────
+_run_errors:      list[dict] = []   # errors accumulated this run
+_trpc_responses:  dict[str, str] = {}  # endpoint → last raw response text
+
 
 # ── State ─────────────────────────────────────────────────────────────────────
 
@@ -155,6 +159,7 @@ async def _trpc_get(page, endpoint: str, input_obj: dict):
             return out;
         }}
     """)
+    _trpc_responses[endpoint] = raw[:4000]  # keep for diagnostics
     if DEBUG:
         print(f"  [api] {endpoint}: {raw[:400]}")
     try:
@@ -962,20 +967,90 @@ def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> 
     return _wrap(body, "CBVA Results Update", now_pt) if body else ""
 
 
+# ── Diagnostics (Layer 2 + 3; structured for Layer 4 auto-repair) ────────────
+
+def _git_sha() -> str:
+    try:
+        import subprocess
+        return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"],
+                                       text=True, stderr=subprocess.DEVNULL).strip()
+    except Exception:
+        return "unknown"
+
+
+def _record_error(phase: str, exc: Exception, endpoint: str | None = None) -> None:
+    import traceback as tb
+    raw = _trpc_responses.get(endpoint, "") if endpoint else ""
+    if not raw:
+        # Include last few captured responses for context
+        raw = json.dumps({k: v[:400] for k, v in list(_trpc_responses.items())[-3:]}, indent=2)
+    _run_errors.append({
+        "phase":                phase,
+        "exception_type":       type(exc).__name__,
+        "message":              str(exc)[:500],
+        "traceback":            tb.format_exc()[-3000:],
+        "endpoint":             endpoint,
+        "cbva_response_sample": raw[:3000] or None,
+        "git_sha":              _git_sha(),
+    })
+    print(f"[error] {phase}: {type(exc).__name__}: {exc}")
+
+
+def _send_diagnostic_email(errors: list[dict], now_pt: datetime) -> None:
+    n  = len(errors)
+    sha = errors[0].get("git_sha", "unknown") if errors else _git_sha()
+    subject = f"🚨 CBVA Monitor error — {_date_str(now_pt)} ({n} issue{'s' if n > 1 else ''})"
+
+    cards = ""
+    for i, err in enumerate(errors, 1):
+        response_block = ""
+        if err.get("cbva_response_sample"):
+            ep = err.get("endpoint") or "recent endpoints"
+            response_block = (
+                f"<h4 style='margin:.6em 0 .2em;color:#555'>Raw CBVA response ({ep})</h4>"
+                f"<pre style='background:#fff8e1;padding:10px;font-size:11px;"
+                f"border-radius:4px;overflow:auto;white-space:pre-wrap'>"
+                f"{err['cbva_response_sample']}</pre>"
+            )
+        cards += (
+            f"<div style='border:1px solid #f5c0c0;border-radius:8px;padding:16px;margin:12px 0;"
+            f"background:#fff'>"
+            f"<strong style='color:#cc3333'>Error {i}: {err['phase']} — {err['exception_type']}</strong>"
+            f"<p style='margin:.4em 0;color:#444'>{err['message']}</p>"
+            f"<pre style='background:#f5f5f5;padding:10px;font-size:11px;border-radius:4px;"
+            f"overflow:auto;white-space:pre-wrap'>{err['traceback']}</pre>"
+            f"{response_block}"
+            f"</div>"
+        )
+
+    body = (
+        f"<p><strong>Time:</strong> {now_pt.strftime('%Y-%m-%d %H:%M PT')} &nbsp;"
+        f"<strong>Git SHA:</strong> <code>{sha}</code></p>"
+        f"{cards}"
+        f"<p style='margin-top:1.5em;font-size:12px;color:#888'>"
+        f"<a href='https://github.com/suacide24/cbva-monitor/actions'>View Actions →</a>"
+        f" · Diagnostic structured for Layer 4 auto-repair.</p>"
+    )
+    send_email(subject, _wrap(body, "CBVA Monitor Diagnostic", now_pt), to=EMAIL_FROM)
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 async def run() -> None:
+    global _run_errors, _trpc_responses
+    _run_errors      = []
+    _trpc_responses  = {}
+
     users = load_users()
     if not users:
         print("No users in users.json — nothing to do.")
         return
 
     all_players = sorted({p for u in users for p in u["players"]})
+    now_pt      = datetime.now(_PT)
+    today_pt    = now_pt.date()
 
-    now_pt   = datetime.now(_PT)
-    today_pt = now_pt.date()
-
-    if today_pt.weekday() < 5:  # 0=Mon … 4=Fri; 5=Sat, 6=Sun
+    if today_pt.weekday() < 5:
         print(f"Today is {today_pt.strftime('%A')} in PT — no tournaments on weekdays. Exiting.")
         return
 
@@ -990,113 +1065,141 @@ async def run() -> None:
         page    = await browser.new_page()
         await login(page)
 
-        # ── Ratings (once per day, first run only) ─────────────────────────
-        if state.get("last_rating_check") != today_str:
-            print("\n── Rating checks ─────────────────────────────────────────")
-            rating_alerts = await check_ratings(page, state, all_players)
-            state["last_rating_check"] = today_str
-            for user in users:
-                user_alerts = [a for a in rating_alerts if a["name"] in user["players"]]
-                if user_alerts:
-                    names_str = ", ".join(a["name"] for a in user_alerts)
-                    send_email(
-                        f"CBVA Rating Alert — {_date_str(now_pt)}: {names_str}",
-                        build_rating_email(user_alerts, now_pt),
-                        to=user["email"],
-                    )
-        else:
-            print("\n[ratings] Already checked today — skipping.")
+        # ── Phase 1: Ratings (once per day) ───────────────────────────────
+        try:
+            if state.get("last_rating_check") != today_str:
+                print("\n── Rating checks ─────────────────────────────────────────")
+                rating_alerts = await check_ratings(page, state, all_players)
+                state["last_rating_check"] = today_str
+                for user in users:
+                    user_alerts = [a for a in rating_alerts if a["name"] in user["players"]]
+                    if user_alerts:
+                        names_str = ", ".join(a["name"] for a in user_alerts)
+                        send_email(
+                            f"CBVA Rating Alert — {_date_str(now_pt)}: {names_str}",
+                            build_rating_email(user_alerts, now_pt),
+                            to=user["email"],
+                        )
+            else:
+                print("\n[ratings] Already checked today — skipping.")
+        except Exception as exc:
+            _record_error("ratings", exc, endpoint="profiles.getOverview")
 
-        # ── Tournament roster scan ─────────────────────────────────────────
-        print("\n── Tournament scan ───────────────────────────────────────────")
-        new_entries = await scan_today_tournaments(page, today_str, state, all_players)
+        # ── Phase 2: Tournament roster scan ───────────────────────────────
+        new_entries: list[dict] = []
+        try:
+            print("\n── Tournament scan ───────────────────────────────────────────")
+            new_entries = await scan_today_tournaments(page, today_str, state, all_players)
+        except Exception as exc:
+            _record_error("scan", exc, endpoint="tournaments.getTeams")
 
-        # "Playing Today" — sent per user; track notified as {email: [players]}
         td       = state.get("tournament_day", {})
         notified = td.get("notified", {})
         if isinstance(notified, list):
-            # Migrate old flat list: treat all users as already notified
             notified = {u["email"]: list(notified) for u in users}
             td["notified"] = notified
 
-        for user in users:
-            already  = set(notified.get(user["email"], []))
-            user_new = [e for e in new_entries
-                        if e["player_name"] in user["players"]
-                        and e["player_name"] not in already]
-            if user_new:
-                names_playing = [e["player_name"] for e in user_new]
-                print(f"\nPlaying today (new for {user['email']}): {', '.join(names_playing)}")
-                send_email(
-                    f"CBVA Playing Today — {_date_str(now_pt)}: {', '.join(names_playing)}",
-                    build_playing_today_email(user_new, state, now_pt),
-                    to=user["email"],
-                )
-                notified.setdefault(user["email"], []).extend(names_playing)
-
-        if not new_entries:
-            n_total = len(td.get("playing", {}))
-            print(f"\n[scan] No new players found. {n_total} confirmed on rosters.")
-
-        # ── Update known players list from today's rosters ────────────────
-        div_rosters = td.get("div_rosters", {})
-        if div_rosters:
-            new_names: set[str] = set()
-            for roster in div_rosters.values():
-                for team_str in roster.values():
-                    for name in team_str.split(" / "):
-                        if name.strip():
-                            new_names.add(name.strip())
-            try:
-                with open(PLAYERS_FILE) as f:
-                    existing: set[str] = set(json.load(f))
-            except (FileNotFoundError, json.JSONDecodeError):
-                existing = set()
-            merged = sorted(existing | new_names)
-            with open(PLAYERS_FILE, "w") as f:
-                json.dump(merged, f, indent=2)
-            added = len(new_names - existing)
-            print(f"\n[players] {len(merged)} known players" + (f" (+{added} new)" if added else ""))
-
-        # ── Results + playoff qualification ───────────────────────────────
-        playing = td.get("playing", {})
-        if playing:
-            print(f"\n── Results check ({len(playing)} player(s)) ──────────────────")
-            score_updates, playoff_updates = await check_results(page, state)
-
+        # ── Phase 3: "Playing Today" emails ───────────────────────────────
+        try:
             for user in users:
-                user_set = set(user["players"])
-
-                user_playoffs = [(w, e, d) for w, e, d in playoff_updates if w in user_set]
-                if user_playoffs:
-                    names_str = ", ".join(w for w, _, __ in user_playoffs)
+                already  = set(notified.get(user["email"], []))
+                user_new = [e for e in new_entries
+                            if e["player_name"] in user["players"]
+                            and e["player_name"] not in already]
+                if user_new:
+                    names_playing = [e["player_name"] for e in user_new]
+                    print(f"\nPlaying today (new for {user['email']}): {', '.join(names_playing)}")
                     send_email(
-                        f"CBVA Made Playoffs! — {_date_str(now_pt)}: {names_str}",
-                        build_playoffs_email(user_playoffs, state, now_pt),
+                        f"CBVA Playing Today — {_date_str(now_pt)}: {', '.join(names_playing)}",
+                        build_playing_today_email(user_new, state, now_pt),
                         to=user["email"],
                     )
-                    print(f"Playoffs email → {user['email']} ({len(user_playoffs)} player(s)).")
+                    notified.setdefault(user["email"], []).extend(names_playing)
 
-                user_scores = [(w, e, d) for w, e, d in score_updates if w in user_set]
-                if user_scores:
-                    results_html = build_results_email(user_scores, state, now_pt)
-                    if results_html:
+            if not new_entries:
+                n_total = len(td.get("playing", {}))
+                print(f"\n[scan] No new players found. {n_total} confirmed on rosters.")
+        except Exception as exc:
+            _record_error("playing_today_email", exc)
+
+        # ── Phase 4: Update players.json ──────────────────────────────────
+        try:
+            div_rosters = td.get("div_rosters", {})
+            if div_rosters:
+                new_names: set[str] = set()
+                for roster in div_rosters.values():
+                    for team_str in roster.values():
+                        for name in team_str.split(" / "):
+                            if name.strip():
+                                new_names.add(name.strip())
+                try:
+                    with open(PLAYERS_FILE) as f:
+                        existing: set[str] = set(json.load(f))
+                except (FileNotFoundError, json.JSONDecodeError):
+                    existing = set()
+                merged = sorted(existing | new_names)
+                with open(PLAYERS_FILE, "w") as f:
+                    json.dump(merged, f, indent=2)
+                added = len(new_names - existing)
+                print(f"\n[players] {len(merged)} known players" + (f" (+{added} new)" if added else ""))
+        except Exception as exc:
+            _record_error("players_file", exc)
+
+        # ── Phase 5: Results + playoff qualification ───────────────────────
+        try:
+            playing = td.get("playing", {})
+            if playing:
+                print(f"\n── Results check ({len(playing)} player(s)) ──────────────────")
+                score_updates, playoff_updates = await check_results(page, state)
+
+                for user in users:
+                    user_set = set(user["players"])
+
+                    user_playoffs = [(w, e, d) for w, e, d in playoff_updates if w in user_set]
+                    if user_playoffs:
+                        names_str = ", ".join(w for w, _, __ in user_playoffs)
                         send_email(
-                            _results_subject(user_scores, state),
-                            results_html,
+                            f"CBVA Made Playoffs! — {_date_str(now_pt)}: {names_str}",
+                            build_playoffs_email(user_playoffs, state, now_pt),
                             to=user["email"],
                         )
-                        print(f"Results email → {user['email']} ({len(user_scores)} player(s)).")
+                        print(f"Playoffs email → {user['email']} ({len(user_playoffs)} player(s)).")
 
-            if not score_updates and not playoff_updates:
-                print("[results] No changes since last run.")
-        else:
-            print("\n[results] No confirmed players yet — skipping results check.")
+                    user_scores = [(w, e, d) for w, e, d in score_updates if w in user_set]
+                    if user_scores:
+                        results_html = build_results_email(user_scores, state, now_pt)
+                        if results_html:
+                            send_email(
+                                _results_subject(user_scores, state),
+                                results_html,
+                                to=user["email"],
+                            )
+                            print(f"Results email → {user['email']} ({len(user_scores)} player(s)).")
+
+                if not score_updates and not playoff_updates:
+                    print("[results] No changes since last run.")
+            else:
+                print("\n[results] No confirmed players yet — skipping results check.")
+        except Exception as exc:
+            _record_error("results", exc, endpoint="tournaments.getPlayoffs")
 
         await browser.close()
 
+    # ── Write run summary (always, even on partial failure) ────────────────
+    state["last_run"] = {
+        "timestamp":        now_pt.isoformat(),
+        "git_sha":          _git_sha(),
+        "status":           "error" if _run_errors else "ok",
+        "players_watching": len(all_players),
+        "error_count":      len(_run_errors),
+        "errors":           _run_errors,
+    }
     save_state(state)
     print("\nState saved.")
+
+    if _run_errors:
+        print(f"\n[diagnostic] {len(_run_errors)} error(s) — sending diagnostic email.")
+        _send_diagnostic_email(_run_errors, now_pt)
 
 
 if __name__ == "__main__":
