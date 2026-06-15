@@ -490,7 +490,7 @@ def _player_fingerprint(data, entry: dict) -> str:
 
     relevant = []
     for m in (data if isinstance(data, list) else []):
-        if m.get("status") not in ("in_progress", "completed"):
+        if m.get("status") != "completed":
             continue
         a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
         a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
@@ -695,9 +695,8 @@ def _format_results_body(data, entry: dict) -> str:
         sets           = m.get("sets", [])
         court          = m.get("court", "")
 
-        # Only render completed and in-progress matches — upcoming are not shown
-        # (the Made Playoffs email already covers the "they're in the bracket" moment)
-        if status not in ("in_progress", "completed"):
+        # Only render completed matches — upcoming and in-progress are not shown
+        if status != "completed":
             continue
 
         # Is our player in this match?
