@@ -477,11 +477,12 @@ async def fetch_results(page, div_id: int):
 
 
 def _player_fingerprint(data, entry: dict) -> str:
-    """Fingerprint only the matches that involve our player.
+    """Fingerprint only the in_progress/completed matches for our player.
 
-    Using the full bracket fingerprint caused emails every time *any* match
-    updated, even when our player wasn't playing.  Scoping to our player's
-    matches means emails fire only when their status or score changes.
+    Upcoming matches are covered by the Made Playoffs email; we only want to
+    trigger a results email when something actually happens (score changes,
+    match completes).  Filtering to active matches also prevents spurious
+    emails when the bracket is first published with all matches as "upcoming".
     """
     our_seed    = entry.get("team_seed")
     our_tid     = entry.get("team_id")
@@ -489,6 +490,8 @@ def _player_fingerprint(data, entry: dict) -> str:
 
     relevant = []
     for m in (data if isinstance(data, list) else []):
+        if m.get("status") not in ("in_progress", "completed"):
+            continue
         a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
         a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
         if our_seed and (a_seed == our_seed or b_seed == our_seed):
@@ -579,14 +582,19 @@ async def check_results(page, state: dict) -> tuple[list, list]:
                                 f"seed #{our_seed}")
                 print(f"  [playoffs] {wname}: appeared in bracket via {match_method}!")
 
-        # ── Score / status fingerprint (scoped to our player's matches) ────
+        # ── Score / status fingerprint (scoped to our player's active matches) ──
         fp = _player_fingerprint(data, entry)
-        if fp != r_state.get("fingerprint", ""):
-            score_updates.append((wname, entry, data))
+        old_fp = r_state.get("fingerprint", "")
+        if fp != old_fp:
             r_state["fingerprint"]  = fp
             r_state["raw"]          = data
             r_state["last_updated"] = datetime.now().isoformat()
-            print(f"  [results] {wname}: results changed")
+            if fp != "[]":
+                # Real change to an in_progress/completed match — email worthy
+                score_updates.append((wname, entry, data))
+                print(f"  [results] {wname}: results changed")
+            else:
+                print(f"  [results] {wname}: fingerprint reset (no active matches yet)")
 
     return score_updates, playoff_updates
 
@@ -674,6 +682,9 @@ def _format_results_body(data, entry: dict) -> str:
     t_url      = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
     matches    = data if isinstance(data, list) else []
 
+    # Sort chronologically so history reads top-to-bottom
+    matches = sorted(matches, key=lambda m: (m.get("round") or 0))
+
     rows = []
     for m in matches:
         a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
@@ -683,6 +694,11 @@ def _format_results_body(data, entry: dict) -> str:
         round_num      = m.get("round", 0)
         sets           = m.get("sets", [])
         court          = m.get("court", "")
+
+        # Only render completed and in-progress matches — upcoming are not shown
+        # (the Made Playoffs email already covers the "they're in the bracket" moment)
+        if status not in ("in_progress", "completed"):
+            continue
 
         # Is our player in this match?
         our_side = None
@@ -694,7 +710,6 @@ def _format_results_body(data, entry: dict) -> str:
             our_side = "A" if a_id == bracket_tid else "B"
 
         if our_side is None and our_seed is None and our_tid is None and bracket_tid is None:
-            # No identifying info at all — show all matches
             our_side = "show"
 
         if our_side is None:
@@ -703,7 +718,6 @@ def _format_results_body(data, entry: dict) -> str:
         opp_seed = b_seed if our_side == "A" else a_seed
         score    = _score_str(sets)
         if our_side == "B":
-            # Flip score to be from our perspective
             flipped = []
             for s in sets or []:
                 a, b = s.get("teamAScore", 0), s.get("teamBScore", 0)
@@ -716,10 +730,8 @@ def _format_results_body(data, entry: dict) -> str:
             won = (winner_id == a_id and our_side == "A") or (winner_id == b_id and our_side == "B")
             result_icon = "✅ Win" if won else "❌ Loss"
             color, bg = ("#1D9E75", "#f5faf8") if won else ("#cc3333", "#fff5f5")
-        elif status == "in_progress":
+        else:  # in_progress
             result_icon, color, bg = "🔄 In Progress", "#E8A020", "#fffaf0"
-        else:
-            result_icon, color, bg = "⏳ Upcoming", "#888", "#f9f9f9"
 
         rnd_label = f"Round {round_num + 1}" if round_num is not None else "Match"
         opp_label = f"Seed #{opp_seed}" if opp_seed else "TBD"
@@ -732,7 +744,7 @@ def _format_results_body(data, entry: dict) -> str:
         ))
 
     if not rows:
-        return f"<p style='color:#888'>No bracket matches found yet. <a href='{t_url}'>View on cbva.com</a></p>"
+        return ""
 
     return "\n".join(rows) + f"<p style='margin:.5em 0;font-size:12px'><a href='{t_url}'>Full bracket →</a></p>"
 
@@ -776,14 +788,17 @@ def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> 
     for wname, entry, raw_data in updates:
         profile_url = state.get("players", {}).get(wname, {}).get("profile_url", "")
         t_url = f"{BASE_URL}/tournaments/{entry.get('tournament_id', '')}/{entry.get('division_id', '')}"
+        results_html = _format_results_body(raw_data, entry)
+        if not results_html:
+            continue  # nothing to show (all matches still upcoming)
         body += _player_header(wname, profile_url)
         body += (
             f"<p style='margin:.3em 0;font-size:13px;color:#555'>"
             f"{entry.get('tournament_name','')} · {entry.get('venue','')} · {entry.get('division','')}"
             f" · <a href='{t_url}'>view bracket</a></p>"
         )
-        body += _format_results_body(raw_data, entry)
-    return _wrap(body, "CBVA Results Update", now_pt)
+        body += results_html
+    return _wrap(body, "CBVA Results Update", now_pt) if body else ""
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -860,12 +875,16 @@ async def run() -> None:
 
             # Score/status update email
             if score_updates:
-                send_email(
-                    f"CBVA Results Update — {now_pt.strftime('%b')} {now_pt.day} "
-                    f"{now_pt.strftime('%I:%M %p')} PT",
-                    build_results_email(score_updates, state, now_pt),
-                )
-                print(f"Results update sent for {len(score_updates)} player(s).")
+                results_html = build_results_email(score_updates, state, now_pt)
+                if results_html:
+                    send_email(
+                        f"CBVA Results Update — {now_pt.strftime('%b')} {now_pt.day} "
+                        f"{now_pt.strftime('%I:%M %p')} PT",
+                        results_html,
+                    )
+                    print(f"Results update sent for {len(score_updates)} player(s).")
+                else:
+                    print("[results] Score changed but no in-progress/completed matches to show — skipping email.")
 
             if not score_updates and not playoff_updates:
                 print("[results] No changes since last run.")
