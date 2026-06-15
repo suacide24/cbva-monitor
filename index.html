@@ -49,8 +49,10 @@ main{max-width:680px;margin:0 auto;padding:24px 16px}
 
 .chips{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;margin-bottom:12px}
 .chip{display:inline-flex;align-items:center;gap:5px;background:#eef2fa;color:#1a2a4a;border-radius:999px;padding:4px 8px 4px 12px;font-size:13px}
+.chip.unverified{background:#fff8e1;color:#6b4c00;border:1px solid #f0c040}
 .chip-del{background:none;border:none;color:#8aa;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;border-radius:50%}
 .chip-del:hover{color:#cc3333}
+.chip.unverified .chip-del{color:#b89a40}
 
 .add-player-wrap{position:relative}
 .add-player-input{width:100%;padding:8px 12px;border:1px dashed #c8d0e0;border-radius:7px;font-size:13px;font-family:inherit;background:#fafbfd}
@@ -104,7 +106,8 @@ const API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
 
 let sha = '';
 let users = [];
-let knownPlayers = [];
+let knownPlayers = [];     // autocomplete list (from players.json)
+let verifiedPlayers = new Set();  // names confirmed to exist on CBVA
 
 /* ── auth ── */
 function isAuthed() { return localStorage.getItem(AUTH_KEY) === '1'; }
@@ -157,12 +160,23 @@ async function init() {
   showApp();
   setStatus('Loading…', 'loading');
   try {
-    const res = await fetch(API, { headers: authHeaders() });
-    if (!res.ok) throw new Error(`GitHub ${res.status}`);
-    const data = await res.json();
+    const [usersRes, playersRes] = await Promise.all([
+      fetch(API, { headers: authHeaders() }),
+      fetch(`https://raw.githubusercontent.com/${REPO}/main/players.json`).catch(() => null),
+    ]);
+    if (!usersRes.ok) throw new Error(`GitHub ${usersRes.status}`);
+    const data = await usersRes.json();
     sha   = data.sha;
     users = JSON.parse(atob(data.content.replace(/\s/g, '')));
-    knownPlayers = [...new Set(users.flatMap(u => u.players || []))].sort();
+
+    if (playersRes?.ok) {
+      const cbvaPlayers = await playersRes.json();
+      verifiedPlayers = new Set(cbvaPlayers);
+      knownPlayers    = cbvaPlayers;  // already sorted
+    } else {
+      knownPlayers = [...new Set(users.flatMap(u => u.players || []))].sort();
+    }
+
     render();
     setStatus('');
   } catch (e) {
@@ -204,8 +218,10 @@ function makeCard(u, idx) {
   chips.className = 'chips';
   (u.players || []).forEach((p, pi) => {
     const chip = document.createElement('div');
-    chip.className = 'chip';
-    chip.innerHTML = `<span>${esc(p)}</span>`;
+    const known = verifiedPlayers.size === 0 || verifiedPlayers.has(p);
+    chip.className = known ? 'chip' : 'chip unverified';
+    chip.title = known ? '' : 'Name not found in CBVA — check spelling';
+    chip.innerHTML = `<span>${known ? '' : '⚠ '}${esc(p)}</span>`;
     const x = document.createElement('button');
     x.className = 'chip-del';
     x.title = 'Remove';

@@ -60,7 +60,7 @@ jobs:
         run: |
           git config user.name  "cbva-monitor[bot]"
           git config user.email "cbva-monitor@users.noreply.github.com"
-          git add state.json
+          git add state.json players.json 2>/dev/null || git add state.json
           if git diff --staged --quiet; then
             echo "No state changes — skipping commit."
             exit 0

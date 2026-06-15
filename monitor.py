@@ -39,6 +39,7 @@ EMAIL_PASS    = os.environ.get("EMAIL_PASSWORD", "")
 CBVA_EMAIL    = os.environ.get("CBVA_EMAIL", "")
 CBVA_PASSWORD = os.environ.get("CBVA_PASSWORD", "")
 STATE_FILE    = "state.json"
+PLAYERS_FILE  = "players.json"
 BASE_URL      = "https://cbva.com"
 DEBUG         = os.environ.get("CBVA_DEBUG") == "1"
 
@@ -869,6 +870,78 @@ def build_playoffs_email(updates: list[tuple], state: dict, now_pt: datetime) ->
     return _wrap(body, "CBVA Made Playoffs", now_pt)
 
 
+def _player_outcome(data: list, entry: dict) -> dict:
+    """Return win/loss summary for a player — used for both subject line and body."""
+    our_seed    = entry.get("team_seed")
+    our_tid     = entry.get("team_id")
+    bracket_tid = entry.get("bracket_team_id")
+    matches     = sorted(data if isinstance(data, list) else [], key=lambda m: m.get("round", 0))
+    if not matches:
+        return {}
+    max_round    = max((m.get("round", 0) for m in matches), default=0)
+    finish_round = None
+    is_champion  = False
+    last_won     = False
+    last_round   = None
+    for m in matches:
+        if m.get("status") != "completed":
+            continue
+        a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
+        a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
+        winner_id      = m.get("winnerId")
+        round_num      = m.get("round", 0)
+        our_side = None
+        if our_seed and (a_seed == our_seed or b_seed == our_seed):
+            our_side = "A" if a_seed == our_seed else "B"
+        elif our_tid and (a_id == our_tid or b_id == our_tid):
+            our_side = "A" if a_id == our_tid else "B"
+        elif bracket_tid and (a_id == bracket_tid or b_id == bracket_tid):
+            our_side = "A" if a_id == bracket_tid else "B"
+        if our_side is None:
+            continue
+        our_id = a_id if our_side == "A" else b_id
+        won = winner_id == our_id
+        if won and round_num == max_round:
+            is_champion = True
+        elif not won:
+            finish_round = round_num
+            last_won     = False
+            last_round   = round_num
+        else:
+            last_won   = True
+            last_round = round_num
+    return {
+        "is_champion":   is_champion,
+        "finish_round":  finish_round,
+        "last_won":      last_won,
+        "last_round":    last_round,
+        "max_round":     max_round,
+        "all_matches":   matches,
+    }
+
+
+def _results_subject(updates: list[tuple], state: dict) -> str:
+    """Build a subject line that conveys outcome without opening the email."""
+    parts = []
+    for wname, entry, data in updates:
+        first = wname.split()[0]
+        o = _player_outcome(data if isinstance(data, list) else [], entry)
+        if not o:
+            parts.append(first)
+            continue
+        if o["is_champion"]:
+            parts.append(f"{first} 🏆 won it all")
+        elif o["finish_round"] is not None:
+            place = _finish_place(o["all_matches"], o["finish_round"])
+            r     = o["finish_round"] + 1
+            parts.append(f"{first} out R{r}" + (f" ({place})" if place else ""))
+        elif o["last_won"] and o["last_round"] is not None:
+            parts.append(f"{first} won R{o['last_round'] + 1}")
+        else:
+            parts.append(first)
+    return ("CBVA: " + " · ".join(parts)) if parts else "CBVA Results Update"
+
+
 def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> str:
     div_rosters = state.get("tournament_day", {}).get("div_rosters", {})
     body = ""
@@ -965,6 +1038,26 @@ async def run() -> None:
             n_total = len(td.get("playing", {}))
             print(f"\n[scan] No new players found. {n_total} confirmed on rosters.")
 
+        # ── Update known players list from today's rosters ────────────────
+        div_rosters = td.get("div_rosters", {})
+        if div_rosters:
+            new_names: set[str] = set()
+            for roster in div_rosters.values():
+                for team_str in roster.values():
+                    for name in team_str.split(" / "):
+                        if name.strip():
+                            new_names.add(name.strip())
+            try:
+                with open(PLAYERS_FILE) as f:
+                    existing: set[str] = set(json.load(f))
+            except (FileNotFoundError, json.JSONDecodeError):
+                existing = set()
+            merged = sorted(existing | new_names)
+            with open(PLAYERS_FILE, "w") as f:
+                json.dump(merged, f, indent=2)
+            added = len(new_names - existing)
+            print(f"\n[players] {len(merged)} known players" + (f" (+{added} new)" if added else ""))
+
         # ── Results + playoff qualification ───────────────────────────────
         playing = td.get("playing", {})
         if playing:
@@ -989,8 +1082,7 @@ async def run() -> None:
                     results_html = build_results_email(user_scores, state, now_pt)
                     if results_html:
                         send_email(
-                            f"CBVA Results Update — {now_pt.strftime('%b')} {now_pt.day} "
-                            f"{now_pt.strftime('%I:%M %p')} PT",
+                            _results_subject(user_scores, state),
                             results_html,
                             to=user["email"],
                         )
