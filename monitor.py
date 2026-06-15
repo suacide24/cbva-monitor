@@ -392,6 +392,17 @@ async def scan_today_tournaments(page, today_str: str, state: dict) -> list[dict
                 print(f"    [scan] div {div_id} ({div_label}): {len(teams)} entries, "
                       f"sample player={str(p0)[:200]}")
 
+            # Store seed→names for every team so results emails can show opponent names
+            roster_map: dict[int, str] = {}
+            for team in teams:
+                seed = team.get("seed")
+                if seed:
+                    names = [_full_name(p) for p in _extract_players(team) if _full_name(p)]
+                    if names:
+                        roster_map[seed] = " / ".join(names)
+            if roster_map:
+                td.setdefault("div_rosters", {})[div_id] = roster_map
+
             for team in teams:
                 players = _extract_players(team)
                 for player in players:
@@ -686,7 +697,7 @@ def _build_seed_map(matches: list) -> dict[int, int]:
     return seed_map
 
 
-def _format_results_body(data, entry: dict) -> str:
+def _format_results_body(data, entry: dict, roster: dict | None = None) -> str:
     """Render bracket (getPlayoffs) results for the tracked player."""
     if not data:
         return "<p style='color:#888'>No result data.</p>"
@@ -737,6 +748,7 @@ def _format_results_body(data, entry: dict) -> str:
         opp_seed = b_seed if our_side == "A" else a_seed
         if not opp_seed and opp_id:
             opp_seed = seed_map.get(opp_id)
+        opp_names = (roster or {}).get(opp_seed, "") if opp_seed else ""
         score    = _score_str(sets)
         if our_side == "B":
             flipped = []
@@ -755,7 +767,12 @@ def _format_results_body(data, entry: dict) -> str:
             result_icon, color, bg = "🔄 In Progress", "#E8A020", "#fffaf0"
 
         rnd_label = f"Round {round_num + 1}" if round_num is not None else "Match"
-        opp_label = f"Seed #{opp_seed}" if opp_seed else "TBD"
+        if opp_names:
+            opp_label = opp_names + (f" (#{opp_seed})" if opp_seed else "")
+        elif opp_seed:
+            opp_label = f"Seed #{opp_seed}"
+        else:
+            opp_label = "TBD"
 
         rows.append(_CARD.format(
             color=color, bg=bg,
@@ -805,11 +822,13 @@ def build_playoffs_email(updates: list[tuple], state: dict, now_pt: datetime) ->
 
 
 def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> str:
+    div_rosters = state.get("tournament_day", {}).get("div_rosters", {})
     body = ""
     for wname, entry, raw_data in updates:
         profile_url = state.get("players", {}).get(wname, {}).get("profile_url", "")
         t_url = f"{BASE_URL}/tournaments/{entry.get('tournament_id', '')}/{entry.get('division_id', '')}"
-        results_html = _format_results_body(raw_data, entry)
+        roster = div_rosters.get(entry.get("division_id"), {})
+        results_html = _format_results_body(raw_data, entry, roster)
         if not results_html:
             continue  # nothing to show (all matches still upcoming)
         body += _player_header(wname, profile_url)
