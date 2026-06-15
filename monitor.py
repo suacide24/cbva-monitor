@@ -670,6 +670,29 @@ def build_playing_today_email(entries: list[dict], state: dict, now_pt: datetime
     return _wrap(body, "CBVA Playing Today", now_pt)
 
 
+def _ordinal(n: int) -> str:
+    suffix = "th" if 11 <= n % 100 <= 13 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
+
+def _finish_place(all_matches: list, lost_round: int) -> str:
+    """Return a place string like '9th–16th' for a player eliminated in lost_round.
+
+    Works by walking rounds from the final downward.  Losers of the final are
+    2nd; losers of the semi are 3rd–4th; losers of the quarter are 5th–8th, etc.
+    Uses actual per-round match counts so non-power-of-2 brackets are handled.
+    """
+    rounds_desc = sorted({m.get("round", 0) for m in all_matches}, reverse=True)
+    lo = 2  # positions start after 1st place (the champion)
+    for r in rounds_desc:
+        count = sum(1 for m in all_matches if m.get("round") == r)
+        if r == lost_round:
+            hi = lo + count - 1
+            return _ordinal(lo) if lo == hi else f"{_ordinal(lo)}–{_ordinal(hi)}"
+        lo += count
+    return ""
+
+
 def _score_str(sets: list) -> str:
     """Turn a sets array into a readable score like '21-15, 21-18'."""
     parts = []
@@ -715,6 +738,10 @@ def _format_results_body(data, entry: dict, roster: dict | None = None) -> str:
     # Build seed lookup so round 2+ opponents can be resolved by original seed
     seed_map = _build_seed_map(matches)
 
+    max_round    = max((m.get("round", 0) for m in matches), default=0)
+    finish_round = None   # round where player was eliminated (lost)
+    is_champion  = False
+
     rows = []
     for m in matches:
         a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
@@ -759,12 +786,14 @@ def _format_results_body(data, entry: dict, roster: dict | None = None) -> str:
                 flipped.append(f"{b}-{a}")
             score = ", ".join(flipped) if flipped else "not started"
 
-        if status == "completed":
-            won = (winner_id == a_id and our_side == "A") or (winner_id == b_id and our_side == "B")
-            result_icon = "✅ Win" if won else "❌ Loss"
-            color, bg = ("#1D9E75", "#f5faf8") if won else ("#cc3333", "#fff5f5")
-        else:  # in_progress
-            result_icon, color, bg = "🔄 In Progress", "#E8A020", "#fffaf0"
+        won = (winner_id == a_id and our_side == "A") or (winner_id == b_id and our_side == "B")
+        if won and round_num == max_round:
+            is_champion = True
+        elif not won:
+            finish_round = round_num
+
+        result_icon = "✅ Win" if won else "❌ Loss"
+        color, bg   = ("#1D9E75", "#f5faf8") if won else ("#cc3333", "#fff5f5")
 
         rnd_label = f"Round {round_num + 1}" if round_num is not None else "Match"
         if opp_names:
@@ -784,7 +813,16 @@ def _format_results_body(data, entry: dict, roster: dict | None = None) -> str:
     if not rows:
         return ""
 
-    return "\n".join(rows) + f"<p style='margin:.5em 0;font-size:12px'><a href='{t_url}'>Full bracket →</a></p>"
+    # Append finishing place when the tournament result is known
+    place_html = ""
+    if is_champion:
+        place_html = "<p style='margin:.6em 0;font-weight:bold;color:#1D9E75'>🏆 1st place — Tournament Champions</p>"
+    elif finish_round is not None:
+        place = _finish_place(matches, finish_round)
+        if place:
+            place_html = f"<p style='margin:.6em 0;font-size:13px;color:#555'>Finished: <strong>{place}</strong></p>"
+
+    return "\n".join(rows) + place_html + f"<p style='margin:.5em 0;font-size:12px'><a href='{t_url}'>Full bracket →</a></p>"
 
 
 def build_playoffs_email(updates: list[tuple], state: dict, now_pt: datetime) -> str:
