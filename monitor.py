@@ -670,6 +670,22 @@ def _score_str(sets: list) -> str:
     return ", ".join(parts) if parts else "not started"
 
 
+def _build_seed_map(matches: list) -> dict[int, int]:
+    """Build team_id → original seed from rounds where seed data is populated.
+
+    CBVA nulls out seeds in round 2+ bracket matches, but the seed is always
+    present in the round where the team first entered.  We scan all matches
+    once to build a lookup so later rounds can still show a meaningful seed.
+    """
+    seed_map: dict[int, int] = {}
+    for m in matches:
+        if m.get("teamAId") and m.get("teamASeed"):
+            seed_map[m["teamAId"]] = m["teamASeed"]
+        if m.get("teamBId") and m.get("teamBSeed"):
+            seed_map[m["teamBId"]] = m["teamBSeed"]
+    return seed_map
+
+
 def _format_results_body(data, entry: dict) -> str:
     """Render bracket (getPlayoffs) results for the tracked player."""
     if not data:
@@ -684,6 +700,9 @@ def _format_results_body(data, entry: dict) -> str:
 
     # Sort chronologically so history reads top-to-bottom
     matches = sorted(matches, key=lambda m: (m.get("round") or 0))
+
+    # Build seed lookup so round 2+ opponents can be resolved by original seed
+    seed_map = _build_seed_map(matches)
 
     rows = []
     for m in matches:
@@ -714,7 +733,10 @@ def _format_results_body(data, entry: dict) -> str:
         if our_side is None:
             continue
 
+        opp_id   = b_id if our_side == "A" else a_id
         opp_seed = b_seed if our_side == "A" else a_seed
+        if not opp_seed and opp_id:
+            opp_seed = seed_map.get(opp_id)
         score    = _score_str(sets)
         if our_side == "B":
             flipped = []
