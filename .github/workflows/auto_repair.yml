@@ -1,0 +1,46 @@
+name: CBVA Auto-Repair
+
+on:
+  # Trigger when the health check workflow completes with a failure conclusion.
+  # health_check.yml has a final "exit 1" step that makes the job fail when
+  # unhealthy, so this fires only on real problems — not healthy runs.
+  workflow_run:
+    workflows: ["CBVA Health Check"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to commit the repaired monitor.py
+
+concurrency:
+  group: cbva-auto-repair
+  cancel-in-progress: true   # if two health failures stack, only run the latest
+
+jobs:
+  repair:
+    # Skip if health check passed — we only repair on failure
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (main, with write token)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Run auto-repair agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EMAIL_FROM:        ${{ secrets.EMAIL_FROM }}
+          EMAIL_PASSWORD:    ${{ secrets.EMAIL_PASSWORD }}
+        run: python3 auto_repair.py

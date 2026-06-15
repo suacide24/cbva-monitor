@@ -30,6 +30,7 @@ jobs:
 
       - name: Send alert email
         if: steps.check.outcome == 'failure'
+
         env:
           EMAIL_FROM:     ${{ secrets.EMAIL_FROM }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
@@ -114,3 +115,9 @@ jobs:
               except Exception as e:
                   print(f"Email attempt {attempt+1} failed: {e}")
           PYEOF
+
+      - name: Fail workflow when unhealthy
+        if: steps.check.outcome == 'failure'
+        run: |
+          echo "Health check reported UNHEALTHY — failing workflow so auto_repair.yml triggers."
+          exit 1
