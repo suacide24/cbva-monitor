@@ -191,12 +191,17 @@
         "1": "Juliette Morales / Bella Soria",
         "2": "Carter Lewis / Ellie Doyle",
         "3": "Leila Cluff / Adriana Avila"
+      },
+      "17125": {
+        "1": "Juliette Morales / Bella Soria",
+        "2": "Carter Lewis / Ellie Doyle",
+        "3": "Leila Cluff / Adriana Avila"
       }
     }
   },
   "last_run": {
-    "timestamp": "2026-06-20T08:47:01.851391-07:00",
-    "git_sha": "6e990df",
+    "timestamp": "2026-06-20T10:37:45.993438-07:00",
+    "git_sha": "14c36cf",
     "status": "error",
     "players_watching": 30,
     "error_count": 1,
@@ -208,7 +213,7 @@
         "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/cbva-monitor/cbva-monitor/monitor.py\", line 1092, in run\n    new_entries = await scan_today_tournaments(page, today_str, state, all_players)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/cbva-monitor/cbva-monitor/monitor.py\", line 432, in scan_today_tournaments\n    for candidate in PLAYER_NAMES:\n                     ^^^^^^^^^^^^\nNameError: name 'PLAYER_NAMES' is not defined\n",
         "endpoint": "tournaments.getTeams",
         "cbva_response_sample": "{\"result\":{\"data\":{\"json\":[{\"id\":224418,\"tournamentDivisionId\":17125,\"teamId\":130681,\"invoiceId\":6621,\"pricePaid\":80,\"seed\":1,\"finish\":null,\"playoffsSeed\":null,\"wildcard\":null,\"pointsEarned\":null,\"levelEarnedId\":null,\"status\":\"confirmed\",\"transferChargeInvoiceId\":null,\"transferChargeAmount\":null,\"withdrawnAt\":null,\"withdrawnBy\":null,\"waitlistedAt\":null,\"confirmedAt\":\"2026-06-03T22:24:20.000Z\",\"externalRef\":null,\"order\":0,\"originalPlayerIds\":[53354,62352],\"managedByUserIds\":[\"5a4da22a-e4e2-11ef-bb59-7b6e5c265431\"],\"forfeited\":false,\"createdAt\":\"2026-06-03T22:24:20.730Z\",\"updatedAt\":\"2026-06-20T00:08:12.035Z\",\"team\":{\"id\":130681,\"name\":null,\"players\":[{\"id\":261959,\"teamId\":130681,\"playerProfileId\":53354,\"levelIdAtTournament\":null,\"profile\":{\"id\":53354,\"userId\":\"5a4da22a-e4e2-11ef-bb59-7b6e5c265431\",\"firstName\":\"Juliette\",\"preferredName\":\"Juliette\",\"lastName\":\"Morales\",\"imageSource\":\"https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/26e280f7-ed4e-4130-ba99-ec0af86b0e43-1777994594089.jpeg\",\"level\":{\"id\":1,\"name\":\"unrated\",\"abbreviated\":\"U\",\"order\":0}},\"levelAtTournament\":null},{\"id\":261960,\"teamId\":130681,\"playerProfileId\":62352,\"levelIdAtTournament\":null,\"profile\":{\"id\":62352,\"userId\":\"TS1A5PyJ5q0DVQqAJtKqt0NjNyT291Q6\",\"firstName\":\"Bella\",\"preferredName\":null,\"lastName\":\"Soria\",\"imageSource\":null,\"level\":{\"id\":1,\"name\":\"unrated\",\"abbreviated\":\"U\",\"order\":0}},\"levelAtTournament\":null}]},\"poolTeam\":{\"id\":27974,\"poolId\":6140,\"teamId\":224418,\"seed\":1,\"finish\":null,\"pool\":{\"id\":6140,\"name\":\"1\"}},\"levelEarned\":null},{\"id\":225181,\"tournamentDivisionId\":17125,\"teamId\":131726,\"invoiceId\":8020,\"pricePaid\":80,\"seed\":2,\"finish\":null,\"playoffsSeed\":null,\"wildcard\":null,\"pointsEarned\":null,\"levelEarnedId\":null,\"status\":\"confirmed\",\"transferChargeInvoiceId\":null,\"transferChargeAmount\":null,\"withdrawnAt\":null,\"withdrawnBy\":null,\"waitlistedAt\":null,\"confirmedAt\":\"2026-06-16T03:40:15.000Z\",\"externalRef\":null,\"order\":2,\"originalPlayerIds\":[61977,61163],\"managedByUserIds\":[\"xsDAhp9mGDoDMlB7lSBptliVK3YKqoW8\"],\"forfeited\":false,\"createdAt\":\"2026-06-16T03:40:15.047Z\",\"updatedAt\":\"2026-06-20T00:08:12.035Z\",\"team\":{\"id\":131726,\"name\":null,\"players\":[{\"id\":264215,\"teamId\":131726,\"playerProfileId\":61977,\"levelIdAtTournament\":null,\"profile\":{\"id\":61977,\"userId\":\"xsDAhp9mGDoDMlB7lSBptliVK3YKqoW8\",\"firstName\":\"Carter\",\"preferredName\":\"Carter \",\"lastName\":\"Lewis \",\"imageSource\":\"https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/f11bd644-d601-4093-994e-f56f0b1b03ea-1773108282465.jpg\",\"level\":{\"id\":1,\"name\":\"unrated\",\"abbreviated\":\"U\",\"order\":0}},\"levelAtTournament\":null},{\"id\":264216,\"teamId\":131726,\"playerProfileId\":61163,\"levelIdAtTournament\":null,\"profile\":{\"id\":61163,\"userId\":\"d0be11ae-a857-11f0-9ad6-2b747e8fcaf9\",\"firstName\":\"Ellie\",\"preferredName\":\"Ellie\",\"lastName\":\"Doyle\",\"imageSource\":null,\"level\":{\"id\":1,\"name\":\"unrated\",\"abbreviated\":\"U\",\"order\":0}},\"levelAtTournament\":null}]",
-        "git_sha": "6e990df"
+        "git_sha": "14c36cf"
       }
     ]
   }
