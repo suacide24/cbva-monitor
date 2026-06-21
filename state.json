@@ -916,8 +916,8 @@
     }
   },
   "last_run": {
-    "timestamp": "2026-06-21T11:30:23.853317-07:00",
-    "git_sha": "2e347ea",
+    "timestamp": "2026-06-21T11:34:15.401261-07:00",
+    "git_sha": "bc3b976",
     "status": "ok",
     "players_watching": 30,
     "error_count": 0,
@@ -931,6 +931,13 @@
           "4668:16521",
           "4668:16522"
         ]
+      }
+    },
+    "url_watches": {
+      "https://cbva.com/tournaments/4668/16522": {
+        "last_status": "waitlist_full",
+        "t_name": "Ocean Beach",
+        "div_name": "Men's A"
       }
     }
   }
