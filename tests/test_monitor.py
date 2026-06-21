@@ -555,5 +555,130 @@ class TestNormalizeMatchList(unittest.TestCase):
         self.assertEqual(monitor._normalize_match_list({"foo": "bar"}), [])
 
 
+# ── Tournament Availability Tracker ──────────────────────────────────────────
+
+class TestDivGenderLabel(unittest.TestCase):
+    def _div(self, gender, max_age=None):
+        return {"gender": gender, "division": {"maxAge": max_age}}
+
+    def test_male_adult(self):
+        self.assertEqual(monitor._div_gender_label(self._div("male")), "Men's")
+
+    def test_female_adult(self):
+        self.assertEqual(monitor._div_gender_label(self._div("female")), "Women's")
+
+    def test_coed(self):
+        self.assertEqual(monitor._div_gender_label(self._div("coed")), "Coed")
+
+    def test_male_youth(self):
+        self.assertEqual(monitor._div_gender_label(self._div("male", max_age=16)), "Boys")
+
+    def test_female_youth(self):
+        self.assertEqual(monitor._div_gender_label(self._div("female", max_age=16)), "Girls")
+
+
+class TestDivLevelLabel(unittest.TestCase):
+    def _div(self, display):
+        return {"division": {"display": display}}
+
+    def test_a(self):
+        self.assertEqual(monitor._div_level_label(self._div("A")), "A")
+
+    def test_aa_lowercase(self):
+        self.assertEqual(monitor._div_level_label(self._div("aa")), "AA")
+
+    def test_open(self):
+        self.assertEqual(monitor._div_level_label(self._div("Open")), "OPEN")
+
+    def test_empty_is_u(self):
+        self.assertEqual(monitor._div_level_label(self._div("")), "U")
+
+
+class TestNormDivLevel(unittest.TestCase):
+    def test_b(self):
+        self.assertEqual(monitor._norm_div_level("B"), "B")
+
+    def test_unrated_variants(self):
+        for v in ("unrated", "n", "u", "N", "U", ""):
+            self.assertEqual(monitor._norm_div_level(v), "U", f"Failed for {v!r}")
+
+    def test_open_variants(self):
+        self.assertEqual(monitor._norm_div_level("open"), "OPEN")
+        self.assertEqual(monitor._norm_div_level("OPEN"), "OPEN")
+
+
+class TestDivMatchesWatch(unittest.TestCase):
+    def _div(self, gender="male", level="A"):
+        return {"gender": gender, "division": {"display": level}}
+
+    def test_no_filters_matches_all(self):
+        self.assertTrue(monitor._div_matches_watch(self._div("male", "B"), {}))
+        self.assertTrue(monitor._div_matches_watch(self._div("female", "AAA"), {}))
+
+    def test_gender_filter_matches(self):
+        w = {"genders": ["Men's"]}
+        self.assertTrue(monitor._div_matches_watch(self._div("male"), w))
+        self.assertFalse(monitor._div_matches_watch(self._div("female"), w))
+
+    def test_division_filter_matches(self):
+        w = {"divisions": ["A", "AA"]}
+        self.assertTrue(monitor._div_matches_watch(self._div(level="A"), w))
+        self.assertTrue(monitor._div_matches_watch(self._div(level="AA"), w))
+        self.assertFalse(monitor._div_matches_watch(self._div(level="B"), w))
+
+    def test_both_filters_must_match(self):
+        w = {"genders": ["Men's"], "divisions": ["A"]}
+        self.assertTrue(monitor._div_matches_watch(self._div("male", "A"), w))
+        self.assertFalse(monitor._div_matches_watch(self._div("male", "B"), w))
+        self.assertFalse(monitor._div_matches_watch(self._div("female", "A"), w))
+
+    def test_coed_filter(self):
+        w = {"genders": ["Coed"]}
+        self.assertTrue(monitor._div_matches_watch({"gender": "coed", "division": {}}, w))
+        self.assertFalse(monitor._div_matches_watch(self._div("male"), w))
+
+    def test_open_div_matches(self):
+        w = {"divisions": ["OPEN"]}
+        self.assertTrue(monitor._div_matches_watch(self._div(level="Open"), w))
+        self.assertTrue(monitor._div_matches_watch(self._div(level="OPEN"), w))
+
+
+class TestParseRegStatus(unittest.TestCase):
+    def test_sign_up(self):
+        self.assertEqual(monitor._parse_reg_status("Register today\nSIGN UP"), "open")
+
+    def test_join_waitlist(self):
+        self.assertEqual(monitor._parse_reg_status("Tournament info\nJOIN WAITLIST"), "waitlist")
+
+    def test_waitlist_full_before_sign_up(self):
+        # "WAITLIST FULL" must take priority over any stray "SIGN UP" text
+        self.assertEqual(monitor._parse_reg_status("WAITLIST FULL — registration closed"), "waitlist_full")
+
+    def test_coming_soon(self):
+        self.assertEqual(monitor._parse_reg_status("Coming soon to a beach near you"), "coming_soon")
+
+    def test_registration_closed(self):
+        self.assertEqual(monitor._parse_reg_status("REGISTRATION CLOSED"), "closed")
+
+    def test_unknown(self):
+        self.assertEqual(monitor._parse_reg_status("Tournament page"), "unknown")
+
+
+class TestRegStatusRank(unittest.TestCase):
+    def test_open_beats_all(self):
+        for s in ("unknown", "coming_soon", "closed", "waitlist_full", "waitlist"):
+            self.assertGreater(
+                monitor._REG_RANK["open"],
+                monitor._REG_RANK[s],
+                f"open should beat {s}",
+            )
+
+    def test_waitlist_beats_waitlist_full(self):
+        self.assertGreater(monitor._REG_RANK["waitlist"], monitor._REG_RANK["waitlist_full"])
+
+    def test_waitlist_full_beats_closed(self):
+        self.assertGreater(monitor._REG_RANK["waitlist_full"], monitor._REG_RANK["closed"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

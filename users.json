@@ -1,6 +1,14 @@
 [
   {
     "email": "rsua95@gmail.com",
+    "tournament_watches": [
+      {
+        "city": "San Diego",
+        "genders": [],
+        "divisions": []
+      }
+    ],
+    "tournament_urls": [],
     "players": [
       "Ramon Sua",
       "Faizan Zubair",
