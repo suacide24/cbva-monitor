@@ -390,6 +390,10 @@
         "7": "Brian Passman / Grace Passman"
       },
       "17427": {
+        "11": "Lev Asnis / Artem Bagaev",
+        "14": "Skye Hathaway / Ryan Brennan",
+        "17": "Alex Strigelskiy / Igor Novikov",
+        "18": "Daniel Weaver / Yohan Lejosne",
         "1": "Neil Sprenkel / Andrew Adelman",
         "2": "Jack Grassl / John Leestma",
         "3": "Mat Nuttall / Carl Osorio",
@@ -399,32 +403,28 @@
         "7": "Trey Tamaki / John Wetzel",
         "8": "Matt Wendt / Kjell Nilssen",
         "9": "Theo Weinberger / Brendan Baron",
-        "11": "Lev Asnis / Artem Bagaev",
         "12": "Elijah Alonzo / Kameron Gabriel Zikria",
         "13": "Dale Ehnes / Brandon Varljen",
-        "14": "Skye Hathaway / Ryan Brennan",
         "15": "Morris Rellera / Tom Jones",
-        "16": "Brandon Foo / Thomas Beetz",
-        "17": "Alex Strigelskiy / Igor Novikov",
-        "18": "Daniel Weaver / Yohan Lejosne"
+        "16": "Brandon Foo / Thomas Beetz"
       },
       "16468": {
+        "3": "Cat Achy / Clara Hopkins",
+        "6": "Mp Arias / Allie Westrup",
+        "9": "Selina Chhay / Yesenia Jacobo",
+        "16": "Andrea Morales / Devin Ruppenstein",
         "1": "Kimberly Le / Thera Steele",
         "2": "Amie Garcia / Sjuzanna Hacatrjana",
-        "3": "Cat Achy / Clara Hopkins",
         "4": "Kitty Wan / Grace Vander Veen",
         "5": "Kasey Carter / Serena Comer",
-        "6": "Mp Arias / Allie Westrup",
         "7": "Chantelle Asares / Chloe Hannemann",
         "8": "Anastasiia Hulaia / Julia Bever",
-        "9": "Selina Chhay / Yesenia Jacobo",
         "10": "Sumaiya Islam / Alexis Anderson",
         "11": "Erika Seto / Kaylin Smith",
         "12": "Kimmi Weiss / Brooke Baker",
         "13": "Alicia Chen / Adiba Hassan",
         "14": "Naomi Pankratz / Sally Weisenberg",
-        "15": "Alice Taylor / Kate Lau",
-        "16": "Andrea Morales / Devin Ruppenstein"
+        "15": "Alice Taylor / Kate Lau"
       },
       "16469": {
         "1": "Daniel Lozada / Brett Stetson",
@@ -916,8 +916,8 @@
     }
   },
   "last_run": {
-    "timestamp": "2026-06-21T12:49:19.990373-07:00",
-    "git_sha": "ded929e",
+    "timestamp": "2026-06-21T14:18:56.751619-07:00",
+    "git_sha": "4715790",
     "status": "ok",
     "players_watching": 30,
     "error_count": 0,
