@@ -210,11 +210,6 @@
         "2": "Pouya Payan / Teesa Payan",
         "3": "Matt Olson / Stella Olson"
       },
-      "16442": {
-        "1": "Stella Schantz / Jonathan Schantz",
-        "2": "Pouya Payan / Teesa Payan",
-        "3": "Matt Olson / Stella Olson"
-      },
       "16443": {
         "1": "Luis Sandoval / Madelyn Sandoval",
         "2": "Savannah Harris / David Harris",
@@ -348,7 +343,7 @@
     },
     "results": {
       "Selina Chhay": {
-        "playoff_notified": true,
+        "playoff_notified": false,
         "fingerprint": "[]",
         "raw": [
           {

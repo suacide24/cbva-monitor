@@ -392,5 +392,112 @@ class TestPlayerNamesBugRegression(unittest.TestCase):
         )
 
 
+# ── Regression: false playoff email ──────────────────────────────────────────
+
+class TestPlayoffGate(unittest.TestCase):
+    """
+    CBVA publishes the complete bracket at tournament start with every match
+    in "scheduled" status before play begins.  The playoff email must NOT fire
+    just because the player's seed appears in the bracket — it must wait until
+    at least one of their matches has moved past "scheduled"/"not_started".
+    """
+
+    def _scheduled_match(self, a_seed, b_seed):
+        return {
+            "teamASeed": a_seed, "teamBSeed": b_seed,
+            "teamAId": None, "teamBId": None,
+            "status": "scheduled",
+            "winnerId": None, "sets": [],
+        }
+
+    def _active_match(self, a_seed, b_seed, status="in_progress"):
+        return {
+            "teamASeed": a_seed, "teamBSeed": b_seed,
+            "teamAId": None, "teamBId": None,
+            "status": status,
+            "winnerId": None, "sets": [],
+        }
+
+    def _check_results_playoff_logic(self, data, entry):
+        """
+        Extract just the playoff guard logic from check_results to test it
+        without async/network overhead.
+        """
+        our_seed    = entry.get("team_seed")
+        team_id     = entry.get("team_id")
+        bracket_tid = entry.get("bracket_team_id")
+
+        in_bracket = False
+        if team_id:
+            in_bracket = any(
+                m.get("teamAId") == team_id or m.get("teamBId") == team_id
+                for m in data
+            )
+        if not in_bracket and bracket_tid:
+            in_bracket = any(
+                m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid
+                for m in data
+            )
+        if not in_bracket and our_seed:
+            in_bracket = any(
+                m.get("teamASeed") == our_seed or m.get("teamBSeed") == our_seed
+                for m in data
+            )
+
+        if not in_bracket:
+            return False
+
+        player_matches = [
+            m for m in data
+            if (team_id     and (m.get("teamAId") == team_id     or m.get("teamBId") == team_id))
+            or (bracket_tid and (m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid))
+            or (our_seed    and (m.get("teamASeed") == our_seed  or m.get("teamBSeed") == our_seed))
+        ]
+        return any(
+            m.get("status") not in ("scheduled", "not_started", None)
+            for m in player_matches
+        )
+
+    def test_no_email_when_all_scheduled(self):
+        # Simulates bracket published at tournament start — all matches "scheduled"
+        data = [
+            self._scheduled_match(9, 8),   # Selina's R0 match (seed 9 vs 8)
+            self._scheduled_match(5, 12),
+            self._scheduled_match(1, None),
+        ]
+        entry = {"team_seed": 9}
+        self.assertFalse(self._check_results_playoff_logic(data, entry))
+
+    def test_email_fires_when_match_in_progress(self):
+        data = [
+            self._active_match(9, 8, "in_progress"),
+            self._scheduled_match(5, 12),
+        ]
+        entry = {"team_seed": 9}
+        self.assertTrue(self._check_results_playoff_logic(data, entry))
+
+    def test_email_fires_when_match_completed(self):
+        data = [
+            self._active_match(9, 8, "completed"),
+        ]
+        entry = {"team_seed": 9}
+        self.assertTrue(self._check_results_playoff_logic(data, entry))
+
+    def test_no_email_when_player_not_in_bracket(self):
+        # Player seed 3 not in this bracket
+        data = [self._scheduled_match(9, 8)]
+        entry = {"team_seed": 3}
+        self.assertFalse(self._check_results_playoff_logic(data, entry))
+
+    def test_source_has_match_started_guard(self):
+        import inspect
+        src = inspect.getsource(monitor.check_results)
+        self.assertIn(
+            "match_started", src,
+            "check_results must have a match_started guard to prevent "
+            "false playoff emails on bracket initialisation",
+        )
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

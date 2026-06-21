@@ -603,12 +603,27 @@ async def check_results(page, state: dict) -> tuple[list, list]:
                     for m in data
                 )
             if in_bracket:
-                r_state["playoff_notified"] = True
-                playoff_updates.append((wname, entry, data))
-                match_method = ("team_id" if team_id else
-                                f"bracket_team_id #{bracket_tid}" if bracket_tid else
-                                f"seed #{our_seed}")
-                print(f"  [playoffs] {wname}: appeared in bracket via {match_method}!")
+                # CBVA publishes the complete bracket at tournament start with all
+                # matches "scheduled" before a ball is hit.  Gate on at least one
+                # of the player's own matches having moved past "scheduled"/
+                # "not_started" so we don't fire on bracket initialisation.
+                player_matches = [
+                    m for m in data
+                    if (team_id     and (m.get("teamAId") == team_id     or m.get("teamBId") == team_id))
+                    or (bracket_tid and (m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid))
+                    or (our_seed    and (m.get("teamASeed") == our_seed  or m.get("teamBSeed") == our_seed))
+                ]
+                match_started = any(
+                    m.get("status") not in ("scheduled", "not_started", None)
+                    for m in player_matches
+                )
+                if match_started:
+                    r_state["playoff_notified"] = True
+                    playoff_updates.append((wname, entry, data))
+                    match_method = ("team_id" if team_id else
+                                    f"bracket_team_id #{bracket_tid}" if bracket_tid else
+                                    f"seed #{our_seed}")
+                    print(f"  [playoffs] {wname}: appeared in bracket via {match_method}!")
 
         # ── Score / status fingerprint (scoped to our player's active matches) ──
         fp = _player_fingerprint(data, entry)
