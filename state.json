@@ -916,8 +916,8 @@
     }
   },
   "last_run": {
-    "timestamp": "2026-06-21T11:34:15.401261-07:00",
-    "git_sha": "bc3b976",
+    "timestamp": "2026-06-21T12:49:19.990373-07:00",
+    "git_sha": "ded929e",
     "status": "ok",
     "players_watching": 30,
     "error_count": 0,
