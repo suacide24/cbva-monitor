@@ -557,7 +557,7 @@ async def fetch_results(page, div_id: int):
 # Feature 1 — City watch:   notify when a new tournament matching city +
 #             optional gender/division filters is listed on CBVA.
 # Feature 2 — URL watch:    notify when a specific tournament URL's
-#             registration status improves (e.g. Waitlist Full → Sign Up).
+#             registration status improves (e.g. Waitlist Full → Register).
 #
 # Config lives in users.json per-user:
 #   "tournament_watches": [{"city": "San Diego", "genders": ["Men's"],
@@ -615,7 +615,7 @@ _REG_RANK: dict[str, int] = {
     "open":          5,
 }
 _REG_LABEL: dict[str, str] = {
-    "open":          "Sign Up",
+    "open":          "Register",
     "waitlist":      "Join Waitlist",
     "waitlist_full": "Waitlist Full",
     "closed":        "Registration Closed",
@@ -631,7 +631,7 @@ def _parse_reg_status(page_text: str) -> str:
         return "waitlist_full"
     if "JOIN WAITLIST" in u:
         return "waitlist"
-    if "SIGN UP" in u:
+    if "REGISTER" in u:
         return "open"
     if "COMING SOON" in u:
         return "coming_soon"
@@ -803,7 +803,7 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
     """
     Phase 0b — Tournament URL registration-status watch.
     Navigates to each watched URL, reads the registration button text, and
-    emails users when the status improves (Waitlist Full → Join Waitlist → Sign Up).
+    emails users when the status improves (Waitlist Full → Join Waitlist → Register).
     """
     all_urls = {url for u in users for url in (u.get("tournament_urls") or [])}
     if not all_urls:
@@ -949,7 +949,7 @@ def _build_url_status_email(
     meta  = " · ".join(p for p in [venue_str, t_date] if p)
     emoji = "✅" if new_status == "open" else "🕐"
     color = "#1D9E75" if new_status == "open" else "#6A5ACD"
-    btn   = "Sign Up Now →" if new_status == "open" else "Join Waitlist →"
+    btn   = "Register Now →" if new_status == "open" else "Join Waitlist →"
 
     return (
         "<html><body style='font-family:sans-serif;max-width:640px;"

@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CBVA Watchlist</title>
+<title>CBVA Monitor</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f3f8;color:#222;min-height:100vh}
 
-header{background:#1a2a4a;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+/* ── Header ── */
+header{background:#1a2a4a;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10;height:52px}
 header h1{font-size:17px;font-weight:600;letter-spacing:.2px}
 .hdr-right{display:flex;align-items:center;gap:8px}
 .save-confirm{font-size:13px;opacity:.75}
 
+/* ── Buttons ── */
 .btn{padding:7px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;line-height:1.4;transition:opacity .15s}
 .btn:hover{opacity:.85}
 .btn:disabled{opacity:.45;cursor:not-allowed}
@@ -21,6 +23,7 @@ header h1{font-size:17px;font-weight:600;letter-spacing:.2px}
 .btn-add-user{width:100%;padding:14px;border:2px dashed #c8d0e0;border-radius:10px;background:none;color:#667;font-size:14px;cursor:pointer;transition:all .15s;margin-top:4px}
 .btn-add-user:hover{border-color:#1a2a4a;color:#1a2a4a;background:#fff}
 
+/* ── Setup screen ── */
 #setup{display:none;max-width:380px;margin:80px auto;background:#fff;padding:36px;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,.09);text-align:center}
 #setup h2{font-size:22px;margin-bottom:10px}
 #setup p{color:#667;font-size:14px;line-height:1.6;margin-bottom:24px}
@@ -34,11 +37,40 @@ header h1{font-size:17px;font-weight:600;letter-spacing:.2px}
 .btn-enter:hover{background:#253d6e}
 .hint{margin-top:14px;font-size:12px;color:#aaa}
 
-main{max-width:680px;margin:0 auto;padding:24px 16px}
+/* ── App layout ── */
+#app-body{display:none}
+.app-layout{display:flex;min-height:calc(100vh - 52px)}
+
+/* ── Left sidebar ── */
+.sidebar{
+  width:190px;flex-shrink:0;background:#fff;border-right:1px solid #dde3ee;
+  padding:16px 10px;display:flex;flex-direction:column;gap:3px;
+  position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto
+}
+.tab-btn{
+  display:flex;align-items:center;gap:9px;padding:10px 12px;border:none;
+  border-radius:8px;background:transparent;cursor:pointer;font-size:13px;
+  font-weight:500;color:#556;text-align:left;transition:all .15s;width:100%;
+  font-family:inherit
+}
+.tab-btn:hover{background:#f0f4ff;color:#1a2a4a}
+.tab-btn.active{background:#e8efff;color:#1a2a4a;font-weight:600}
+.tab-icon{font-size:16px;flex-shrink:0}
+
+/* ── Content area ── */
+.content{flex:1;padding:24px 20px;min-width:0}
+.inner{max-width:660px}
+
+/* ── Status bar ── */
 .status{padding:10px 14px;border-radius:7px;font-size:13px;margin-bottom:16px}
 .status.error{background:#fff0f0;color:#b02020;border:1px solid #f5c0c0}
 .status.loading{background:#f0f4ff;color:#334;border:1px solid #d0d8f0}
 
+/* ── Panels ── */
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── User cards ── */
 .user-card{background:#fff;border:1px solid #dde3ee;border-radius:11px;padding:18px 20px;margin-bottom:14px}
 .card-top{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .email-input{flex:1;font-size:15px;font-weight:600;color:#1a2a4a;border:none;border-bottom:1.5px solid transparent;padding:2px 0;background:transparent;font-family:inherit}
@@ -47,13 +79,13 @@ main{max-width:680px;margin:0 auto;padding:24px 16px}
 .del-user{margin-left:auto;background:none;border:none;color:#bbb;cursor:pointer;font-size:20px;line-height:1;padding:2px 4px;border-radius:4px;flex-shrink:0}
 .del-user:hover{color:#cc3333;background:#fff0f0}
 
+/* ── Player chips ── */
 .chips{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;margin-bottom:12px}
 .chip{display:inline-flex;align-items:center;gap:5px;background:#eef2fa;color:#1a2a4a;border-radius:999px;padding:4px 8px 4px 12px;font-size:13px}
 .chip.unverified{background:#fff8e1;color:#6b4c00;border:1px solid #f0c040}
 .chip-del{background:none;border:none;color:#8aa;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;border-radius:50%}
 .chip-del:hover{color:#cc3333}
 .chip.unverified .chip-del{color:#b89a40}
-
 .add-player-wrap{position:relative}
 .add-player-input{width:100%;padding:8px 12px;border:1px dashed #c8d0e0;border-radius:7px;font-size:13px;font-family:inherit;background:#fafbfd}
 .add-player-input:focus{outline:none;border:1px solid #1a2a4a;background:#fff}
@@ -62,13 +94,48 @@ main{max-width:680px;margin:0 auto;padding:24px 16px}
 .sugg-item{padding:8px 12px;font-size:13px;cursor:pointer;color:#1a2a4a}
 .sugg-item:hover{background:#f0f4ff}
 .sugg-empty{padding:8px 12px;font-size:12px;color:#999;font-style:italic}
+
+/* ── Tournament card internals ── */
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#aab;margin:16px 0 8px;padding-top:16px;border-top:1px solid #eef2fa}
+.section-label:first-of-type{border-top:none;margin-top:0;padding-top:0}
+
+/* City watches */
+.city-watches{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.city-watch-row{border:1px solid #dde3ee;border-radius:8px;padding:10px 12px;background:#fafbfd}
+.city-watch-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.city-input{flex:1;border:none;background:transparent;font-size:14px;font-weight:600;color:#1a2a4a;font-family:inherit;padding:2px 0;border-bottom:1.5px solid transparent}
+.city-input:focus{outline:none;border-bottom-color:#1a2a4a}
+.city-input::placeholder{color:#bbb;font-weight:400}
+.del-watch{background:none;border:none;color:#ccc;cursor:pointer;font-size:18px;line-height:1;padding:0 2px;flex-shrink:0}
+.del-watch:hover{color:#cc3333}
+.filter-row-label{font-size:11px;color:#aab;font-weight:600;margin-bottom:4px}
+.filter-row{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.toggle-chip{padding:3px 10px;border-radius:999px;border:1.5px solid #d0d8ee;background:#fff;color:#778;font-size:12px;cursor:pointer;font-family:inherit;transition:all .12s}
+.toggle-chip:hover{border-color:#1a2a4a;color:#1a2a4a}
+.toggle-chip.on{background:#1a2a4a;color:#fff;border-color:#1a2a4a}
+.btn-add-watch{padding:6px 14px;border:1.5px dashed #c8d0e0;border-radius:7px;background:none;color:#889;font-size:13px;cursor:pointer;transition:all .12s;font-family:inherit}
+.btn-add-watch:hover{border-color:#1a2a4a;color:#1a2a4a;background:#f0f4ff}
+
+/* URL watches */
+.url-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.url-chip{display:flex;align-items:center;gap:8px;background:#eef2fa;border-radius:7px;padding:7px 8px 7px 12px}
+.url-chip a{color:#1a2a4a;text-decoration:none;flex:1;font-size:12px;word-break:break-all}
+.url-chip a:hover{text-decoration:underline}
+.url-del{background:none;border:none;color:#8aa;cursor:pointer;font-size:14px;line-height:1;padding:0 2px;border-radius:50%;flex-shrink:0}
+.url-del:hover{color:#cc3333}
+.add-url-row{display:flex;gap:6px}
+.add-url-input{flex:1;padding:8px 10px;border:1px dashed #c8d0e0;border-radius:7px;font-size:13px;font-family:inherit;background:#fafbfd;min-width:0}
+.add-url-input:focus{outline:none;border:1px solid #1a2a4a;background:#fff}
+.btn-add-url{padding:8px 14px;border-radius:7px;border:none;background:#1a2a4a;color:#fff;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:inherit}
+.btn-add-url:hover{opacity:.85}
 </style>
 </head>
 <body>
 
+<!-- ── Password screen ── -->
 <div id="setup">
-  <h2>🏐 CBVA Watchlist</h2>
-  <p>Enter the password to view and edit the watchlist.</p>
+  <h2>🏐 CBVA Monitor</h2>
+  <p>Enter the password to manage subscriptions.</p>
   <div class="field">
     <label>Password</label>
     <input type="password" id="pw-input" placeholder="••••••••" autocomplete="off"
@@ -78,36 +145,69 @@ main{max-width:680px;margin:0 auto;padding:24px 16px}
   <p class="hint">Ask Ramon for the password.</p>
 </div>
 
-<header id="app-header" style="display:none">
-  <h1>🏐 CBVA Watchlist</h1>
-  <div class="hdr-right">
-    <span class="save-confirm" id="save-confirm"></span>
-    <button class="btn btn-lock" onclick="lock()" title="Lock">🔒</button>
-    <button class="btn btn-save" id="save-btn" onclick="saveToGitHub()">Save</button>
-  </div>
-</header>
+<!-- ── App ── -->
+<div id="app-body">
+  <header>
+    <h1>🏐 CBVA Monitor</h1>
+    <div class="hdr-right">
+      <span class="save-confirm" id="save-confirm"></span>
+      <button class="btn btn-lock" onclick="lock()" title="Lock">🔒</button>
+      <button class="btn btn-save" id="save-btn" onclick="saveToGitHub()">Save</button>
+    </div>
+  </header>
 
-<main id="app-main" style="display:none">
-  <div id="status-bar"></div>
-  <div id="cards"></div>
-  <button class="btn-add-user" onclick="addUser()">+ Add subscriber</button>
-</main>
+  <div class="app-layout">
+    <!-- Left sidebar -->
+    <nav class="sidebar">
+      <button class="tab-btn active" id="tab-players" onclick="showTab('players')">
+        <span class="tab-icon">🏐</span> Player Tracker
+      </button>
+      <button class="tab-btn" id="tab-tournament" onclick="showTab('tournament')">
+        <span class="tab-icon">📍</span> Tournament Notifier
+      </button>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+      <div id="status-bar"></div>
+      <div class="inner">
+
+        <!-- Player Tracker panel -->
+        <div id="panel-players" class="panel active">
+          <div id="cards-players"></div>
+          <button class="btn-add-user" onclick="addUser()">+ Add subscriber</button>
+        </div>
+
+        <!-- Tournament Notifier panel -->
+        <div id="panel-tournament" class="panel">
+          <div id="cards-tournament"></div>
+          <button class="btn-add-user" onclick="addUser()">+ Add subscriber</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 // ── injected at deploy time by GitHub Actions ──────────────────────
 const GH_TOKEN = '%%WATCHLIST_TOKEN%%';
 // ──────────────────────────────────────────────────────────────────
 
-const PASSWORD  = 'stalker';
-const AUTH_KEY  = 'cbva_authed';
-const REPO = 'suacide24/cbva-monitor';
-const FILE = 'users.json';
-const API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+const PASSWORD = 'stalker';
+const AUTH_KEY = 'cbva_authed';
+const REPO     = 'suacide24/cbva-monitor';
+const FILE     = 'users.json';
+const API      = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+
+const GENDERS   = ["Men's", "Women's", "Coed"];
+const DIVISIONS = ["UNRATED", "B", "A", "AA", "AAA", "OPEN"];
 
 let sha = '';
 let users = [];
-let knownPlayers = [];     // autocomplete list (from players.json)
-let verifiedPlayers = new Set();  // names confirmed to exist on CBVA
+let knownPlayers = [];
+let verifiedPlayers = new Set();
+let activeTab = 'players';
 
 /* ── auth ── */
 function isAuthed() { return localStorage.getItem(AUTH_KEY) === '1'; }
@@ -125,22 +225,26 @@ function submitPassword() {
   }
 }
 
-function lock() {
-  localStorage.removeItem(AUTH_KEY);
-  location.reload();
-}
+function lock() { localStorage.removeItem(AUTH_KEY); location.reload(); }
 
 /* ── screens ── */
 function showSetup() {
   document.getElementById('setup').style.display = 'block';
-  document.getElementById('app-header').style.display = 'none';
-  document.getElementById('app-main').style.display = 'none';
+  document.getElementById('app-body').style.display = 'none';
   setTimeout(() => document.getElementById('pw-input').focus(), 50);
 }
 function showApp() {
   document.getElementById('setup').style.display = 'none';
-  document.getElementById('app-header').style.display = '';
-  document.getElementById('app-main').style.display = '';
+  document.getElementById('app-body').style.display = 'block';
+}
+
+/* ── tab switching ── */
+function showTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
 }
 
 /* ── status ── */
@@ -148,7 +252,9 @@ function setStatus(msg, type = '') {
   document.getElementById('status-bar').innerHTML =
     msg ? `<div class="status ${type}">${esc(msg)}</div>` : '';
 }
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 /* ── load ── */
 function authHeaders() {
@@ -169,10 +275,17 @@ async function init() {
     sha   = data.sha;
     users = JSON.parse(atob(data.content.replace(/\s/g, '')));
 
+    // Ensure all fields exist
+    users.forEach(u => {
+      if (!u.players)             u.players = [];
+      if (!u.tournament_watches)  u.tournament_watches = [];
+      if (!u.tournament_urls)     u.tournament_urls = [];
+    });
+
     if (playersRes?.ok) {
       const cbvaPlayers = await playersRes.json();
       verifiedPlayers = new Set(cbvaPlayers);
-      knownPlayers    = cbvaPlayers;  // already sorted
+      knownPlayers    = cbvaPlayers;
     } else {
       knownPlayers = [...new Set(users.flatMap(u => u.players || []))].sort();
     }
@@ -186,74 +299,61 @@ async function init() {
 
 /* ── render ── */
 function render() {
-  const c = document.getElementById('cards');
-  c.innerHTML = '';
-  users.forEach((u, i) => c.appendChild(makeCard(u, i)));
+  const cp = document.getElementById('cards-players');
+  const ct = document.getElementById('cards-tournament');
+  cp.innerHTML = '';
+  ct.innerHTML = '';
+  users.forEach((u, i) => {
+    cp.appendChild(makePlayerCard(u, i));
+    ct.appendChild(makeTournamentCard(u, i));
+  });
 }
 
-function makeCard(u, idx) {
-  const card = document.createElement('div');
-  card.className = 'user-card';
+/* ── Player Tracker card ── */
+function makePlayerCard(u, idx) {
+  const card = div('user-card');
 
-  const top = document.createElement('div');
-  top.className = 'card-top';
-
-  const email = document.createElement('input');
-  email.className = 'email-input';
-  email.type = 'email';
-  email.value = u.email || '';
-  email.placeholder = 'email@example.com';
-  email.oninput = () => { users[idx].email = email.value.trim(); };
-
-  const del = document.createElement('button');
-  del.className = 'del-user';
-  del.title = 'Remove person';
-  del.textContent = '×';
-  del.onclick = () => { users.splice(idx, 1); render(); };
-
+  const top = div('card-top');
+  const email = emailInput(u, idx);
+  const del = delUserBtn(idx);
   top.append(email, del);
   card.appendChild(top);
 
-  const chips = document.createElement('div');
-  chips.className = 'chips';
+  const chips = div('chips');
   (u.players || []).forEach((p, pi) => {
-    const chip = document.createElement('div');
     const known = verifiedPlayers.size === 0 || verifiedPlayers.has(p);
-    chip.className = known ? 'chip' : 'chip unverified';
+    const chip = div(known ? 'chip' : 'chip unverified');
     chip.title = known ? '' : 'Name not found in CBVA — check spelling';
     chip.innerHTML = `<span>${known ? '' : '⚠ '}${esc(p)}</span>`;
-    const x = document.createElement('button');
-    x.className = 'chip-del';
+    const x = btn('chip-del', '×');
     x.title = 'Remove';
-    x.textContent = '×';
     x.onclick = () => { users[idx].players.splice(pi, 1); render(); };
     chip.appendChild(x);
     chips.appendChild(chip);
   });
   card.appendChild(chips);
 
-  const wrap = document.createElement('div');
-  wrap.className = 'add-player-wrap';
+  card.appendChild(makePlayerInput(idx));
+  return card;
+}
 
-  const inp = document.createElement('input');
-  inp.className = 'add-player-input';
+function makePlayerInput(idx) {
+  const wrap = div('add-player-wrap');
+  const inp = el('input', 'add-player-input');
   inp.placeholder = '+ Add player…';
+  const suggs = div('suggestions');
 
-  const suggs = document.createElement('div');
-  suggs.className = 'suggestions';
-
-  const closeSugg = () => { suggs.classList.remove('open'); suggs.innerHTML = ''; };
-  const showSugg  = () => {
+  const close = () => { suggs.classList.remove('open'); suggs.innerHTML = ''; };
+  const open  = () => {
     const q   = inp.value.toLowerCase();
     const exc = new Set(users[idx].players);
     const hit = knownPlayers.filter(p => !exc.has(p) && p.toLowerCase().includes(q));
     suggs.innerHTML = '';
     if (hit.length) {
       hit.slice(0, 8).forEach(p => {
-        const d = document.createElement('div');
-        d.className = 'sugg-item';
+        const d = div('sugg-item');
         d.textContent = p;
-        d.onmousedown = e => { e.preventDefault(); addPlayer(idx, p); inp.value = ''; closeSugg(); };
+        d.onmousedown = e => { e.preventDefault(); addPlayer(idx, p); inp.value = ''; close(); };
         suggs.appendChild(d);
       });
       suggs.classList.add('open');
@@ -261,21 +361,18 @@ function makeCard(u, idx) {
       suggs.innerHTML = `<div class="sugg-empty">Press Enter to add "${esc(inp.value.trim())}"</div>`;
       suggs.classList.add('open');
     } else {
-      closeSugg();
+      close();
     }
   };
-
-  inp.addEventListener('input', showSugg);
-  inp.addEventListener('focus', showSugg);
-  inp.addEventListener('blur',  () => setTimeout(closeSugg, 120));
+  inp.addEventListener('input', open);
+  inp.addEventListener('focus', open);
+  inp.addEventListener('blur', () => setTimeout(close, 120));
   inp.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { const v = inp.value.trim(); if (v) { addPlayer(idx, v); inp.value = ''; closeSugg(); } }
-    if (e.key === 'Escape') closeSugg();
+    if (e.key === 'Enter') { const v = inp.value.trim(); if (v) { addPlayer(idx, v); inp.value = ''; close(); } }
+    if (e.key === 'Escape') close();
   });
-
   wrap.append(inp, suggs);
-  card.appendChild(wrap);
-  return card;
+  return wrap;
 }
 
 function addPlayer(idx, name) {
@@ -286,10 +383,154 @@ function addPlayer(idx, name) {
   render();
 }
 
+/* ── Tournament Notifier card ── */
+function makeTournamentCard(u, idx) {
+  const card = div('user-card');
+
+  const top = div('card-top');
+  top.append(emailInput(u, idx), delUserBtn(idx));
+  card.appendChild(top);
+
+  // City Watches
+  const cityLabel = div('section-label');
+  cityLabel.textContent = 'City Watches';
+  card.appendChild(cityLabel);
+
+  const cityList = div('city-watches');
+  (u.tournament_watches || []).forEach((w, wi) =>
+    cityList.appendChild(makeCityWatch(idx, w, wi))
+  );
+  card.appendChild(cityList);
+
+  const addCityBtn = el('button', 'btn-add-watch');
+  addCityBtn.textContent = '+ Add city';
+  addCityBtn.onclick = () => {
+    users[idx].tournament_watches.push({ city: '', genders: [], divisions: [] });
+    render();
+    // focus new city input
+    const inputs = document.querySelectorAll(`#cards-tournament .user-card:nth-child(${idx + 1}) .city-input`);
+    inputs[inputs.length - 1]?.focus();
+  };
+  card.appendChild(addCityBtn);
+
+  // Tournament URLs
+  const urlLabel = div('section-label');
+  urlLabel.textContent = 'Tournament URLs';
+  card.appendChild(urlLabel);
+
+  const urlList = div('url-list');
+  (u.tournament_urls || []).forEach((url, ui) => {
+    const chip = div('url-chip');
+    const a = document.createElement('a');
+    a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.textContent = url.replace('https://cbva.com', '');
+    const x = btn('url-del', '×');
+    x.title = 'Remove';
+    x.onclick = () => { users[idx].tournament_urls.splice(ui, 1); render(); };
+    chip.append(a, x);
+    urlList.appendChild(chip);
+  });
+  card.appendChild(urlList);
+
+  const addUrlRow = div('add-url-row');
+  const urlInp = el('input', 'add-url-input');
+  urlInp.type = 'url';
+  urlInp.placeholder = 'https://cbva.com/tournaments/…';
+  const addUrlBtn = el('button', 'btn-add-url');
+  addUrlBtn.textContent = 'Add';
+  const doAdd = () => {
+    const v = urlInp.value.trim();
+    if (!v) return;
+    if (!users[idx].tournament_urls.includes(v)) {
+      users[idx].tournament_urls.push(v);
+      render();
+    }
+    urlInp.value = '';
+  };
+  urlInp.addEventListener('keydown', e => { if (e.key === 'Enter') doAdd(); });
+  addUrlBtn.onclick = doAdd;
+  addUrlRow.append(urlInp, addUrlBtn);
+  card.appendChild(addUrlRow);
+
+  return card;
+}
+
+function makeCityWatch(idx, w, wi) {
+  const row = div('city-watch-row');
+
+  const topRow = div('city-watch-top');
+  const cityInp = el('input', 'city-input');
+  cityInp.placeholder = 'City (e.g. San Diego)';
+  cityInp.value = w.city || '';
+  cityInp.oninput = () => { users[idx].tournament_watches[wi].city = cityInp.value.trim(); };
+  const delBtn = btn('del-watch', '×');
+  delBtn.title = 'Remove';
+  delBtn.onclick = () => { users[idx].tournament_watches.splice(wi, 1); render(); };
+  topRow.append(cityInp, delBtn);
+  row.appendChild(topRow);
+
+  // Gender toggles
+  const gLabel = div('filter-row-label');
+  gLabel.textContent = 'Gender (empty = all)';
+  row.appendChild(gLabel);
+  const gRow = div('filter-row');
+  GENDERS.forEach(g => {
+    const b = el('button', 'toggle-chip' + (w.genders.includes(g) ? ' on' : ''));
+    b.textContent = g;
+    b.onclick = () => {
+      const list = users[idx].tournament_watches[wi].genders;
+      const i = list.indexOf(g);
+      if (i >= 0) list.splice(i, 1); else list.push(g);
+      b.classList.toggle('on');
+    };
+    gRow.appendChild(b);
+  });
+  row.appendChild(gRow);
+
+  // Division toggles
+  const dLabel = div('filter-row-label');
+  dLabel.style.marginTop = '8px';
+  dLabel.textContent = 'Division (empty = all)';
+  row.appendChild(dLabel);
+  const dRow = div('filter-row');
+  DIVISIONS.forEach(d => {
+    const b = el('button', 'toggle-chip' + (w.divisions.includes(d) ? ' on' : ''));
+    b.textContent = d;
+    b.onclick = () => {
+      const list = users[idx].tournament_watches[wi].divisions;
+      const i = list.indexOf(d);
+      if (i >= 0) list.splice(i, 1); else list.push(d);
+      b.classList.toggle('on');
+    };
+    dRow.appendChild(b);
+  });
+  row.appendChild(dRow);
+
+  return row;
+}
+
+/* ── shared card helpers ── */
+function emailInput(u, idx) {
+  const e = el('input', 'email-input');
+  e.type = 'email';
+  e.value = u.email || '';
+  e.placeholder = 'email@example.com';
+  e.oninput = () => { users[idx].email = e.value.trim(); };
+  return e;
+}
+function delUserBtn(idx) {
+  const b = btn('del-user', '×');
+  b.title = 'Remove subscriber';
+  b.onclick = () => { users.splice(idx, 1); render(); };
+  return b;
+}
+
+/* ── add user ── */
 function addUser() {
-  users.push({ email: '', players: [] });
+  users.push({ email: '', players: [], tournament_watches: [], tournament_urls: [] });
   render();
-  const cards = document.querySelectorAll('.user-card');
+  const container = `#cards-${activeTab === 'players' ? 'players' : 'tournament'}`;
+  const cards = document.querySelectorAll(`${container} .user-card`);
   const last  = cards[cards.length - 1];
   if (last) {
     last.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -299,16 +540,20 @@ function addUser() {
 
 /* ── save ── */
 async function saveToGitHub() {
-  const btn = document.getElementById('save-btn');
-  btn.disabled = true;
-  btn.textContent = 'Saving…';
+  const saveBtn = document.getElementById('save-btn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Saving…';
   setStatus('');
   try {
-    const clean   = users.map(u => ({ email: u.email.trim(), players: u.players })).filter(u => u.email);
+    const clean = users.map(u => {
+      const entry = { email: u.email.trim(), players: u.players || [] };
+      if ((u.tournament_watches || []).length) entry.tournament_watches = u.tournament_watches;
+      if ((u.tournament_urls    || []).length) entry.tournament_urls    = u.tournament_urls;
+      return entry;
+    }).filter(u => u.email);
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(clean, null, 2))));
     const res = await fetch(API, {
-      method: 'PUT',
-      headers: authHeaders(),
+      method: 'PUT', headers: authHeaders(),
       body: JSON.stringify({ message: 'update watchlist', content, sha }),
     });
     if (!res.ok) {
@@ -322,10 +567,15 @@ async function saveToGitHub() {
   } catch (e) {
     setStatus('Save failed: ' + e.message, 'error');
   } finally {
-    btn.disabled = false;
-    btn.textContent = 'Save';
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save';
   }
 }
+
+/* ── DOM helpers ── */
+function div(cls)     { const d = document.createElement('div'); d.className = cls; return d; }
+function el(tag, cls) { const e = document.createElement(tag); e.className = cls; return e; }
+function btn(cls, text) { const b = el('button', cls); b.textContent = text; return b; }
 
 init();
 </script>

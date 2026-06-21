@@ -668,14 +668,25 @@ class TestDivMatchesWatch(unittest.TestCase):
 
 
 class TestParseRegStatus(unittest.TestCase):
-    def test_sign_up(self):
-        self.assertEqual(monitor._parse_reg_status("Register today\nSIGN UP"), "open")
+    def test_register_open(self):
+        # Actual CBVA button: "Register — $XX.XX" (price may vary)
+        self.assertEqual(monitor._parse_reg_status("Register — $80.00"), "open")
+        self.assertEqual(monitor._parse_reg_status("Register"), "open")
+
+    def test_sign_up_now_footer_not_open(self):
+        # "SIGN UP NOW" appears in the footer of every CBVA page — must NOT be treated as open
+        self.assertEqual(monitor._parse_reg_status("WAITLIST FULL\nSIGN UP NOW"), "waitlist_full")
+
+    def test_sign_up_now_footer_alone_not_open(self):
+        # Footer alone with no registration button = unknown
+        self.assertEqual(monitor._parse_reg_status("Tournament info\nSIGN UP NOW"), "unknown")
 
     def test_join_waitlist(self):
-        self.assertEqual(monitor._parse_reg_status("Tournament info\nJOIN WAITLIST"), "waitlist")
+        # Actual CBVA button: "Join Waitlist — $80.00"
+        self.assertEqual(monitor._parse_reg_status("Tournament info\nJoin Waitlist — $80.00"), "waitlist")
 
-    def test_waitlist_full_before_sign_up(self):
-        # "WAITLIST FULL" must take priority over any stray "SIGN UP" text
+    def test_waitlist_full_before_register(self):
+        # "WAITLIST FULL" must take priority even if page contains "Register" text
         self.assertEqual(monitor._parse_reg_status("WAITLIST FULL — registration closed"), "waitlist_full")
 
     def test_coming_soon(self):
@@ -797,9 +808,9 @@ class TestBuildUrlStatusEmail(unittest.TestCase):
         html = self._call("waitlist_full", "waitlist")
         self.assertIn("Join Waitlist", html)
 
-    def test_open_status_green_and_sign_up_button(self):
+    def test_open_status_green_and_register_button(self):
         html = self._call("waitlist", "open")
-        self.assertIn("Sign Up", html)
+        self.assertIn("Register", html)
         self.assertIn("#1D9E75", html)  # green
 
     def test_waitlist_status_purple_button(self):
@@ -825,7 +836,7 @@ class TestBuildUrlStatusEmail(unittest.TestCase):
 
 class TestCheckUrlStatusesAsync(unittest.IsolatedAsyncioTestCase):
 
-    def _page(self, body_text="SIGN UP"):
+    def _page(self, body_text="Register"):
         p = MagicMock()
         p.goto = AsyncMock()
         p.evaluate = AsyncMock(return_value=body_text)
@@ -870,7 +881,7 @@ class TestCheckUrlStatusesAsync(unittest.IsolatedAsyncioTestCase):
 
     async def test_open_improvement_sends_email(self):
         """waitlist → open (best status) also sends email."""
-        page = self._page("SIGN UP")
+        page = self._page("Register")
         state = self._state(self.URL, "waitlist")
         users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
 
@@ -929,7 +940,7 @@ class TestCheckUrlStatusesAsync(unittest.IsolatedAsyncioTestCase):
 
     async def test_only_watching_user_notified(self):
         """Only the user who listed the URL gets the email, not all users."""
-        page = self._page("SIGN UP")
+        page = self._page("Register")
         state = self._state(self.URL, "waitlist")
         users = [
             {"email": "watcher@b.com", "tournament_urls": [self.URL]},
