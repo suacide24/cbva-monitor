@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 """
 CBVA Player Monitor
 
@@ -429,7 +430,7 @@ async def scan_today_tournaments(page, today_str: str, state: dict, player_names
                     # Match by profile ID, fall back to name matching
                     wname = id_to_wname.get(p_id)
                     if not wname:
-                        for candidate in PLAYER_NAMES:
+                        for candidate in player_names:
                             if _names_match(p_name, candidate):
                                 wname = candidate
                                 break

@@ -49,7 +49,9 @@ def main() -> None:
     except Exception as e:
         die(f"Cannot read {MONITOR_FILE}: {e}")
 
-    # Build Claude prompt
+    # Build Claude prompt — ask for targeted patches, not the whole file.
+    # monitor.py is ~1200 lines; returning the complete file risks hitting
+    # max_tokens and producing a truncated (syntax-broken) output.
     error_json = json.dumps(errors, indent=2)
     prompt = f"""You are an automated repair agent for a Python script called monitor.py.
 
@@ -76,40 +78,72 @@ Here is the complete current source of monitor.py:
 Your task:
 1. Diagnose the root cause from the traceback and raw API response.
 2. Determine the minimal, targeted fix.
-3. Return the COMPLETE fixed monitor.py — every line, from the shebang to EOF.
+3. Return your fix as a JSON array of replacement objects. Each object has:
+   - "old": the exact string to find in monitor.py (must match character-for-character,
+     including indentation and newlines)
+   - "new": the replacement string
 
 HARD RULES:
-- Your response must be ONLY the raw Python source. No markdown, no fences, no
-  explanation text, no prefix, no suffix.
-- The very first character must be `#` (the shebang line).
-- Do not add new imports or dependencies beyond what is already in the file.
+- Return ONLY the JSON array. No explanation, no markdown fences, nothing else.
+- The very first character of your response must be `[`.
+- Each "old" string must appear exactly once in the source.
 - Do not change logic that is currently working — fix only what is broken.
+- Prefer the smallest possible change: a single line fix is better than replacing
+  an entire function.
 - If the raw API response shows a schema change, update only the relevant parsing
   code to match the actual response structure.
+
+Example response format:
+[
+  {{"old": "    for candidate in PLAYER_NAMES:", "new": "    for candidate in player_names:"}}
+]
 """
 
     print("[repair] Calling Claude...")
     client = anthropic.Anthropic()
     message = client.messages.create(
         model="claude-opus-4-8",
-        max_tokens=16000,
+        max_tokens=4000,
         thinking={"type": "adaptive"},
         messages=[{"role": "user", "content": prompt}],
     )
 
-    fixed_source = ""
+    response_text = ""
     for block in message.content:
         if block.type == "text":
-            fixed_source = block.text.strip()
+            response_text = block.text.strip()
             break
 
-    if not fixed_source:
+    if not response_text:
         die("Claude returned an empty response.")
-    if not fixed_source.startswith("#"):
+    if not response_text.startswith("["):
         die(
-            f"Claude response does not start with '#' — likely included explanation text.\n"
-            f"First 300 chars: {fixed_source[:300]}"
+            f"Claude response is not a JSON array (does not start with '[').\n"
+            f"First 300 chars: {response_text[:300]}"
         )
+
+    try:
+        patches = json.loads(response_text)
+    except json.JSONDecodeError as e:
+        die(f"Claude returned invalid JSON: {e}\nResponse: {response_text[:500]}")
+
+    if not isinstance(patches, list) or not patches:
+        die(f"Claude returned an empty or non-list patch set: {response_text[:300]}")
+
+    # Apply patches to source
+    fixed_source = source
+    for i, patch in enumerate(patches):
+        old = patch.get("old", "")
+        new = patch.get("new", "")
+        if not old:
+            die(f"Patch {i} has empty 'old' field.")
+        count = fixed_source.count(old)
+        if count == 0:
+            die(f"Patch {i} 'old' string not found in {MONITOR_FILE}:\n{old!r}")
+        if count > 1:
+            die(f"Patch {i} 'old' string matches {count} locations — must be unique:\n{old!r}")
+        fixed_source = fixed_source.replace(old, new, 1)
+        print(f"[repair] Patch {i+1}/{len(patches)} applied.")
 
     # Validate syntax before touching the real file
     try:
@@ -120,7 +154,7 @@ HARD RULES:
             capture_output=True, text=True,
         )
         if result.returncode != 0:
-            die(f"Claude's fix has syntax errors:\n{result.stderr}")
+            die(f"Patched source has syntax errors:\n{result.stderr}")
     finally:
         if os.path.exists(TMP_FILE):
             os.unlink(TMP_FILE)
