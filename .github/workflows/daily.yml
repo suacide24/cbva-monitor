@@ -10,6 +10,13 @@ on:
     # 5 PM–8 PM PT bleeds into the next UTC day (Sun/Mon)
     - cron: "*/30 0-3 * * 0,1"
   workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Enable CBVA_DEBUG (verbose API logging)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 permissions:
   contents: write   # needed to commit updated state.json
@@ -54,6 +61,7 @@ jobs:
           EMAIL_PASSWORD:  ${{ secrets.EMAIL_PASSWORD }}
           CBVA_EMAIL:      ${{ secrets.CBVA_EMAIL }}
           CBVA_PASSWORD:   ${{ secrets.CBVA_PASSWORD }}
+          CBVA_DEBUG:      ${{ github.event.inputs.debug == 'true' && '1' || '' }}
         run: python monitor.py
 
       - name: Commit updated state.json

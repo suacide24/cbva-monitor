@@ -472,17 +472,27 @@ async def scan_today_tournaments(page, today_str: str, state: dict, player_names
 
 # ── Results tracking ──────────────────────────────────────────────────────────
 
-# Confirmed working endpoints first, then fallbacks.
+# Pool-play endpoints tried first; bracket endpoints as fallback.
+# Endpoint discovery caches only when active (non-scheduled) matches are found,
+# so pre-game bracket data doesn't mask pool-play results.
 _RESULTS_CANDIDATES = [
+    # Pool play / round-robin (guesses — CBVA tRPC names not yet confirmed)
+    ("tournaments.getPoolPlay",        lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getPools",           lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getPool",            lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getPoolResults",     lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getTeamPools",       lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getRoundRobin",      lambda d: {"tournamentDivisionId": d}),
+    # Bracket / general (confirmed working)
     ("tournaments.getPlayoffs",        lambda d: {"tournamentDivisionId": d}),  # ✅ confirmed
-    ("tournaments.getDivisionSummary", lambda d: {"tournamentDivisionId": d}),  # intercepted on page load
+    ("tournaments.getDivisionSummary", lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getSchedule",        lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getGames",           lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getDivisionGames",   lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getBracket",         lambda d: {"tournamentDivisionId": d}),
 ]
 
-# Cached once we discover the working endpoint: div_id → endpoint name
+# Cached once we find an endpoint with active (non-scheduled) matches.
 _results_ep_cache: dict[int, str] = {}
 
 
@@ -491,14 +501,36 @@ async def fetch_results(page, div_id: int):
         ep = _results_ep_cache[div_id]
         return await _trpc_get(page, ep, {"tournamentDivisionId": div_id})
 
+    fallback: tuple | None = None  # (ep, data) — first hit with any data
+
     for ep, inp_fn in _RESULTS_CANDIDATES:
         data = await _trpc_get(page, ep, inp_fn(div_id))
-        if data and "error" not in str(data)[:50].lower():
+        if not data or "error" in str(data)[:50].lower():
+            if DEBUG:
+                print(f"  [results] miss: {ep}")
+            continue
+
+        has_active = any(
+            m.get("status") not in ("scheduled", "not_started", None)
+            for m in (data if isinstance(data, list) else [])
+        )
+
+        if has_active:
+            # Active matches found — cache this endpoint for subsequent calls
             print(f"  [results] Endpoint discovered: {ep} (div {div_id})")
             _results_ep_cache[div_id] = ep
             return data
+
+        # Data returned but all matches are pre-game; keep trying for pool play
+        if fallback is None:
+            fallback = (ep, data)
         if DEBUG:
-            print(f"  [results] miss: {ep}")
+            print(f"  [results] {ep}: data but all pre-game, trying next")
+
+    if fallback:
+        ep, data = fallback
+        print(f"  [results] Using pre-game data from {ep} (div {div_id})")
+        return data
 
     print(f"  [results] No endpoint found for div {div_id} — results not yet available.")
     return None
