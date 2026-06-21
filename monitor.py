@@ -847,6 +847,7 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
                         div_name = _division_label(d)
                         break
 
+        is_new     = url not in url_ws
         ws         = url_ws.setdefault(url, {})
         old_status = ws.get("last_status", "unknown")
         ws.update({"last_status": new_status, "t_name": t_name, "div_name": div_name})
@@ -854,20 +855,23 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
         label = f"{t_name}{' · ' + div_name if div_name else ''}"
         old_l = _REG_LABEL.get(old_status, old_status)
         new_l = _REG_LABEL.get(new_status, new_status)
-        print(f"  [avail] {label}: {old_l} → {new_l}")
 
-        if _REG_RANK.get(new_status, 0) > _REG_RANK.get(old_status, 0):
-            for user in users:
-                if url in (user.get("tournament_urls") or []):
-                    send_email(
-                        f"CBVA Registration Update — {label}",
-                        _build_url_status_email(
-                            url, old_status, new_status,
-                            t_name, div_name, venue_str, t_date, now_pt,
-                        ),
-                        to=user["email"],
-                    )
-                    print(f"  [avail] Status email → {user['email']}")
+        if is_new:
+            print(f"  [avail] {label}: bootstrapped at '{new_l}' — will notify on improvement")
+        else:
+            print(f"  [avail] {label}: {old_l} → {new_l}")
+            if _REG_RANK.get(new_status, 0) > _REG_RANK.get(old_status, 0):
+                for user in users:
+                    if url in (user.get("tournament_urls") or []):
+                        send_email(
+                            f"CBVA Registration Update — {label}",
+                            _build_url_status_email(
+                                url, old_status, new_status,
+                                t_name, div_name, venue_str, t_date, now_pt,
+                            ),
+                            to=user["email"],
+                        )
+                        print(f"  [avail] Status email → {user['email']}")
 
 
 def _build_new_tournament_email(records: list[dict], now_pt: datetime) -> str:

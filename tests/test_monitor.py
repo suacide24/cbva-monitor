@@ -9,8 +9,9 @@ import json
 import sys
 import tempfile
 import unittest
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
 # ── Stub out playwright so monitor can be imported without a browser install ──
 for mod in ("playwright", "playwright.async_api", "dotenv"):
@@ -557,6 +558,29 @@ class TestNormalizeMatchList(unittest.TestCase):
 
 # ── Tournament Availability Tracker ──────────────────────────────────────────
 
+# ── _t_date_str ───────────────────────────────────────────────────────────────
+
+class TestTDateStr(unittest.TestCase):
+    def test_iso_date_string(self):
+        result = monitor._t_date_str({"date": "2026-07-04T00:00:00Z"})
+        self.assertIn("2026", result)
+        self.assertIn("July", result)
+
+    def test_fallback_field_order(self):
+        # startDate should be used when date is absent
+        result = monitor._t_date_str({"startDate": "2026-07-04T00:00:00Z"})
+        self.assertIn("2026", result)
+
+    def test_empty_returns_empty_string(self):
+        self.assertEqual(monitor._t_date_str({}), "")
+
+    def test_non_iso_returns_slice(self):
+        result = monitor._t_date_str({"date": "2026-08-15 raw"})
+        self.assertEqual(result, "2026-08-15")   # first 10 chars
+
+
+# ── Tournament Availability Tracker ──────────────────────────────────────────
+
 class TestDivGenderLabel(unittest.TestCase):
     def _div(self, gender, max_age=None):
         return {"gender": gender, "division": {"maxAge": max_age}}
@@ -678,6 +702,473 @@ class TestRegStatusRank(unittest.TestCase):
 
     def test_waitlist_full_beats_closed(self):
         self.assertGreater(monitor._REG_RANK["waitlist_full"], monitor._REG_RANK["closed"])
+
+
+# ── Email builders ─────────────────────────────────────────────────────────────
+
+_PT = timezone(timedelta(hours=-7))
+
+
+def _now():
+    return datetime.now(_PT)
+
+
+def _div(gender="male", level="A", div_id=500):
+    return {"id": div_id, "gender": gender, "division": {"display": level}}
+
+
+def _record(city="San Diego", t_name="SD Open", divs=None):
+    if divs is None:
+        divs = [_div()]
+    return {
+        "t_id": 100, "t_name": t_name,
+        "venue_str": "Mission Bay Park, San Diego",
+        "t_date": "July 4, 2026",
+        "t_url": "https://cbva.com/tournaments/100",
+        "watch": {"city": city, "genders": ["Men's"], "divisions": ["A"]},
+        "new_divs": divs,
+    }
+
+
+class TestBuildNewTournamentEmail(unittest.TestCase):
+    def test_returns_valid_html(self):
+        html = monitor._build_new_tournament_email([_record()], _now())
+        self.assertIn("<html>", html)
+        self.assertIn("</html>", html)
+
+    def test_contains_tournament_name(self):
+        html = monitor._build_new_tournament_email([_record(t_name="Beach Bash 2026")], _now())
+        self.assertIn("Beach Bash 2026", html)
+
+    def test_contains_venue_and_date(self):
+        html = monitor._build_new_tournament_email([_record()], _now())
+        self.assertIn("Mission Bay Park", html)
+        self.assertIn("July 4, 2026", html)
+
+    def test_contains_city_watch_label(self):
+        html = monitor._build_new_tournament_email([_record(city="San Diego")], _now())
+        self.assertIn("San Diego", html)
+        self.assertIn("Men's", html)
+
+    def test_division_link_present(self):
+        html = monitor._build_new_tournament_email([_record()], _now())
+        self.assertIn("/tournaments/100/500", html)  # div id 500 in URL
+
+    def test_multiple_records_all_shown(self):
+        records = [_record("San Diego", "Open A"), _record("San Diego", "Classic B")]
+        html = monitor._build_new_tournament_email(records, _now())
+        self.assertIn("Open A", html)
+        self.assertIn("Classic B", html)
+
+    def test_no_filter_label_when_no_filters(self):
+        r = _record()
+        r["watch"] = {"city": "San Diego", "genders": [], "divisions": []}
+        html = monitor._build_new_tournament_email([r], _now())
+        self.assertIn("San Diego", html)
+
+    def test_multiple_divisions_all_linked(self):
+        divs = [_div("male", "A", 500), _div("female", "A", 501)]
+        html = monitor._build_new_tournament_email([_record(divs=divs)], _now())
+        self.assertIn("/tournaments/100/500", html)
+        self.assertIn("/tournaments/100/501", html)
+
+
+class TestBuildUrlStatusEmail(unittest.TestCase):
+    def _call(self, old="waitlist_full", new="waitlist"):
+        return monitor._build_url_status_email(
+            "https://cbva.com/tournaments/100/500",
+            old, new,
+            "SD Open", "Men's A",
+            "Mission Bay Park, San Diego", "July 4, 2026",
+            _now(),
+        )
+
+    def test_returns_valid_html(self):
+        html = self._call()
+        self.assertIn("<html>", html)
+        self.assertIn("</html>", html)
+
+    def test_shows_old_status_crossed_out(self):
+        html = self._call("waitlist_full", "waitlist")
+        self.assertIn("Waitlist Full", html)
+        self.assertIn("line-through", html)
+
+    def test_shows_new_status_highlighted(self):
+        html = self._call("waitlist_full", "waitlist")
+        self.assertIn("Join Waitlist", html)
+
+    def test_open_status_green_and_sign_up_button(self):
+        html = self._call("waitlist", "open")
+        self.assertIn("Sign Up", html)
+        self.assertIn("#1D9E75", html)  # green
+
+    def test_waitlist_status_purple_button(self):
+        html = self._call("waitlist_full", "waitlist")
+        self.assertIn("#6A5ACD", html)  # purple
+
+    def test_contains_tournament_name(self):
+        html = self._call()
+        self.assertIn("SD Open", html)
+        self.assertIn("Men's A", html)
+
+    def test_url_in_button(self):
+        html = self._call()
+        self.assertIn("https://cbva.com/tournaments/100/500", html)
+
+    def test_venue_and_date_shown(self):
+        html = self._call()
+        self.assertIn("Mission Bay Park", html)
+        self.assertIn("July 4, 2026", html)
+
+
+# ── Async: check_url_statuses ─────────────────────────────────────────────────
+
+class TestCheckUrlStatusesAsync(unittest.IsolatedAsyncioTestCase):
+
+    def _page(self, body_text="SIGN UP"):
+        p = MagicMock()
+        p.goto = AsyncMock()
+        p.evaluate = AsyncMock(return_value=body_text)
+        return p
+
+    def _state(self, url, last_status):
+        return {"tournament_tracker": {"url_watches": {url: {"last_status": last_status}}}}
+
+    URL = "https://cbva.com/tournaments/100/500"
+
+    async def test_first_check_no_email(self):
+        """First time URL is seen: records status silently, no email."""
+        page = self._page("WAITLIST FULL")
+        state = {}
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_not_called()
+        saved = state["tournament_tracker"]["url_watches"][self.URL]["last_status"]
+        self.assertEqual(saved, "waitlist_full")
+
+    async def test_improvement_sends_email(self):
+        """Status improves waitlist_full → waitlist: email sent."""
+        page = self._page("JOIN WAITLIST")
+        state = self._state(self.URL, "waitlist_full")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+        details = {
+            "name": "SD Open", "venue": {"name": "Mission Bay", "city": "San Diego"},
+            "tournamentDivisions": [{"id": 500, "gender": "male", "division": {"display": "A"}}],
+        }
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=details)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_called_once()
+        subject = mock_email.call_args[0][0]
+        self.assertIn("SD Open", subject)
+
+    async def test_open_improvement_sends_email(self):
+        """waitlist → open (best status) also sends email."""
+        page = self._page("SIGN UP")
+        state = self._state(self.URL, "waitlist")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_called_once()
+
+    async def test_no_change_no_email(self):
+        """Same status on re-check: no email."""
+        page = self._page("WAITLIST FULL")
+        state = self._state(self.URL, "waitlist_full")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_not_called()
+
+    async def test_status_worsens_no_email(self):
+        """Status worsening (open → waitlist_full): no email."""
+        page = self._page("WAITLIST FULL")
+        state = self._state(self.URL, "open")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_not_called()
+
+    async def test_state_updated_after_check(self):
+        """last_status in state reflects what was found on page."""
+        page = self._page("JOIN WAITLIST")
+        state = self._state(self.URL, "waitlist_full")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email", new=MagicMock()):
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        saved = state["tournament_tracker"]["url_watches"][self.URL]["last_status"]
+        self.assertEqual(saved, "waitlist")
+
+    async def test_no_urls_skips_network(self):
+        """Users with no tournament_urls: no page.goto called."""
+        page = self._page()
+        state = {}
+        users = [{"email": "a@b.com", "players": ["Alice"]}]
+
+        await monitor.check_url_statuses(page, state, users, _now())
+
+        page.goto.assert_not_called()
+
+    async def test_only_watching_user_notified(self):
+        """Only the user who listed the URL gets the email, not all users."""
+        page = self._page("SIGN UP")
+        state = self._state(self.URL, "waitlist")
+        users = [
+            {"email": "watcher@b.com", "tournament_urls": [self.URL]},
+            {"email": "other@b.com",   "tournament_urls": []},
+        ]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        self.assertEqual(mock_email.call_count, 1)
+        self.assertIn("watcher@b.com", mock_email.call_args[1].get("to", ""))
+
+    async def test_bad_url_skipped(self):
+        """Unrecognised URL format: skip gracefully without crashing."""
+        page = self._page()
+        state = {}
+        users = [{"email": "a@b.com", "tournament_urls": ["https://notcbva.com/foo"]}]
+
+        await monitor.check_url_statuses(page, state, users, _now())
+
+        page.goto.assert_not_called()
+
+
+# ── Async: check_city_tournaments ─────────────────────────────────────────────
+
+class TestCheckCityTournamentsAsync(unittest.IsolatedAsyncioTestCase):
+
+    def _page(self):
+        p = MagicMock()
+        p.goto = AsyncMock()
+        return p
+
+    def _upcoming(self):
+        return [{"id": 100, "name": "SD Open", "venue": {"city": "San Diego", "name": "Mission Bay"}}]
+
+    def _details(self, div_list=None):
+        if div_list is None:
+            div_list = [
+                {"id": 500, "gender": "male",   "division": {"display": "A"}},
+                {"id": 501, "gender": "female", "division": {"display": "A"}},
+            ]
+        return {
+            "name": "SD Open",
+            "venue": {"city": "San Diego", "name": "Mission Bay"},
+            "tournamentDivisions": div_list,
+        }
+
+    def _user(self, watches=None, email="a@b.com"):
+        return {
+            "email": email,
+            "tournament_watches": watches or [{"city": "San Diego", "genders": [], "divisions": []}],
+            "players": [],
+        }
+
+    async def test_new_tournament_sends_email(self):
+        """New tournament in watched city → email sent, both divisions recorded."""
+        page = self._page()
+        state = {}
+        users = [self._user()]
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=self._details())):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_called_once()
+        ws = state["tournament_tracker"]["city_watches"]["a@b.com:san diego"]
+        self.assertIn("100:500", ws["seen_tdivs"])
+        self.assertIn("100:501", ws["seen_tdivs"])
+
+    async def test_gender_filter_only_matching_div_recorded(self):
+        """Men's filter: only Men's division in seen_tdivs, Women's excluded."""
+        page = self._page()
+        state = {}
+        users = [self._user(watches=[{"city": "San Diego", "genders": ["Men's"], "divisions": []}])]
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=self._details())):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_called_once()
+        ws = state["tournament_tracker"]["city_watches"]["a@b.com:san diego"]
+        self.assertIn("100:500",    ws["seen_tdivs"])   # Men's A matched
+        self.assertNotIn("100:501", ws["seen_tdivs"])   # Women's A filtered out
+
+    async def test_division_filter_applied(self):
+        """Division filter B: A-level division excluded, B-level included."""
+        page = self._page()
+        state = {}
+        users = [self._user(watches=[{"city": "San Diego", "genders": [], "divisions": ["B"]}])]
+        details = self._details(div_list=[
+            {"id": 500, "gender": "male", "division": {"display": "A"}},
+            {"id": 502, "gender": "male", "division": {"display": "B"}},
+        ])
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=details)):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_called_once()
+        ws = state["tournament_tracker"]["city_watches"]["a@b.com:san diego"]
+        self.assertNotIn("100:500", ws["seen_tdivs"])   # Men's A filtered
+        self.assertIn("100:502",    ws["seen_tdivs"])   # Men's B matched
+
+    async def test_already_seen_no_email(self):
+        """All divisions already in seen_tdivs → no email, no duplicate."""
+        page = self._page()
+        state = {
+            "tournament_tracker": {
+                "city_watches": {
+                    "a@b.com:san diego": {"seen_tdivs": ["100:500", "100:501"]}
+                }
+            }
+        }
+        users = [self._user()]
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=self._details())):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_not_called()
+
+    async def test_partially_seen_emails_only_new(self):
+        """One division already seen, one new → email fires for the new one only."""
+        page = self._page()
+        state = {
+            "tournament_tracker": {
+                "city_watches": {
+                    "a@b.com:san diego": {"seen_tdivs": ["100:500"]}  # Men's A already seen
+                }
+            }
+        }
+        users = [self._user()]
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=self._details())):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_called_once()
+        ws = state["tournament_tracker"]["city_watches"]["a@b.com:san diego"]
+        self.assertIn("100:501", ws["seen_tdivs"])   # Women's A now added
+
+    async def test_already_checked_today_skips_fetch(self):
+        """city_last_checked = today → no network call."""
+        page = self._page()
+        today = date.today().strftime("%Y-%m-%d")
+        state = {"tournament_tracker": {"city_last_checked": today}}
+        users = [self._user()]
+
+        mock_fetch = AsyncMock()
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=mock_fetch):
+            await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_fetch.assert_not_called()
+
+    async def test_wrong_city_no_email(self):
+        """Tournament in San Diego, user watches Los Angeles → no email."""
+        page = self._page()
+        state = {}
+        users = [self._user(watches=[{"city": "Los Angeles", "genders": [], "divisions": []}])]
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=self._details())):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_not_called()
+
+    async def test_city_match_is_case_insensitive(self):
+        """'SAN DIEGO' in config matches 'San Diego' in API venue.city."""
+        page = self._page()
+        state = {}
+        users = [self._user(watches=[{"city": "SAN DIEGO", "genders": [], "divisions": []}])]
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=self._details())):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_called_once()
+
+    async def test_no_watches_skips_all_network(self):
+        """User has no tournament_watches → _fetch_upcoming_tournaments never called."""
+        page = self._page()
+        state = {}
+        users = [{"email": "a@b.com", "players": ["Alice"]}]
+
+        mock_fetch = AsyncMock()
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=mock_fetch):
+            await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_fetch.assert_not_called()
+
+    async def test_per_user_state_independent(self):
+        """Two users watching same city get independent seen_tdivs state."""
+        page = self._page()
+        state = {
+            "tournament_tracker": {
+                "city_watches": {
+                    "user1@b.com:san diego": {"seen_tdivs": ["100:500", "100:501"]},
+                    # user2 hasn't seen anything yet
+                }
+            }
+        }
+        users = [
+            self._user(email="user1@b.com"),
+            self._user(email="user2@b.com"),
+        ]
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=self._details())):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        # user1 already saw both → no email; user2 is new → email
+        self.assertEqual(mock_email.call_count, 1)
+        self.assertIn("user2@b.com", mock_email.call_args[1].get("to", ""))
+
+    async def test_no_divisions_match_no_email(self):
+        """All divisions filtered out → no email even though tournament is in city."""
+        page = self._page()
+        state = {}
+        users = [self._user(watches=[{"city": "San Diego", "genders": ["Men's"], "divisions": ["AAA"]}])]
+        # Only A-level divisions in the tournament
+        details = self._details(div_list=[
+            {"id": 500, "gender": "male", "division": {"display": "A"}},
+        ])
+
+        with patch.object(monitor, "_fetch_upcoming_tournaments", new=AsyncMock(return_value=self._upcoming())):
+            with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=details)):
+                with patch.object(monitor, "send_email") as mock_email:
+                    await monitor.check_city_tournaments(page, state, users, _now())
+
+        mock_email.assert_not_called()
 
 
 if __name__ == "__main__":
