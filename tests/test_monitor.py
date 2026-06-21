@@ -499,5 +499,61 @@ class TestPlayoffGate(unittest.TestCase):
         )
 
 
+# ── Regression: getPools nested structure ─────────────────────────────────────
+
+class TestNormalizeMatchList(unittest.TestCase):
+    """
+    getPools returns [{..., "matches": [...]}, ...] — a list of pool objects
+    containing match sub-lists.  _normalize_match_list must flatten this to
+    a plain match list so the rest of the code can iterate over matches directly.
+    """
+
+    def _pool_match(self, status):
+        return {
+            "teamAId": 100, "teamBId": 200,
+            "teamASeed": 1, "teamBSeed": 2,
+            "status": status, "winnerId": None, "sets": [],
+        }
+
+    def test_flat_list_unchanged(self):
+        matches = [self._pool_match("scheduled"), self._pool_match("completed")]
+        result = monitor._normalize_match_list(matches)
+        self.assertEqual(result, matches)
+
+    def test_nested_pool_structure_flattened(self):
+        # getPools response: list of pool objects, each with a "matches" key
+        pool_data = [
+            {"id": 1, "name": "Pool A", "done": False, "matches": [
+                self._pool_match("completed"),
+                self._pool_match("scheduled"),
+            ]},
+            {"id": 2, "name": "Pool B", "done": False, "matches": [
+                self._pool_match("in_progress"),
+            ]},
+        ]
+        result = monitor._normalize_match_list(pool_data)
+        self.assertEqual(len(result), 3)
+        statuses = {m["status"] for m in result}
+        self.assertEqual(statuses, {"completed", "scheduled", "in_progress"})
+
+    def test_completed_match_detected_after_normalization(self):
+        pool_data = [
+            {"id": 1, "done": True, "matches": [self._pool_match("completed")]},
+        ]
+        flat = monitor._normalize_match_list(pool_data)
+        has_active = any(
+            m.get("status") not in ("scheduled", "not_started", None)
+            for m in flat
+        )
+        self.assertTrue(has_active, "completed pool match must be seen as active after normalization")
+
+    def test_empty_list_returns_empty(self):
+        self.assertEqual(monitor._normalize_match_list([]), [])
+
+    def test_non_list_returns_empty(self):
+        self.assertEqual(monitor._normalize_match_list(None), [])
+        self.assertEqual(monitor._normalize_match_list({"foo": "bar"}), [])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

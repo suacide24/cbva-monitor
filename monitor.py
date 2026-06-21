@@ -496,12 +496,25 @@ _RESULTS_CANDIDATES = [
 _results_ep_cache: dict[int, str] = {}
 
 
+def _normalize_match_list(data) -> list:
+    """Flatten getPools-style nested structure [{..., "matches": [...]}] to a flat match list."""
+    if not isinstance(data, list) or not data:
+        return []
+    if isinstance(data[0], dict) and "matches" in data[0]:
+        flat = []
+        for pool in data:
+            flat.extend(pool.get("matches") or [])
+        return flat
+    return data
+
+
 async def fetch_results(page, div_id: int):
     if div_id in _results_ep_cache:
         ep = _results_ep_cache[div_id]
-        return await _trpc_get(page, ep, {"tournamentDivisionId": div_id})
+        raw = await _trpc_get(page, ep, {"tournamentDivisionId": div_id})
+        return _normalize_match_list(raw)
 
-    fallback: tuple | None = None  # (ep, data) — first hit with any data
+    fallback: tuple | None = None  # (ep, matches) — first hit with any data
 
     for ep, inp_fn in _RESULTS_CANDIDATES:
         data = await _trpc_get(page, ep, inp_fn(div_id))
@@ -510,27 +523,29 @@ async def fetch_results(page, div_id: int):
                 print(f"  [results] miss: {ep}")
             continue
 
+        matches = _normalize_match_list(data)
+
         has_active = any(
             m.get("status") not in ("scheduled", "not_started", None)
-            for m in (data if isinstance(data, list) else [])
+            for m in matches
         )
 
         if has_active:
             # Active matches found — cache this endpoint for subsequent calls
             print(f"  [results] Endpoint discovered: {ep} (div {div_id})")
             _results_ep_cache[div_id] = ep
-            return data
+            return matches
 
         # Data returned but all matches are pre-game; keep trying for pool play
         if fallback is None:
-            fallback = (ep, data)
+            fallback = (ep, matches)
         if DEBUG:
             print(f"  [results] {ep}: data but all pre-game, trying next")
 
     if fallback:
-        ep, data = fallback
+        ep, matches = fallback
         print(f"  [results] Using pre-game data from {ep} (div {div_id})")
-        return data
+        return matches
 
     print(f"  [results] No endpoint found for div {div_id} — results not yet available.")
     return None
