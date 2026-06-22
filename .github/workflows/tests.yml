@@ -6,7 +6,8 @@ on:
   pull_request:
 
 jobs:
-  test:
+  unit:
+    name: Backend unit tests
     runs-on: ubuntu-latest
 
     steps:
@@ -21,3 +22,22 @@ jobs:
 
       - name: Run unit tests
         run: python3 tests/test_monitor.py -v
+
+  ui:
+    name: Front-end UI tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright + Chromium
+        run: |
+          pip install playwright==1.47.0 python-dotenv
+          python -m playwright install --with-deps chromium
+
+      - name: Run UI tests (real index.html in headless Chromium)
+        run: python3 -m unittest tests.test_ui -v

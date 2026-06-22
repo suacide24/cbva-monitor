@@ -1,0 +1,18 @@
+[
+  {
+    "email": "alice@example.com",
+    "players": ["Ramon Sua", "Phantom Player"],
+    "tournament_watches": [
+      { "city": "San Diego", "genders": ["Men's"], "divisions": ["B", "A"] }
+    ],
+    "tournament_urls": [
+      { "url": "https://cbva.com/tournaments/4668/16522", "nickname": "OB Open" }
+    ]
+  },
+  {
+    "email": "bob@example.com",
+    "players": ["Faizan Zubair"],
+    "tournament_watches": [],
+    "tournament_urls": []
+  }
+]
