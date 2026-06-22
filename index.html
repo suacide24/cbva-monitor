@@ -70,6 +70,14 @@ header h1{font-size:17px;font-weight:600;letter-spacing:.2px}
 .panel{display:none}
 .panel.active{display:block}
 
+/* ── Sticky save bar ── */
+.save-bar{position:sticky;bottom:0;left:0;right:0;display:none;align-items:center;justify-content:space-between;gap:14px;
+  background:#fff;border-top:1px solid #dde3ee;box-shadow:0 -3px 14px rgba(26,42,74,.10);
+  padding:12px 20px;z-index:9}
+.save-bar.show{display:flex}
+.save-bar-msg{font-size:13px;color:#6a7390;font-weight:500}
+.save-bar .btn-save{padding:9px 20px;font-size:14px}
+
 /* ── User cards ── */
 .user-card{background:#fff;border:1px solid #dde3ee;border-radius:11px;padding:18px 20px;margin-bottom:14px}
 .card-top{display:flex;align-items:center;gap:8px;margin-bottom:14px}
@@ -192,6 +200,12 @@ header h1{font-size:17px;font-weight:600;letter-spacing:.2px}
       </div>
     </div>
   </div>
+
+  <!-- Sticky save bar (shown when there are unsaved changes) -->
+  <div id="save-bar" class="save-bar">
+    <span class="save-bar-msg">You have unsaved changes</span>
+    <button class="btn btn-save" onclick="saveToGitHub()">Save changes</button>
+  </div>
 </div>
 
 <script>
@@ -215,6 +229,11 @@ let verifiedPlayers = new Set();
 let activeTab = 'players';
 let _loaded = false;
 let _dirty  = false;
+function setDirty(v) {
+  _dirty = v;
+  const bar = document.getElementById('save-bar');
+  if (bar) bar.classList.toggle('show', v);
+}
 window.addEventListener('beforeunload', e => {
   if (_dirty) { e.preventDefault(); return e.returnValue = ''; }
 });
@@ -311,7 +330,7 @@ async function init() {
 
 /* ── render ── */
 function render() {
-  if (_loaded) _dirty = true;
+  if (_loaded) setDirty(true);
   const cp = document.getElementById('cards-players');
   const ct = document.getElementById('cards-tournament');
   cp.innerHTML = '';
@@ -438,7 +457,7 @@ function makeTournamentCard(u, idx) {
     const nickInp = el('input', 'url-nick');
     nickInp.placeholder = 'Nickname (optional)';
     nickInp.value = entry.nickname || '';
-    nickInp.oninput = () => { users[idx].tournament_urls[ui].nickname = nickInp.value; _dirty = true; };
+    nickInp.oninput = () => { users[idx].tournament_urls[ui].nickname = nickInp.value; setDirty(true); };
     const x = btn('url-del', '×');
     x.title = 'Remove';
     x.onclick = () => { users[idx].tournament_urls.splice(ui, 1); render(); };
@@ -511,7 +530,7 @@ function makeCityWatch(idx, w, wi) {
       const i = list.indexOf(g);
       if (i >= 0) list.splice(i, 1); else list.push(g);
       b.classList.toggle('on');
-      _dirty = true;
+      setDirty(true);
     };
     gRow.appendChild(b);
   });
@@ -531,7 +550,7 @@ function makeCityWatch(idx, w, wi) {
       const i = list.indexOf(d);
       if (i >= 0) list.splice(i, 1); else list.push(d);
       b.classList.toggle('on');
-      _dirty = true;
+      setDirty(true);
     };
     dRow.appendChild(b);
   });
@@ -592,7 +611,7 @@ async function saveToGitHub() {
       throw new Error(err.message || `HTTP ${res.status}`);
     }
     sha = (await res.json()).content.sha;
-    _dirty = false;
+    setDirty(false);
     const conf = document.getElementById('save-confirm');
     conf.textContent = 'Saved ✓';
     setTimeout(() => { conf.textContent = ''; }, 2500);
