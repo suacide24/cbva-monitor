@@ -1,16 +1,6 @@
 [
   {
     "email": "rsua95@gmail.com",
-    "tournament_watches": [
-      {
-        "city": "San Diego",
-        "genders": [],
-        "divisions": []
-      }
-    ],
-    "tournament_urls": [
-      "https://cbva.com/tournaments/4668/16522"
-    ],
     "players": [
       "Ramon Sua",
       "Faizan Zubair",
@@ -42,6 +32,29 @@
       "Jacklyn Smith",
       "Alana Cravin",
       "Benny Hammond"
+    ],
+    "tournament_watches": [
+      {
+        "city": "San Diego",
+        "genders": [
+          "Men's",
+          "Women's"
+        ],
+        "divisions": [
+          "B",
+          "A",
+          "UNRATED",
+          "AA",
+          "AAA",
+          "OPEN"
+        ]
+      }
+    ],
+    "tournament_urls": [
+      {
+        "url": "https://cbva.com/tournaments/4668/16522",
+        "nickname": ""
+      }
     ]
   }
 ]
