@@ -511,6 +511,7 @@ function makeCityWatch(idx, w, wi) {
       const i = list.indexOf(g);
       if (i >= 0) list.splice(i, 1); else list.push(g);
       b.classList.toggle('on');
+      _dirty = true;
     };
     gRow.appendChild(b);
   });
@@ -530,6 +531,7 @@ function makeCityWatch(idx, w, wi) {
       const i = list.indexOf(d);
       if (i >= 0) list.splice(i, 1); else list.push(d);
       b.classList.toggle('on');
+      _dirty = true;
     };
     dRow.appendChild(b);
   });
