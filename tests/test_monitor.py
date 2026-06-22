@@ -964,6 +964,37 @@ class TestCheckUrlStatusesAsync(unittest.IsolatedAsyncioTestCase):
 
         page.goto.assert_not_called()
 
+    async def test_dict_entry_improvement_sends_email(self):
+        """Dict-format entry {url, nickname} works the same as a plain string."""
+        page = self._page("Register")
+        state = self._state(self.URL, "waitlist")
+        users = [{"email": "a@b.com", "tournament_urls": [{"url": self.URL, "nickname": "SD Open Men's A"}]}]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_called_once()
+
+    async def test_mixed_string_and_dict_entries(self):
+        """Mixed list (some strings, some dicts) all resolve correctly."""
+        url2 = "https://cbva.com/tournaments/200/501"
+        page = MagicMock()
+        page.goto = AsyncMock()
+        page.evaluate = AsyncMock(side_effect=["Register", "JOIN WAITLIST"])
+        state = self._state(self.URL, "waitlist")
+        state["tournament_tracker"]["url_watches"][url2] = {"last_status": "waitlist_full"}
+        users = [{"email": "a@b.com", "tournament_urls": [
+            self.URL,
+            {"url": url2, "nickname": "Other tourney"},
+        ]}]
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=None)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        self.assertEqual(mock_email.call_count, 2)
+
 
 # ── Async: check_city_tournaments ─────────────────────────────────────────────
 

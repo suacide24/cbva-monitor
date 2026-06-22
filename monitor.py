@@ -562,7 +562,8 @@ async def fetch_results(page, div_id: int):
 # Config lives in users.json per-user:
 #   "tournament_watches": [{"city": "San Diego", "genders": ["Men's"],
 #                           "divisions": ["A", "AA"]}]
-#   "tournament_urls":    ["https://cbva.com/tournaments/123/456"]
+#   "tournament_urls":    [{"url": "https://cbva.com/tournaments/123/456", "nickname": "OB Men's A"}]
+#                         (string form also accepted for backward compat)
 #
 # State lives in state.json under "tournament_tracker".
 # ══════════════════════════════════════════════════════════════════════════════
@@ -638,6 +639,11 @@ def _parse_reg_status(page_text: str) -> str:
     if "REGISTRATION CLOSED" in u:
         return "closed"
     return "unknown"
+
+
+def _url_entry_url(entry) -> str:
+    """Extract the URL string from a tournament_urls entry (str or {url, nickname})."""
+    return entry["url"] if isinstance(entry, dict) else entry
 
 
 def _t_date_str(obj: dict) -> str:
@@ -805,7 +811,7 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
     Navigates to each watched URL, reads the registration button text, and
     emails users when the status improves (Waitlist Full → Join Waitlist → Register).
     """
-    all_urls = {url for u in users for url in (u.get("tournament_urls") or [])}
+    all_urls = {_url_entry_url(e) for u in users for e in (u.get("tournament_urls") or [])}
     if not all_urls:
         return
 
@@ -862,7 +868,7 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
             print(f"  [avail] {label}: {old_l} → {new_l}")
             if _REG_RANK.get(new_status, 0) > _REG_RANK.get(old_status, 0):
                 for user in users:
-                    if url in (user.get("tournament_urls") or []):
+                    if url in {_url_entry_url(e) for e in (user.get("tournament_urls") or [])}:
                         send_email(
                             f"CBVA Registration Update — {label}",
                             _build_url_status_email(
