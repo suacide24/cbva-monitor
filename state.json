@@ -781,15 +781,15 @@
     }
   },
   "last_run": {
-    "timestamp": "2026-06-22T12:32:40.865215-07:00",
-    "git_sha": "20eacb2",
+    "timestamp": "2026-06-23T10:59:41.415122-07:00",
+    "git_sha": "1f09b2d",
     "status": "ok",
     "players_watching": 0,
     "error_count": 0,
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-06-22",
+    "city_last_checked": "2026-06-23",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
