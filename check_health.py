@@ -6,92 +6,132 @@ Reads state.json and exits 0 (healthy) or 1 (unhealthy) with a human-readable
 report. Called by the health_check.yml workflow after every monitor run.
 
 Checks:
-  1. Last run status — did the Python script itself report errors?
-  2. Workflow conclusion — did GitHub Actions fail before the script even ran?
-  3. Timing — on tournament days, is the last run recent enough?
+  1. Workflow conclusion — did GitHub Actions fail before the script even ran?
+  2. Last run status — did the Python script itself report errors?
+  3. Liveness (dead-man's switch) — when did the monitor last *succeed*?
+     Queried from the GitHub Actions API (not a committed timestamp), so it
+     covers weekday daily runs as well as weekend tournament-hour runs.
 
 Structured for Layer 4: state["last_run"]["errors"] contains rich diagnostic
 context (traceback, raw CBVA response) that a Claude repair agent can consume.
 """
+from __future__ import annotations
+
 import json
 import os
 import sys
+import urllib.request
 from datetime import datetime, timedelta, timezone
 
 STATE_FILE = "state.json"
 PT         = timezone(timedelta(hours=-7))
-MAX_AGE_MIN = 75  # expect a run every 30 min; allow generous buffer
+
+# Staleness thresholds (minutes since last *successful* run).
+WEEKEND_MAX_MIN = 75     # weekend tournament hours: a run every 30 min
+DAILY_MAX_MIN   = 1560   # otherwise: the daily run fires every 24h (+ buffer)
 
 
-def main() -> None:
-    # ── Read state ────────────────────────────────────────────────────────────
+def last_successful_run_age_min(now_utc: datetime | None = None) -> float | None:
+    """
+    Minutes since the most recent successful "CBVA Monitor" (daily.yml) run,
+    via the GitHub Actions API. Returns None when it can't be determined
+    (no token/repo env, or API/network failure) so we never false-alarm.
+    """
+    token = os.environ.get("GITHUB_TOKEN")
+    repo  = os.environ.get("GITHUB_REPOSITORY")
+    if not token or not repo:
+        return None
+    url = (f"https://api.github.com/repos/{repo}"
+           f"/actions/workflows/daily.yml/runs?status=success&per_page=1")
+    req = urllib.request.Request(url, headers={
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+    })
     try:
-        with open(STATE_FILE) as f:
-            state = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        _fail(f"Cannot read {STATE_FILE}: {e}")
+        with urllib.request.urlopen(req, timeout=15) as r:
+            data = json.loads(r.read().decode())
+    except Exception as e:                       # network, auth, JSON, etc.
+        print(f"  (liveness check skipped — API error: {e})")
+        return None
+    runs = data.get("workflow_runs") or []
+    if not runs:
+        return None
+    created = runs[0].get("created_at")
+    try:
+        dt = datetime.fromisoformat(str(created).replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return None
+    now_utc = now_utc or datetime.now(timezone.utc)
+    return (now_utc - dt).total_seconds() / 60
 
+
+def staleness_threshold(now_pt: datetime) -> int:
+    """Allowed minutes since last success, depending on when we are."""
+    is_weekend       = now_pt.weekday() in (5, 6)
+    is_tourney_hours = 7 <= now_pt.hour <= 20
+    return WEEKEND_MAX_MIN if (is_weekend and is_tourney_hours) else DAILY_MAX_MIN
+
+
+def evaluate_health(state: dict, workflow_conclusion: str,
+                    age_min: float | None, now_pt: datetime) -> list[str]:
+    """Pure health evaluation — returns a list of issue strings (empty = healthy)."""
     issues: list[str] = []
     last_run = state.get("last_run", {})
 
-    # ── Check 1: workflow itself failed (env set by health_check.yml) ─────────
-    if os.environ.get("WORKFLOW_CONCLUSION") == "failure":
+    # Check 1: the workflow itself failed (env set by health_check.yml)
+    if workflow_conclusion == "failure":
         issues.append(
             "GitHub Actions workflow failed before the Python script completed "
             "(check Actions logs for install/setup errors)"
         )
 
-    # ── Check 2: script-level errors ──────────────────────────────────────────
+    # Check 2: script-level errors
     if last_run.get("status") == "error":
         errs = last_run.get("errors", [])
-        summary = "; ".join(
-            f"{e['phase']}: {e['message'][:80]}" for e in errs[:3]
-        )
+        summary = "; ".join(f"{e['phase']}: {e['message'][:80]}" for e in errs[:3])
         issues.append(
             f"Last run reported {last_run.get('error_count', '?')} error(s): {summary}"
         )
 
-    # ── Check 3: stale run on a tournament day ────────────────────────────────
-    now    = datetime.now(PT)
-    is_weekend        = now.weekday() in (5, 6)  # 5=Sat, 6=Sun
-    is_tourney_hours  = 7 <= now.hour <= 20       # 7 AM – 8 PM PT
-    if is_weekend and is_tourney_hours:
-        ts = last_run.get("timestamp")
-        if not ts:
-            issues.append("No runs recorded yet today during tournament hours")
-        else:
-            try:
-                last_dt = datetime.fromisoformat(ts)
-                if last_dt.tzinfo is None:
-                    last_dt = last_dt.replace(tzinfo=PT)
-                age_min = (datetime.now(last_dt.tzinfo) - last_dt).total_seconds() / 60
-                if age_min > MAX_AGE_MIN:
-                    issues.append(
-                        f"Last run was {age_min:.0f} min ago "
-                        f"(expected ≤{MAX_AGE_MIN} min during tournament hours)"
-                    )
-            except ValueError:
-                issues.append(f"Cannot parse last_run timestamp: {ts!r}")
+    # Check 3: liveness / dead-man's switch (API-based, all days)
+    if age_min is not None:
+        threshold = staleness_threshold(now_pt)
+        if age_min > threshold:
+            issues.append(
+                f"No successful monitor run in {age_min:.0f} min "
+                f"(expected ≤{threshold} min) — the scheduler may be stuck"
+            )
 
-    # ── Report ────────────────────────────────────────────────────────────────
+    return issues
+
+
+def main() -> None:
+    try:
+        with open(STATE_FILE) as f:
+            state = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"UNHEALTHY\n  • Cannot read {STATE_FILE}: {e}")
+        sys.exit(1)
+
+    now_pt  = datetime.now(PT)
+    age_min = last_successful_run_age_min()
+    issues  = evaluate_health(
+        state,
+        os.environ.get("WORKFLOW_CONCLUSION", ""),
+        age_min,
+        now_pt,
+    )
+
+    age_str = f"{age_min:.0f} min ago" if age_min is not None else "unknown"
     if issues:
         print("UNHEALTHY")
         for issue in issues:
             print(f"  • {issue}")
-        sha = last_run.get("git_sha", "unknown")
-        ts  = last_run.get("timestamp", "never")
-        print(f"\n  last_run: {ts}  git_sha: {sha}")
+        print(f"\n  last successful run: {age_str}")
         sys.exit(1)
     else:
-        ts  = last_run.get("timestamp", "never")
-        sha = last_run.get("git_sha", "unknown")
-        print(f"HEALTHY — last run: {ts}  git_sha: {sha}")
+        print(f"HEALTHY — last successful run: {age_str}")
         sys.exit(0)
-
-
-def _fail(msg: str) -> None:
-    print(f"UNHEALTHY\n  • {msg}")
-    sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -41,6 +41,7 @@ CBVA_EMAIL    = os.environ.get("CBVA_EMAIL", "")
 CBVA_PASSWORD = os.environ.get("CBVA_PASSWORD", "")
 STATE_FILE    = "state.json"
 PLAYERS_FILE  = "players.json"
+STATUS_FILE   = "status.json"   # per-run heartbeat; NOT committed (gitignored)
 BASE_URL      = "https://cbva.com"
 DEBUG         = os.environ.get("CBVA_DEBUG") == "1"
 
@@ -626,7 +627,13 @@ _REG_LABEL: dict[str, str] = {
 
 
 def _parse_reg_status(page_text: str) -> str:
-    """Infer registration status from CBVA page body text (button labels)."""
+    """
+    Fallback: infer registration status from CBVA page body text (button labels).
+
+    Fragile — CBVA has renamed these buttons before. Prefer
+    `_reg_status_from_division` (capacity numbers, label-independent); this is
+    only used when the API division data is unavailable.
+    """
     u = page_text.upper()
     if "WAITLIST FULL" in u or "WAITLIST IS FULL" in u:
         return "waitlist_full"
@@ -639,6 +646,59 @@ def _parse_reg_status(page_text: str) -> str:
     if "REGISTRATION CLOSED" in u:
         return "closed"
     return "unknown"
+
+
+def _parse_iso(s) -> datetime | None:
+    """Parse an ISO-8601 string (with or without trailing Z / tz) to aware UTC."""
+    if not s:
+        return None
+    try:
+        dt = datetime.fromisoformat(str(s).replace("Z", "+00:00"))
+        return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+    except (ValueError, TypeError):
+        return None
+
+
+def _reg_status_from_division(div: dict, reg_open_at: datetime | None,
+                              now_utc: datetime | None) -> str | None:
+    """
+    Derive registration status from a CBVA division's capacity numbers rather
+    than scraping button text. Returns a status key, or None when the data is
+    insufficient (caller should fall back to `_parse_reg_status`).
+
+    Mapping (validated against live CBVA pages, 2026-06):
+      now < registrationOpenAt                      -> coming_soon
+      registrationPaused or division running/done   -> closed
+      confirmedCount < capacity                     -> open
+      main full, waitlistedCount < waitlistCapacity -> waitlist
+      main full, waitlist full                      -> waitlist_full
+
+    The division-level `status` field ("closed"/"running"/…) is NOT the
+    registration button state and is only consulted to detect a tournament
+    that is already underway or finished.
+    """
+    cap  = div.get("capacity")
+    conf = div.get("confirmedCount")
+    if cap is None or conf is None:
+        return None  # insufficient data → let the caller fall back to text
+
+    # Not yet open for registration
+    if reg_open_at is not None and now_utc is not None and now_utc < reg_open_at:
+        return "coming_soon"
+
+    # Registration paused, or the tournament is already underway / finished
+    dstatus = (div.get("status") or "").lower()
+    if div.get("registrationPaused") or dstatus in ("running", "in_progress", "completed", "complete"):
+        return "closed"
+
+    if conf < cap:
+        return "open"
+
+    wcap = div.get("waitlistCapacity")
+    wl   = div.get("waitlistedCount")
+    if wcap is None or wl is None:
+        return "waitlist_full"          # main roster full, no waitlist info
+    return "waitlist" if wl < wcap else "waitlist_full"
 
 
 def _url_entry_url(entry) -> str:
@@ -816,8 +876,25 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
         return
 
     print("\n── Tournament Availability: URL Watches ──────────────────────")
-    tt     = state.setdefault("tournament_tracker", {})
-    url_ws = tt.setdefault("url_watches", {})
+    tt      = state.setdefault("tournament_tracker", {})
+    url_ws  = tt.setdefault("url_watches", {})
+    now_utc = datetime.now(timezone.utc)
+
+    # Bound growth: forget watches no one is tracking anymore.
+    stale = [u for u in url_ws if u not in all_urls]
+    for u in stale:
+        del url_ws[u]
+    if stale:
+        print(f"  [avail] Pruned {len(stale)} unwatched URL(s) from state")
+
+    # tRPC fetches run in the page context and must be same-origin, so make sure
+    # we're on a cbva.com page first (one navigation total, not one per URL).
+    if "cbva.com" not in (page.url or ""):
+        try:
+            await page.goto(f"{BASE_URL}/tournaments", wait_until="domcontentloaded")
+        except Exception as exc:
+            print(f"  [avail] Could not reach CBVA: {exc}")
+            return
 
     for url in sorted(all_urls):
         m = re.search(r"/tournaments/(\d+)(?:/(\d+))?", url)
@@ -827,21 +904,20 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
         t_id   = int(m.group(1))
         div_id = int(m.group(2)) if m.group(2) else None
 
+        # Primary source of truth: the tRPC division data (capacity numbers).
+        # This also supplies the metadata for the notification email, so the
+        # common path needs no page navigation at all.
         try:
-            await page.goto(url, wait_until="networkidle")
-            page_text = await page.evaluate("() => document.body.innerText")
+            details = await _trpc_get(page, "tournaments.get", {"id": t_id})
         except Exception as exc:
-            print(f"  [avail] Error loading {url}: {exc}")
+            print(f"  [avail] Error fetching tournament {t_id}: {exc}")
             continue
 
-        new_status = _parse_reg_status(page_text)
-
-        # Fetch tournament metadata for the notification email
-        details   = await _trpc_get(page, "tournaments.get", {"id": t_id})
         t_name    = ""
         div_name  = ""
         venue_str = ""
         t_date    = ""
+        div_obj   = None
         if details:
             venue     = details.get("venue") or {}
             t_name    = details.get("name") or venue.get("name") or f"Tournament {t_id}"
@@ -850,8 +926,25 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
             if div_id:
                 for d in (details.get("tournamentDivisions") or []):
                     if d.get("id") == div_id or d.get("tournamentDivisionId") == div_id:
+                        div_obj  = d
                         div_name = _division_label(d)
                         break
+
+        reg_open_at = _parse_iso((details or {}).get("registrationOpenAt")
+                                 or (details or {}).get("registrationOpenDate"))
+        new_status = (_reg_status_from_division(div_obj, reg_open_at, now_utc)
+                      if div_obj else None)
+
+        # Fallback: scrape the page text only when the API data can't decide.
+        if new_status is None:
+            try:
+                await page.goto(url, wait_until="networkidle")
+                page_text = await page.evaluate("() => document.body.innerText")
+                new_status = _parse_reg_status(page_text)
+                print(f"  [avail] (text fallback) {url}")
+            except Exception as exc:
+                print(f"  [avail] Error loading {url}: {exc}")
+                continue
 
         is_new     = url not in url_ws
         ws         = url_ws.setdefault(url, {})
@@ -1684,16 +1777,31 @@ async def run() -> None:
 
         await browser.close()
 
-    # ── Write run summary (always, even on partial failure) ────────────────
+    # ── Write run summary ──────────────────────────────────────────────────
+    # The committed state.json keeps only the *meaningful* part of last_run
+    # (status + structured errors, consumed by check_health.py / auto_repair.py).
+    # The volatile heartbeat (timestamp, git_sha, players_watching) goes to an
+    # uncommitted status.json so state.json no longer churns on every run —
+    # liveness is tracked via the GitHub Actions API instead (see check_health.py).
     state["last_run"] = {
-        "timestamp":        now_pt.isoformat(),
-        "git_sha":          _git_sha(),
-        "status":           "error" if _run_errors else "ok",
-        "players_watching": len(all_players),
-        "error_count":      len(_run_errors),
-        "errors":           _run_errors,
+        "status":      "error" if _run_errors else "ok",
+        "error_count": len(_run_errors),
+        "errors":      _run_errors,
     }
     save_state(state)
+
+    try:
+        with open(STATUS_FILE, "w") as f:
+            json.dump({
+                "timestamp":        now_pt.isoformat(),
+                "git_sha":          _git_sha(),
+                "status":           "error" if _run_errors else "ok",
+                "players_watching": len(all_players),
+                "error_count":      len(_run_errors),
+            }, f, indent=2)
+    except OSError as exc:
+        print(f"[status] Could not write {STATUS_FILE}: {exc}")
+
     print("\nState saved.")
 
     if _run_errors:

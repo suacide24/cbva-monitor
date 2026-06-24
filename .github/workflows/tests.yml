@@ -21,7 +21,10 @@ jobs:
         run: pip install python-dotenv
 
       - name: Run unit tests
-        run: python3 tests/test_monitor.py -v
+        run: |
+          python3 tests/test_monitor.py -v
+          python3 tests/test_health.py -v
+          python3 tests/test_canary.py -v
 
   ui:
     name: Front-end UI tests

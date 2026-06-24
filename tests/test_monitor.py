@@ -715,6 +715,79 @@ class TestRegStatusRank(unittest.TestCase):
         self.assertGreater(monitor._REG_RANK["waitlist_full"], monitor._REG_RANK["closed"])
 
 
+class TestParseIso(unittest.TestCase):
+    def test_z_suffix(self):
+        dt = monitor._parse_iso("2026-05-29T01:00:00Z")
+        self.assertIsNotNone(dt)
+        self.assertEqual(dt.tzinfo, timezone.utc)
+
+    def test_naive_treated_as_utc(self):
+        dt = monitor._parse_iso("2026-05-29T01:00:00")
+        self.assertEqual(dt.utcoffset(), timedelta(0))
+
+    def test_none_and_garbage(self):
+        self.assertIsNone(monitor._parse_iso(None))
+        self.assertIsNone(monitor._parse_iso(""))
+        self.assertIsNone(monitor._parse_iso("not-a-date"))
+
+
+class TestRegStatusFromDivision(unittest.TestCase):
+    """API-based status detection (capacity numbers), validated against live data."""
+
+    def _div(self, cap=10, conf=2, wcap=5, wl=0, status="closed", paused=False):
+        return {"capacity": cap, "confirmedCount": conf, "waitlistCapacity": wcap,
+                "waitlistedCount": wl, "status": status, "registrationPaused": paused}
+
+    def test_open_when_main_has_space(self):
+        # live: cap 10 conf 2/6 -> Register
+        self.assertEqual(monitor._reg_status_from_division(self._div(conf=2), None, None), "open")
+        self.assertEqual(monitor._reg_status_from_division(self._div(conf=6), None, None), "open")
+
+    def test_waitlist_when_main_full_waitlist_open(self):
+        # live: cap 30 conf 30, wcap 7 wl 6 -> Join Waitlist
+        d = self._div(cap=30, conf=30, wcap=7, wl=6)
+        self.assertEqual(monitor._reg_status_from_division(d, None, None), "waitlist")
+
+    def test_waitlist_full_when_both_full(self):
+        # live: cap 20 conf 20, wcap 5 wl 5 -> Waitlist Full
+        d = self._div(cap=20, conf=20, wcap=5, wl=5)
+        self.assertEqual(monitor._reg_status_from_division(d, None, None), "waitlist_full")
+
+    def test_oversubscribed_main_counts_as_full(self):
+        d = self._div(cap=20, conf=21, wcap=5, wl=2)
+        self.assertEqual(monitor._reg_status_from_division(d, None, None), "waitlist")
+
+    def test_paused_is_closed(self):
+        # live: running tournaments have registrationPaused True
+        d = self._div(cap=15, conf=14, paused=True)
+        self.assertEqual(monitor._reg_status_from_division(d, None, None), "closed")
+
+    def test_running_status_is_closed(self):
+        d = self._div(cap=15, conf=14, status="running")
+        self.assertEqual(monitor._reg_status_from_division(d, None, None), "closed")
+
+    def test_coming_soon_when_registration_not_open(self):
+        now  = datetime(2026, 6, 1, tzinfo=timezone.utc)
+        open_at = datetime(2026, 6, 15, tzinfo=timezone.utc)
+        d = self._div(conf=0)
+        self.assertEqual(monitor._reg_status_from_division(d, open_at, now), "coming_soon")
+
+    def test_open_when_registration_already_opened(self):
+        now  = datetime(2026, 6, 20, tzinfo=timezone.utc)
+        open_at = datetime(2026, 6, 15, tzinfo=timezone.utc)
+        d = self._div(conf=0)
+        self.assertEqual(monitor._reg_status_from_division(d, open_at, now), "open")
+
+    def test_none_when_capacity_data_missing(self):
+        # Signals the caller to fall back to text parsing
+        self.assertIsNone(monitor._reg_status_from_division({"capacity": None}, None, None))
+        self.assertIsNone(monitor._reg_status_from_division({"confirmedCount": 5}, None, None))
+
+    def test_main_full_no_waitlist_info_is_waitlist_full(self):
+        d = {"capacity": 10, "confirmedCount": 10}
+        self.assertEqual(monitor._reg_status_from_division(d, None, None), "waitlist_full")
+
+
 # ── Email builders ─────────────────────────────────────────────────────────────
 
 _PT = timezone(timedelta(hours=-7))
@@ -838,6 +911,7 @@ class TestCheckUrlStatusesAsync(unittest.IsolatedAsyncioTestCase):
 
     def _page(self, body_text="Register"):
         p = MagicMock()
+        p.url = "https://cbva.com/tournaments"   # already on-origin → no setup nav
         p.goto = AsyncMock()
         p.evaluate = AsyncMock(return_value=body_text)
         return p
@@ -878,6 +952,81 @@ class TestCheckUrlStatusesAsync(unittest.IsolatedAsyncioTestCase):
         mock_email.assert_called_once()
         subject = mock_email.call_args[0][0]
         self.assertIn("SD Open", subject)
+
+    def _details(self, div_id=500, cap=30, conf=30, wcap=5, wl=2,
+                 paused=False, status="closed", reg_open=None):
+        return {
+            "name": "SD Open", "venue": {"name": "Mission Bay", "city": "San Diego"},
+            "registrationOpenAt": reg_open,
+            "tournamentDivisions": [{
+                "id": div_id, "gender": "male", "division": {"display": "A"},
+                "capacity": cap, "confirmedCount": conf,
+                "waitlistCapacity": wcap, "waitlistedCount": wl,
+                "status": status, "registrationPaused": paused,
+            }],
+        }
+
+    async def test_api_path_improvement_without_navigation(self):
+        """waitlist_full → waitlist from capacity numbers; no page.goto needed."""
+        page = self._page()
+        state = self._state(self.URL, "waitlist_full")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+        details = self._details(cap=30, conf=30, wcap=7, wl=6)  # waitlist
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=details)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_called_once()
+        page.goto.assert_not_called()  # API path → no scraping
+        self.assertEqual(state["tournament_tracker"]["url_watches"][self.URL]["last_status"], "waitlist")
+
+    async def test_api_path_unchanged_no_email_no_navigation(self):
+        page = self._page()
+        state = self._state(self.URL, "open")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+        details = self._details(cap=10, conf=2)  # open
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=details)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        mock_email.assert_not_called()
+        page.goto.assert_not_called()
+
+    async def test_falls_back_to_text_when_no_capacity_data(self):
+        """Division present but without capacity numbers → text scrape fallback."""
+        page = self._page("JOIN WAITLIST")
+        state = self._state(self.URL, "waitlist_full")
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+        details = {"name": "SD Open", "venue": {},
+                   "tournamentDivisions": [{"id": 500, "gender": "male", "division": {"display": "A"}}]}
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=details)):
+            with patch.object(monitor, "send_email") as mock_email:
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        page.goto.assert_called_once()       # fell back to scraping
+        mock_email.assert_called_once()       # waitlist_full → waitlist
+
+    async def test_prunes_unwatched_urls_from_state(self):
+        """url_watches entries no one is tracking anymore are dropped (bounds growth)."""
+        page = self._page()
+        stale_url = "https://cbva.com/tournaments/999/888"
+        state = {"tournament_tracker": {"url_watches": {
+            self.URL:  {"last_status": "open"},
+            stale_url: {"last_status": "waitlist"},
+        }}}
+        users = [{"email": "a@b.com", "tournament_urls": [self.URL]}]
+        details = self._details(cap=10, conf=2)  # open, unchanged
+
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(return_value=details)):
+            with patch.object(monitor, "send_email"):
+                await monitor.check_url_statuses(page, state, users, _now())
+
+        ws = state["tournament_tracker"]["url_watches"]
+        self.assertIn(self.URL, ws)
+        self.assertNotIn(stale_url, ws)
 
     async def test_open_improvement_sends_email(self):
         """waitlist → open (best status) also sends email."""
