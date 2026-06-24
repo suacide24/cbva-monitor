@@ -1030,6 +1030,18 @@ def _build_new_tournament_email(records: list[dict], now_pt: datetime) -> str:
     )
 
 
+def _register_deeplink(div_id: int) -> str:
+    """
+    Deep-link straight into CBVA's registration flow with the division
+    pre-selected — the same target as the on-page "Register"/"Join Waitlist"
+    button: /account/registrations?teams=[{"divisionId":<id>,"profileIds":[]}]
+    Logged-in users land on the registration page with the division queued;
+    logged-out users hit the login page first, then continue.
+    """
+    teams = json.dumps([{"divisionId": div_id, "profileIds": []}], separators=(",", ":"))
+    return f"{BASE_URL}/account/registrations?teams={urllib.parse.quote(teams, safe='')}"
+
+
 def _build_url_status_email(
     url: str,
     old_status: str,
@@ -1050,6 +1062,19 @@ def _build_url_status_email(
     color = "#1D9E75" if new_status == "open" else "#6A5ACD"
     btn   = "Register Now →" if new_status == "open" else "Join Waitlist →"
 
+    # One-click register: deep-link into CBVA's registration flow with the
+    # division pre-selected (open / waitlist only). Fall back to the tournament
+    # page for any other status, or if we can't parse the division id.
+    m       = re.search(r"/tournaments/\d+/(\d+)", url)
+    div_id  = int(m.group(1)) if m else None
+    if new_status in ("open", "waitlist") and div_id:
+        cta_url, cta_text = _register_deeplink(div_id), btn
+        cta_note = ("<div style='font-size:12px;color:#888;margin-top:8px'>"
+                    "Opens CBVA registration with this division pre-selected — "
+                    "sign in to confirm your team.</div>")
+    else:
+        cta_url, cta_text, cta_note = url, "View Tournament →", ""
+
     return (
         "<html><body style='font-family:sans-serif;max-width:640px;"
         "margin:0 auto;padding:24px;color:#222'>"
@@ -1064,9 +1089,12 @@ def _build_url_status_email(
         f"&nbsp;&rarr;&nbsp;"
         f"<span style='color:{color};font-weight:700'>{new_l}</span>"
         "</div>"
-        f"<a href='{url}' style='display:inline-block;padding:10px 22px;"
+        f"<a href='{cta_url}' style='display:inline-block;padding:10px 22px;"
         f"background:{color};color:#fff;text-decoration:none;"
-        f"border-radius:6px;font-size:14px;font-weight:600'>{btn}</a>"
+        f"border-radius:6px;font-size:14px;font-weight:600'>{cta_text}</a>"
+        f"{cta_note}"
+        f"<div style='margin-top:12px'><a href='{url}' "
+        f"style='font-size:12px;color:#888'>View tournament details →</a></div>"
         "</div>"
         "</body></html>"
     )

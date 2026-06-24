@@ -857,6 +857,19 @@ class TestBuildNewTournamentEmail(unittest.TestCase):
         self.assertIn("/tournaments/100/501", html)
 
 
+class TestRegisterDeeplink(unittest.TestCase):
+    def test_matches_cbva_format(self):
+        # Byte-for-byte the same as the on-page Register/Join Waitlist href
+        self.assertEqual(
+            monitor._register_deeplink(16482),
+            "https://cbva.com/account/registrations?teams="
+            "%5B%7B%22divisionId%22%3A16482%2C%22profileIds%22%3A%5B%5D%7D%5D",
+        )
+
+    def test_division_id_embedded(self):
+        self.assertIn("%22divisionId%22%3A500", monitor._register_deeplink(500))
+
+
 class TestBuildUrlStatusEmail(unittest.TestCase):
     def _call(self, old="waitlist_full", new="waitlist"):
         return monitor._build_url_status_email(
@@ -866,6 +879,27 @@ class TestBuildUrlStatusEmail(unittest.TestCase):
             "Mission Bay Park, San Diego", "July 4, 2026",
             _now(),
         )
+
+    def test_open_email_has_register_deeplink(self):
+        html = self._call("waitlist", "open")
+        self.assertIn("/account/registrations?teams=", html)
+        self.assertIn("%22divisionId%22%3A500", html)  # division pre-selected
+
+    def test_waitlist_email_has_register_deeplink(self):
+        html = self._call("waitlist_full", "waitlist")
+        self.assertIn("/account/registrations?teams=", html)
+        self.assertIn("%22divisionId%22%3A500", html)
+
+    def test_tournament_page_kept_as_secondary_link(self):
+        html = self._call("waitlist_full", "waitlist")
+        self.assertIn("View tournament details", html)
+        self.assertIn("https://cbva.com/tournaments/100/500", html)
+
+    def test_non_registerable_status_falls_back_to_tournament_page(self):
+        # coming_soon: no register deep-link, CTA points at the tournament page
+        html = self._call("unknown", "coming_soon")
+        self.assertNotIn("/account/registrations", html)
+        self.assertIn("View Tournament", html)
 
     def test_returns_valid_html(self):
         html = self._call()
