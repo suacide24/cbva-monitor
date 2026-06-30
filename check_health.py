@@ -27,8 +27,16 @@ STATE_FILE = "state.json"
 PT         = timezone(timedelta(hours=-7))
 
 # Staleness thresholds (minutes since last *successful* run).
-WEEKEND_MAX_MIN = 75     # weekend tournament hours: a run every 30 min
-DAILY_MAX_MIN   = 1560   # otherwise: the daily run fires every 24h (+ buffer)
+#
+# The monitor is *scheduled* every 30 min on weekend tournament hours, but
+# GitHub's scheduled-cron is unreliable: even mid-afternoon, runs routinely
+# land 80-110 min apart and occasionally skip for several hours. There's also
+# an ~11h overnight window (03:00-14:00 UTC) with no scheduled runs at all.
+# So the active-hours threshold must tolerate several missed slots — it should
+# fire on a *sustained* outage, not on normal scheduler jitter — and we only
+# apply it well clear of the overnight gap (see staleness_threshold).
+ACTIVE_MAX_MIN = 240     # weekend daytime: alert only after ~4h of silence
+DAILY_MAX_MIN  = 1560    # otherwise: the daily run fires every 24h (+ buffer)
 
 
 def last_successful_run_age_min(now_utc: datetime | None = None) -> float | None:
@@ -66,10 +74,16 @@ def last_successful_run_age_min(now_utc: datetime | None = None) -> float | None
 
 
 def staleness_threshold(now_pt: datetime) -> int:
-    """Allowed minutes since last success, depending on when we are."""
-    is_weekend       = now_pt.weekday() in (5, 6)
-    is_tourney_hours = 7 <= now_pt.hour <= 20
-    return WEEKEND_MAX_MIN if (is_weekend and is_tourney_hours) else DAILY_MAX_MIN
+    """
+    Allowed minutes since the last success, depending on when we are.
+    The tight active-hours window is 9 AM–8 PM PT: starting at 9 (not 7) keeps
+    the morning health check — which runs right after the overnight no-run gap —
+    on the lenient threshold so it doesn't false-alarm before the day's runs
+    have had a chance to fire.
+    """
+    is_weekend = now_pt.weekday() in (5, 6)
+    is_active  = 9 <= now_pt.hour <= 20
+    return ACTIVE_MAX_MIN if (is_weekend and is_active) else DAILY_MAX_MIN
 
 
 def evaluate_health(state: dict, workflow_conclusion: str,
