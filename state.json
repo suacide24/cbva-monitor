@@ -184,8 +184,2081 @@
   "last_rating_check": "2026-07-05",
   "tournament_day": {
     "date": "2026-07-05",
-    "notified": {},
-    "playing": {}
+    "notified": {
+      "rsua95@gmail.com": [
+        "Selina Chhay"
+      ]
+    },
+    "playing": {
+      "Selina Chhay": {
+        "player_name": "Selina Chhay",
+        "profile_id": 61233,
+        "tournament_id": 4663,
+        "tournament_name": "Belmont Shore",
+        "venue": "Belmont Shore, Long Beach",
+        "division": "Women's A",
+        "division_id": 16504,
+        "partner": "Kristin McNeese",
+        "partner_id": 29815,
+        "team_seed": 8,
+        "team_id": 131376
+      }
+    },
+    "div_rosters": {
+      "16501": {
+        "1": "Eric L. Hand / Pouya Payan",
+        "2": "Jose Ramos-Padilla / Paulino RAMOS-PADILLA",
+        "3": "Matt Gerpheide / Henry Tse",
+        "4": "Alex Finch / Danny Reilly",
+        "5": "Sture Davidsson / Bud Birch",
+        "6": "Connor Freeman / Andy Arant",
+        "7": "Brandon Nyce / Daniel Neamtu-Cazares",
+        "8": "Andy Smith / Nick Bley",
+        "9": "Hunter Jeppson / Ian Turk",
+        "10": "Tomas Bedolla / Jonathan Diaz",
+        "11": "Timothy McKinley / Clint Rosser",
+        "12": "Kevin Hernandez / Taylor Braun"
+      },
+      "16502": {
+        "1": "Kelly Arias / Mickie Arias",
+        "2": "Ingrid Canedo / Riss Buchman",
+        "4": "Dasha Rozhetskina / Emily Sarabeeva",
+        "5": "Trish Platt / Rachel Young",
+        "6": "Ariel Cheng / Adrienne Lee"
+      },
+      "16503": {
+        "1": "Colin Troughton / Cameron Taylor",
+        "2": "Brandon Fitzgerald / Tevin Pak",
+        "3": "Sam Zive / Caleb Manea",
+        "4": "Alec Apelian / Aidan Schulten",
+        "5": "Tristen Miller / Kalani Saunar",
+        "6": "Brock Skriloff / Nathaniel Matthews",
+        "7": "Joe Simmons / Robert Hamud",
+        "8": "Sean Nelson / Ben Greenberg",
+        "9": "David Ke / Kevin Tarhan",
+        "10": "Gabe Metcalf / Eric Metcalf",
+        "11": "Milosh Stojcic / Tyler Bird",
+        "12": "Thomas Babb / Daniel Habibi",
+        "13": "Kevin Pappas / Ryan Soltes",
+        "14": "Kaena McReynolds / Alex Conte",
+        "15": "Matthew Tsao / Weston Wilmot",
+        "16": "Kento Kawata / Jp Misa",
+        "17": "Leonardo Mazuco Jaroszewski / Phillip Lopez",
+        "18": "Ryan Pierra / Kurt Speicher"
+      },
+      "16504": {
+        "1": "Denali Pinto / Megan Gillette",
+        "2": "Allie Marino / Clara Hopkins",
+        "3": "Lara Stone / Kendall Frisoli",
+        "4": "Ava Paulsen / Kendall Mathison",
+        "5": "Heidi Leonard / Allison Cartee",
+        "6": "Gabrielle Feinman / Jolene Swiggers",
+        "7": "Ivy Yahnke / Lauren Flaming",
+        "8": "Selina Chhay / Kristin McNeese",
+        "9": "Anastasiia Hulaia / Maryam Staniszewski",
+        "10": "Chloe Hannemann / Taylor Banczak",
+        "11": "Lindsay De May / Alexandra Clark",
+        "12": "Kennedy ODonnell / Mia McGrath",
+        "13": "Sharon Hsia / Sarah Seelan",
+        "14": "Sarah Razo / Alexia Bigelow",
+        "15": "Haley Michel / Alexandra Beccari",
+        "16": "Stella Zmolek / Molly Street",
+        "17": "Kaili Shewmaker / Alyssa Kavner",
+        "18": "Catherine Frias / Hadlee Gray"
+      }
+    },
+    "results": {
+      "Selina Chhay": {
+        "fingerprint": "[]",
+        "raw": [
+          {
+            "id": 52501,
+            "poolId": 6422,
+            "matchNumber": 1,
+            "court": null,
+            "teamAId": 224327,
+            "teamBId": 224748,
+            "scheduledTime": "09:00:00",
+            "status": "completed",
+            "winnerId": 224327,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69167,
+                "setNumber": 1,
+                "teamAScore": 21,
+                "teamBScore": 15,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": 224327,
+                "status": "completed",
+                "startedAt": "2026-07-05T16:03:38.480Z",
+                "endedAt": "2026-07-05T16:18:56.722Z",
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34585,
+                "poolMatchId": 52501,
+                "playoffMatchId": null,
+                "profileId": 61233,
+                "teamId": 224803,
+                "abandoned": null,
+                "profile": {
+                  "id": 61233,
+                  "firstName": "Selina",
+                  "preferredName": "Selina",
+                  "lastName": "Chhay",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/23423207-0211-4337-941c-3afc6a4f0de2-1782199315843.jpeg"
+                }
+              },
+              {
+                "id": 34586,
+                "poolMatchId": 52501,
+                "playoffMatchId": null,
+                "profileId": 29815,
+                "teamId": 224803,
+                "abandoned": null,
+                "profile": {
+                  "id": 29815,
+                  "firstName": "Kristin",
+                  "preferredName": "Kristin",
+                  "lastName": "McNeese",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52502,
+            "poolId": 6422,
+            "matchNumber": 2,
+            "court": null,
+            "teamAId": 225739,
+            "teamBId": 224249,
+            "scheduledTime": "09:23:56",
+            "status": "in_progress",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69168,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "in_progress",
+                "startedAt": "2026-07-05T16:26:43.408Z",
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34587,
+                "poolMatchId": 52502,
+                "playoffMatchId": null,
+                "profileId": 28401,
+                "teamId": 224327,
+                "abandoned": null,
+                "profile": {
+                  "id": 28401,
+                  "firstName": "Anastasiia",
+                  "preferredName": "Anastasiia",
+                  "lastName": "Hulaia",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/5e1df91f-7923-4d90-a5fd-79d72cd83814-1777241337353.png"
+                }
+              },
+              {
+                "id": 34588,
+                "poolMatchId": 52502,
+                "playoffMatchId": null,
+                "profileId": 28470,
+                "teamId": 224327,
+                "abandoned": null,
+                "profile": {
+                  "id": 28470,
+                  "firstName": "Maryam",
+                  "preferredName": "Maryam",
+                  "lastName": "Staniszewski",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52503,
+            "poolId": 6422,
+            "matchNumber": 3,
+            "court": null,
+            "teamAId": 224803,
+            "teamBId": 224748,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69169,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34589,
+                "poolMatchId": 52503,
+                "playoffMatchId": null,
+                "profileId": 63242,
+                "teamId": 224249,
+                "abandoned": null,
+                "profile": {
+                  "id": 63242,
+                  "firstName": "Stella",
+                  "preferredName": null,
+                  "lastName": "Zmolek",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/51b3cf48-dbe3-4313-9ed4-61a70ef39637-1783188864200.jpeg"
+                }
+              },
+              {
+                "id": 34590,
+                "poolMatchId": 52503,
+                "playoffMatchId": null,
+                "profileId": 53877,
+                "teamId": 224249,
+                "abandoned": null,
+                "profile": {
+                  "id": 53877,
+                  "firstName": "Molly",
+                  "preferredName": "Molly",
+                  "lastName": "Street",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52504,
+            "poolId": 6422,
+            "matchNumber": 4,
+            "court": null,
+            "teamAId": 224327,
+            "teamBId": 225739,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69170,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34591,
+                "poolMatchId": 52504,
+                "playoffMatchId": null,
+                "profileId": 53320,
+                "teamId": 224748,
+                "abandoned": null,
+                "profile": {
+                  "id": 53320,
+                  "firstName": "Kaili",
+                  "preferredName": "Kaili",
+                  "lastName": "Shewmaker",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34592,
+                "poolMatchId": 52504,
+                "playoffMatchId": null,
+                "profileId": 52749,
+                "teamId": 224748,
+                "abandoned": null,
+                "profile": {
+                  "id": 52749,
+                  "firstName": "Alyssa",
+                  "preferredName": "Alyssa",
+                  "lastName": "Kavner",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52505,
+            "poolId": 6422,
+            "matchNumber": 5,
+            "court": null,
+            "teamAId": 224249,
+            "teamBId": 224803,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69171,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34593,
+                "poolMatchId": 52505,
+                "playoffMatchId": null,
+                "profileId": 28401,
+                "teamId": 224327,
+                "abandoned": null,
+                "profile": {
+                  "id": 28401,
+                  "firstName": "Anastasiia",
+                  "preferredName": "Anastasiia",
+                  "lastName": "Hulaia",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/5e1df91f-7923-4d90-a5fd-79d72cd83814-1777241337353.png"
+                }
+              },
+              {
+                "id": 34594,
+                "poolMatchId": 52505,
+                "playoffMatchId": null,
+                "profileId": 28470,
+                "teamId": 224327,
+                "abandoned": null,
+                "profile": {
+                  "id": 28470,
+                  "firstName": "Maryam",
+                  "preferredName": "Maryam",
+                  "lastName": "Staniszewski",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52506,
+            "poolId": 6422,
+            "matchNumber": 6,
+            "court": null,
+            "teamAId": 224748,
+            "teamBId": 225739,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69172,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34595,
+                "poolMatchId": 52506,
+                "playoffMatchId": null,
+                "profileId": 63242,
+                "teamId": 224249,
+                "abandoned": null,
+                "profile": {
+                  "id": 63242,
+                  "firstName": "Stella",
+                  "preferredName": null,
+                  "lastName": "Zmolek",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/51b3cf48-dbe3-4313-9ed4-61a70ef39637-1783188864200.jpeg"
+                }
+              },
+              {
+                "id": 34596,
+                "poolMatchId": 52506,
+                "playoffMatchId": null,
+                "profileId": 53877,
+                "teamId": 224249,
+                "abandoned": null,
+                "profile": {
+                  "id": 53877,
+                  "firstName": "Molly",
+                  "preferredName": "Molly",
+                  "lastName": "Street",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52507,
+            "poolId": 6422,
+            "matchNumber": 7,
+            "court": null,
+            "teamAId": 224327,
+            "teamBId": 224803,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69173,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34597,
+                "poolMatchId": 52507,
+                "playoffMatchId": null,
+                "profileId": 53981,
+                "teamId": 225739,
+                "abandoned": null,
+                "profile": {
+                  "id": 53981,
+                  "firstName": "Denali",
+                  "preferredName": "Denali",
+                  "lastName": "Pinto",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34598,
+                "poolMatchId": 52507,
+                "playoffMatchId": null,
+                "profileId": 56477,
+                "teamId": 225739,
+                "abandoned": null,
+                "profile": {
+                  "id": 56477,
+                  "firstName": "Megan",
+                  "preferredName": "Megan",
+                  "lastName": "Gillette",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52508,
+            "poolId": 6422,
+            "matchNumber": 8,
+            "court": null,
+            "teamAId": 224249,
+            "teamBId": 224748,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69174,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34599,
+                "poolMatchId": 52508,
+                "playoffMatchId": null,
+                "profileId": 28401,
+                "teamId": 224327,
+                "abandoned": null,
+                "profile": {
+                  "id": 28401,
+                  "firstName": "Anastasiia",
+                  "preferredName": "Anastasiia",
+                  "lastName": "Hulaia",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/5e1df91f-7923-4d90-a5fd-79d72cd83814-1777241337353.png"
+                }
+              },
+              {
+                "id": 34600,
+                "poolMatchId": 52508,
+                "playoffMatchId": null,
+                "profileId": 28470,
+                "teamId": 224327,
+                "abandoned": null,
+                "profile": {
+                  "id": 28470,
+                  "firstName": "Maryam",
+                  "preferredName": "Maryam",
+                  "lastName": "Staniszewski",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52509,
+            "poolId": 6422,
+            "matchNumber": 9,
+            "court": null,
+            "teamAId": 225739,
+            "teamBId": 224803,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69175,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34601,
+                "poolMatchId": 52509,
+                "playoffMatchId": null,
+                "profileId": 53320,
+                "teamId": 224748,
+                "abandoned": null,
+                "profile": {
+                  "id": 53320,
+                  "firstName": "Kaili",
+                  "preferredName": "Kaili",
+                  "lastName": "Shewmaker",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34602,
+                "poolMatchId": 52509,
+                "playoffMatchId": null,
+                "profileId": 52749,
+                "teamId": 224748,
+                "abandoned": null,
+                "profile": {
+                  "id": 52749,
+                  "firstName": "Alyssa",
+                  "preferredName": "Alyssa",
+                  "lastName": "Kavner",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52510,
+            "poolId": 6422,
+            "matchNumber": 10,
+            "court": null,
+            "teamAId": 224327,
+            "teamBId": 224249,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69176,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34603,
+                "poolMatchId": 52510,
+                "playoffMatchId": null,
+                "profileId": 61233,
+                "teamId": 224803,
+                "abandoned": null,
+                "profile": {
+                  "id": 61233,
+                  "firstName": "Selina",
+                  "preferredName": "Selina",
+                  "lastName": "Chhay",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/23423207-0211-4337-941c-3afc6a4f0de2-1782199315843.jpeg"
+                }
+              },
+              {
+                "id": 34604,
+                "poolMatchId": 52510,
+                "playoffMatchId": null,
+                "profileId": 29815,
+                "teamId": 224803,
+                "abandoned": null,
+                "profile": {
+                  "id": 29815,
+                  "firstName": "Kristin",
+                  "preferredName": "Kristin",
+                  "lastName": "McNeese",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52511,
+            "poolId": 6423,
+            "matchNumber": 1,
+            "court": null,
+            "teamAId": 225519,
+            "teamBId": 225439,
+            "scheduledTime": "09:00:00",
+            "status": "completed",
+            "winnerId": 225519,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69177,
+                "setNumber": 1,
+                "teamAScore": 21,
+                "teamBScore": 9,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": 225519,
+                "status": "completed",
+                "startedAt": "2026-07-05T15:56:35.358Z",
+                "endedAt": "2026-07-05T16:10:47.923Z",
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34605,
+                "poolMatchId": 52511,
+                "playoffMatchId": null,
+                "profileId": 55663,
+                "teamId": 222724,
+                "abandoned": null,
+                "profile": {
+                  "id": 55663,
+                  "firstName": "Ivy",
+                  "preferredName": "Ivy",
+                  "lastName": "Yahnke",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34606,
+                "poolMatchId": 52511,
+                "playoffMatchId": null,
+                "profileId": 38860,
+                "teamId": 222724,
+                "abandoned": null,
+                "profile": {
+                  "id": 38860,
+                  "firstName": "Lauren",
+                  "preferredName": "Lauren",
+                  "lastName": "Flaming",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52512,
+            "poolId": 6423,
+            "matchNumber": 2,
+            "court": null,
+            "teamAId": 225298,
+            "teamBId": 225434,
+            "scheduledTime": "09:15:47",
+            "status": "in_progress",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69178,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "in_progress",
+                "startedAt": "2026-07-05T16:24:08.757Z",
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34607,
+                "poolMatchId": 52512,
+                "playoffMatchId": null,
+                "profileId": 17185,
+                "teamId": 225519,
+                "abandoned": null,
+                "profile": {
+                  "id": 17185,
+                  "firstName": "Chloe",
+                  "preferredName": "Chloe",
+                  "lastName": "Hannemann",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34608,
+                "poolMatchId": 52512,
+                "playoffMatchId": null,
+                "profileId": 29923,
+                "teamId": 225519,
+                "abandoned": null,
+                "profile": {
+                  "id": 29923,
+                  "firstName": "Taylor",
+                  "preferredName": "Taylor",
+                  "lastName": "Banczak",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52513,
+            "poolId": 6423,
+            "matchNumber": 3,
+            "court": null,
+            "teamAId": 222724,
+            "teamBId": 225439,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69179,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34609,
+                "poolMatchId": 52513,
+                "playoffMatchId": null,
+                "profileId": 61552,
+                "teamId": 225434,
+                "abandoned": null,
+                "profile": {
+                  "id": 61552,
+                  "firstName": "Haley",
+                  "preferredName": null,
+                  "lastName": "Michel",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34610,
+                "poolMatchId": 52513,
+                "playoffMatchId": null,
+                "profileId": 31188,
+                "teamId": 225434,
+                "abandoned": null,
+                "profile": {
+                  "id": 31188,
+                  "firstName": "Alexandra",
+                  "preferredName": "Alexandra",
+                  "lastName": "Beccari",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52514,
+            "poolId": 6423,
+            "matchNumber": 4,
+            "court": null,
+            "teamAId": 225519,
+            "teamBId": 225298,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69180,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34611,
+                "poolMatchId": 52514,
+                "playoffMatchId": null,
+                "profileId": 30849,
+                "teamId": 225439,
+                "abandoned": null,
+                "profile": {
+                  "id": 30849,
+                  "firstName": "Catherine",
+                  "preferredName": "Catherine",
+                  "lastName": "Frias",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34612,
+                "poolMatchId": 52514,
+                "playoffMatchId": null,
+                "profileId": 52795,
+                "teamId": 225439,
+                "abandoned": null,
+                "profile": {
+                  "id": 52795,
+                  "firstName": "Hadlee",
+                  "preferredName": "Hadlee",
+                  "lastName": "Gray",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52515,
+            "poolId": 6423,
+            "matchNumber": 5,
+            "court": null,
+            "teamAId": 225434,
+            "teamBId": 222724,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69181,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34613,
+                "poolMatchId": 52515,
+                "playoffMatchId": null,
+                "profileId": 17185,
+                "teamId": 225519,
+                "abandoned": null,
+                "profile": {
+                  "id": 17185,
+                  "firstName": "Chloe",
+                  "preferredName": "Chloe",
+                  "lastName": "Hannemann",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34614,
+                "poolMatchId": 52515,
+                "playoffMatchId": null,
+                "profileId": 29923,
+                "teamId": 225519,
+                "abandoned": null,
+                "profile": {
+                  "id": 29923,
+                  "firstName": "Taylor",
+                  "preferredName": "Taylor",
+                  "lastName": "Banczak",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52516,
+            "poolId": 6423,
+            "matchNumber": 6,
+            "court": null,
+            "teamAId": 225439,
+            "teamBId": 225298,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69182,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34615,
+                "poolMatchId": 52516,
+                "playoffMatchId": null,
+                "profileId": 61552,
+                "teamId": 225434,
+                "abandoned": null,
+                "profile": {
+                  "id": 61552,
+                  "firstName": "Haley",
+                  "preferredName": null,
+                  "lastName": "Michel",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34616,
+                "poolMatchId": 52516,
+                "playoffMatchId": null,
+                "profileId": 31188,
+                "teamId": 225434,
+                "abandoned": null,
+                "profile": {
+                  "id": 31188,
+                  "firstName": "Alexandra",
+                  "preferredName": "Alexandra",
+                  "lastName": "Beccari",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52517,
+            "poolId": 6423,
+            "matchNumber": 7,
+            "court": null,
+            "teamAId": 225519,
+            "teamBId": 222724,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69183,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34617,
+                "poolMatchId": 52517,
+                "playoffMatchId": null,
+                "profileId": 61292,
+                "teamId": 225298,
+                "abandoned": null,
+                "profile": {
+                  "id": 61292,
+                  "firstName": "Allie",
+                  "preferredName": "Allie",
+                  "lastName": "Marino",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34618,
+                "poolMatchId": 52517,
+                "playoffMatchId": null,
+                "profileId": 29857,
+                "teamId": 225298,
+                "abandoned": null,
+                "profile": {
+                  "id": 29857,
+                  "firstName": "Clara",
+                  "preferredName": "Clara",
+                  "lastName": "Hopkins",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/68b8bce4-5f89-4dc4-833b-4e566392fd8c-1778345082911.jpeg"
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52518,
+            "poolId": 6423,
+            "matchNumber": 8,
+            "court": null,
+            "teamAId": 225434,
+            "teamBId": 225439,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69184,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34619,
+                "poolMatchId": 52518,
+                "playoffMatchId": null,
+                "profileId": 17185,
+                "teamId": 225519,
+                "abandoned": null,
+                "profile": {
+                  "id": 17185,
+                  "firstName": "Chloe",
+                  "preferredName": "Chloe",
+                  "lastName": "Hannemann",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34620,
+                "poolMatchId": 52518,
+                "playoffMatchId": null,
+                "profileId": 29923,
+                "teamId": 225519,
+                "abandoned": null,
+                "profile": {
+                  "id": 29923,
+                  "firstName": "Taylor",
+                  "preferredName": "Taylor",
+                  "lastName": "Banczak",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52519,
+            "poolId": 6423,
+            "matchNumber": 9,
+            "court": null,
+            "teamAId": 225298,
+            "teamBId": 222724,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69185,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34621,
+                "poolMatchId": 52519,
+                "playoffMatchId": null,
+                "profileId": 30849,
+                "teamId": 225439,
+                "abandoned": null,
+                "profile": {
+                  "id": 30849,
+                  "firstName": "Catherine",
+                  "preferredName": "Catherine",
+                  "lastName": "Frias",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34622,
+                "poolMatchId": 52519,
+                "playoffMatchId": null,
+                "profileId": 52795,
+                "teamId": 225439,
+                "abandoned": null,
+                "profile": {
+                  "id": 52795,
+                  "firstName": "Hadlee",
+                  "preferredName": "Hadlee",
+                  "lastName": "Gray",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52520,
+            "poolId": 6423,
+            "matchNumber": 10,
+            "court": null,
+            "teamAId": 225519,
+            "teamBId": 225434,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69186,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 21,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34623,
+                "poolMatchId": 52520,
+                "playoffMatchId": null,
+                "profileId": 55663,
+                "teamId": 222724,
+                "abandoned": null,
+                "profile": {
+                  "id": 55663,
+                  "firstName": "Ivy",
+                  "preferredName": "Ivy",
+                  "lastName": "Yahnke",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34624,
+                "poolMatchId": 52520,
+                "playoffMatchId": null,
+                "profileId": 38860,
+                "teamId": 222724,
+                "abandoned": null,
+                "profile": {
+                  "id": 38860,
+                  "firstName": "Lauren",
+                  "preferredName": "Lauren",
+                  "lastName": "Flaming",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52521,
+            "poolId": 6424,
+            "matchNumber": 1,
+            "court": null,
+            "teamAId": 223887,
+            "teamBId": 225605,
+            "scheduledTime": "09:00:00",
+            "status": "completed",
+            "winnerId": 223887,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69187,
+                "setNumber": 1,
+                "teamAScore": 28,
+                "teamBScore": 13,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": 223887,
+                "status": "completed",
+                "startedAt": "2026-07-05T16:04:28.737Z",
+                "endedAt": "2026-07-05T16:26:42.800Z",
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34625,
+                "poolMatchId": 52521,
+                "playoffMatchId": null,
+                "profileId": 55004,
+                "teamId": 226167,
+                "abandoned": null,
+                "profile": {
+                  "id": 55004,
+                  "firstName": "Lindsay",
+                  "preferredName": "Lindsay",
+                  "lastName": "De May",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34626,
+                "poolMatchId": 52521,
+                "playoffMatchId": null,
+                "profileId": 62355,
+                "teamId": 226167,
+                "abandoned": null,
+                "profile": {
+                  "id": 62355,
+                  "firstName": "Alexandra",
+                  "preferredName": null,
+                  "lastName": "Clark",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52522,
+            "poolId": 6424,
+            "matchNumber": 2,
+            "court": null,
+            "teamAId": 224413,
+            "teamBId": 226167,
+            "scheduledTime": "09:31:42",
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69188,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34627,
+                "poolMatchId": 52522,
+                "playoffMatchId": null,
+                "profileId": 29740,
+                "teamId": 225605,
+                "abandoned": null,
+                "profile": {
+                  "id": 29740,
+                  "firstName": "Sarah",
+                  "preferredName": "Sarah",
+                  "lastName": "Razo",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34628,
+                "poolMatchId": 52522,
+                "playoffMatchId": null,
+                "profileId": 27915,
+                "teamId": 225605,
+                "abandoned": null,
+                "profile": {
+                  "id": 27915,
+                  "firstName": "Alexia",
+                  "preferredName": "Alexia",
+                  "lastName": "Bigelow",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52523,
+            "poolId": 6424,
+            "matchNumber": 3,
+            "court": null,
+            "teamAId": 223887,
+            "teamBId": 226167,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69189,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34629,
+                "poolMatchId": 52523,
+                "playoffMatchId": null,
+                "profileId": 28745,
+                "teamId": 224413,
+                "abandoned": null,
+                "profile": {
+                  "id": 28745,
+                  "firstName": "Lara",
+                  "preferredName": "Lara",
+                  "lastName": "Stone",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34630,
+                "poolMatchId": 52523,
+                "playoffMatchId": null,
+                "profileId": 46086,
+                "teamId": 224413,
+                "abandoned": null,
+                "profile": {
+                  "id": 46086,
+                  "firstName": "Kendall",
+                  "preferredName": "Kendall",
+                  "lastName": "Frisoli",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/0ce8f96b-5d0b-4234-b95d-dee6ea473dac-1776741761823.jpeg"
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52524,
+            "poolId": 6424,
+            "matchNumber": 4,
+            "court": null,
+            "teamAId": 224413,
+            "teamBId": 225605,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69190,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34631,
+                "poolMatchId": 52524,
+                "playoffMatchId": null,
+                "profileId": 55004,
+                "teamId": 226167,
+                "abandoned": null,
+                "profile": {
+                  "id": 55004,
+                  "firstName": "Lindsay",
+                  "preferredName": "Lindsay",
+                  "lastName": "De May",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34632,
+                "poolMatchId": 52524,
+                "playoffMatchId": null,
+                "profileId": 62355,
+                "teamId": 226167,
+                "abandoned": null,
+                "profile": {
+                  "id": 62355,
+                  "firstName": "Alexandra",
+                  "preferredName": null,
+                  "lastName": "Clark",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52525,
+            "poolId": 6424,
+            "matchNumber": 5,
+            "court": null,
+            "teamAId": 226167,
+            "teamBId": 225605,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69191,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34633,
+                "poolMatchId": 52525,
+                "playoffMatchId": null,
+                "profileId": 28124,
+                "teamId": 223887,
+                "abandoned": null,
+                "profile": {
+                  "id": 28124,
+                  "firstName": "Gabrielle",
+                  "preferredName": "Gabrielle",
+                  "lastName": "Feinman",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34634,
+                "poolMatchId": 52525,
+                "playoffMatchId": null,
+                "profileId": 27947,
+                "teamId": 223887,
+                "abandoned": null,
+                "profile": {
+                  "id": 27947,
+                  "firstName": "Jolene",
+                  "preferredName": "Jolene",
+                  "lastName": "Swiggers",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/dee7167c-9042-4eed-ac36-81f566211fba-1770146142557.jpeg"
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52526,
+            "poolId": 6424,
+            "matchNumber": 6,
+            "court": null,
+            "teamAId": 224413,
+            "teamBId": 223887,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69192,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34635,
+                "poolMatchId": 52526,
+                "playoffMatchId": null,
+                "profileId": 29740,
+                "teamId": 225605,
+                "abandoned": null,
+                "profile": {
+                  "id": 29740,
+                  "firstName": "Sarah",
+                  "preferredName": "Sarah",
+                  "lastName": "Razo",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34636,
+                "poolMatchId": 52526,
+                "playoffMatchId": null,
+                "profileId": 27915,
+                "teamId": 225605,
+                "abandoned": null,
+                "profile": {
+                  "id": 27915,
+                  "firstName": "Alexia",
+                  "preferredName": "Alexia",
+                  "lastName": "Bigelow",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52528,
+            "poolId": 6425,
+            "matchNumber": 2,
+            "court": null,
+            "teamAId": 225234,
+            "teamBId": 225492,
+            "scheduledTime": "09:37:37",
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69194,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34639,
+                "poolMatchId": 52528,
+                "playoffMatchId": null,
+                "profileId": 28457,
+                "teamId": 224192,
+                "abandoned": null,
+                "profile": {
+                  "id": 28457,
+                  "firstName": "Sharon",
+                  "preferredName": "Sharon",
+                  "lastName": "Hsia",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34640,
+                "poolMatchId": 52528,
+                "playoffMatchId": null,
+                "profileId": 63184,
+                "teamId": 224192,
+                "abandoned": null,
+                "profile": {
+                  "id": 63184,
+                  "firstName": "Sarah",
+                  "preferredName": null,
+                  "lastName": "Seelan",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/52f68a4e-660b-4797-9e40-63d8d181c650-1780176467533.jpg"
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52529,
+            "poolId": 6425,
+            "matchNumber": 3,
+            "court": null,
+            "teamAId": 225568,
+            "teamBId": 225492,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69195,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34641,
+                "poolMatchId": 52529,
+                "playoffMatchId": null,
+                "profileId": 61282,
+                "teamId": 225234,
+                "abandoned": null,
+                "profile": {
+                  "id": 61282,
+                  "firstName": "Ava",
+                  "preferredName": "Ava",
+                  "lastName": "Paulsen",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34642,
+                "poolMatchId": 52529,
+                "playoffMatchId": null,
+                "profileId": 28298,
+                "teamId": 225234,
+                "abandoned": null,
+                "profile": {
+                  "id": 28298,
+                  "firstName": "Kendall",
+                  "preferredName": "Kendall",
+                  "lastName": "Mathison",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52530,
+            "poolId": 6425,
+            "matchNumber": 4,
+            "court": null,
+            "teamAId": 225234,
+            "teamBId": 224192,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69196,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34643,
+                "poolMatchId": 52530,
+                "playoffMatchId": null,
+                "profileId": 28736,
+                "teamId": 225492,
+                "abandoned": null,
+                "profile": {
+                  "id": 28736,
+                  "firstName": "Kennedy",
+                  "preferredName": "Kennedy",
+                  "lastName": "ODonnell",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34644,
+                "poolMatchId": 52530,
+                "playoffMatchId": null,
+                "profileId": 63988,
+                "teamId": 225492,
+                "abandoned": null,
+                "profile": {
+                  "id": 63988,
+                  "firstName": "Mia",
+                  "preferredName": null,
+                  "lastName": "McGrath",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/0d405215-eb31-448d-a881-7e2f53821dc5-1782091419858.jpeg"
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52531,
+            "poolId": 6425,
+            "matchNumber": 5,
+            "court": null,
+            "teamAId": 225492,
+            "teamBId": 224192,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69197,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34645,
+                "poolMatchId": 52531,
+                "playoffMatchId": null,
+                "profileId": 56220,
+                "teamId": 225568,
+                "abandoned": null,
+                "profile": {
+                  "id": 56220,
+                  "firstName": "Heidi",
+                  "preferredName": "Heidi",
+                  "lastName": "Leonard",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34646,
+                "poolMatchId": 52531,
+                "playoffMatchId": null,
+                "profileId": 29769,
+                "teamId": 225568,
+                "abandoned": null,
+                "profile": {
+                  "id": 29769,
+                  "firstName": "Allison",
+                  "preferredName": "Allison",
+                  "lastName": "Cartee",
+                  "imageSource": null
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52532,
+            "poolId": 6425,
+            "matchNumber": 6,
+            "court": null,
+            "teamAId": 225234,
+            "teamBId": 225568,
+            "scheduledTime": null,
+            "status": "scheduled",
+            "winnerId": null,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69198,
+                "setNumber": 1,
+                "teamAScore": 0,
+                "teamBScore": 0,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": null,
+                "status": "not_started",
+                "startedAt": null,
+                "endedAt": null,
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34647,
+                "poolMatchId": 52532,
+                "playoffMatchId": null,
+                "profileId": 28457,
+                "teamId": 224192,
+                "abandoned": null,
+                "profile": {
+                  "id": 28457,
+                  "firstName": "Sharon",
+                  "preferredName": "Sharon",
+                  "lastName": "Hsia",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34648,
+                "poolMatchId": 52532,
+                "playoffMatchId": null,
+                "profileId": 63184,
+                "teamId": 224192,
+                "abandoned": null,
+                "profile": {
+                  "id": 63184,
+                  "firstName": "Sarah",
+                  "preferredName": null,
+                  "lastName": "Seelan",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/52f68a4e-660b-4797-9e40-63d8d181c650-1780176467533.jpg"
+                }
+              }
+            ],
+            "viewerIsRef": false
+          },
+          {
+            "id": 52527,
+            "poolId": 6425,
+            "matchNumber": 1,
+            "court": null,
+            "teamAId": 225568,
+            "teamBId": 224192,
+            "scheduledTime": "09:00:00",
+            "status": "completed",
+            "winnerId": 225568,
+            "forfeitTeamId": null,
+            "externalRef": null,
+            "sets": [
+              {
+                "id": 69193,
+                "setNumber": 1,
+                "teamAScore": 28,
+                "teamBScore": 23,
+                "winScore": 28,
+                "switchScore": 7,
+                "winnerId": 225568,
+                "status": "completed",
+                "startedAt": "2026-07-05T16:07:49.678Z",
+                "endedAt": "2026-07-05T16:32:37.392Z",
+                "version": 0,
+                "externalRef": null
+              }
+            ],
+            "refs": [
+              {
+                "id": 34637,
+                "poolMatchId": 52527,
+                "playoffMatchId": null,
+                "profileId": 28736,
+                "teamId": 225492,
+                "abandoned": null,
+                "profile": {
+                  "id": 28736,
+                  "firstName": "Kennedy",
+                  "preferredName": "Kennedy",
+                  "lastName": "ODonnell",
+                  "imageSource": null
+                }
+              },
+              {
+                "id": 34638,
+                "poolMatchId": 52527,
+                "playoffMatchId": null,
+                "profileId": 63988,
+                "teamId": 225492,
+                "abandoned": null,
+                "profile": {
+                  "id": 63988,
+                  "firstName": "Mia",
+                  "preferredName": null,
+                  "lastName": "McGrath",
+                  "imageSource": "https://inhtyrgzfnhfkgeizoec.storage.supabase.co/storage/v1/object/public/profiles/profile-photos/0d405215-eb31-448d-a881-7e2f53821dc5-1782091419858.jpeg"
+                }
+              }
+            ],
+            "viewerIsRef": false
+          }
+        ],
+        "last_updated": "2026-07-05T16:36:30.945582"
+      }
+    }
   },
   "last_run": {
     "status": "ok",
