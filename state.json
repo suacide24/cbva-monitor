@@ -206,6 +206,10 @@
     },
     "div_rosters": {
       "16495": {
+        "3": "Max Salem / Quinlan Melvin",
+        "6": "Christian Pereyda / Noah Pereyda",
+        "4": "Cole Lum / Kane Lum",
+        "12": "Guy Catz / Kevin Perez",
         "1": "Dan Mintz / Evie Mintz",
         "2": "Daniel Henson / Sammy Wong",
         "16": "Paul Tsao / Nicholas Frank",
@@ -214,19 +218,17 @@
         "8": "Caleb Johnson / Eli Nania",
         "10": "Cesar Gutierrez / Jared Gimbel",
         "14": "Richard Gonzalez / Jaden Reddy-Gil",
-        "3": "Max Salem / Quinlan Melvin",
-        "4": "Cole Lum / Kane Lum",
-        "6": "Christian Pereyda / Noah Pereyda",
         "7": "David Ke / Craig Young",
+        "13": "Adriann Acuna / Ian Humphrey",
+        "17": "Ryan Pierra / Kurt Speicher",
+        "19": "Steve Krai / Nestor Olea",
         "9": "Scout Gerber / Justin Farmer",
         "11": "Breadman Ortiz / Evan Simon",
-        "12": "Guy Catz / Kevin Perez",
-        "13": "Adriann Acuna / Ian Humphrey",
-        "15": "Joshua Gomez / Matt Kaufman",
-        "17": "Ryan Pierra / Kurt Speicher",
-        "19": "Steve Krai / Nestor Olea"
+        "15": "Joshua Gomez / Matt Kaufman"
       },
       "16496": {
+        "7": "Kaeley KJ Johnston / Leila Haller",
+        "10": "Sophia Lugtu / Alexis Jewett",
         "3": "Amy Gross / Sydney Gott",
         "8": "Miley Cohen / Sarah Kelly",
         "1": "Yesenia Jacobo / Keyla Bramlett",
@@ -235,9 +237,7 @@
         "12": "Stella Valentine / Sienna Valentine",
         "5": "Micah Abbott / Kelly Chang",
         "6": "Sarah Hiyari / Michelle Boyd",
-        "7": "Kaeley KJ Johnston / Leila Haller",
         "9": "Becca Branch / Sydney Bell",
-        "10": "Sophia Lugtu / Alexis Jewett",
         "11": "Rachel Pop / Alex McCarthy",
         "13": "Addison Evans / Grace Schneider"
       },
@@ -1713,7 +1713,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-07-04",
+    "city_last_checked": "2026-07-05",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
