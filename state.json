@@ -2266,12 +2266,14 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-07-07",
+    "city_last_checked": "2026-07-08",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
           "4668:16521",
-          "4668:16522"
+          "4668:16522",
+          "4689:16597",
+          "4689:16598"
         ]
       }
     },
