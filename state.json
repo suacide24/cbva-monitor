@@ -660,12 +660,12 @@
         "10": "Levi Bethea / Blake Whitcomb"
       },
       "16919": {
-        "1": "Lenox LeGrande / Dylan Morrow",
-        "2": "Roman Perillo / Jared Turner",
         "3": "Cooper Finley / Brandon Rodgers",
+        "6": "Matteo Akca / Dallas Bowie",
         "4": "Jake Scott / Cameron Mirabal",
         "5": "Jackson J. Smith / Lucas Weckstein",
-        "6": "Matteo Akca / Dallas Bowie"
+        "1": "Lenox LeGrande / Dylan Morrow",
+        "2": "Roman Perillo / Jared Turner"
       },
       "16920": {
         "1": "Devin Kneler / Olivia Gullickson",
@@ -679,8 +679,8 @@
         "9": "Samantha Demko / Addison Young"
       },
       "16921": {
-        "1": "Bennett Schaefer / Liam LeGrande",
         "2": "Adrian Buran / Ryan Herrema",
+        "1": "Bennett Schaefer / Liam LeGrande",
         "3": "Kanoa Owens / Henry Bryan",
         "4": "Hudson Kim / Tyler Sheehan",
         "5": "Henry Wick / Conner Brown",
@@ -690,6 +690,7 @@
         "9": "Waimanu Kalama-Kingma / Tui Scanlan"
       },
       "16922": {
+        "12": "Sofia Hernandez / Maylen Gonzalez",
         "1": "Amina Nwankwo / Kate Stevenson",
         "2": "June Veroda / Violet Faamafoe",
         "3": "Tahina Palencia / Noelani Jones",
@@ -701,7 +702,6 @@
         "9": "Aubrey Jennings / RENATA MEDINA",
         "10": "Briella Vega / Nila Scott",
         "11": "Adalynn Yates / MacKenzie Schenk",
-        "12": "Sofia Hernandez / Maylen Gonzalez",
         "13": "Lana Ragadio / Makena Ragadio"
       },
       "16926": {
