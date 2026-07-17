@@ -473,24 +473,30 @@ async def scan_today_tournaments(page, today_str: str, state: dict, player_names
 
 # ── Results tracking ──────────────────────────────────────────────────────────
 
-# Pool-play endpoints tried first; bracket endpoints as fallback.
-# Endpoint discovery caches only when active (non-scheduled) matches are found,
-# so pre-game bracket data doesn't mask pool-play results.
+# Bracket endpoints are tried FIRST: only bracket/playoff matches carry the
+# `teamASeed`/`teamBSeed` we use to identify a watched player (roster team IDs
+# don't appear in match data). Pool-play matches have no seeds and use a
+# separate team-id space, so they can't be matched to a player — they're kept
+# only as a last-resort fallback when a division has no bracket at all.
+#
+# (Pre-June-21 order had pool endpoints first; because pool matches complete
+# throughout the day they shadowed getPlayoffs, silently killing all results
+# and "Made Playoffs" emails. See _player_fingerprint / check_results.)
 _RESULTS_CANDIDATES = [
-    # Pool play / round-robin (guesses — CBVA tRPC names not yet confirmed)
-    ("tournaments.getPoolPlay",        lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getPools",           lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getPool",            lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getPoolResults",     lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getTeamPools",       lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getRoundRobin",      lambda d: {"tournamentDivisionId": d}),
-    # Bracket / general (confirmed working)
+    # Bracket / playoffs — seeded, matchable to a watched player (confirmed).
     ("tournaments.getPlayoffs",        lambda d: {"tournamentDivisionId": d}),  # ✅ confirmed
     ("tournaments.getDivisionSummary", lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getSchedule",        lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getGames",           lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getDivisionGames",   lambda d: {"tournamentDivisionId": d}),
     ("tournaments.getBracket",         lambda d: {"tournamentDivisionId": d}),
+    # Pool play / round-robin — no seeds, unmatchable; last-resort fallback only.
+    ("tournaments.getPoolPlay",        lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getPools",           lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getPool",            lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getPoolResults",     lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getTeamPools",       lambda d: {"tournamentDivisionId": d}),
+    ("tournaments.getRoundRobin",      lambda d: {"tournamentDivisionId": d}),
 ]
 
 # Cached once we find an endpoint with active (non-scheduled) matches.

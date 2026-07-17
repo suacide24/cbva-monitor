@@ -556,6 +556,60 @@ class TestNormalizeMatchList(unittest.TestCase):
         self.assertEqual(monitor._normalize_match_list({"foo": "bar"}), [])
 
 
+class TestResultsEndpointPriority(unittest.TestCase):
+    """
+    Regression: pool-play matches carry no seeds and use a separate team-id
+    space, so they can't be matched to a watched player. Bracket endpoints
+    (getPlayoffs) must be tried BEFORE pool endpoints — otherwise pool data
+    shadows the bracket and all results / 'Made Playoffs' emails die (the
+    June-21 regression).
+    """
+
+    def test_bracket_endpoints_precede_pool_endpoints(self):
+        names = [ep for ep, _ in monitor._RESULTS_CANDIDATES]
+        self.assertIn("tournaments.getPlayoffs", names)
+        self.assertIn("tournaments.getPools", names)
+        self.assertLess(
+            names.index("tournaments.getPlayoffs"),
+            names.index("tournaments.getPools"),
+            "getPlayoffs (matchable, seeded) must come before getPools (unmatchable)",
+        )
+
+
+class TestFetchResultsAsync(unittest.IsolatedAsyncioTestCase):
+    def setUp(self):
+        monitor._results_ep_cache.clear()
+
+    def _bracket_match(self):   # seeded, active → matchable
+        return {"teamASeed": 8, "teamBSeed": 1, "teamAId": 999, "teamBId": 998,
+                "status": "in_progress", "sets": []}
+
+    def _pool_match(self):      # no seeds, active but unmatchable
+        return {"teamAId": 226585, "teamBId": 226372, "status": "completed", "sets": []}
+
+    async def test_prefers_bracket_over_pool_when_both_active(self):
+        async def fake_trpc(page, ep, inp):
+            if ep == "tournaments.getPlayoffs":
+                return [self._bracket_match()]
+            if ep == "tournaments.getPools":
+                return [self._pool_match()]
+            return None
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(side_effect=fake_trpc)):
+            data = await monitor.fetch_results(MagicMock(), 16540)
+        self.assertTrue(any("teamASeed" in m for m in data), "should return seeded bracket data")
+        self.assertEqual(monitor._results_ep_cache.get(16540), "tournaments.getPlayoffs")
+
+    async def test_falls_back_to_pool_when_no_bracket(self):
+        async def fake_trpc(page, ep, inp):
+            if ep == "tournaments.getPools":
+                return [self._pool_match()]
+            return None  # no bracket endpoint returns anything
+        with patch.object(monitor, "_trpc_get", new=AsyncMock(side_effect=fake_trpc)):
+            data = await monitor.fetch_results(MagicMock(), 16540)
+        self.assertEqual(len(data), 1)
+        self.assertEqual(monitor._results_ep_cache.get(16540), "tournaments.getPools")
+
+
 # ── Tournament Availability Tracker ──────────────────────────────────────────
 
 # ── _t_date_str ───────────────────────────────────────────────────────────────
