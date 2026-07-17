@@ -556,6 +556,85 @@ class TestNormalizeMatchList(unittest.TestCase):
         self.assertEqual(monitor._normalize_match_list({"foo": "bar"}), [])
 
 
+_FIXTURE = json.loads(
+    (Path(__file__).parent / "fixtures" / "results_div16540.json").read_text()
+)
+
+
+class TestPlayerRecords(unittest.TestCase):
+    """Pool + playoff record building against a real captured division (16540)."""
+
+    def setUp(self):
+        self.idx = monitor._build_teams_index(_FIXTURE["teams"])
+        self.pools = _FIXTURE["pools"]
+        self.bracket = _FIXTURE["playoffs"]
+
+    def _records(self, roster_team_id):
+        mtid = self.idx["by_roster"][roster_team_id]
+        return mtid, monitor._collect_player_records(mtid, self.pools, self.bracket, self.idx)
+
+    def test_resolve_by_roster_team_id(self):
+        # Lia Oishi's roster team 131987 → 22xxxx match id
+        self.assertEqual(monitor._resolve_match_team_id({"team_id": 131987}, self.idx), 225461)
+
+    def test_resolve_by_profile_id_fallback(self):
+        # A profile id from the fixture resolves even without the roster id
+        any_team = next(t for t in _FIXTURE["teams"] if t.get("originalPlayerIds"))
+        pid = any_team["originalPlayerIds"][0]
+        self.assertEqual(
+            monitor._resolve_match_team_id({"profile_id": pid}, self.idx),
+            any_team["id"],
+        )
+
+    def test_pool_only_player_gets_all_pool_games(self):
+        _, recs = self._records(131987)  # Lia — pool only
+        self.assertEqual(len(recs), 4)
+        self.assertTrue(all(r["phase"] == "pool" for r in recs))
+        self.assertTrue(all(r["status"] == "completed" for r in recs))
+
+    def test_pool_games_have_score_and_opponent_seed(self):
+        _, recs = self._records(131987)
+        r = recs[0]
+        self.assertRegex(r["score"], r"\d+-\d+")
+        self.assertIsInstance(r["opp_seed"], int)
+        self.assertIn(r["won"], (True, False))
+
+    def test_playoff_player_has_both_phases(self):
+        _, recs = self._records(132814)  # seed 17 — made playoffs
+        phases = {r["phase"] for r in recs if r["status"] == "completed"}
+        self.assertEqual(phases, {"pool", "playoff"})
+
+    def test_fingerprint_nonempty_for_played_games(self):
+        _, recs = self._records(131987)
+        fp = monitor._records_fingerprint(recs)
+        self.assertNotEqual(fp, "[]")
+        self.assertEqual(len(json.loads(fp)), 4)
+
+    def test_fingerprint_changes_when_new_game_completes(self):
+        _, recs = self._records(131987)
+        fp_all = monitor._records_fingerprint(recs)
+        fp_minus1 = monitor._records_fingerprint(recs[:-1])
+        self.assertNotEqual(fp_all, fp_minus1)
+
+    def test_body_renders_pool_and_playoff(self):
+        _, recs = self._records(132814)
+        html = monitor._format_results_body(recs, {"partner": "X", "finish": 3}, roster={})
+        self.assertIn("Pool", html)
+        self.assertIn("Playoff · Round", html)
+        self.assertIn("Pool record:", html)
+        self.assertIn("Finished:", html)
+
+    def test_body_empty_when_no_completed_games(self):
+        scheduled = [{"phase": "pool", "status": "scheduled", "won": None, "match_id": 1}]
+        self.assertEqual(monitor._format_results_body(scheduled, {}, {}), "")
+
+    def test_subject_summarizes_pool_and_playoff(self):
+        _, recs = self._records(132814)
+        subj = monitor._results_subject([("Jane Doe", {"finish": 3}, recs)], {})
+        self.assertIn("Jane", subj)
+        self.assertIn("pool", subj)
+
+
 class TestResultsEndpointPriority(unittest.TestCase):
     """
     Regression: pool-play matches carry no seeds and use a separate team-id

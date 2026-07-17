@@ -1106,14 +1106,113 @@ def _build_url_status_email(
     )
 
 
-def _player_fingerprint(data, entry: dict) -> str:
-    """Fingerprint only the in_progress/completed matches for our player.
+# ── Player match records (pool + playoff, unified) ─────────────────────────────
+#
+# CBVA uses three id spaces: roster teamId (13xxxx, persistent), the per-
+# tournament team "id" (22xxxx) that appears as teamAId/teamBId in BOTH pool and
+# playoff matches, and (separately) registration seed vs playoffsSeed. The only
+# reliable way to find a watched player's games is the 22xxxx id, which
+# tournaments.getTeams maps from the roster teamId / profile id we already store.
 
-    Upcoming matches are covered by the Made Playoffs email; we only want to
-    trigger a results email when something actually happens (score changes,
-    match completes).  Filtering to active matches also prevents spurious
-    emails when the bracket is first published with all matches as "upcoming".
+def _build_teams_index(teams: list) -> dict:
+    """From tournaments.getTeams → lookups for one division.
+
+    Returns {by_roster, by_profile, seed, finish} where by_roster/by_profile map
+    to the 22xxxx match-team id, and seed/finish are keyed by that id.
     """
+    by_roster, by_profile, seed_of, finish_of = {}, {}, {}, {}
+    for t in teams or []:
+        mid = t.get("id")
+        if mid is None:
+            continue
+        if t.get("teamId") is not None:
+            by_roster[t["teamId"]] = mid
+        for pid in (t.get("originalPlayerIds") or []):
+            by_profile[pid] = mid
+        for pl in ((t.get("team") or {}).get("players") or []):
+            if pl.get("playerProfileId") is not None:
+                by_profile[pl["playerProfileId"]] = mid
+        seed_of[mid]   = t.get("seed")
+        finish_of[mid] = t.get("finish")
+    return {"by_roster": by_roster, "by_profile": by_profile,
+            "seed": seed_of, "finish": finish_of}
+
+
+def _resolve_match_team_id(entry: dict, idx: dict):
+    """The 22xxxx match-team id for a watched player, via roster id then profile id."""
+    tid = entry.get("team_id")
+    if tid is not None and tid in idx["by_roster"]:
+        return idx["by_roster"][tid]
+    pid = entry.get("profile_id")
+    if pid is not None and pid in idx["by_profile"]:
+        return idx["by_profile"][pid]
+    return None
+
+
+def _perspective_score(sets: list, our_side: str) -> str:
+    """Set scores from our player's perspective, skipping unplayed sets."""
+    out = []
+    for s in sets or []:
+        a, b = s.get("teamAScore", 0), s.get("teamBScore", 0)
+        if a == 0 and b == 0 and s.get("status") in ("not_started", None):
+            continue
+        out.append(f"{a}-{b}" if our_side == "A" else f"{b}-{a}")
+    return ", ".join(out)
+
+
+def _match_record(m: dict, mtid: int, phase: str, seed_of: dict, pool_name=None):
+    """Annotate one raw match as a player-perspective record, or None if not ours."""
+    a_id, b_id = m.get("teamAId"), m.get("teamBId")
+    if mtid == a_id:
+        our_side = "A"
+    elif mtid == b_id:
+        our_side = "B"
+    else:
+        return None
+    opp_id  = b_id if our_side == "A" else a_id
+    winner  = m.get("winnerId")
+    return {
+        "phase":     phase,                       # "pool" | "playoff"
+        "pool_name": pool_name,
+        "round":     m.get("round"),              # playoff only
+        "match_no":  m.get("matchNumber"),
+        "status":    m.get("status"),
+        "score":     _perspective_score(m.get("sets"), our_side),
+        "opp_seed":  seed_of.get(opp_id),
+        "won":       (winner == mtid) if winner is not None else None,
+        "court":     m.get("court"),
+        "match_id":  m.get("id"),
+    }
+
+
+def _collect_player_records(mtid: int, pools: list, bracket: list, idx: dict) -> list:
+    """All of a player's games (pool + playoff), matched by 22xxxx id."""
+    seed_of = idx["seed"]
+    recs = []
+    for pool in (pools or []):
+        for m in (pool.get("matches") or []):
+            r = _match_record(m, mtid, "pool", seed_of, pool_name=pool.get("name"))
+            if r:
+                recs.append(r)
+    for m in (bracket or []):
+        r = _match_record(m, mtid, "playoff", seed_of)
+        if r:
+            recs.append(r)
+    return recs
+
+
+def _records_fingerprint(records: list) -> str:
+    """Stable fingerprint of the player's COMPLETED games; changes → email."""
+    done = sorted(
+        [[r.get("match_id"), r.get("status"), r.get("score"), r.get("won")]
+         for r in records if r.get("status") == "completed"],
+        key=lambda x: (x[0] or 0),
+    )
+    return json.dumps(done, default=str)
+
+
+def _player_fingerprint(data, entry: dict) -> str:
+    """Legacy seed/id fingerprint over a flat bracket list (kept for tests)."""
     our_seed    = entry.get("team_seed")
     our_tid     = entry.get("team_id")
     bracket_tid = entry.get("bracket_team_id")
@@ -1134,112 +1233,87 @@ def _player_fingerprint(data, entry: dict) -> str:
     return json.dumps(relevant, sort_keys=True, default=str)
 
 
+_div_results_cache: dict = {}   # per-run: div_id → (teams_index, pools, bracket)
+
+
+async def _fetch_division_results(page, tournament_id, div_id):
+    """Fetch getTeams + getPools + getPlayoffs for a division (cached per run)."""
+    if div_id in _div_results_cache:
+        return _div_results_cache[div_id]
+    await page.goto(f"{BASE_URL}/tournaments/{tournament_id}/{div_id}", wait_until="networkidle")
+    teams   = await _trpc_get(page, "tournaments.getTeams",     {"tournamentDivisionId": div_id})
+    pools   = await _trpc_get(page, "tournaments.getPools",     {"tournamentDivisionId": div_id})
+    bracket = await _trpc_get(page, "tournaments.getPlayoffs",  {"tournamentDivisionId": div_id})
+    res = (
+        _build_teams_index(teams if isinstance(teams, list) else []),
+        pools   if isinstance(pools, list)   else [],
+        bracket if isinstance(bracket, list) else [],
+    )
+    _div_results_cache[div_id] = res
+    return res
+
+
 async def check_results(page, state: dict) -> tuple[list, list]:
     """
-    For each confirmed-playing watchlist player, fetch latest results.
+    For each confirmed-playing watchlist player, fetch latest results across BOTH
+    pool play and the playoff bracket.
     Returns:
-      score_updates   — (wname, entry, data) where scores/status changed
-      playoff_updates — (wname, entry, data) where player newly appeared in bracket
+      score_updates   — (wname, entry, records) when a new game is completed
+      playoff_updates — (wname, entry, records) when the player enters the bracket
     """
     td = state.get("tournament_day", {})
     playing = td.get("playing", {})
     if not playing:
         return [], []
 
-    results_state  = td.setdefault("results", {})
-    score_updates  = []
+    results_state   = td.setdefault("results", {})
+    score_updates   = []
     playoff_updates = []
+    _div_results_cache.clear()   # fresh data each run
 
     for wname, entry in playing.items():
         div_id = entry.get("division_id")
         if not div_id:
             continue
 
-        await page.goto(
-            f"{BASE_URL}/tournaments/{entry.get('tournament_id', '')}/{div_id}",
-            wait_until="networkidle",
-        )
-        data = await fetch_results(page, div_id)
-        if data is None:
-            continue
+        idx, pools, bracket = await _fetch_division_results(
+            page, entry.get("tournament_id", ""), div_id)
 
+        mtid = _resolve_match_team_id(entry, idx)
+        if mtid is None:
+            print(f"  [results] {wname}: could not resolve match-team id — skipping")
+            continue
+        entry["match_team_id"] = mtid
+        entry["finish"] = idx["finish"].get(mtid)
+        td["playing"][wname] = entry
+
+        records = _collect_player_records(mtid, pools, bracket, idx)
         r_state = results_state.setdefault(wname, {})
 
-        # ── Discover bracket team_id from seeded matches ───────────────────
-        # CBVA uses different team IDs in the roster vs the playoff bracket.
-        # We capture the bracket ID the first time we find our player by seed
-        # so that in later rounds (where seeds become null) we can still track them.
-        our_seed    = entry.get("team_seed")
-        team_id     = entry.get("team_id")
-        bracket_tid = entry.get("bracket_team_id")
-        if not bracket_tid and our_seed and isinstance(data, list):
-            for m in data:
-                a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
-                a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
-                if a_seed == our_seed and a_id:
-                    bracket_tid = a_id
-                elif b_seed == our_seed and b_id:
-                    bracket_tid = b_id
-                if bracket_tid:
-                    entry["bracket_team_id"] = bracket_tid
-                    td["playing"][wname] = entry
-                    print(f"  [bracket] {wname}: bracket_team_id={bracket_tid}")
-                    break
+        # ── Playoff qualification: appears in a bracket match that has started ──
+        if not r_state.get("playoff_notified", False):
+            playoff_recs = [r for r in records if r["phase"] == "playoff"]
+            # Gate on a started match so we don't fire on bracket initialisation
+            # (CBVA publishes the full bracket "scheduled" before play begins).
+            match_started = any(r["status"] not in ("scheduled", "not_started", None)
+                                for r in playoff_recs)
+            if playoff_recs and match_started:
+                r_state["playoff_notified"] = True
+                playoff_updates.append((wname, entry, records))
+                print(f"  [playoffs] {wname}: entered bracket (team {mtid})")
 
-        # ── Playoff qualification check ────────────────────────────────────
-        if not r_state.get("playoff_notified", False) and isinstance(data, list) and data:
-            in_bracket = False
-            if team_id:
-                in_bracket = any(
-                    m.get("teamAId") == team_id or m.get("teamBId") == team_id
-                    for m in data
-                )
-            if not in_bracket and bracket_tid:
-                in_bracket = any(
-                    m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid
-                    for m in data
-                )
-            if not in_bracket and our_seed:
-                in_bracket = any(
-                    m.get("teamASeed") == our_seed or m.get("teamBSeed") == our_seed
-                    for m in data
-                )
-            if in_bracket:
-                # CBVA publishes the complete bracket at tournament start with all
-                # matches "scheduled" before a ball is hit.  Gate on at least one
-                # of the player's own matches having moved past "scheduled"/
-                # "not_started" so we don't fire on bracket initialisation.
-                player_matches = [
-                    m for m in data
-                    if (team_id     and (m.get("teamAId") == team_id     or m.get("teamBId") == team_id))
-                    or (bracket_tid and (m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid))
-                    or (our_seed    and (m.get("teamASeed") == our_seed  or m.get("teamBSeed") == our_seed))
-                ]
-                match_started = any(
-                    m.get("status") not in ("scheduled", "not_started", None)
-                    for m in player_matches
-                )
-                if match_started:
-                    r_state["playoff_notified"] = True
-                    playoff_updates.append((wname, entry, data))
-                    match_method = ("team_id" if team_id else
-                                    f"bracket_team_id #{bracket_tid}" if bracket_tid else
-                                    f"seed #{our_seed}")
-                    print(f"  [playoffs] {wname}: appeared in bracket via {match_method}!")
-
-        # ── Score / status fingerprint (scoped to our player's active matches) ──
-        fp = _player_fingerprint(data, entry)
-        old_fp = r_state.get("fingerprint", "")
-        if fp != old_fp:
+        # ── Results fingerprint over completed games (pool + playoff) ──────────
+        fp = _records_fingerprint(records)
+        if fp != r_state.get("fingerprint", ""):
             r_state["fingerprint"]  = fp
-            r_state["raw"]          = data
+            r_state["records"]      = records
             r_state["last_updated"] = datetime.now().isoformat()
             if fp != "[]":
-                # Real change to an in_progress/completed match — email worthy
-                score_updates.append((wname, entry, data))
-                print(f"  [results] {wname}: results changed")
+                score_updates.append((wname, entry, records))
+                n = len(json.loads(fp))
+                print(f"  [results] {wname}: {n} completed game(s) — emailing")
             else:
-                print(f"  [results] {wname}: fingerprint reset (no active matches yet)")
+                print(f"  [results] {wname}: no completed games yet")
 
     return score_updates, playoff_updates
 
@@ -1354,132 +1428,86 @@ def _build_seed_map(matches: list) -> dict[int, int]:
     return seed_map
 
 
-def _format_results_body(data, entry: dict, roster: dict | None = None) -> str:
-    """Render bracket (getPlayoffs) results for the tracked player."""
-    if not data:
-        return "<p style='color:#888'>No result data.</p>"
+def _record_sort_key(r: dict):
+    # Pool games first (by match number), then playoff games (by round).
+    if r.get("phase") == "pool":
+        return (0, r.get("match_no") or 0)
+    return (1, r.get("round") or 0)
 
-    our_seed    = entry.get("team_seed")
-    our_tid     = entry.get("team_id")
-    bracket_tid = entry.get("bracket_team_id")
-    partner     = entry.get("partner", "")
-    t_url      = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
-    matches    = data if isinstance(data, list) else []
 
-    # Sort chronologically so history reads top-to-bottom
-    matches = sorted(matches, key=lambda m: (m.get("round") or 0))
+def _format_results_body(records, entry: dict, roster: dict | None = None) -> str:
+    """Render a player's completed games — both pool play and playoffs."""
+    recs = [r for r in (records or []) if r.get("status") == "completed"]
+    if not recs:
+        return ""
+    recs.sort(key=_record_sort_key)
 
-    # Build seed lookup so round 2+ opponents can be resolved by original seed
-    seed_map = _build_seed_map(matches)
-
-    max_round    = max((m.get("round", 0) for m in matches), default=0)
-    finish_round = None   # round where player was eliminated (lost)
-    is_champion  = False
-
+    partner = entry.get("partner", "")
+    t_url   = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
+    pool_w = pool_l = 0
     rows = []
-    for m in matches:
-        a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
-        a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
-        status         = m.get("status", "")
-        winner_id      = m.get("winnerId")
-        round_num      = m.get("round", 0)
-        sets           = m.get("sets", [])
-        court          = m.get("court", "")
+    for r in recs:
+        won = r.get("won")
+        if r.get("phase") == "pool":
+            if won is True:
+                pool_w += 1
+            elif won is False:
+                pool_l += 1
+            label = "Pool " + str(r.get("pool_name") or "").strip()
+        else:
+            label = f"Playoff · Round {(r.get('round') or 0) + 1}"
 
-        # Only render completed matches — upcoming and in-progress are not shown
-        if status != "completed":
-            continue
-
-        # Is our player in this match?
-        our_side = None
-        if our_seed and (a_seed == our_seed or b_seed == our_seed):
-            our_side = "A" if a_seed == our_seed else "B"
-        elif our_tid and (a_id == our_tid or b_id == our_tid):
-            our_side = "A" if a_id == our_tid else "B"
-        elif bracket_tid and (a_id == bracket_tid or b_id == bracket_tid):
-            our_side = "A" if a_id == bracket_tid else "B"
-
-        if our_side is None and our_seed is None and our_tid is None and bracket_tid is None:
-            our_side = "show"
-
-        if our_side is None:
-            continue
-
-        opp_id   = b_id if our_side == "A" else a_id
-        opp_seed = b_seed if our_side == "A" else a_seed
-        if not opp_seed and opp_id:
-            opp_seed = seed_map.get(opp_id)
+        opp_seed  = r.get("opp_seed")
         opp_names = (roster or {}).get(opp_seed, "") if opp_seed else ""
-        score    = _score_str(sets)
-        if our_side == "B":
-            flipped = []
-            for s in sets or []:
-                a, b = s.get("teamAScore", 0), s.get("teamBScore", 0)
-                if a == 0 and b == 0 and s.get("status") in ("not_started", None):
-                    continue
-                flipped.append(f"{b}-{a}")
-            score = ", ".join(flipped) if flipped else "not started"
-
-        won = (winner_id == a_id and our_side == "A") or (winner_id == b_id and our_side == "B")
-        if won and round_num == max_round:
-            is_champion = True
-        elif not won:
-            finish_round = round_num
-
-        result_icon = "✅ Win" if won else "❌ Loss"
-        color, bg   = ("#1D9E75", "#f5faf8") if won else ("#cc3333", "#fff5f5")
-
-        rnd_label = f"Round {round_num + 1}" if round_num is not None else "Match"
         if opp_names:
             opp_label = opp_names + (f" (#{opp_seed})" if opp_seed else "")
         elif opp_seed:
             opp_label = f"Seed #{opp_seed}"
         else:
-            opp_label = "TBD"
+            opp_label = "opponent"
 
+        icon      = "✅ Win" if won else ("❌ Loss" if won is False else "•")
+        color, bg = ("#1D9E75", "#f5faf8") if won else ("#cc3333", "#fff5f5")
+        court     = r.get("court")
         rows.append(_CARD.format(
             color=color, bg=bg,
-            title=f"{result_icon} — {rnd_label} vs {opp_label}",
-            line2=f"Score: {score}" + (f"  ·  {court}" if court else ""),
+            title=f"{icon} — {label.strip()} vs {opp_label}",
+            line2=f"Score: {r.get('score') or 'n/a'}" + (f"  ·  {court}" if court else ""),
             line3=f"Partner: {partner}",
         ))
 
-    if not rows:
-        return ""
+    summary = ""
+    if pool_w or pool_l:
+        summary += (f"<p style='margin:.6em 0 .2em;font-size:13px;color:#555'>"
+                    f"Pool record: <strong>{pool_w}-{pool_l}</strong></p>")
+    finish = entry.get("finish")
+    if finish:
+        summary += (f"<p style='margin:.2em 0;font-size:13px;color:#555'>"
+                    f"Finished: <strong>{_ordinal(finish)}</strong></p>")
 
-    # Append finishing place when the tournament result is known
-    place_html = ""
-    if is_champion:
-        place_html = "<p style='margin:.6em 0;font-weight:bold;color:#1D9E75'>🏆 1st place — Tournament Champions</p>"
-    elif finish_round is not None:
-        place = _finish_place(matches, finish_round)
-        if place:
-            place_html = f"<p style='margin:.6em 0;font-size:13px;color:#555'>Finished: <strong>{place}</strong></p>"
-
-    return "\n".join(rows) + place_html + f"<p style='margin:.5em 0;font-size:12px'><a href='{t_url}'>Full bracket →</a></p>"
+    return "\n".join(rows) + summary + (
+        f"<p style='margin:.5em 0;font-size:12px'><a href='{t_url}'>Full results →</a></p>")
 
 
 def build_playoffs_email(updates: list[tuple], state: dict, now_pt: datetime) -> str:
     """'Made Playoffs!' email — fired once per player when their team enters the bracket."""
+    div_rosters = state.get("tournament_day", {}).get("div_rosters", {})
     body = ""
-    for wname, entry, playoffs in updates:
+    for wname, entry, records in updates:
         profile_url = state.get("players", {}).get(wname, {}).get("profile_url", "")
         t_url = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
-        team_id = entry.get("team_id")
+        roster = div_rosters.get(entry.get("division_id"), {})
 
-        # Find the first match our team is slotted into
-        our_match = next(
-            (m for m in (playoffs or [])
-             if m.get("teamAId") == team_id or m.get("teamBId") == team_id),
-            None,
-        )
-        our_side   = "A" if (our_match or {}).get("teamAId") == team_id else "B"
-        opp_tid    = (our_match or {}).get("teamBId" if our_side == "A" else "teamAId")
-        court      = (our_match or {}).get("court", "TBD")
-        sched_time = (our_match or {}).get("scheduledTime", "")
+        # First playoff game our team is slotted into
+        playoff = sorted([r for r in records if r.get("phase") == "playoff"],
+                         key=lambda r: (r.get("round") or 0))
+        first    = playoff[0] if playoff else {}
+        opp_seed = first.get("opp_seed")
+        court    = first.get("court") or "TBD"
 
-        opp_label  = f"Team #{opp_tid}" if opp_tid else "TBD"
-        time_label = f" · {sched_time}" if sched_time else ""
+        opp_label = (roster.get(opp_seed, "") or
+                     (f"Seed #{opp_seed}" if opp_seed else "TBD"))
+        time_label = ""
 
         body += _player_header(wname, profile_url)
         body += _CARD.format(
@@ -1543,25 +1571,37 @@ def _player_outcome(data: list, entry: dict) -> dict:
     }
 
 
+def _records_summary(records: list, entry: dict) -> str:
+    """Short 'pool 3-1 · out R2' style summary of a player's completed games."""
+    recs    = [r for r in (records or []) if r.get("status") == "completed"]
+    pool    = [r for r in recs if r.get("phase") == "pool"]
+    playoff = sorted([r for r in recs if r.get("phase") == "playoff"],
+                     key=lambda r: (r.get("round") or 0))
+    bits = []
+    if pool:
+        w = sum(1 for r in pool if r.get("won") is True)
+        l = sum(1 for r in pool if r.get("won") is False)
+        bits.append(f"pool {w}-{l}")
+    if playoff:
+        last = playoff[-1]
+        rnd  = (last.get("round") or 0) + 1
+        if last.get("won") is True:
+            bits.append(f"won R{rnd}")
+        elif last.get("won") is False:
+            bits.append(f"out R{rnd}")
+    finish = entry.get("finish")
+    if finish:
+        bits.append(f"{_ordinal(finish)}")
+    return " · ".join(bits)
+
+
 def _results_subject(updates: list[tuple], state: dict) -> str:
     """Build a subject line that conveys outcome without opening the email."""
     parts = []
-    for wname, entry, data in updates:
-        first = wname.split()[0]
-        o = _player_outcome(data if isinstance(data, list) else [], entry)
-        if not o:
-            parts.append(first)
-            continue
-        if o["is_champion"]:
-            parts.append(f"{first} 🏆 won it all")
-        elif o["finish_round"] is not None:
-            place = _finish_place(o["all_matches"], o["finish_round"])
-            r     = o["finish_round"] + 1
-            parts.append(f"{first} out R{r}" + (f" ({place})" if place else ""))
-        elif o["last_won"] and o["last_round"] is not None:
-            parts.append(f"{first} won R{o['last_round'] + 1}")
-        else:
-            parts.append(first)
+    for wname, entry, records in updates:
+        first   = wname.split()[0]
+        summary = _records_summary(records, entry)
+        parts.append(f"{first} {summary}" if summary else first)
     return ("CBVA: " + " · ".join(parts)) if parts else "CBVA Results Update"
 
 
@@ -1579,7 +1619,7 @@ def build_results_email(updates: list[tuple], state: dict, now_pt: datetime) -> 
         body += (
             f"<p style='margin:.3em 0;font-size:13px;color:#555'>"
             f"{entry.get('tournament_name','')} · {entry.get('venue','')} · {entry.get('division','')}"
-            f" · <a href='{t_url}'>view bracket</a></p>"
+            f" · <a href='{t_url}'>view results</a></p>"
         )
         body += results_html
     return _wrap(body, "CBVA Results Update", now_pt) if body else ""
