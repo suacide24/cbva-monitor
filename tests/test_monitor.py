@@ -150,155 +150,6 @@ class TestOrdinal(unittest.TestCase):
     def test_22nd(self): self.assertEqual(monitor._ordinal(22), "22nd")
 
 
-# ── _score_str ────────────────────────────────────────────────────────────────
-
-class TestScoreStr(unittest.TestCase):
-
-    def _set(self, a, b, status=None):
-        s = {"teamAScore": a, "teamBScore": b}
-        if status:
-            s["status"] = status
-        return s
-
-    def test_single_set(self):
-        self.assertEqual(monitor._score_str([self._set(21, 15)]), "21-15")
-
-    def test_two_sets(self):
-        self.assertEqual(monitor._score_str([self._set(21, 18), self._set(21, 14)]), "21-18, 21-14")
-
-    def test_not_started_skipped(self):
-        self.assertEqual(monitor._score_str([self._set(0, 0, "not_started")]), "not started")
-
-    def test_empty_list(self):
-        self.assertEqual(monitor._score_str([]), "not started")
-
-    def test_none(self):
-        self.assertEqual(monitor._score_str(None), "not started")
-
-    def test_real_zeros_skipped_when_status_none(self):
-        # 0-0 with status=None is treated as not_started (matches CBVA API behavior)
-        self.assertEqual(monitor._score_str([self._set(0, 0)]), "not started")
-
-    def test_real_zeros_shown_with_completed_status(self):
-        # 0-0 with an explicit non-not_started status does render
-        self.assertEqual(monitor._score_str([self._set(0, 0, "completed")]), "0-0")
-
-
-# ── _build_seed_map ───────────────────────────────────────────────────────────
-
-class TestBuildSeedMap(unittest.TestCase):
-
-    def test_basic(self):
-        matches = [
-            {"teamAId": 10, "teamASeed": 1, "teamBId": 20, "teamBSeed": 8},
-            {"teamAId": 30, "teamASeed": 4, "teamBId": 40, "teamBSeed": 5},
-        ]
-        sm = monitor._build_seed_map(matches)
-        self.assertEqual(sm[10], 1)
-        self.assertEqual(sm[20], 8)
-        self.assertEqual(sm[30], 4)
-        self.assertEqual(sm[40], 5)
-
-    def test_null_seeds_skipped(self):
-        matches = [{"teamAId": 10, "teamASeed": None, "teamBId": 20, "teamBSeed": 3}]
-        sm = monitor._build_seed_map(matches)
-        self.assertNotIn(10, sm)
-        self.assertEqual(sm[20], 3)
-
-    def test_empty(self):
-        self.assertEqual(monitor._build_seed_map([]), {})
-
-
-# ── _finish_place ─────────────────────────────────────────────────────────────
-
-class TestFinishPlace(unittest.TestCase):
-
-    def _matches(self, round_counts: dict[int, int]) -> list[dict]:
-        """Build a fake match list: {round_num: team_count_in_round}."""
-        matches = []
-        for r, n in round_counts.items():
-            for _ in range(n):
-                matches.append({"round": r})
-        return matches
-
-    def test_lost_in_final_is_2nd(self):
-        # Final has 1 match; loser is 2nd
-        matches = self._matches({0: 8, 1: 4, 2: 2, 3: 1})
-        self.assertEqual(monitor._finish_place(matches, lost_round=3), "2nd")
-
-    def test_lost_in_semis_is_3rd_4th(self):
-        matches = self._matches({0: 8, 1: 4, 2: 2, 3: 1})
-        self.assertEqual(monitor._finish_place(matches, lost_round=2), "3rd–4th")
-
-    def test_lost_in_quarters_is_5th_8th(self):
-        matches = self._matches({0: 8, 1: 4, 2: 2, 3: 1})
-        self.assertEqual(monitor._finish_place(matches, lost_round=1), "5th–8th")
-
-    def test_lost_in_r1_of_32_team(self):
-        # R0: 16 matches, R1: 8, R2: 4, R3: 2, R4: 1
-        matches = self._matches({0: 16, 1: 8, 2: 4, 3: 2, 4: 1})
-        self.assertEqual(monitor._finish_place(matches, lost_round=0), "17th–32nd")
-
-
-# ── _player_outcome ───────────────────────────────────────────────────────────
-
-class TestPlayerOutcome(unittest.TestCase):
-
-    def _match(self, round_num, a_id, b_id, winner_id, a_seed=None, b_seed=None):
-        return {
-            "round": round_num,
-            "teamAId": a_id, "teamBId": b_id,
-            "teamASeed": a_seed, "teamBSeed": b_seed,
-            "winnerId": winner_id,
-            "status": "completed",
-            "sets": [],
-        }
-
-    def test_champion(self):
-        # Wins R0 and R1 (final), R1 is max_round → champion
-        matches = [
-            self._match(0, a_id=1, b_id=2, winner_id=1),
-            self._match(1, a_id=1, b_id=3, winner_id=1),
-        ]
-        out = monitor._player_outcome(matches, {"team_id": 1})
-        self.assertTrue(out["is_champion"])
-        self.assertIsNone(out["finish_round"])
-
-    def test_lost_in_round_0(self):
-        matches = [self._match(0, a_id=1, b_id=2, winner_id=2)]
-        out = monitor._player_outcome(matches, {"team_id": 1})
-        self.assertFalse(out["is_champion"])
-        self.assertEqual(out["finish_round"], 0)
-
-    def test_won_then_lost(self):
-        matches = [
-            self._match(0, a_id=1, b_id=2, winner_id=1),
-            self._match(1, a_id=1, b_id=3, winner_id=3),
-        ]
-        out = monitor._player_outcome(matches, {"team_id": 1})
-        self.assertFalse(out["is_champion"])
-        self.assertEqual(out["finish_round"], 1)
-        self.assertFalse(out["last_won"])
-
-    def test_empty_data_returns_empty(self):
-        self.assertEqual(monitor._player_outcome([], {"team_id": 1}), {})
-
-    def test_match_by_seed(self):
-        matches = [self._match(0, a_id=10, b_id=20, winner_id=20, a_seed=1, b_seed=8)]
-        out = monitor._player_outcome(matches, {"team_seed": 1})
-        self.assertFalse(out["is_champion"])
-        self.assertEqual(out["finish_round"], 0)
-
-    def test_skips_non_completed_matches(self):
-        m = self._match(0, a_id=1, b_id=2, winner_id=1)
-        m["status"] = "in_progress"
-        out = monitor._player_outcome([m], {"team_id": 1})
-        # Non-completed matches don't affect win/loss tracking
-        self.assertFalse(out["is_champion"])
-        self.assertIsNone(out["finish_round"])
-        self.assertIsNone(out["last_round"])
-
-
 # ── load_users ────────────────────────────────────────────────────────────────
 
 class TestLoadUsers(unittest.TestCase):
@@ -393,169 +244,6 @@ class TestPlayerNamesBugRegression(unittest.TestCase):
         )
 
 
-# ── Regression: false playoff email ──────────────────────────────────────────
-
-class TestPlayoffGate(unittest.TestCase):
-    """
-    CBVA publishes the complete bracket at tournament start with every match
-    in "scheduled" status before play begins.  The playoff email must NOT fire
-    just because the player's seed appears in the bracket — it must wait until
-    at least one of their matches has moved past "scheduled"/"not_started".
-    """
-
-    def _scheduled_match(self, a_seed, b_seed):
-        return {
-            "teamASeed": a_seed, "teamBSeed": b_seed,
-            "teamAId": None, "teamBId": None,
-            "status": "scheduled",
-            "winnerId": None, "sets": [],
-        }
-
-    def _active_match(self, a_seed, b_seed, status="in_progress"):
-        return {
-            "teamASeed": a_seed, "teamBSeed": b_seed,
-            "teamAId": None, "teamBId": None,
-            "status": status,
-            "winnerId": None, "sets": [],
-        }
-
-    def _check_results_playoff_logic(self, data, entry):
-        """
-        Extract just the playoff guard logic from check_results to test it
-        without async/network overhead.
-        """
-        our_seed    = entry.get("team_seed")
-        team_id     = entry.get("team_id")
-        bracket_tid = entry.get("bracket_team_id")
-
-        in_bracket = False
-        if team_id:
-            in_bracket = any(
-                m.get("teamAId") == team_id or m.get("teamBId") == team_id
-                for m in data
-            )
-        if not in_bracket and bracket_tid:
-            in_bracket = any(
-                m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid
-                for m in data
-            )
-        if not in_bracket and our_seed:
-            in_bracket = any(
-                m.get("teamASeed") == our_seed or m.get("teamBSeed") == our_seed
-                for m in data
-            )
-
-        if not in_bracket:
-            return False
-
-        player_matches = [
-            m for m in data
-            if (team_id     and (m.get("teamAId") == team_id     or m.get("teamBId") == team_id))
-            or (bracket_tid and (m.get("teamAId") == bracket_tid or m.get("teamBId") == bracket_tid))
-            or (our_seed    and (m.get("teamASeed") == our_seed  or m.get("teamBSeed") == our_seed))
-        ]
-        return any(
-            m.get("status") not in ("scheduled", "not_started", None)
-            for m in player_matches
-        )
-
-    def test_no_email_when_all_scheduled(self):
-        # Simulates bracket published at tournament start — all matches "scheduled"
-        data = [
-            self._scheduled_match(9, 8),   # Selina's R0 match (seed 9 vs 8)
-            self._scheduled_match(5, 12),
-            self._scheduled_match(1, None),
-        ]
-        entry = {"team_seed": 9}
-        self.assertFalse(self._check_results_playoff_logic(data, entry))
-
-    def test_email_fires_when_match_in_progress(self):
-        data = [
-            self._active_match(9, 8, "in_progress"),
-            self._scheduled_match(5, 12),
-        ]
-        entry = {"team_seed": 9}
-        self.assertTrue(self._check_results_playoff_logic(data, entry))
-
-    def test_email_fires_when_match_completed(self):
-        data = [
-            self._active_match(9, 8, "completed"),
-        ]
-        entry = {"team_seed": 9}
-        self.assertTrue(self._check_results_playoff_logic(data, entry))
-
-    def test_no_email_when_player_not_in_bracket(self):
-        # Player seed 3 not in this bracket
-        data = [self._scheduled_match(9, 8)]
-        entry = {"team_seed": 3}
-        self.assertFalse(self._check_results_playoff_logic(data, entry))
-
-    def test_source_has_match_started_guard(self):
-        import inspect
-        src = inspect.getsource(monitor.check_results)
-        self.assertIn(
-            "match_started", src,
-            "check_results must have a match_started guard to prevent "
-            "false playoff emails on bracket initialisation",
-        )
-
-
-# ── Regression: getPools nested structure ─────────────────────────────────────
-
-class TestNormalizeMatchList(unittest.TestCase):
-    """
-    getPools returns [{..., "matches": [...]}, ...] — a list of pool objects
-    containing match sub-lists.  _normalize_match_list must flatten this to
-    a plain match list so the rest of the code can iterate over matches directly.
-    """
-
-    def _pool_match(self, status):
-        return {
-            "teamAId": 100, "teamBId": 200,
-            "teamASeed": 1, "teamBSeed": 2,
-            "status": status, "winnerId": None, "sets": [],
-        }
-
-    def test_flat_list_unchanged(self):
-        matches = [self._pool_match("scheduled"), self._pool_match("completed")]
-        result = monitor._normalize_match_list(matches)
-        self.assertEqual(result, matches)
-
-    def test_nested_pool_structure_flattened(self):
-        # getPools response: list of pool objects, each with a "matches" key
-        pool_data = [
-            {"id": 1, "name": "Pool A", "done": False, "matches": [
-                self._pool_match("completed"),
-                self._pool_match("scheduled"),
-            ]},
-            {"id": 2, "name": "Pool B", "done": False, "matches": [
-                self._pool_match("in_progress"),
-            ]},
-        ]
-        result = monitor._normalize_match_list(pool_data)
-        self.assertEqual(len(result), 3)
-        statuses = {m["status"] for m in result}
-        self.assertEqual(statuses, {"completed", "scheduled", "in_progress"})
-
-    def test_completed_match_detected_after_normalization(self):
-        pool_data = [
-            {"id": 1, "done": True, "matches": [self._pool_match("completed")]},
-        ]
-        flat = monitor._normalize_match_list(pool_data)
-        has_active = any(
-            m.get("status") not in ("scheduled", "not_started", None)
-            for m in flat
-        )
-        self.assertTrue(has_active, "completed pool match must be seen as active after normalization")
-
-    def test_empty_list_returns_empty(self):
-        self.assertEqual(monitor._normalize_match_list([]), [])
-
-    def test_non_list_returns_empty(self):
-        self.assertEqual(monitor._normalize_match_list(None), [])
-        self.assertEqual(monitor._normalize_match_list({"foo": "bar"}), [])
-
-
 _FIXTURE = json.loads(
     (Path(__file__).parent / "fixtures" / "results_div16540.json").read_text()
 )
@@ -635,58 +323,130 @@ class TestPlayerRecords(unittest.TestCase):
         self.assertIn("pool", subj)
 
 
-class TestResultsEndpointPriority(unittest.TestCase):
+# ── Async: check_results (full pool + playoff pipeline) ───────────────────────
+
+class TestCheckResultsAsync(unittest.IsolatedAsyncioTestCase):
     """
-    Regression: pool-play matches carry no seeds and use a separate team-id
-    space, so they can't be matched to a watched player. Bracket endpoints
-    (getPlayoffs) must be tried BEFORE pool endpoints — otherwise pool data
-    shadows the bracket and all results / 'Made Playoffs' emails die (the
-    June-21 regression).
+    End-to-end guard for the results pipeline against real captured division
+    data. This is the regression net for the 2026-06/07 outage: if results ever
+    stop being detected — endpoint renamed, id-space changed, fingerprint or
+    matching broken — these fail loudly instead of silently emailing nothing.
     """
+    # roster team_id → player, from the real 07-12 Women's A division (16540)
+    LIA = 131987   # pool only (4 games)
+    PLAYOFF_TID = 132814   # seed 17 → made playoffs (pool + bracket games)
 
-    def test_bracket_endpoints_precede_pool_endpoints(self):
-        names = [ep for ep, _ in monitor._RESULTS_CANDIDATES]
-        self.assertIn("tournaments.getPlayoffs", names)
-        self.assertIn("tournaments.getPools", names)
-        self.assertLess(
-            names.index("tournaments.getPlayoffs"),
-            names.index("tournaments.getPools"),
-            "getPlayoffs (matchable, seeded) must come before getPools (unmatchable)",
-        )
+    def _trpc(self, teams=None, pools=None, playoffs=None):
+        data = {
+            "tournaments.getTeams":    _FIXTURE["teams"]    if teams    is None else teams,
+            "tournaments.getPools":    _FIXTURE["pools"]    if pools    is None else pools,
+            "tournaments.getPlayoffs": _FIXTURE["playoffs"] if playoffs is None else playoffs,
+        }
+        async def fake(page, ep, inp):
+            return data.get(ep)
+        return fake
 
+    def _state(self, players):
+        playing = {}
+        for name, tid in players.items():
+            playing[name] = {"player_name": name, "division_id": 16540,
+                             "tournament_id": 4673, "team_id": tid, "partner": "P",
+                             "tournament_name": "East Beach", "venue": "SB",
+                             "division": "Women's A"}
+        return {"tournament_day": {"playing": playing, "results": {}, "div_rosters": {}},
+                "players": {}}
 
-class TestFetchResultsAsync(unittest.IsolatedAsyncioTestCase):
-    def setUp(self):
-        monitor._results_ep_cache.clear()
+    async def _run(self, state, trpc=None):
+        page = MagicMock(); page.goto = AsyncMock()
+        with patch.object(monitor, "_trpc_get", new=(trpc or self._trpc())):
+            return await monitor.check_results(page, state)
 
-    def _bracket_match(self):   # seeded, active → matchable
-        return {"teamASeed": 8, "teamBSeed": 1, "teamAId": 999, "teamBId": 998,
-                "status": "in_progress", "sets": []}
+    async def test_pool_games_emailed(self):
+        state = self._state({"Lia Oishi": self.LIA})
+        scores, playoffs = await self._run(state)
+        self.assertEqual([w for w, _, _ in scores], ["Lia Oishi"])
+        _, _, recs = scores[0]
+        completed = [r for r in recs if r["status"] == "completed"]
+        self.assertEqual(len(completed), 4)
+        self.assertTrue(all(r["phase"] == "pool" for r in completed))
 
-    def _pool_match(self):      # no seeds, active but unmatchable
-        return {"teamAId": 226585, "teamBId": 226372, "status": "completed", "sets": []}
+    async def test_fetches_all_three_endpoints(self):
+        state = self._state({"Lia Oishi": self.LIA})
+        seen = []
+        async def fake(page_, ep, inp):
+            seen.append(ep)
+            return {"tournaments.getTeams": _FIXTURE["teams"],
+                    "tournaments.getPools": _FIXTURE["pools"],
+                    "tournaments.getPlayoffs": _FIXTURE["playoffs"]}.get(ep)
+        await self._run(state, trpc=fake)
+        self.assertIn("tournaments.getTeams", seen)
+        self.assertIn("tournaments.getPools", seen)
+        self.assertIn("tournaments.getPlayoffs", seen)
 
-    async def test_prefers_bracket_over_pool_when_both_active(self):
-        async def fake_trpc(page, ep, inp):
-            if ep == "tournaments.getPlayoffs":
-                return [self._bracket_match()]
-            if ep == "tournaments.getPools":
-                return [self._pool_match()]
-            return None
-        with patch.object(monitor, "_trpc_get", new=AsyncMock(side_effect=fake_trpc)):
-            data = await monitor.fetch_results(MagicMock(), 16540)
-        self.assertTrue(any("teamASeed" in m for m in data), "should return seeded bracket data")
-        self.assertEqual(monitor._results_ep_cache.get(16540), "tournaments.getPlayoffs")
+    async def test_no_duplicate_email_on_unchanged_rerun(self):
+        state = self._state({"Lia Oishi": self.LIA})
+        first, _  = await self._run(state)
+        self.assertEqual(len(first), 1)
+        second, _ = await self._run(state)   # same data, same state (fingerprint kept)
+        self.assertEqual(second, [])          # nothing new → no email
 
-    async def test_falls_back_to_pool_when_no_bracket(self):
-        async def fake_trpc(page, ep, inp):
-            if ep == "tournaments.getPools":
-                return [self._pool_match()]
-            return None  # no bracket endpoint returns anything
-        with patch.object(monitor, "_trpc_get", new=AsyncMock(side_effect=fake_trpc)):
-            data = await monitor.fetch_results(MagicMock(), 16540)
-        self.assertEqual(len(data), 1)
-        self.assertEqual(monitor._results_ep_cache.get(16540), "tournaments.getPools")
+    async def test_new_completed_game_triggers_reemail(self):
+        state = self._state({"Lia Oishi": self.LIA})
+        # First run with one of Lia's pool matches hidden → 3 games
+        mtid = monitor._build_teams_index(_FIXTURE["teams"])["by_roster"][self.LIA]
+        def pools_missing_one():
+            import copy
+            pools = copy.deepcopy(_FIXTURE["pools"])
+            removed = False
+            for pool in pools:
+                for i, m in enumerate(pool["matches"]):
+                    if mtid in (m.get("teamAId"), m.get("teamBId")) and not removed:
+                        pool["matches"].pop(i); removed = True; break
+                if removed: break
+            return pools
+        await self._run(state, trpc=self._trpc(pools=pools_missing_one()))
+        # Second run with the full data → the newly-seen game re-fires
+        scores, _ = await self._run(state)
+        self.assertEqual([w for w, _, _ in scores], ["Lia Oishi"])
+
+    async def test_playoff_email_fires_when_bracket_started(self):
+        state = self._state({"Champ": self.PLAYOFF_TID})
+        _, playoffs = await self._run(state)
+        self.assertEqual([w for w, _, _ in playoffs], ["Champ"])
+
+    async def test_no_playoff_email_when_all_scheduled(self):
+        # Force every bracket match to "scheduled" → bracket initialisation, no email
+        import copy
+        sched = copy.deepcopy(_FIXTURE["playoffs"])
+        for m in sched:
+            m["status"] = "scheduled"
+        state = self._state({"Champ": self.PLAYOFF_TID})
+        _, playoffs = await self._run(state, trpc=self._trpc(playoffs=sched))
+        self.assertEqual(playoffs, [])
+
+    async def test_unresolvable_player_skipped(self):
+        state = self._state({"Ghost": 999999})   # roster id not in getTeams
+        scores, playoffs = await self._run(state)
+        self.assertEqual(scores, [])
+        self.assertEqual(playoffs, [])
+
+    async def test_no_playing_returns_empty(self):
+        state = {"tournament_day": {"playing": {}, "results": {}}}
+        scores, playoffs = await self._run(state)
+        self.assertEqual((scores, playoffs), ([], []))
+
+    async def test_division_data_cached_within_run(self):
+        # Two players in the same division → division endpoints fetched once each
+        state = self._state({"Lia Oishi": self.LIA, "Champ": self.PLAYOFF_TID})
+        calls = {"getTeams": 0}
+        async def fake(page_, ep, inp):
+            if ep == "tournaments.getTeams":
+                calls["getTeams"] += 1
+            return {"tournaments.getTeams": _FIXTURE["teams"],
+                    "tournaments.getPools": _FIXTURE["pools"],
+                    "tournaments.getPlayoffs": _FIXTURE["playoffs"]}.get(ep)
+        await self._run(state, trpc=fake)
+        self.assertEqual(calls["getTeams"], 1)   # one division → one fetch, not per-player
 
 
 # ── Tournament Availability Tracker ──────────────────────────────────────────

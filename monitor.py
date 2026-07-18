@@ -473,90 +473,8 @@ async def scan_today_tournaments(page, today_str: str, state: dict, player_names
 
 # ── Results tracking ──────────────────────────────────────────────────────────
 
-# Bracket endpoints are tried FIRST: only bracket/playoff matches carry the
-# `teamASeed`/`teamBSeed` we use to identify a watched player (roster team IDs
-# don't appear in match data). Pool-play matches have no seeds and use a
-# separate team-id space, so they can't be matched to a player — they're kept
-# only as a last-resort fallback when a division has no bracket at all.
-#
-# (Pre-June-21 order had pool endpoints first; because pool matches complete
-# throughout the day they shadowed getPlayoffs, silently killing all results
-# and "Made Playoffs" emails. See _player_fingerprint / check_results.)
-_RESULTS_CANDIDATES = [
-    # Bracket / playoffs — seeded, matchable to a watched player (confirmed).
-    ("tournaments.getPlayoffs",        lambda d: {"tournamentDivisionId": d}),  # ✅ confirmed
-    ("tournaments.getDivisionSummary", lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getSchedule",        lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getGames",           lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getDivisionGames",   lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getBracket",         lambda d: {"tournamentDivisionId": d}),
-    # Pool play / round-robin — no seeds, unmatchable; last-resort fallback only.
-    ("tournaments.getPoolPlay",        lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getPools",           lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getPool",            lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getPoolResults",     lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getTeamPools",       lambda d: {"tournamentDivisionId": d}),
-    ("tournaments.getRoundRobin",      lambda d: {"tournamentDivisionId": d}),
-]
-
-# Cached once we find an endpoint with active (non-scheduled) matches.
-_results_ep_cache: dict[int, str] = {}
-
-
-def _normalize_match_list(data) -> list:
-    """Flatten getPools-style nested structure [{..., "matches": [...]}] to a flat match list."""
-    if not isinstance(data, list) or not data:
-        return []
-    if isinstance(data[0], dict) and "matches" in data[0]:
-        flat = []
-        for pool in data:
-            flat.extend(pool.get("matches") or [])
-        return flat
-    return data
-
-
-async def fetch_results(page, div_id: int):
-    if div_id in _results_ep_cache:
-        ep = _results_ep_cache[div_id]
-        raw = await _trpc_get(page, ep, {"tournamentDivisionId": div_id})
-        return _normalize_match_list(raw)
-
-    fallback: tuple | None = None  # (ep, matches) — first hit with any data
-
-    for ep, inp_fn in _RESULTS_CANDIDATES:
-        data = await _trpc_get(page, ep, inp_fn(div_id))
-        if not data or "error" in str(data)[:50].lower():
-            if DEBUG:
-                print(f"  [results] miss: {ep}")
-            continue
-
-        matches = _normalize_match_list(data)
-
-        has_active = any(
-            m.get("status") not in ("scheduled", "not_started", None)
-            for m in matches
-        )
-
-        if has_active:
-            # Active matches found — cache this endpoint for subsequent calls
-            print(f"  [results] Endpoint discovered: {ep} (div {div_id})")
-            _results_ep_cache[div_id] = ep
-            return matches
-
-        # Data returned but all matches are pre-game; keep trying for pool play
-        if fallback is None:
-            fallback = (ep, matches)
-        if DEBUG:
-            print(f"  [results] {ep}: data but all pre-game, trying next")
-
-    if fallback:
-        ep, matches = fallback
-        print(f"  [results] Using pre-game data from {ep} (div {div_id})")
-        return matches
-
-    print(f"  [results] No endpoint found for div {div_id} — results not yet available.")
-    return None
-
+# Results are read straight from the known CBVA tRPC endpoints (getTeams +
+# getPools + getPlayoffs) in _fetch_division_results / check_results below.
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Tournament Availability Tracker
@@ -1211,28 +1129,6 @@ def _records_fingerprint(records: list) -> str:
     return json.dumps(done, default=str)
 
 
-def _player_fingerprint(data, entry: dict) -> str:
-    """Legacy seed/id fingerprint over a flat bracket list (kept for tests)."""
-    our_seed    = entry.get("team_seed")
-    our_tid     = entry.get("team_id")
-    bracket_tid = entry.get("bracket_team_id")
-
-    relevant = []
-    for m in (data if isinstance(data, list) else []):
-        if m.get("status") != "completed":
-            continue
-        a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
-        a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
-        if our_seed and (a_seed == our_seed or b_seed == our_seed):
-            relevant.append(m)
-        elif our_tid and (a_id == our_tid or b_id == our_tid):
-            relevant.append(m)
-        elif bracket_tid and (a_id == bracket_tid or b_id == bracket_tid):
-            relevant.append(m)
-
-    return json.dumps(relevant, sort_keys=True, default=str)
-
-
 _div_results_cache: dict = {}   # per-run: div_id → (teams_index, pools, bracket)
 
 
@@ -1383,49 +1279,6 @@ def _ordinal(n: int) -> str:
     return f"{n}{suffix}"
 
 
-def _finish_place(all_matches: list, lost_round: int) -> str:
-    """Return a place string like '9th–16th' for a player eliminated in lost_round.
-
-    Works by walking rounds from the final downward.  Losers of the final are
-    2nd; losers of the semi are 3rd–4th; losers of the quarter are 5th–8th, etc.
-    Uses actual per-round match counts so non-power-of-2 brackets are handled.
-    """
-    rounds_desc = sorted({m.get("round", 0) for m in all_matches}, reverse=True)
-    lo = 2  # positions start after 1st place (the champion)
-    for r in rounds_desc:
-        count = sum(1 for m in all_matches if m.get("round") == r)
-        if r == lost_round:
-            hi = lo + count - 1
-            return _ordinal(lo) if lo == hi else f"{_ordinal(lo)}–{_ordinal(hi)}"
-        lo += count
-    return ""
-
-
-def _score_str(sets: list) -> str:
-    """Turn a sets array into a readable score like '21-15, 21-18'."""
-    parts = []
-    for s in sets or []:
-        a, b = s.get("teamAScore", 0), s.get("teamBScore", 0)
-        if a == 0 and b == 0 and s.get("status") in ("not_started", None):
-            continue
-        parts.append(f"{a}-{b}")
-    return ", ".join(parts) if parts else "not started"
-
-
-def _build_seed_map(matches: list) -> dict[int, int]:
-    """Build team_id → original seed from rounds where seed data is populated.
-
-    CBVA nulls out seeds in round 2+ bracket matches, but the seed is always
-    present in the round where the team first entered.  We scan all matches
-    once to build a lookup so later rounds can still show a meaningful seed.
-    """
-    seed_map: dict[int, int] = {}
-    for m in matches:
-        if m.get("teamAId") and m.get("teamASeed"):
-            seed_map[m["teamAId"]] = m["teamASeed"]
-        if m.get("teamBId") and m.get("teamBSeed"):
-            seed_map[m["teamBId"]] = m["teamBSeed"]
-    return seed_map
 
 
 def _record_sort_key(r: dict):
@@ -1519,56 +1372,6 @@ def build_playoffs_email(updates: list[tuple], state: dict, now_pt: datetime) ->
         body += f"<p style='margin:.3em 0;font-size:12px'><a href='{t_url}'>View bracket →</a></p>"
 
     return _wrap(body, "CBVA Made Playoffs", now_pt)
-
-
-def _player_outcome(data: list, entry: dict) -> dict:
-    """Return win/loss summary for a player — used for both subject line and body."""
-    our_seed    = entry.get("team_seed")
-    our_tid     = entry.get("team_id")
-    bracket_tid = entry.get("bracket_team_id")
-    matches     = sorted(data if isinstance(data, list) else [], key=lambda m: m.get("round", 0))
-    if not matches:
-        return {}
-    max_round    = max((m.get("round", 0) for m in matches), default=0)
-    finish_round = None
-    is_champion  = False
-    last_won     = False
-    last_round   = None
-    for m in matches:
-        if m.get("status") != "completed":
-            continue
-        a_seed, b_seed = m.get("teamASeed"), m.get("teamBSeed")
-        a_id,   b_id   = m.get("teamAId"),   m.get("teamBId")
-        winner_id      = m.get("winnerId")
-        round_num      = m.get("round", 0)
-        our_side = None
-        if our_seed and (a_seed == our_seed or b_seed == our_seed):
-            our_side = "A" if a_seed == our_seed else "B"
-        elif our_tid and (a_id == our_tid or b_id == our_tid):
-            our_side = "A" if a_id == our_tid else "B"
-        elif bracket_tid and (a_id == bracket_tid or b_id == bracket_tid):
-            our_side = "A" if a_id == bracket_tid else "B"
-        if our_side is None:
-            continue
-        our_id = a_id if our_side == "A" else b_id
-        won = winner_id == our_id
-        if won and round_num == max_round:
-            is_champion = True
-        elif not won:
-            finish_round = round_num
-            last_won     = False
-            last_round   = round_num
-        else:
-            last_won   = True
-            last_round = round_num
-    return {
-        "is_champion":   is_champion,
-        "finish_round":  finish_round,
-        "last_won":      last_won,
-        "last_round":    last_round,
-        "max_round":     max_round,
-        "all_matches":   matches,
-    }
 
 
 def _records_summary(records: list, entry: dict) -> str:
