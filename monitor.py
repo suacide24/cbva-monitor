@@ -766,13 +766,14 @@ async def check_city_tournaments(page, state: dict, users: list[dict], now_pt: d
                     venue_str = ", ".join(filter(None, [venue.get("name"), venue.get("city")]))
                     t_date    = _t_date_str(details) or _t_date_str(t)
                     user_new.append({
-                        "t_id":      t_id,
-                        "t_name":    t_name,
-                        "venue_str": venue_str,
-                        "t_date":    t_date,
-                        "t_url":     f"{BASE_URL}/tournaments/{t_id}",
-                        "watch":     watch,
-                        "new_divs":  new_divs,
+                        "t_id":         t_id,
+                        "t_name":       t_name,
+                        "venue_str":    venue_str,
+                        "t_date":       t_date,
+                        "t_date_short": _t_date_short(details) or _t_date_short(t),
+                        "t_url":        f"{BASE_URL}/tournaments/{t_id}",
+                        "watch":        watch,
+                        "new_divs":     new_divs,
                     })
 
             ws["seen_tdivs"] = sorted(seen)
@@ -782,7 +783,7 @@ async def check_city_tournaments(page, state: dict, users: list[dict], now_pt: d
             n_t    = len(user_new)
             n_d    = sum(len(r["new_divs"]) for r in user_new)
             send_email(
-                f"New CBVA Tournament{'s' if n_t > 1 else ''} in {cities} — {_date_str(now_pt)}",
+                _new_tournament_subject(user_new),
                 _build_new_tournament_email(user_new, now_pt),
                 to=email,
             )
@@ -1232,8 +1233,37 @@ def _player_header(name: str, profile_url: str) -> str:
         f"<a href='{href}' style='color:#1a2a4a;text-decoration:none'>{name}</a></h2>"
     )
 
+def _t_date_short(obj: dict) -> str:
+    """Short tournament date like 'Aug 8' for subject lines."""
+    for field in ("date", "startDate", "scheduledDate", "tournamentDate"):
+        raw = obj.get(field)
+        if raw:
+            try:
+                return datetime.fromisoformat(
+                    str(raw).replace("Z", "+00:00")
+                ).strftime("%b %-d")
+            except Exception:
+                return ""
+    return ""
+
+
 def _date_str(now_pt: datetime) -> str:
     return f"{now_pt.strftime('%b')} {now_pt.day}, {now_pt.year}"
+
+
+def _new_tournament_subject(records: list[dict]) -> str:
+    """Subject naming the tournament(s) + date, not the run date (so 'Ocean
+    Beach, Aug 8' reads clearly and repeats at the same venue are obvious)."""
+    cities = ", ".join(dict.fromkeys(r["watch"]["city"] for r in records))
+    labels = [
+        r["t_name"] + (f", {r['t_date_short']}" if r.get("t_date_short") else "")
+        for r in records
+    ]
+    if len(records) == 1:
+        return f"New CBVA Tournament — {labels[0]} ({cities})"
+    if len(records) <= 3:
+        return f"New CBVA Tournaments in {cities} — " + "; ".join(labels)
+    return f"{len(records)} new CBVA Tournaments in {cities}"
 
 def _wrap(body: str, title: str, now_pt: datetime) -> str:
     return (

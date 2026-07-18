@@ -700,7 +700,7 @@ def _record(city="San Diego", t_name="SD Open", divs=None):
     return {
         "t_id": 100, "t_name": t_name,
         "venue_str": "Mission Bay Park, San Diego",
-        "t_date": "July 4, 2026",
+        "t_date": "July 4, 2026", "t_date_short": "Jul 4",
         "t_url": "https://cbva.com/tournaments/100",
         "watch": {"city": city, "genders": ["Men's"], "divisions": ["A"]},
         "new_divs": divs,
@@ -748,6 +748,51 @@ class TestBuildNewTournamentEmail(unittest.TestCase):
         html = monitor._build_new_tournament_email([_record(divs=divs)], _now())
         self.assertIn("/tournaments/100/500", html)
         self.assertIn("/tournaments/100/501", html)
+
+
+class TestTDateShort(unittest.TestCase):
+    def test_iso_to_short(self):
+        self.assertEqual(monitor._t_date_short({"date": "2026-08-08T00:00:00Z"}), "Aug 8")
+
+    def test_missing_date(self):
+        self.assertEqual(monitor._t_date_short({}), "")
+
+
+class TestNewTournamentSubject(unittest.TestCase):
+    """Subject must name the tournament + its date, not the run date, so repeats
+    at the same venue (e.g. the Ocean Beach series) are obvious at a glance."""
+
+    def _rec(self, name="Ocean Beach", short="Aug 8", city="San Diego"):
+        return {"t_name": name, "t_date_short": short,
+                "watch": {"city": city}}
+
+    def test_single_names_tournament_and_date(self):
+        subj = monitor._new_tournament_subject([self._rec()])
+        self.assertEqual(subj, "New CBVA Tournament — Ocean Beach, Aug 8 (San Diego)")
+
+    def test_single_does_not_use_run_date(self):
+        # The old bug: subject showed the notification date, not the tournament's
+        subj = monitor._new_tournament_subject([self._rec(short="Aug 8")])
+        self.assertIn("Aug 8", subj)
+        self.assertNotIn("Tournament in San Diego —", subj)  # old format gone
+
+    def test_two_tournaments_listed(self):
+        subj = monitor._new_tournament_subject([
+            self._rec("Ocean Beach", "Aug 8"),
+            self._rec("Belmont Shore", "Aug 9", city="Long Beach"),
+        ])
+        self.assertIn("Ocean Beach, Aug 8", subj)
+        self.assertIn("Belmont Shore, Aug 9", subj)
+        self.assertIn("San Diego, Long Beach", subj)
+
+    def test_many_tournaments_summarized(self):
+        recs = [self._rec(f"T{i}", "Aug 8") for i in range(5)]
+        subj = monitor._new_tournament_subject(recs)
+        self.assertEqual(subj, "5 new CBVA Tournaments in San Diego")
+
+    def test_missing_short_date_omitted_gracefully(self):
+        subj = monitor._new_tournament_subject([self._rec(short="")])
+        self.assertEqual(subj, "New CBVA Tournament — Ocean Beach (San Diego)")
 
 
 class TestRegisterDeeplink(unittest.TestCase):
