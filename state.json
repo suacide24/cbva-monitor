@@ -186,7 +186,8 @@
     "date": "2026-07-19",
     "notified": {
       "rsua95@gmail.com": [
-        "Selina Chhay"
+        "Selina Chhay",
+        "Amber Graham"
       ]
     },
     "playing": {
@@ -203,6 +204,21 @@
         "team_seed": 11,
         "team_id": 132013,
         "match_team_id": 225487,
+        "finish": null
+      },
+      "Amber Graham": {
+        "player_name": "Amber Graham",
+        "profile_id": 29716,
+        "tournament_id": 4681,
+        "tournament_name": "Ocean Park",
+        "venue": "Ocean Park, Santa Monica",
+        "division": "Women's A",
+        "division_id": 16569,
+        "partner": "Malia Bachynski",
+        "partner_id": 28182,
+        "team_seed": 17,
+        "team_id": 131191,
+        "match_team_id": 224604,
         "finish": null
       }
     },
@@ -408,17 +424,17 @@
         "5": "Arthur M\u00fcller / David Kiss"
       },
       "16568": {
+        "5": "Fedor Garin / James Cowan",
+        "9": "Danny Nelson / Jacob Gubas",
+        "11": "Daniel Rice / Daniel Habibi",
         "1": "Brendan Lynch / Ian Spetner",
         "2": "Adam Griffin / John Goodlad",
         "3": "Ray Roble / Peter Tran",
         "4": "Pierce Phillips / Owen Willer",
-        "5": "Fedor Garin / James Cowan",
         "6": "Aldo Carlos / Efrain Sanchez",
         "7": "Joaquin Cielo / Austin Schmidt",
         "8": "Will Gallon / Josh Scheib",
-        "9": "Danny Nelson / Jacob Gubas",
         "10": "Chris Silva / Blair Woodring",
-        "11": "Daniel Rice / Daniel Habibi",
         "12": "Caleb Johnson / Eli Nania",
         "13": "Gabriel Faber / Greg Smith",
         "14": "Justin Knoll / Hayden Knoll",
@@ -434,11 +450,14 @@
         "24": "Paul Tsao / Michael Wannenmacher"
       },
       "16569": {
+        "5": "Lauren Miller / Bianca Pugliese",
+        "13": "Brooke Baker / Mina Maro",
+        "15": "Molly Mitchell / Kalyna Lewus",
+        "24": "Grace McQuoid / Morgan Cole",
         "1": "Clara Hopkins / Allie Marino",
         "2": "Stephanie Paul / Justyna Sroka",
         "3": "Jasmine Lin / Mckenzie Lettice",
         "4": "Sarah Maloney / Grace Yardley",
-        "5": "Lauren Miller / Bianca Pugliese",
         "6": "Maryam Staniszewski / Anastasiia Hulaia",
         "7": "Talula Walsh / Olivia Ledoyen",
         "8": "Chloe Hannemann / Addy Conner",
@@ -446,9 +465,7 @@
         "10": "Ella Hais / Tippi Lane",
         "11": "Selina Chhay / Yesenia Jacobo",
         "12": "Taylor Banczak / Teagan Welch",
-        "13": "Brooke Baker / Mina Maro",
         "14": "Tiffany Chow / Audrey Nunez",
-        "15": "Molly Mitchell / Kalyna Lewus",
         "16": "Izabella Lechuga / Sienna Vitelli",
         "17": "Malia Bachynski / Amber Graham",
         "18": "Sarah Hiyari / Michelle Boyd",
@@ -456,17 +473,16 @@
         "20": "Karoline Ruiz / Arianna Urena",
         "21": "Zoe Berry / Layla Thornton",
         "22": "Ariana Hannemann / Jae-Lyn Visscher",
-        "23": "Lizzy Ostro / Skylar Bowyer",
-        "24": "Grace McQuoid / Morgan Cole"
+        "23": "Lizzy Ostro / Skylar Bowyer"
       },
       "16570": {
+        "7": "Addie Paul / Dana Healy",
         "1": "Georgeann Lee / Alexia Heyn",
         "2": "Madison Snow / Savannah Thomas",
         "3": "Sarah Uebelhoer / Abby King",
         "4": "Vivian Johnson / Harper Cooper",
         "5": "Aj Slojkowski / Elsa Snipes",
         "6": "Quincy Stephens / Macy Bolyard",
-        "7": "Addie Paul / Dana Healy",
         "8": "Summer Witherby / Brooke Birch",
         "9": "Milan Ray / Sammy Wood",
         "10": "Ava Brizard / Mele Faiva Corral-Blagojevich",
@@ -536,6 +552,85 @@
           }
         ],
         "last_updated": "2026-07-19T21:27:53.786841"
+      },
+      "Amber Graham": {
+        "playoff_notified": true,
+        "fingerprint": "[[15263, \"completed\", \"28-26\", true], [55048, \"completed\", \"21-18\", true], [55051, \"completed\", \"10-21\", false], [55054, \"completed\", \"18-21\", false], [55056, \"completed\", \"21-10\", true]]",
+        "records": [
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 2,
+            "status": "completed",
+            "score": "21-18",
+            "opp_seed": 4,
+            "won": true,
+            "court": null,
+            "match_id": 55048
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 5,
+            "status": "completed",
+            "score": "10-21",
+            "opp_seed": 7,
+            "won": false,
+            "court": null,
+            "match_id": 55051
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 10,
+            "status": "completed",
+            "score": "21-10",
+            "opp_seed": 14,
+            "won": true,
+            "court": null,
+            "match_id": 55056
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 8,
+            "status": "completed",
+            "score": "18-21",
+            "opp_seed": 24,
+            "won": false,
+            "court": null,
+            "match_id": 55054
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 0,
+            "match_no": 3,
+            "status": "completed",
+            "score": "28-26",
+            "opp_seed": 15,
+            "won": true,
+            "court": "Court 14",
+            "match_id": 15263
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 1,
+            "match_no": 7,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 8,
+            "won": null,
+            "court": "Court 14",
+            "match_id": 15267
+          }
+        ],
+        "last_updated": "2026-07-19T22:29:51.434817"
       }
     }
   },
@@ -563,6 +658,11 @@
         "last_status": "waitlist_full",
         "t_name": "Ocean Beach",
         "div_name": "Men's A"
+      },
+      "https://cbva.com/tournaments/4681/16569": {
+        "last_status": "closed",
+        "t_name": "Ocean Park",
+        "div_name": "Women's A"
       }
     }
   }
