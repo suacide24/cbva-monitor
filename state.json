@@ -484,32 +484,8 @@
     },
     "results": {
       "Selina Chhay": {
-        "fingerprint": "[[55017, \"completed\", \"21-19\", true], [55020, \"completed\", \"18-21\", false]]",
+        "fingerprint": "[[55017, \"completed\", \"21-19\", true], [55020, \"completed\", \"18-21\", false], [55023, \"completed\", \"12-21\", false]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "1",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 10,
-            "won": null,
-            "court": null,
-            "match_id": 55023
-          },
-          {
-            "phase": "pool",
-            "pool_name": "1",
-            "round": null,
-            "match_no": 10,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 20,
-            "won": null,
-            "court": null,
-            "match_id": 55026
-          },
           {
             "phase": "pool",
             "pool_name": "1",
@@ -533,9 +509,33 @@
             "won": false,
             "court": null,
             "match_id": 55020
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "12-21",
+            "opp_seed": 10,
+            "won": false,
+            "court": null,
+            "match_id": 55023
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 10,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 20,
+            "won": null,
+            "court": null,
+            "match_id": 55026
           }
         ],
-        "last_updated": "2026-07-19T18:59:04.109725"
+        "last_updated": "2026-07-19T20:25:26.353465"
       }
     }
   },
