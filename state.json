@@ -204,7 +204,7 @@
         "team_seed": 11,
         "team_id": 132013,
         "match_team_id": 225487,
-        "finish": null
+        "finish": 16
       },
       "Amber Graham": {
         "player_name": "Amber Graham",
@@ -219,7 +219,7 @@
         "team_seed": 17,
         "team_id": 131191,
         "match_team_id": 224604,
-        "finish": null
+        "finish": 2
       }
     },
     "div_rosters": {
@@ -287,18 +287,19 @@
         "5": "Arthur M\u00fcller / David Kiss"
       },
       "16568": {
+        "2": "Adam Griffin / John Goodlad",
+        "4": "Pierce Phillips / Owen Willer",
+        "3": "Ray Roble / Peter Tran",
+        "7": "Joaquin Cielo / Austin Schmidt",
+        "12": "Caleb Johnson / Eli Nania",
+        "23": "Atticus Graham / Andrew Boone",
         "5": "Fedor Garin / James Cowan",
         "9": "Danny Nelson / Jacob Gubas",
         "11": "Daniel Rice / Daniel Habibi",
         "1": "Brendan Lynch / Ian Spetner",
-        "2": "Adam Griffin / John Goodlad",
-        "3": "Ray Roble / Peter Tran",
-        "4": "Pierce Phillips / Owen Willer",
         "6": "Aldo Carlos / Efrain Sanchez",
-        "7": "Joaquin Cielo / Austin Schmidt",
         "8": "Will Gallon / Josh Scheib",
         "10": "Chris Silva / Blair Woodring",
-        "12": "Caleb Johnson / Eli Nania",
         "13": "Gabriel Faber / Greg Smith",
         "14": "Justin Knoll / Hayden Knoll",
         "15": "Greg Matos / Ramsin Yacoob",
@@ -309,21 +310,22 @@
         "20": "Zack Allen / Curtis Massey",
         "21": "Julian Lee / Andrew Lee",
         "22": "Blake Whitcomb / Levi Bethea",
-        "23": "Atticus Graham / Andrew Boone",
         "24": "Paul Tsao / Michael Wannenmacher"
       },
       "16569": {
+        "1": "Clara Hopkins / Allie Marino",
+        "8": "Chloe Hannemann / Addy Conner",
+        "19": "Jenn Henderson / Pri Piantadosi-lima",
+        "22": "Ariana Hannemann / Jae-Lyn Visscher",
         "5": "Lauren Miller / Bianca Pugliese",
         "13": "Brooke Baker / Mina Maro",
         "15": "Molly Mitchell / Kalyna Lewus",
         "24": "Grace McQuoid / Morgan Cole",
-        "1": "Clara Hopkins / Allie Marino",
         "2": "Stephanie Paul / Justyna Sroka",
         "3": "Jasmine Lin / Mckenzie Lettice",
         "4": "Sarah Maloney / Grace Yardley",
         "6": "Maryam Staniszewski / Anastasiia Hulaia",
         "7": "Talula Walsh / Olivia Ledoyen",
-        "8": "Chloe Hannemann / Addy Conner",
         "9": "Liliana Sischka / Sienna Knight",
         "10": "Ella Hais / Tippi Lane",
         "11": "Selina Chhay / Yesenia Jacobo",
@@ -332,26 +334,24 @@
         "16": "Izabella Lechuga / Sienna Vitelli",
         "17": "Malia Bachynski / Amber Graham",
         "18": "Sarah Hiyari / Michelle Boyd",
-        "19": "Jenn Henderson / Pri Piantadosi-lima",
         "20": "Karoline Ruiz / Arianna Urena",
         "21": "Zoe Berry / Layla Thornton",
-        "22": "Ariana Hannemann / Jae-Lyn Visscher",
         "23": "Lizzy Ostro / Skylar Bowyer"
       },
       "16570": {
-        "7": "Addie Paul / Dana Healy",
         "1": "Georgeann Lee / Alexia Heyn",
+        "8": "Summer Witherby / Brooke Birch",
         "2": "Madison Snow / Savannah Thomas",
         "3": "Sarah Uebelhoer / Abby King",
-        "4": "Vivian Johnson / Harper Cooper",
-        "5": "Aj Slojkowski / Elsa Snipes",
         "6": "Quincy Stephens / Macy Bolyard",
-        "8": "Summer Witherby / Brooke Birch",
+        "11": "Chloee Kleespies / MacKenzie Kleespies",
+        "7": "Addie Paul / Dana Healy",
         "9": "Milan Ray / Sammy Wood",
         "10": "Ava Brizard / Mele Faiva Corral-Blagojevich",
-        "11": "Chloee Kleespies / MacKenzie Kleespies",
-        "12": "Olivia Johnson / Ellie Davis",
         "13": "Shayla Martinez / Bella Amey",
+        "4": "Vivian Johnson / Harper Cooper",
+        "5": "Aj Slojkowski / Elsa Snipes",
+        "12": "Olivia Johnson / Ellie Davis",
         "14": "Sonia Mancuso / Skylar Gerhardt",
         "15": "Tyreana Allen / Kyla Jones",
         "16": "Mandy Hansen / Tyler Parouse",
@@ -424,6 +424,8 @@
         "5": "Arthur M\u00fcller / David Kiss"
       },
       "16568": {
+        "1": "Brendan Lynch / Ian Spetner",
+        "6": "Aldo Carlos / Efrain Sanchez",
         "2": "Adam Griffin / John Goodlad",
         "4": "Pierce Phillips / Owen Willer",
         "3": "Ray Roble / Peter Tran",
@@ -433,23 +435,25 @@
         "5": "Fedor Garin / James Cowan",
         "9": "Danny Nelson / Jacob Gubas",
         "11": "Daniel Rice / Daniel Habibi",
-        "1": "Brendan Lynch / Ian Spetner",
-        "6": "Aldo Carlos / Efrain Sanchez",
         "8": "Will Gallon / Josh Scheib",
+        "17": "Zachary Orlando-Milbauer / Dez Ngo",
+        "21": "Julian Lee / Andrew Lee",
         "10": "Chris Silva / Blair Woodring",
+        "15": "Greg Matos / Ramsin Yacoob",
+        "18": "Trevor Schultz / Mark Stochl",
+        "22": "Blake Whitcomb / Levi Bethea",
+        "24": "Paul Tsao / Michael Wannenmacher",
         "13": "Gabriel Faber / Greg Smith",
         "14": "Justin Knoll / Hayden Knoll",
-        "15": "Greg Matos / Ramsin Yacoob",
         "16": "Josh Kleckner / Carlos Toledo",
-        "17": "Zachary Orlando-Milbauer / Dez Ngo",
-        "18": "Trevor Schultz / Mark Stochl",
         "19": "Eli Bedford / Noah Aire",
-        "20": "Zack Allen / Curtis Massey",
-        "21": "Julian Lee / Andrew Lee",
-        "22": "Blake Whitcomb / Levi Bethea",
-        "24": "Paul Tsao / Michael Wannenmacher"
+        "20": "Zack Allen / Curtis Massey"
       },
       "16569": {
+        "7": "Talula Walsh / Olivia Ledoyen",
+        "17": "Malia Bachynski / Amber Graham",
+        "2": "Stephanie Paul / Justyna Sroka",
+        "20": "Karoline Ruiz / Arianna Urena",
         "1": "Clara Hopkins / Allie Marino",
         "8": "Chloe Hannemann / Addy Conner",
         "19": "Jenn Henderson / Pri Piantadosi-lima",
@@ -458,24 +462,22 @@
         "13": "Brooke Baker / Mina Maro",
         "15": "Molly Mitchell / Kalyna Lewus",
         "24": "Grace McQuoid / Morgan Cole",
-        "2": "Stephanie Paul / Justyna Sroka",
-        "3": "Jasmine Lin / Mckenzie Lettice",
-        "4": "Sarah Maloney / Grace Yardley",
         "6": "Maryam Staniszewski / Anastasiia Hulaia",
-        "7": "Talula Walsh / Olivia Ledoyen",
-        "9": "Liliana Sischka / Sienna Knight",
         "10": "Ella Hais / Tippi Lane",
+        "23": "Lizzy Ostro / Skylar Bowyer",
+        "3": "Jasmine Lin / Mckenzie Lettice",
+        "9": "Liliana Sischka / Sienna Knight",
         "11": "Selina Chhay / Yesenia Jacobo",
-        "12": "Taylor Banczak / Teagan Welch",
         "14": "Tiffany Chow / Audrey Nunez",
         "16": "Izabella Lechuga / Sienna Vitelli",
-        "17": "Malia Bachynski / Amber Graham",
+        "4": "Sarah Maloney / Grace Yardley",
+        "12": "Taylor Banczak / Teagan Welch",
         "18": "Sarah Hiyari / Michelle Boyd",
-        "20": "Karoline Ruiz / Arianna Urena",
-        "21": "Zoe Berry / Layla Thornton",
-        "23": "Lizzy Ostro / Skylar Bowyer"
+        "21": "Zoe Berry / Layla Thornton"
       },
       "16570": {
+        "4": "Vivian Johnson / Harper Cooper",
+        "12": "Olivia Johnson / Ellie Davis",
         "1": "Georgeann Lee / Alexia Heyn",
         "8": "Summer Witherby / Brooke Birch",
         "2": "Madison Snow / Savannah Thomas",
@@ -486,15 +488,13 @@
         "9": "Milan Ray / Sammy Wood",
         "10": "Ava Brizard / Mele Faiva Corral-Blagojevich",
         "13": "Shayla Martinez / Bella Amey",
-        "4": "Vivian Johnson / Harper Cooper",
         "5": "Aj Slojkowski / Elsa Snipes",
-        "12": "Olivia Johnson / Ellie Davis",
-        "14": "Sonia Mancuso / Skylar Gerhardt",
-        "15": "Tyreana Allen / Kyla Jones",
         "16": "Mandy Hansen / Tyler Parouse",
-        "17": "Kylie Helm / Tylee Shires",
         "18": "Grace Lee / Cora Darling",
         "19": "Summer McDonough / Madison Hill",
+        "14": "Sonia Mancuso / Skylar Gerhardt",
+        "15": "Tyreana Allen / Kyla Jones",
+        "17": "Kylie Helm / Tylee Shires",
         "20": "Jennah Atchley / Brighton Atchley"
       }
     },
@@ -555,7 +555,7 @@
       },
       "Amber Graham": {
         "playoff_notified": true,
-        "fingerprint": "[[15263, \"completed\", \"28-26\", true], [15267, \"completed\", \"28-22\", true], [55048, \"completed\", \"21-18\", true], [55051, \"completed\", \"10-21\", false], [55054, \"completed\", \"18-21\", false], [55056, \"completed\", \"21-10\", true]]",
+        "fingerprint": "[[15263, \"completed\", \"28-26\", true], [15267, \"completed\", \"28-22\", true], [15270, \"completed\", \"29-27\", true], [15271, \"completed\", \"21-28\", false], [55048, \"completed\", \"21-18\", true], [55051, \"completed\", \"10-21\", false], [55054, \"completed\", \"18-21\", false], [55056, \"completed\", \"21-10\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -634,15 +634,27 @@
             "pool_name": null,
             "round": 2,
             "match_no": 10,
-            "status": "in_progress",
-            "score": "0-0",
+            "status": "completed",
+            "score": "29-27",
             "opp_seed": 20,
-            "won": null,
+            "won": true,
             "court": "Court 13",
             "match_id": 15270
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 3,
+            "match_no": 11,
+            "status": "completed",
+            "score": "21-28",
+            "opp_seed": 7,
+            "won": false,
+            "court": "Court 12",
+            "match_id": 15271
           }
         ],
-        "last_updated": "2026-07-19T23:34:08.191405"
+        "last_updated": "2026-07-20T03:46:17.544795"
       }
     }
   },
@@ -652,7 +664,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-07-19",
+    "city_last_checked": "2026-07-20",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
