@@ -532,6 +532,9 @@
         "24": "Cole Sweitzer / Kyle Chapman"
       },
       "16602": {
+        "9": "Josie Schatz / Lauren Saar",
+        "11": "Tatum Hemenway / Hayley McCluskey",
+        "13": "Zoe Pabarcus / Gracen Daniels",
         "1": "Avery Junk / Addison Junk",
         "2": "Zoey Henson / Alexia Heyn",
         "3": "Faith Bartlett / Quinn Perry",
@@ -540,11 +543,8 @@
         "6": "Madison Snow / Emma Eden",
         "7": "Elise Lenahan / Bailey Showalter",
         "8": "Deanie Woodruff / Kealoha Phillips",
-        "9": "Josie Schatz / Lauren Saar",
         "10": "Karynn Garrow / Brooke Woolley",
-        "11": "Tatum Hemenway / Hayley McCluskey",
         "12": "Macy Bolyard / Zayna Meyer",
-        "13": "Zoe Pabarcus / Gracen Daniels",
         "14": "Milan Ray / Summer Witherby",
         "15": "Ellis Hay / Zoe Joshua",
         "16": "Ella Hais / Kiley Bowman",
@@ -556,8 +556,8 @@
         "22": "Ella Irwin / Tippi Lane"
       },
       "16991": {
-        "1": "Jaylah Hernandez / Presley Blue",
         "2": "Ava Grayum / Eliana Castro-Leal",
+        "1": "Jaylah Hernandez / Presley Blue",
         "3": "Bella Roberts / Layla Roberts",
         "4": "Sadie Launer / Peyton Bunsy",
         "5": "Aria Faith / Addy Bills",
@@ -568,6 +568,8 @@
         "10": "Capri Ekmanian / Peyton Berry"
       },
       "16992": {
+        "8": "Kasie Phillips / Olivia Nuno",
+        "15": "Ava Kottage / Nadya Briggs",
         "1": "Dani Guzman / Audrina Hernandez",
         "2": "Stella Batlle / Charley Donaldson",
         "3": "Riley Lynn / Charlotte Colero",
@@ -575,13 +577,11 @@
         "5": "Aila George / Alba Fiorentini",
         "6": "Shea Pailma / Chloe Lamb",
         "7": "Claire Starr / Khloe McMillan",
-        "8": "Kasie Phillips / Olivia Nuno",
         "9": "Jaycie Andrade / Leila Rodriguez",
         "11": "Ela Byrne / Olive Beasley",
         "12": "Lena Clemons / MaryJane Oviedo",
         "13": "Mary Andros / Catalina Anguay",
         "14": "Mary BROWN / Audrey Azparren",
-        "15": "Ava Kottage / Nadya Briggs",
         "16": "Fallon Jamieson / Sienna Mettler",
         "17": "Isabel Choi / Rose Enns",
         "18": "Kristina Rios / Morgan Cheney",
@@ -593,11 +593,11 @@
         "24": "Meghan Moreno / Tanner Rowe"
       },
       "16994": {
+        "5": "Madison Ball / Hannah McGhie",
         "1": "Emma Murguia / Giuliana Irigoyen",
         "2": "Claire Grundmeier / Isla Thompson",
         "3": "Naya Broadwater / Cora Shady",
-        "4": "Amaya Chavez / Lalah Shaver",
-        "5": "Madison Ball / Hannah McGhie"
+        "4": "Amaya Chavez / Lalah Shaver"
       },
       "16597": {
         "1": "Brad Bishop / Brock Bishop",
@@ -768,8 +768,20 @@
     },
     "results": {
       "Abhinav Dagar": {
-        "fingerprint": "[[55720, \"completed\", \"15-12, 21-15, 21-23\", true]]",
+        "fingerprint": "[[55720, \"completed\", \"15-12, 21-15, 21-23\", true], [55722, \"completed\", \"15-21, 18-21, 0-0\", false]]",
         "records": [
+          {
+            "phase": "pool",
+            "pool_name": "7",
+            "round": null,
+            "match_no": 3,
+            "status": "completed",
+            "score": "15-21, 18-21, 0-0",
+            "opp_seed": 7,
+            "won": false,
+            "court": null,
+            "match_id": 55722
+          },
           {
             "phase": "pool",
             "pool_name": "7",
@@ -783,22 +795,22 @@
             "match_id": 55720
           },
           {
-            "phase": "pool",
-            "pool_name": "7",
-            "round": null,
-            "match_no": 3,
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 0,
+            "match_no": 2,
             "status": "scheduled",
             "score": "",
-            "opp_seed": 7,
+            "opp_seed": 8,
             "won": null,
-            "court": null,
-            "match_id": 55722
+            "court": "Court 21",
+            "match_id": 15411
           }
         ],
-        "last_updated": "2026-07-25T17:34:25.798099"
+        "last_updated": "2026-07-25T20:29:50.936861"
       },
       "Ramon Sua": {
-        "fingerprint": "[[55785, \"completed\", \"13-21\", false], [55788, \"completed\", \"18-21\", false], [55791, \"completed\", \"21-19\", true]]",
+        "fingerprint": "[[55785, \"completed\", \"13-21\", false], [55788, \"completed\", \"18-21\", false], [55791, \"completed\", \"21-19\", true], [55794, \"completed\", \"21-8\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -811,18 +823,6 @@
             "won": false,
             "court": null,
             "match_id": 55788
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 10,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 26,
-            "won": null,
-            "court": null,
-            "match_id": 55794
           },
           {
             "phase": "pool",
@@ -847,12 +847,24 @@
             "won": false,
             "court": null,
             "match_id": 55785
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 10,
+            "status": "completed",
+            "score": "21-8",
+            "opp_seed": 26,
+            "won": true,
+            "court": null,
+            "match_id": 55794
           }
         ],
-        "last_updated": "2026-07-25T19:14:44.313986"
+        "last_updated": "2026-07-25T20:29:53.390640"
       },
       "Faizan Zubair": {
-        "fingerprint": "[[55785, \"completed\", \"13-21\", false], [55788, \"completed\", \"18-21\", false], [55791, \"completed\", \"21-19\", true]]",
+        "fingerprint": "[[55785, \"completed\", \"13-21\", false], [55788, \"completed\", \"18-21\", false], [55791, \"completed\", \"21-19\", true], [55794, \"completed\", \"21-8\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -865,18 +877,6 @@
             "won": false,
             "court": null,
             "match_id": 55788
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 10,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 26,
-            "won": null,
-            "court": null,
-            "match_id": 55794
           },
           {
             "phase": "pool",
@@ -901,9 +901,21 @@
             "won": false,
             "court": null,
             "match_id": 55785
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 10,
+            "status": "completed",
+            "score": "21-8",
+            "opp_seed": 26,
+            "won": true,
+            "court": null,
+            "match_id": 55794
           }
         ],
-        "last_updated": "2026-07-25T19:14:44.314037"
+        "last_updated": "2026-07-25T20:29:53.390707"
       }
     }
   },
