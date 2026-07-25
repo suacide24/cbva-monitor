@@ -768,17 +768,17 @@
     },
     "results": {
       "Abhinav Dagar": {
-        "fingerprint": "[]",
+        "fingerprint": "[[55720, \"completed\", \"15-12, 21-15, 21-23\", true]]",
         "records": [
           {
             "phase": "pool",
             "pool_name": "7",
             "round": null,
             "match_no": 1,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "15-12, 21-15, 21-23",
             "opp_seed": 23,
-            "won": null,
+            "won": true,
             "court": null,
             "match_id": 55720
           },
@@ -795,7 +795,7 @@
             "match_id": 55722
           }
         ],
-        "last_updated": "2026-07-25T15:09:19.814616"
+        "last_updated": "2026-07-25T17:34:25.798099"
       },
       "Ramon Sua": {
         "fingerprint": "[[55785, \"completed\", \"13-21\", false]]",
