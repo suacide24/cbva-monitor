@@ -798,31 +798,19 @@
         "last_updated": "2026-07-25T17:34:25.798099"
       },
       "Ramon Sua": {
-        "fingerprint": "[[55785, \"completed\", \"13-21\", false]]",
+        "fingerprint": "[[55785, \"completed\", \"13-21\", false], [55788, \"completed\", \"18-21\", false], [55791, \"completed\", \"21-19\", true]]",
         "records": [
           {
             "phase": "pool",
             "pool_name": "3",
             "round": null,
             "match_no": 4,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "18-21",
             "opp_seed": 3,
-            "won": null,
+            "won": false,
             "court": null,
             "match_id": 55788
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 12,
-            "won": null,
-            "court": null,
-            "match_id": 55791
           },
           {
             "phase": "pool",
@@ -840,6 +828,18 @@
             "phase": "pool",
             "pool_name": "3",
             "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "21-19",
+            "opp_seed": 12,
+            "won": true,
+            "court": null,
+            "match_id": 55791
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
             "match_no": 1,
             "status": "completed",
             "score": "13-21",
@@ -849,34 +849,22 @@
             "match_id": 55785
           }
         ],
-        "last_updated": "2026-07-25T17:03:23.844763"
+        "last_updated": "2026-07-25T19:14:44.313986"
       },
       "Faizan Zubair": {
-        "fingerprint": "[[55785, \"completed\", \"13-21\", false]]",
+        "fingerprint": "[[55785, \"completed\", \"13-21\", false], [55788, \"completed\", \"18-21\", false], [55791, \"completed\", \"21-19\", true]]",
         "records": [
           {
             "phase": "pool",
             "pool_name": "3",
             "round": null,
             "match_no": 4,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "18-21",
             "opp_seed": 3,
-            "won": null,
+            "won": false,
             "court": null,
             "match_id": 55788
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 12,
-            "won": null,
-            "court": null,
-            "match_id": 55791
           },
           {
             "phase": "pool",
@@ -894,6 +882,18 @@
             "phase": "pool",
             "pool_name": "3",
             "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "21-19",
+            "opp_seed": 12,
+            "won": true,
+            "court": null,
+            "match_id": 55791
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
             "match_no": 1,
             "status": "completed",
             "score": "13-21",
@@ -903,7 +903,7 @@
             "match_id": 55785
           }
         ],
-        "last_updated": "2026-07-25T17:03:23.844823"
+        "last_updated": "2026-07-25T19:14:44.314037"
       }
     }
   },
