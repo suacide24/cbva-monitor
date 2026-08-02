@@ -190,16 +190,36 @@
   "last_rating_check": "2026-08-01",
   "tournament_day": {
     "date": "2026-08-01",
-    "notified": {},
-    "playing": {},
+    "notified": {
+      "rsua95@gmail.com": [
+        "Dexter Campbell"
+      ]
+    },
+    "playing": {
+      "Dexter Campbell": {
+        "player_name": "Dexter Campbell",
+        "profile_id": 8349,
+        "tournament_id": 4698,
+        "tournament_name": "Hermosa Pier",
+        "venue": "Hermosa Pier, Hermosa Beach",
+        "division": "Men's OPEN",
+        "division_id": 16619,
+        "partner": "Skyler Kaufman",
+        "partner_id": 61309,
+        "team_seed": 7,
+        "team_id": 134429,
+        "match_team_id": 228069,
+        "finish": null
+      }
+    },
     "div_rosters": {
       "16906": {
+        "2": "Bryant Barraza Ramirez / Josue Meza",
+        "4": "Ablaza Rerucha / Rusty Barker",
         "1": "Adam Vagner / Vladimir Akhmetov",
         "3": "Paul Lebel / Seamus Mehls",
         "7": "John Arcona / Gabriel Petrov",
         "12": "Nicolas Hammer / Micah Fernando",
-        "2": "Bryant Barraza Ramirez / Josue Meza",
-        "4": "Ablaza Rerucha / Rusty Barker",
         "5": "David Ronconi / Matthew Ronconi",
         "6": "Trey Tamaki / John Wetzel",
         "8": "Mat Nuttall / Dane Holmgren",
@@ -233,21 +253,21 @@
         "20": "Ashley Tausaga / Tomas Bedolla"
       },
       "16906": {
+        "15": "William Ruschel / Samuel Wallace",
+        "5": "David Ronconi / Matthew Ronconi",
         "2": "Bryant Barraza Ramirez / Josue Meza",
         "4": "Ablaza Rerucha / Rusty Barker",
         "1": "Adam Vagner / Vladimir Akhmetov",
         "3": "Paul Lebel / Seamus Mehls",
         "7": "John Arcona / Gabriel Petrov",
         "12": "Nicolas Hammer / Micah Fernando",
-        "5": "David Ronconi / Matthew Ronconi",
-        "6": "Trey Tamaki / John Wetzel",
         "8": "Mat Nuttall / Dane Holmgren",
-        "9": "Zin Maung / Noah Bigelow",
         "10": "Elijah Alonzo / Liam Casey",
         "11": "Nolan Durns / Ethan Durns",
         "13": "Brandon Varljen / Dale Ehnes",
-        "14": "Theo Weinberger / Kazim Haider",
-        "15": "William Ruschel / Samuel Wallace"
+        "6": "Trey Tamaki / John Wetzel",
+        "9": "Zin Maung / Noah Bigelow",
+        "14": "Theo Weinberger / Kazim Haider"
       },
       "16617": {
         "1": "Chris Silva / Alexandra Roskill",
@@ -270,6 +290,119 @@
         "18": "Ella Lee / Julian Lee",
         "19": "Maya Donchuanchom / Marcus Donchuanchom",
         "20": "Ashley Tausaga / Tomas Bedolla"
+      },
+      "16619": {
+        "1": "David Updegrove / John Schwengel",
+        "2": "Tennessee Fulks / Troy Fitzgerald",
+        "3": "Alexander Koki / Tanner Smith",
+        "4": "Romain Ricordeau / Jonathan Low",
+        "5": "Jimmy McCabe / Ben Apstein",
+        "6": "Marcus Partain / Earl Schultz",
+        "7": "Skyler Kaufman / Dexter Campbell",
+        "8": "Nicolas Brazao / Pedro Brazao",
+        "9": "Thomas Zhang / Matias Moreno",
+        "10": "Mathieu Szymkowiak / Matt Shassol",
+        "11": "Trent Lingruen / Mark Bucknam",
+        "12": "Anthony Bernardo / Jacob Lafazio",
+        "13": "Cash Essert / Joaquin Jones",
+        "14": "Hector Ramos / Derek Kjenstad",
+        "15": "Zachary Chapin / Johnny Dykstra",
+        "16": "Marcus Nichols / Kaleo Nawahine",
+        "17": "Justin Chow / Philip Burrow",
+        "18": "Maxx Feldman / Nate Tennant",
+        "19": "Samuel Kaseff / Harry Soltes",
+        "20": "Chris Dedo / Evan Murray",
+        "21": "Trevor Liu / Weston Kammer",
+        "22": "Dylan Mister / Max Smith",
+        "23": "Cole Sweitzer / Cameron Hoying",
+        "24": "Tristen Miller / Brennan Schmidt",
+        "25": "Carlos Vanselow / Leandro Pinheiro"
+      },
+      "16620": {
+        "1": "Katie Smith / Taylor Slover",
+        "2": "Ellie Davis / Sarah Gyepes",
+        "3": "Caroline Mackechnie / Mallory LaBreche",
+        "4": "Macy Ludwig / Quinn Perry",
+        "5": "Giselle Lau / Savanna Lau",
+        "6": "Amarie Bremel / Jonny Baham",
+        "7": "Olivia Herron / Jordyn Scribner",
+        "8": "Emma Zuffelato / Elise Lenahan",
+        "9": "Ava Williamson / Ava Haughy",
+        "10": "Josie Schatz / Lauren Saar",
+        "11": "Taylor Hagenah / Ensley Alden",
+        "12": "Leah Curtin / Jady Mape",
+        "13": "Addie Paul / Dana Healy",
+        "14": "Nicole Lankton / Brooke Birch",
+        "15": "Kelsey Brandin / Arina Gerasimova",
+        "16": "Samantha O'Connor / Brooke Stimpfig",
+        "17": "Anna Prokofieva / Myrthe Scheepens",
+        "18": "Ashley Pater / sarah wood",
+        "19": "Lauren McCarthy / Arika Johnson",
+        "20": "Kj Buckingham / Abbi Irwin",
+        "21": "Hannah Glick / Bella Bush",
+        "22": "Brinza Burness / Bristyn Burness",
+        "23": "Emma Eden / Ella Foti",
+        "24": "Maddy Byrne / Hannah Byers",
+        "25": "Daniella Kensinger / Allyson Alden",
+        "26": "Chara Wondercheck / Keely McIlroy",
+        "27": "Mandy Hansen / Avery Cukjati",
+        "28": "Tyler Parouse / Reilly Gilliland"
+      }
+    },
+    "results": {
+      "Dexter Campbell": {
+        "fingerprint": "[]",
+        "records": [
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 3,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 24,
+            "won": null,
+            "court": null,
+            "match_id": 56779
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 5,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 17,
+            "won": null,
+            "court": null,
+            "match_id": 56781
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 7,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 14,
+            "won": null,
+            "court": null,
+            "match_id": 56783
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 9,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 4,
+            "won": null,
+            "court": null,
+            "match_id": 56785
+          }
+        ],
+        "last_updated": "2026-08-02T03:35:09.697029"
       }
     }
   },
@@ -279,7 +412,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-08-01",
+    "city_last_checked": "2026-08-02",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
