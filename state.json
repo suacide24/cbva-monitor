@@ -369,7 +369,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-08-05",
+    "city_last_checked": "2026-08-07",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
@@ -386,7 +386,7 @@
     },
     "url_watches": {
       "https://cbva.com/tournaments/4704/16636": {
-        "last_status": "waitlist_full",
+        "last_status": "waitlist",
         "t_name": "Ocean Beach",
         "div_name": "Men's A"
       },
