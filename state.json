@@ -720,7 +720,7 @@
         "5": "Nina Ivezaj / Presley Fryer",
         "6": "Iris Reyes-Castelloe / Amber Hellfeld",
         "7": "Karly Graham / Layla Hang",
-        "8": "Miia Moore / Jillian Flores",
+        "8": "Miia Moore / Jill Flores",
         "9": "Gia Vorsheck / Rosie DeYoung",
         "10": "Madden Austin / Natalie Reid",
         "11": "EllyMarie Szabatura / Mackenzie Sanchez",
@@ -738,7 +738,7 @@
     },
     "results": {
       "Jeff Zalonka": {
-        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false]]",
+        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false], [57137, \"completed\", \"12-21\", false]]",
         "records": [
           {
             "phase": "pool",
@@ -751,18 +751,6 @@
             "won": false,
             "court": null,
             "match_id": 57131
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 8,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 23,
-            "won": null,
-            "court": null,
-            "match_id": 57137
           },
           {
             "phase": "pool",
@@ -787,12 +775,24 @@
             "won": false,
             "court": null,
             "match_id": 57134
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 8,
+            "status": "completed",
+            "score": "12-21",
+            "opp_seed": 23,
+            "won": false,
+            "court": null,
+            "match_id": 57137
           }
         ],
-        "last_updated": "2026-08-08T18:43:44.157398"
+        "last_updated": "2026-08-08T20:35:36.974906"
       },
       "Isaiah Ritchie": {
-        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false]]",
+        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false], [57137, \"completed\", \"12-21\", false]]",
         "records": [
           {
             "phase": "pool",
@@ -805,18 +805,6 @@
             "won": false,
             "court": null,
             "match_id": 57131
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 8,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 23,
-            "won": null,
-            "court": null,
-            "match_id": 57137
           },
           {
             "phase": "pool",
@@ -841,12 +829,24 @@
             "won": false,
             "court": null,
             "match_id": 57134
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 8,
+            "status": "completed",
+            "score": "12-21",
+            "opp_seed": 23,
+            "won": false,
+            "court": null,
+            "match_id": 57137
           }
         ],
-        "last_updated": "2026-08-08T18:43:44.157449"
+        "last_updated": "2026-08-08T20:35:36.974970"
       },
       "Christine Zalonka": {
-        "fingerprint": "[[57197, \"completed\", \"21-11\", true], [57199, \"completed\", \"21-10\", true], [57201, \"completed\", \"21-0\", true]]",
+        "fingerprint": "[[57197, \"completed\", \"21-11\", true], [57199, \"completed\", \"21-10\", true], [57201, \"completed\", \"21-0\", true], [57204, \"completed\", \"18-21\", false]]",
         "records": [
           {
             "phase": "pool",
@@ -889,15 +889,27 @@
             "pool_name": "3",
             "round": null,
             "match_no": 9,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "18-21",
             "opp_seed": 6,
-            "won": null,
+            "won": false,
             "court": null,
             "match_id": 57204
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 0,
+            "match_no": 2,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": null,
+            "won": null,
+            "court": "Court 8",
+            "match_id": 15816
           }
         ],
-        "last_updated": "2026-08-08T18:43:46.142527"
+        "last_updated": "2026-08-08T20:35:38.888086"
       }
     }
   },
