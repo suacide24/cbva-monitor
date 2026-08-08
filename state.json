@@ -475,7 +475,7 @@
         "5": "Nina Ivezaj / Presley Fryer",
         "6": "Iris Reyes-Castelloe / Amber Hellfeld",
         "7": "Karly Graham / Layla Hang",
-        "8": "Miia Moore / Jillian Flores",
+        "8": "Miia Moore / Jill Flores",
         "9": "Gia Vorsheck / Rosie DeYoung",
         "10": "Madden Austin / Natalie Reid",
         "11": "EllyMarie Szabatura / Mackenzie Sanchez",
@@ -523,11 +523,12 @@
         "30": "Peter Hill / Josh Sambrano"
       },
       "16637": {
+        "5": "Ivy Yahnke / Denali Pinto",
+        "20": "Avalon DeNecochea / Macall Peed",
         "1": "Emma Geisser / Johanna Langarica",
         "2": "Emma Rapp / Jade Resto",
         "3": "Rae Casas / Sophie Lee",
         "4": "Stefani Paladino / Alexandra Price",
-        "5": "Ivy Yahnke / Denali Pinto",
         "6": "Taylor Horwitz / Rene Wash",
         "7": "Adriana Termaat-Matthews / Rebekah Noel",
         "8": "Kristi Winter / Lily-Eve Rose",
@@ -540,8 +541,7 @@
         "15": "Michaela Keller / Shannon Kilty",
         "16": "Carley Blanchard / Shavonne Lascelle",
         "18": "Sydney Bell / Jordan Haskel",
-        "19": "Kristin Hollowell / Kara Mathews",
-        "20": "Avalon DeNecochea / Macall Peed"
+        "19": "Kristin Hollowell / Kara Mathews"
       },
       "16638": {
         "1": "Edward Wang / Kyle Zolkin",
@@ -621,7 +621,8 @@
         "16": "Nia Hampton / Reagan Goeke",
         "17": "Amanda Hsiung / Josephine Suhr",
         "18": "iris riegel / Aubrey McBride",
-        "19": "Nikki Gombar / Christine Manh"
+        "19": "Nikki Gombar / Christine Manh",
+        "20": "Emily Helu / Jenessa Helu"
       },
       "16640": {
         "1": "Jake Shapiro / Chicory Roth",
@@ -697,16 +698,16 @@
         "19": "Isabella Salgado / Nyla Hankins"
       },
       "16633": {
+        "6": "Becca Branch / Lauren Steinberg",
+        "10": "Beth Donato / Gia Rubio",
         "1": "Stella Valentine / Callie Ahmadian",
         "2": "Natalie Boothby / Makenzie Kay",
         "3": "Jasmina Clayton / Michelle Garratt",
         "4": "Summer Tonsfeldt / Lucialba Buzzelli",
         "5": "Sophia Lugtu / Kani Sakounlaphoum",
-        "6": "Becca Branch / Lauren Steinberg",
         "7": "Casey Kovarik / Diana Matthiessen",
         "8": "Georgia Jennings / Lauren Calof",
         "9": "Celina Tebor / Mickie Arias",
-        "10": "Beth Donato / Gia Rubio",
         "11": "Avalon Agnelli / Claire Egan",
         "12": "Tiffany Chow / Tiffany Kyi",
         "13": "Lily Sutherlin / Stella Freelin",
@@ -738,7 +739,7 @@
     },
     "results": {
       "Jeff Zalonka": {
-        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false], [57137, \"completed\", \"12-21\", false]]",
+        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false], [57137, \"completed\", \"12-21\", false], [57139, \"completed\", \"17-21\", false]]",
         "records": [
           {
             "phase": "pool",
@@ -751,18 +752,6 @@
             "won": false,
             "court": null,
             "match_id": 57131
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 10,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 13,
-            "won": null,
-            "court": null,
-            "match_id": 57139
           },
           {
             "phase": "pool",
@@ -787,12 +776,24 @@
             "won": false,
             "court": null,
             "match_id": 57137
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 10,
+            "status": "completed",
+            "score": "17-21",
+            "opp_seed": 13,
+            "won": false,
+            "court": null,
+            "match_id": 57139
           }
         ],
-        "last_updated": "2026-08-08T20:35:36.974906"
+        "last_updated": "2026-08-08T21:35:17.033649"
       },
       "Isaiah Ritchie": {
-        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false], [57137, \"completed\", \"12-21\", false]]",
+        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false], [57137, \"completed\", \"12-21\", false], [57139, \"completed\", \"17-21\", false]]",
         "records": [
           {
             "phase": "pool",
@@ -805,18 +806,6 @@
             "won": false,
             "court": null,
             "match_id": 57131
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 10,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 13,
-            "won": null,
-            "court": null,
-            "match_id": 57139
           },
           {
             "phase": "pool",
@@ -841,9 +830,21 @@
             "won": false,
             "court": null,
             "match_id": 57137
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 10,
+            "status": "completed",
+            "score": "17-21",
+            "opp_seed": 13,
+            "won": false,
+            "court": null,
+            "match_id": 57139
           }
         ],
-        "last_updated": "2026-08-08T20:35:36.974970"
+        "last_updated": "2026-08-08T21:35:17.033725"
       },
       "Christine Zalonka": {
         "fingerprint": "[[57197, \"completed\", \"21-11\", true], [57199, \"completed\", \"21-10\", true], [57201, \"completed\", \"21-0\", true], [57204, \"completed\", \"18-21\", false]]",
@@ -909,7 +910,8 @@
             "match_id": 15816
           }
         ],
-        "last_updated": "2026-08-08T20:35:38.888086"
+        "last_updated": "2026-08-08T20:35:38.888086",
+        "playoff_notified": true
       }
     }
   },
