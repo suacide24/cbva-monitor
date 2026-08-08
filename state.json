@@ -738,7 +738,7 @@
     },
     "results": {
       "Jeff Zalonka": {
-        "fingerprint": "[[57131, \"completed\", \"19-21\", false]]",
+        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false]]",
         "records": [
           {
             "phase": "pool",
@@ -751,18 +751,6 @@
             "won": false,
             "court": null,
             "match_id": 57131
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 5,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 8,
-            "won": null,
-            "court": null,
-            "match_id": 57134
           },
           {
             "phase": "pool",
@@ -787,12 +775,24 @@
             "won": null,
             "court": null,
             "match_id": 57139
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 5,
+            "status": "completed",
+            "score": "10-21",
+            "opp_seed": 8,
+            "won": false,
+            "court": null,
+            "match_id": 57134
           }
         ],
-        "last_updated": "2026-08-08T17:35:39.367418"
+        "last_updated": "2026-08-08T18:43:44.157398"
       },
       "Isaiah Ritchie": {
-        "fingerprint": "[[57131, \"completed\", \"19-21\", false]]",
+        "fingerprint": "[[57131, \"completed\", \"19-21\", false], [57134, \"completed\", \"10-21\", false]]",
         "records": [
           {
             "phase": "pool",
@@ -805,18 +805,6 @@
             "won": false,
             "court": null,
             "match_id": 57131
-          },
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 5,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 8,
-            "won": null,
-            "court": null,
-            "match_id": 57134
           },
           {
             "phase": "pool",
@@ -841,25 +829,25 @@
             "won": null,
             "court": null,
             "match_id": 57139
-          }
-        ],
-        "last_updated": "2026-08-08T17:35:39.367474"
-      },
-      "Christine Zalonka": {
-        "fingerprint": "[[57197, \"completed\", \"21-11\", true], [57199, \"completed\", \"21-10\", true]]",
-        "records": [
+          },
           {
             "phase": "pool",
             "pool_name": "3",
             "round": null,
-            "match_no": 6,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 19,
-            "won": null,
+            "match_no": 5,
+            "status": "completed",
+            "score": "10-21",
+            "opp_seed": 8,
+            "won": false,
             "court": null,
-            "match_id": 57201
-          },
+            "match_id": 57134
+          }
+        ],
+        "last_updated": "2026-08-08T18:43:44.157449"
+      },
+      "Christine Zalonka": {
+        "fingerprint": "[[57197, \"completed\", \"21-11\", true], [57199, \"completed\", \"21-10\", true], [57201, \"completed\", \"21-0\", true]]",
+        "records": [
           {
             "phase": "pool",
             "pool_name": "3",
@@ -888,6 +876,18 @@
             "phase": "pool",
             "pool_name": "3",
             "round": null,
+            "match_no": 6,
+            "status": "completed",
+            "score": "21-0",
+            "opp_seed": 19,
+            "won": true,
+            "court": null,
+            "match_id": 57201
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
             "match_no": 9,
             "status": "scheduled",
             "score": "",
@@ -897,7 +897,7 @@
             "match_id": 57204
           }
         ],
-        "last_updated": "2026-08-08T17:35:41.707408"
+        "last_updated": "2026-08-08T18:43:46.142527"
       }
     }
   },
