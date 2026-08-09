@@ -535,12 +535,12 @@
         "20": "Hanna Munkholm / Lyla Liddiard"
       },
       "16548": {
+        "6": "Arya Patel / Kaysen Turner",
         "1": "Macie Patterson / Kaeley KJ Johnston",
         "2": "Fiona Keyser / Elsie Truong",
         "3": "Elizabeth Tumacder / Dasha Kolchanova",
         "4": "Luci Mateo / Addison Motter",
         "5": "Mika Kato Schultheiss / Paige Lee",
-        "6": "Arya Patel / Kaysen Turner",
         "7": "Stella Schantz / Koko Petkewich",
         "8": "Sadie Launer / Aubrey Dimas",
         "9": "Melanie Spiller / Makenzie Cook",
@@ -581,11 +581,11 @@
         "20": "Leah Maikranz / Skylar Collins"
       },
       "16535": {
+        "3": "Trevor Sargeant / Keenan Lilomaiava",
+        "5": "Peyton Reese / Dallas Kim",
         "1": "Noah Pabarcus / Josh Trodd",
         "2": "D'Angelo DeMember / Jake Wolf",
-        "3": "Trevor Sargeant / Keenan Lilomaiava",
-        "4": "Hunter Blue / Cole Steincke",
-        "5": "Peyton Reese / Dallas Kim"
+        "4": "Hunter Blue / Cole Steincke"
       },
       "16537": {
         "1": "Chase Spicer / William Hidinger",
@@ -606,17 +606,17 @@
         "10": "Cami Kenoi / Allie Graham"
       },
       "16649": {
-        "1": "Ellie Davis / Cooper Clausen",
         "2": "Josie Schatz / Tony Pray",
+        "5": "Naomi aarsland birkeland / August Klem",
+        "1": "Ellie Davis / Cooper Clausen",
         "3": "Sam Hastings / Daniel Amano",
-        "4": "Mel Williams / Jacob Poeschel",
-        "5": "Naomi aarsland birkeland / August Klem"
+        "4": "Mel Williams / Jacob Poeschel"
       },
       "16650": {
+        "4": "Stesha Selsky / Steven Lopezlavalle / Jake Neuwelt / Tamara Hatch",
         "1": "Gabe Metcalf / Aidan Weltin / Delaney Peranich / Izzy Martinez",
         "2": "Gia Rubio / Michelle Garratt / Sam Hashemi / Jos\u00e9 Zavala",
         "3": "Sam Krystkowiak / Sarah Uebelhoer / Luca Valdivia / Miles Custer",
-        "4": "Stesha Selsky / Steven Lopezlavalle / Jake Neuwelt / Tamara Hatch",
         "5": "Addison Terrell / Ella Olson / Tyler Pence / Drake Foley",
         "6": "Alexandra Kurz / David Mansilla / Cole Wachter / Ryan Rogers"
       },
@@ -688,20 +688,8 @@
     },
     "results": {
       "Ramon Sua": {
-        "fingerprint": "[[57788, \"completed\", \"21-16\", true], [57791, \"completed\", \"21-19\", true]]",
+        "fingerprint": "[[57788, \"completed\", \"21-16\", true], [57791, \"completed\", \"21-19\", true], [57794, \"completed\", \"21-18\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "4",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 7,
-            "won": null,
-            "court": null,
-            "match_id": 57794
-          },
           {
             "phase": "pool",
             "pool_name": "4",
@@ -737,25 +725,25 @@
             "won": true,
             "court": null,
             "match_id": 57791
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "21-18",
+            "opp_seed": 7,
+            "won": true,
+            "court": null,
+            "match_id": 57794
           }
         ],
-        "last_updated": "2026-08-09T18:47:40.065270"
+        "last_updated": "2026-08-09T20:38:10.811145"
       },
       "Isaiah Ritchie": {
-        "fingerprint": "[[57788, \"completed\", \"21-16\", true], [57791, \"completed\", \"21-19\", true]]",
+        "fingerprint": "[[57788, \"completed\", \"21-16\", true], [57791, \"completed\", \"21-19\", true], [57794, \"completed\", \"21-18\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "4",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 7,
-            "won": null,
-            "court": null,
-            "match_id": 57794
-          },
           {
             "phase": "pool",
             "pool_name": "4",
@@ -791,9 +779,21 @@
             "won": true,
             "court": null,
             "match_id": 57791
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "21-18",
+            "opp_seed": 7,
+            "won": true,
+            "court": null,
+            "match_id": 57794
           }
         ],
-        "last_updated": "2026-08-09T18:47:40.065326"
+        "last_updated": "2026-08-09T20:38:10.811206"
       }
     }
   },
