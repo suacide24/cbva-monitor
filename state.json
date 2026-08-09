@@ -688,20 +688,8 @@
     },
     "results": {
       "Ramon Sua": {
-        "fingerprint": "[[57788, \"completed\", \"21-16\", true]]",
+        "fingerprint": "[[57788, \"completed\", \"21-16\", true], [57791, \"completed\", \"21-19\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "4",
-            "round": null,
-            "match_no": 4,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 4,
-            "won": null,
-            "court": null,
-            "match_id": 57791
-          },
           {
             "phase": "pool",
             "pool_name": "4",
@@ -737,25 +725,25 @@
             "won": true,
             "court": null,
             "match_id": 57788
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 4,
+            "status": "completed",
+            "score": "21-19",
+            "opp_seed": 4,
+            "won": true,
+            "court": null,
+            "match_id": 57791
           }
         ],
-        "last_updated": "2026-08-09T16:40:03.245213"
+        "last_updated": "2026-08-09T18:47:40.065270"
       },
       "Isaiah Ritchie": {
-        "fingerprint": "[[57788, \"completed\", \"21-16\", true]]",
+        "fingerprint": "[[57788, \"completed\", \"21-16\", true], [57791, \"completed\", \"21-19\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "4",
-            "round": null,
-            "match_no": 4,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 4,
-            "won": null,
-            "court": null,
-            "match_id": 57791
-          },
           {
             "phase": "pool",
             "pool_name": "4",
@@ -791,9 +779,21 @@
             "won": true,
             "court": null,
             "match_id": 57788
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 4,
+            "status": "completed",
+            "score": "21-19",
+            "opp_seed": 4,
+            "won": true,
+            "court": null,
+            "match_id": 57791
           }
         ],
-        "last_updated": "2026-08-09T16:40:03.245264"
+        "last_updated": "2026-08-09T18:47:40.065326"
       }
     }
   },
