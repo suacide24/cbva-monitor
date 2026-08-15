@@ -405,7 +405,8 @@
             "match_id": 58246
           }
         ],
-        "last_updated": "2026-08-15T18:35:11.915515"
+        "last_updated": "2026-08-15T18:35:11.915515",
+        "playoff_notified": true
       }
     }
   },
