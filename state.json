@@ -366,20 +366,8 @@
     },
     "results": {
       "Jenna Strange": {
-        "fingerprint": "[[58248, \"completed\", \"28-17\", true]]",
+        "fingerprint": "[[58245, \"completed\", \"17-28\", false], [58248, \"completed\", \"28-17\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "4",
-            "round": null,
-            "match_no": 2,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 4,
-            "won": null,
-            "court": null,
-            "match_id": 58245
-          },
           {
             "phase": "pool",
             "pool_name": "4",
@@ -403,9 +391,21 @@
             "won": true,
             "court": null,
             "match_id": 58248
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 2,
+            "status": "completed",
+            "score": "17-28",
+            "opp_seed": 4,
+            "won": false,
+            "court": null,
+            "match_id": 58245
           }
         ],
-        "last_updated": "2026-08-15T16:54:44.823050"
+        "last_updated": "2026-08-15T17:48:51.485391"
       }
     }
   },
