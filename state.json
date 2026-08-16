@@ -214,8 +214,11 @@
     },
     "div_rosters": {
       "16723": {
-        "1": "Katie Smith / Taylor Slover",
         "2": "Estelle Reese / Sienna Castillo",
+        "17": "Jacinda Ramirez / Emily Sparks",
+        "25": "Nicole Lankton / Abby Lewis",
+        "30": "Kaeli Crews / Erica Brok",
+        "1": "Katie Smith / Taylor Slover",
         "3": "Ellie Davis / Cora Loomer",
         "4": "Hannah Fleming / Katherine Clevenger",
         "5": "Arelie Hershberg / Sofie Meissner",
@@ -230,7 +233,6 @@
         "14": "Macy Bolyard / Emma Champagne",
         "15": "Emma Eden / Lauren McCarthy",
         "16": "Alexa Fernandez / Ava Williamson",
-        "17": "Jacinda Ramirez / Emily Sparks",
         "18": "Arika Johnson / Kara Namimatsu",
         "19": "Simrin Adams / Taylor Ponchak",
         "20": "Zoey Henson / Madison Goellner",
@@ -238,12 +240,10 @@
         "22": "Halle Hunt / Tessa Van Winkle",
         "23": "Andrea Da Silva Encinas / Sydney Wetterstrom",
         "24": "Deketa Stubblefield / Danielle Vega",
-        "25": "Nicole Lankton / Abby Lewis",
         "26": "Addie Paul / Marina Warren",
         "27": "Lina Mueller / Jordan Vander Veen",
         "28": "Adrianna Nora / Kristi Tekavec",
-        "29": "Alex Kriz / Josie Griffiths",
-        "30": "Kaeli Crews / Erica Brok"
+        "29": "Alex Kriz / Josie Griffiths"
       },
       "16722": {
         "1": "Chicory Roth / Colton Jeffrey",
@@ -310,8 +310,10 @@
         "29": "Alex Kriz / Josie Griffiths"
       },
       "16722": {
-        "1": "Chicory Roth / Colton Jeffrey",
         "2": "Finn Pommerenke / Rowan Henderson",
+        "13": "Mark Bucknam / Trent Lingruen",
+        "20": "David Farzam / John McNally",
+        "1": "Chicory Roth / Colton Jeffrey",
         "3": "Matteo Burdick / Keanu Nguyen",
         "4": "Tennessee Fulks / Patrick Buckel",
         "5": "Mathieu Szymkowiak / Jonathan Low",
@@ -322,14 +324,12 @@
         "10": "Kane Schwengel / Justin Mckellips",
         "11": "Jett Rocker-Graham / Killian Donovan",
         "12": "Justin Tompkins / Wesley Jensen",
-        "13": "Mark Bucknam / Trent Lingruen",
         "14": "Romain Ricordeau / Anthony Bernardo",
         "15": "Julien Pally / George Bruening",
         "16": "Charlie Porter / Clark Porter Jr",
         "17": "Jeffery Samuels / Dexter Campbell",
         "18": "Nate Miller / John Schwengel",
         "19": "Samuel Kaseff / Harry Soltes",
-        "20": "David Farzam / John McNally",
         "21": "Kyle Baily / Soren Sotoodeh",
         "22": "Bryce Mayer / Jonathan Ferrari",
         "23": "Holden Findley / Dominic Ambrose",
@@ -344,7 +344,7 @@
     },
     "results": {
       "Dexter Campbell": {
-        "fingerprint": "[[58590, \"completed\", \"21-15\", true], [58593, \"completed\", \"21-19\", true], [58596, \"completed\", \"21-15\", true], [58599, \"completed\", \"21-15\", true]]",
+        "fingerprint": "[[16114, \"completed\", \"28-19\", true], [58590, \"completed\", \"21-15\", true], [58593, \"completed\", \"21-19\", true], [58596, \"completed\", \"21-15\", true], [58599, \"completed\", \"21-15\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -399,15 +399,28 @@
             "pool_name": null,
             "round": 0,
             "match_no": 2,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "28-19",
             "opp_seed": 2,
-            "won": null,
+            "won": true,
             "court": "Court 3",
             "match_id": 16114
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 1,
+            "match_no": 6,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 21,
+            "won": null,
+            "court": "Court 3",
+            "match_id": 16118
           }
         ],
-        "last_updated": "2026-08-16T21:47:44.236714"
+        "last_updated": "2026-08-16T22:49:57.099031",
+        "playoff_notified": true
       }
     }
   },
