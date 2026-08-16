@@ -344,9 +344,58 @@
     },
     "results": {
       "Dexter Campbell": {
-        "fingerprint": "[]",
-        "records": [],
-        "last_updated": "2026-08-16T14:28:56.144919"
+        "fingerprint": "[[58590, \"completed\", \"21-15\", true]]",
+        "records": [
+          {
+            "phase": "pool",
+            "pool_name": "5",
+            "round": null,
+            "match_no": 4,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 5,
+            "won": null,
+            "court": null,
+            "match_id": 58593
+          },
+          {
+            "phase": "pool",
+            "pool_name": "5",
+            "round": null,
+            "match_no": 7,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 8,
+            "won": null,
+            "court": null,
+            "match_id": 58596
+          },
+          {
+            "phase": "pool",
+            "pool_name": "5",
+            "round": null,
+            "match_no": 10,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 20,
+            "won": null,
+            "court": null,
+            "match_id": 58599
+          },
+          {
+            "phase": "pool",
+            "pool_name": "5",
+            "round": null,
+            "match_no": 1,
+            "status": "completed",
+            "score": "21-15",
+            "opp_seed": 29,
+            "won": true,
+            "court": null,
+            "match_id": 58590
+          }
+        ],
+        "last_updated": "2026-08-16T16:56:05.818932"
       }
     }
   },
