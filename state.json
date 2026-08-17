@@ -209,11 +209,13 @@
         "team_seed": 17,
         "team_id": 134635,
         "match_team_id": 228287,
-        "finish": null
+        "finish": 2
       }
     },
     "div_rosters": {
       "16723": {
+        "1": "Katie Smith / Taylor Slover",
+        "6": "Savanna Lau / Giselle Lau",
         "3": "Ellie Davis / Cora Loomer",
         "4": "Hannah Fleming / Katherine Clevenger",
         "10": "Jessica Sykora / Alex Reale",
@@ -222,9 +224,7 @@
         "17": "Jacinda Ramirez / Emily Sparks",
         "25": "Nicole Lankton / Abby Lewis",
         "30": "Kaeli Crews / Erica Brok",
-        "1": "Katie Smith / Taylor Slover",
         "5": "Arelie Hershberg / Sofie Meissner",
-        "6": "Savanna Lau / Giselle Lau",
         "7": "Amarie Bremel / Jonny Baham",
         "8": "Elena Eckhardt / Rachel Kuhn",
         "9": "Logan Walter / Izzy Martinez",
@@ -246,18 +246,19 @@
         "29": "Alex Kriz / Josie Griffiths"
       },
       "16722": {
+        "3": "Matteo Burdick / Keanu Nguyen",
+        "9": "Nicolas Brazao / Pedro Brazao",
+        "21": "Kyle Baily / Soren Sotoodeh",
         "22": "Bryce Mayer / Jonathan Ferrari",
         "2": "Finn Pommerenke / Rowan Henderson",
+        "6": "Brian O\u2019Neill / Justin Chow",
         "13": "Mark Bucknam / Trent Lingruen",
         "20": "David Farzam / John McNally",
         "1": "Chicory Roth / Colton Jeffrey",
-        "3": "Matteo Burdick / Keanu Nguyen",
         "4": "Tennessee Fulks / Patrick Buckel",
         "5": "Mathieu Szymkowiak / Jonathan Low",
-        "6": "Brian O\u2019Neill / Justin Chow",
         "7": "Brett Stetson / Daniel Lozada",
         "8": "Timothy Pohlmann / Andrew Nielsen",
-        "9": "Nicolas Brazao / Pedro Brazao",
         "10": "Kane Schwengel / Justin Mckellips",
         "11": "Jett Rocker-Graham / Killian Donovan",
         "12": "Justin Tompkins / Wesley Jensen",
@@ -267,7 +268,6 @@
         "17": "Jeffery Samuels / Dexter Campbell",
         "18": "Nate Miller / John Schwengel",
         "19": "Samuel Kaseff / Harry Soltes",
-        "21": "Kyle Baily / Soren Sotoodeh",
         "23": "Holden Findley / Dominic Ambrose",
         "24": "Raymond Barsemian / Austin Matautia",
         "25": "Chris Dedo / Michael Lessel",
@@ -278,6 +278,8 @@
         "30": "August Klem / Jarod Kyle Bristol"
       },
       "16723": {
+        "9": "Logan Walter / Izzy Martinez",
+        "11": "Taylor Hagenah / Malia Gementera",
         "1": "Katie Smith / Taylor Slover",
         "6": "Savanna Lau / Giselle Lau",
         "3": "Ellie Davis / Cora Loomer",
@@ -289,20 +291,18 @@
         "25": "Nicole Lankton / Abby Lewis",
         "30": "Kaeli Crews / Erica Brok",
         "5": "Arelie Hershberg / Sofie Meissner",
-        "7": "Amarie Bremel / Jonny Baham",
-        "8": "Elena Eckhardt / Rachel Kuhn",
-        "9": "Logan Walter / Izzy Martinez",
-        "11": "Taylor Hagenah / Malia Gementera",
         "12": "Katrena Koellner / Sofia Taylor",
-        "13": "Lauren Saar / Josie Schatz",
         "14": "Macy Bolyard / Emma Champagne",
-        "15": "Emma Eden / Lauren McCarthy",
         "16": "Alexa Fernandez / Ava Williamson",
         "18": "Arika Johnson / Kara Namimatsu",
-        "19": "Simrin Adams / Taylor Ponchak",
-        "21": "Eleonore Johansen / Daniella Kensinger",
         "22": "Halle Hunt / Tessa Van Winkle",
+        "7": "Amarie Bremel / Jonny Baham",
+        "8": "Elena Eckhardt / Rachel Kuhn",
+        "13": "Lauren Saar / Josie Schatz",
+        "15": "Emma Eden / Lauren McCarthy",
+        "21": "Eleonore Johansen / Daniella Kensinger",
         "23": "Andrea Da Silva Encinas / Sydney Wetterstrom",
+        "19": "Simrin Adams / Taylor Ponchak",
         "24": "Deketa Stubblefield / Danielle Vega",
         "26": "Addie Paul / Marina Warren",
         "27": "Lina Mueller / Jordan Vander Veen",
@@ -310,6 +310,10 @@
         "29": "Alex Kriz / Josie Griffiths"
       },
       "16722": {
+        "11": "Jett Rocker-Graham / Killian Donovan",
+        "17": "Jeffery Samuels / Dexter Campbell",
+        "12": "Justin Tompkins / Wesley Jensen",
+        "18": "Nate Miller / John Schwengel",
         "3": "Matteo Burdick / Keanu Nguyen",
         "9": "Nicolas Brazao / Pedro Brazao",
         "21": "Kyle Baily / Soren Sotoodeh",
@@ -318,33 +322,29 @@
         "6": "Brian O\u2019Neill / Justin Chow",
         "13": "Mark Bucknam / Trent Lingruen",
         "20": "David Farzam / John McNally",
-        "1": "Chicory Roth / Colton Jeffrey",
         "4": "Tennessee Fulks / Patrick Buckel",
-        "5": "Mathieu Szymkowiak / Jonathan Low",
-        "7": "Brett Stetson / Daniel Lozada",
         "8": "Timothy Pohlmann / Andrew Nielsen",
-        "10": "Kane Schwengel / Justin Mckellips",
-        "11": "Jett Rocker-Graham / Killian Donovan",
-        "12": "Justin Tompkins / Wesley Jensen",
         "14": "Romain Ricordeau / Anthony Bernardo",
         "15": "Julien Pally / George Bruening",
-        "16": "Charlie Porter / Clark Porter Jr",
-        "17": "Jeffery Samuels / Dexter Campbell",
-        "18": "Nate Miller / John Schwengel",
         "19": "Samuel Kaseff / Harry Soltes",
-        "23": "Holden Findley / Dominic Ambrose",
         "24": "Raymond Barsemian / Austin Matautia",
+        "1": "Chicory Roth / Colton Jeffrey",
+        "7": "Brett Stetson / Daniel Lozada",
+        "16": "Charlie Porter / Clark Porter Jr",
+        "23": "Holden Findley / Dominic Ambrose",
+        "27": "Art Barron / Gabriel Vega",
+        "29": "Joshua Friedman / Vladimir Kubr",
+        "5": "Mathieu Szymkowiak / Jonathan Low",
+        "10": "Kane Schwengel / Justin Mckellips",
         "25": "Chris Dedo / Michael Lessel",
         "26": "Cooper Clausen / Matthew Stith",
-        "27": "Art Barron / Gabriel Vega",
         "28": "Nick DiMatteo / Daniele Pandolfi",
-        "29": "Joshua Friedman / Vladimir Kubr",
         "30": "August Klem / Jarod Kyle Bristol"
       }
     },
     "results": {
       "Dexter Campbell": {
-        "fingerprint": "[[16114, \"completed\", \"28-19\", true], [16118, \"completed\", \"28-22\", true], [58590, \"completed\", \"21-15\", true], [58593, \"completed\", \"21-19\", true], [58596, \"completed\", \"21-15\", true], [58599, \"completed\", \"21-15\", true]]",
+        "fingerprint": "[[16114, \"completed\", \"28-19\", true], [16118, \"completed\", \"28-22\", true], [16121, \"completed\", \"33-31\", true], [16123, \"completed\", \"23-28\", false], [58590, \"completed\", \"21-15\", true], [58593, \"completed\", \"21-19\", true], [58596, \"completed\", \"21-15\", true], [58599, \"completed\", \"21-15\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -423,15 +423,27 @@
             "pool_name": null,
             "round": 2,
             "match_no": 9,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "33-31",
             "opp_seed": 12,
-            "won": null,
+            "won": true,
             "court": "Court 6",
             "match_id": 16121
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 3,
+            "match_no": 11,
+            "status": "completed",
+            "score": "23-28",
+            "opp_seed": 11,
+            "won": false,
+            "court": "Court 6",
+            "match_id": 16123
           }
         ],
-        "last_updated": "2026-08-16T23:47:20.728091",
+        "last_updated": "2026-08-17T01:43:33.541890",
         "playoff_notified": true
       }
     }
@@ -442,7 +454,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-08-16",
+    "city_last_checked": "2026-08-17",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
