@@ -513,7 +513,6 @@
         "22": "Lily Sutherlin / Stella Freelin"
       },
       "16661": {
-        "1": "Lauren Stivrins / Amber Stivrins",
         "2": "Kylee-Jo (JoJo) Wilson / Sam Krystkowiak",
         "3": "Charlotte Jansen / Jordyn Wilson",
         "4": "Zoe Pabarcus / Mikki Carlin",
@@ -682,9 +681,58 @@
     },
     "results": {
       "Jacklyn Smith": {
-        "fingerprint": "[]",
-        "records": [],
-        "last_updated": "2026-08-22T14:28:02.729640"
+        "fingerprint": "[[58752, \"completed\", \"24-22\", true]]",
+        "records": [
+          {
+            "phase": "pool",
+            "pool_name": "6",
+            "round": null,
+            "match_no": 5,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 19,
+            "won": null,
+            "court": null,
+            "match_id": 58756
+          },
+          {
+            "phase": "pool",
+            "pool_name": "6",
+            "round": null,
+            "match_no": 7,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 18,
+            "won": null,
+            "court": null,
+            "match_id": 58759
+          },
+          {
+            "phase": "pool",
+            "pool_name": "6",
+            "round": null,
+            "match_no": 3,
+            "status": "completed",
+            "score": "24-22",
+            "opp_seed": 30,
+            "won": true,
+            "court": null,
+            "match_id": 58752
+          },
+          {
+            "phase": "pool",
+            "pool_name": "6",
+            "round": null,
+            "match_no": 9,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 6,
+            "won": null,
+            "court": null,
+            "match_id": 58818
+          }
+        ],
+        "last_updated": "2026-08-22T17:49:27.937736"
       }
     }
   },
