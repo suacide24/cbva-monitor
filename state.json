@@ -488,10 +488,10 @@
         "40": "Chris Agnew / Matthew Agnew"
       },
       "16659": {
+        "4": "Alexandra Roskill / Alex Ford",
         "1": "Jenn Kahle / Erica Griffiths",
         "2": "Summer Tonsfeldt / Lucialba Buzzelli",
         "3": "Becca Branch / Kelly Chang",
-        "4": "Alexandra Roskill / Alex Ford",
         "5": "Yesenia Jacobo / Nancy Sanchez",
         "6": "Rachel Kearon / Haley Lao",
         "7": "Madeline Porter / Steffi Rehbein",
@@ -731,7 +731,8 @@
             "match_id": 58759
           }
         ],
-        "last_updated": "2026-08-22T20:27:55.337899"
+        "last_updated": "2026-08-22T20:27:55.337899",
+        "playoff_notified": true
       }
     }
   },
