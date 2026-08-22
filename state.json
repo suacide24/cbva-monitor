@@ -280,7 +280,6 @@
         "22": "Lily Sutherlin / Stella Freelin"
       },
       "16661": {
-        "1": "Lauren Stivrins / Amber Stivrins",
         "2": "Kylee-Jo (JoJo) Wilson / Sam Krystkowiak",
         "3": "Charlotte Jansen / Jordyn Wilson",
         "4": "Zoe Pabarcus / Mikki Carlin",
@@ -681,20 +680,8 @@
     },
     "results": {
       "Jacklyn Smith": {
-        "fingerprint": "[[58752, \"completed\", \"24-22\", true]]",
+        "fingerprint": "[[58752, \"completed\", \"24-22\", true], [58756, \"completed\", \"21-17\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "6",
-            "round": null,
-            "match_no": 5,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 19,
-            "won": null,
-            "court": null,
-            "match_id": 58756
-          },
           {
             "phase": "pool",
             "pool_name": "6",
@@ -730,9 +717,21 @@
             "won": null,
             "court": null,
             "match_id": 58818
+          },
+          {
+            "phase": "pool",
+            "pool_name": "6",
+            "round": null,
+            "match_no": 5,
+            "status": "completed",
+            "score": "21-17",
+            "opp_seed": 19,
+            "won": true,
+            "court": null,
+            "match_id": 58756
           }
         ],
-        "last_updated": "2026-08-22T17:49:27.937736"
+        "last_updated": "2026-08-22T18:37:01.043693"
       }
     }
   },
