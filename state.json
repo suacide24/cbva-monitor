@@ -680,7 +680,7 @@
     },
     "results": {
       "Jacklyn Smith": {
-        "fingerprint": "[[58752, \"completed\", \"24-22\", true], [58756, \"completed\", \"21-17\", true], [58759, \"completed\", \"21-13\", true]]",
+        "fingerprint": "[[58752, \"completed\", \"24-22\", true], [58756, \"completed\", \"21-17\", true], [58759, \"completed\", \"21-13\", true], [58818, \"completed\", \"21-17\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -699,10 +699,10 @@
             "pool_name": "6",
             "round": null,
             "match_no": 9,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "21-17",
             "opp_seed": 6,
-            "won": null,
+            "won": true,
             "court": null,
             "match_id": 58818
           },
@@ -731,7 +731,7 @@
             "match_id": 58759
           }
         ],
-        "last_updated": "2026-08-22T19:48:28.435728"
+        "last_updated": "2026-08-22T20:27:55.337899"
       }
     }
   },
