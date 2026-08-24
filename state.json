@@ -240,11 +240,13 @@
         "4": "Micaela Gonzalez / Kaitlyn FitzGerald"
       },
       "16669": {
+        "17": "Zoey Kincaid / Jordyn Miller",
+        "13": "Megan Stewart / Samantha Smith",
         "11": "Abby Karich / Arianna Urena",
         "22": "Kasie Hernandez / Annika Gudnason",
         "6": "Ashleigh Wodzinski / Michelle Cammayo",
         "8": "Kristy Koller / Kelley Johnson",
-        "16": "Hailey Hertlein / Tegan Smith",
+        "16": "Tegan Smith / Hailey Hertlein",
         "20": "Catie Mintz / Kelly Rowe",
         "2": "Sarah Benoist / Laura San Fillipo",
         "4": "Emma Rapp / Lily-Eve Rose",
@@ -252,18 +254,16 @@
         "3": "Grace Yardley / Sarah Maloney",
         "5": "Ariel Safai / Summer Tonsfeldt",
         "7": "Maryam Staniszewski / Thera Steele",
-        "9": "Jenn Kahle / Erica Griffiths",
+        "19": "Cecily Morse / Erika Strait",
         "10": "Adiba Hassan / Miranda Gagnier",
         "12": "Alexandra Briski / Carolyn Briski",
-        "13": "Megan Stewart / Samantha Smith",
-        "14": "Bella Henderson / Kalea Gan",
         "15": "Michelle Garratt / Sophia Lawrance",
-        "17": "Zoey Kincaid / Jordyn Miller",
         "18": "Makena Cammayo / Ava Salvo",
-        "19": "Cecily Morse / Erika Strait",
+        "24": "Lily Sutherlin / Stella Freelin",
+        "9": "Jenn Kahle / Erica Griffiths",
+        "14": "Bella Henderson / Kalea Gan",
         "21": "Madison Kurke / Mia Jago",
         "23": "Kacey Feng / Jada Feng",
-        "24": "Lily Sutherlin / Stella Freelin",
         "25": "Mia Collaso / Sophia Abril"
       },
       "16671": {
@@ -296,8 +296,8 @@
       },
       "16672": {
         "1": "Luci Mateo / Addison Motter",
-        "2": "Bella Soria / Juliette Morales",
         "3": "Juliette Johnson / Julia Shi",
+        "2": "Bella Soria / Juliette Morales",
         "4": "Olympia Taggart / Savannah Jass",
         "5": "Piper Cargill / Audrey Going"
       },
@@ -379,20 +379,20 @@
         "8": "Malia Bachynski / Samantha Lane"
       },
       "16670": {
+        "6": "Cole Aidnik / Mitchell Keddie",
+        "1": "Timothy Pohlmann / Justin Mckellips",
         "5": "Cuban Perez / Orlando Rojas",
         "9": "Maxx Feldman / Christopher Tamberg",
         "2": "Nicolas Brazao / Hunter Lourick",
         "8": "Jesse Walker / Logan Perez",
         "10": "Trent Lingruen / Stanton Smith",
         "12": "Cam Fry / Ben Wilson",
-        "1": "Timothy Pohlmann / Justin Mckellips",
-        "3": "Tom Wilson / Tennessee Fulks",
         "4": "Ezra Krohn / Romain Ricordeau",
-        "6": "Cole Aidnik / Mitchell Keddie",
+        "3": "Tom Wilson / Tennessee Fulks",
         "7": "Daniel Lozada / Brett Stetson",
+        "14": "Thaddeus Vaughn Doan / Aryan Rasoolian",
         "11": "Thomas Mayfield / Sam Hashemi",
         "13": "Jake Wolf / Josh Trodd",
-        "14": "Thaddeus Vaughn Doan / Aryan Rasoolian",
         "15": "Jackson Mezera / Jakob Troy"
       }
     }
@@ -403,7 +403,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-08-23",
+    "city_last_checked": "2026-08-24",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
