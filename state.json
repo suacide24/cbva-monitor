@@ -206,7 +206,7 @@
         "division_id": 17485,
         "partner": "Kiyan Dabestani",
         "partner_id": 65018,
-        "team_seed": null,
+        "team_seed": 4,
         "team_id": 135344,
         "match_team_id": 229048,
         "finish": null
@@ -214,24 +214,26 @@
     },
     "div_rosters": {
       "16684": {
-        "1": "Danielle Sugrue / Marie Richmond",
-        "2": "Sarah Maydole / Nicole Henry",
         "4": "Judy Viduya / Claire Gerard",
+        "15": "Yuki Hashiguchi-Rosoff / Aliona Konvai",
+        "1": "Danielle Sugrue / Marie Richmond",
         "5": "Laura Simpson / Presley Pahl",
-        "6": "Fran Wang / Jenifer Morgan",
         "7": "Marlee Delgado / Kelsey Talley",
-        "8": "Lilly Petersen / Keala Peterson",
+        "16": "Piya Siripoksup / Whitney Worth",
+        "6": "Fran Wang / Jenifer Morgan",
         "9": "Mira Caputo / Aadhya Bharath",
-        "10": "Megan Francisco / Natalie Kingwood",
         "11": "Terra Ganey / Taylor R Reed",
         "13": "Shannon Gilles / Ber Zavala",
+        "2": "Sarah Maydole / Nicole Henry",
+        "8": "Lilly Petersen / Keala Peterson",
+        "10": "Megan Francisco / Natalie Kingwood",
         "14": "Bri Stuart / Lauren Nelson",
-        "15": "Yuki Hashiguchi-Rosoff / Aliona Konvai",
-        "16": "Piya Siripoksup / Whitney Worth",
         "17": "Madi Steele / Andrea Hill",
         "18": "Nicollette Laroco / Julia Agbuya"
       },
       "16684": {
+        "8": "Lilly Petersen / Keala Peterson",
+        "2": "Sarah Maydole / Nicole Henry",
         "4": "Judy Viduya / Claire Gerard",
         "15": "Yuki Hashiguchi-Rosoff / Aliona Konvai",
         "1": "Danielle Sugrue / Marie Richmond",
@@ -240,14 +242,33 @@
         "16": "Piya Siripoksup / Whitney Worth",
         "6": "Fran Wang / Jenifer Morgan",
         "9": "Mira Caputo / Aadhya Bharath",
-        "11": "Terra Ganey / Taylor R Reed",
+        "11": "Taylor R Reed / Terra Ganey",
         "13": "Shannon Gilles / Ber Zavala",
-        "2": "Sarah Maydole / Nicole Henry",
-        "8": "Lilly Petersen / Keala Peterson",
         "10": "Megan Francisco / Natalie Kingwood",
         "14": "Bri Stuart / Lauren Nelson",
-        "17": "Madi Steele / Andrea Hill",
-        "18": "Nicollette Laroco / Julia Agbuya"
+        "18": "Nicollette Laroco / Julia Agbuya",
+        "17": "Madi Steele / Andrea Hill"
+      },
+      "17151": {
+        "1": "Chase Taschner / Leo Masuda-Kalck",
+        "2": "Joshua Ponce / Jacob Ponce",
+        "3": "Brady Schnickel / Max Tyree",
+        "4": "Evan Engel / Will Cheviron",
+        "5": "Mason Dean / Reed Sloan"
+      },
+      "17152": {
+        "1": "Benji Beach / Sterling DeLane",
+        "2": "Cooper Birkett / Grant Randall",
+        "3": "Nathan Lyons / Liam Koett",
+        "4": "Benjamine Martinez / Dominic Tedrow",
+        "5": "Josh Dority / Alan Ebert"
+      },
+      "17485": {
+        "1": "Johnny Brough / Jared Ready",
+        "2": "Anderson Arbaugh / Noa Stotsenberg",
+        "3": "Lorenzo Pirtle / Liam Desjardins",
+        "4": "Kiyan Dabestani / Jackson Smith",
+        "5": "Evan Berney / Carter Rowe"
       }
     },
     "results": {
@@ -264,7 +285,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-08-29",
+    "city_last_checked": "2026-08-30",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
