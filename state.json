@@ -292,12 +292,12 @@
         "13": "Riley Harris / Lola Boone"
       },
       "16680": {
+        "3": "Chloe Goncalves / Alexa Norris",
+        "6": "Addie Bolton / Kaylee Braunlich",
         "1": "Charlotte Thornton / Skylar Kral",
         "2": "Noe Gonzalez / Elise Yoshimura",
-        "3": "Chloe Goncalves / Alexa Norris",
         "4": "Melanie Postachian-Silva / Alyssa Andrade",
-        "5": "Sofia Yew / Lily Sutherlin",
-        "6": "Addie Bolton / Kaylee Braunlich"
+        "5": "Sofia Yew / Lily Sutherlin"
       },
       "16681": {
         "1": "Duncan Cammayo / Michelle Cammayo",
@@ -317,17 +317,17 @@
         "15": "Jeremy Oms / Catherine Oms"
       },
       "16683": {
+        "6": "Mandy Hansen / Arelie Hershberg",
+        "10": "Ingrid Timon-Johnson / Ines Piret",
+        "11": "Ana Francelino / Kiara Jeronimo",
         "1": "Chloe Hoffman / Elena Fisher",
         "2": "Hannah Fleming / Ava Williamson",
         "3": "Adelina Okazaki / Mikki Carlin",
         "4": "Ruby Hill / Alina Ryan",
         "5": "Addie Paul / Dana Healy",
-        "6": "Mandy Hansen / Arelie Hershberg",
         "7": "Allanis Navas / Maria Gonzalez",
         "8": "Hannah Rooks / Alana Embry",
         "9": "Kristen Tupac / August Raskie",
-        "10": "Ingrid Timon-Johnson / Ines Piret",
-        "11": "Ana Francelino / Kiara Jeronimo",
         "12": "SABRINA MONTEIRO RODRIGUES / Lu\u00edsa Ianegitz"
       },
       "16682": {
@@ -363,33 +363,33 @@
         "30": "Gavin Mortensen / Caden Phillips"
       },
       "16927": {
-        "1": "Sullivan Ryan / Peyton Reese",
-        "2": "Keenan Lilomaiava / Jack Preus",
         "3": "Mason Dean / Reed Sloan",
-        "4": "Noah Gregan / Harrison Smith",
-        "5": "Zeke Hayes / Dylan Hall"
+        "2": "Keenan Lilomaiava / Jack Preus",
+        "1": "Sullivan Ryan / Peyton Reese",
+        "5": "Zeke Hayes / Dylan Hall",
+        "4": "Noah Gregan / Harrison Smith"
       },
       "16678": {
-        "1": "Adrian Buran / Calvin D'Arcy",
         "2": "Liam LeGrande / Sawyer Fitzgerald",
-        "3": "Steven Zein / Case Cottriel",
-        "4": "Dylan Lyman / Aden Dias",
         "5": "Maxson Bell / Beck Essert",
-        "6": "Lenox LeGrande / Hudson Winder",
+        "1": "Adrian Buran / Calvin D'Arcy",
         "7": "Dean Miyamoto / Louie Mintz",
-        "8": "Kosta Ortega / Tristan Pianin",
-        "9": "Dylan kim / OJ Clark",
+        "3": "Steven Zein / Case Cottriel",
         "10": "Jason Chen / Alex T\u2019kindt",
-        "11": "Cooper Eriksson / Doran Gick"
+        "6": "Lenox LeGrande / Hudson Winder",
+        "9": "Dylan kim / OJ Clark",
+        "11": "Cooper Eriksson / Doran Gick",
+        "4": "Dylan Lyman / Aden Dias",
+        "8": "Kosta Ortega / Tristan Pianin"
       },
       "16679": {
+        "5": "Brooklynn Kenney / Kahler Hicks",
+        "4": "Summer Grace / Arya Sonthalia",
+        "7": "Audrey Beck / Anna Joy Bohlinger",
         "1": "Grace Cacciapaglia / Mila Mayer",
         "2": "Kate Stevenson / Amina Nwankwo",
         "3": "Tatiana Cordeiro Luckeroth / Lauren Martin",
-        "4": "Summer Grace / Arya Sonthalia",
-        "5": "Brooklynn Kenney / Kahler Hicks",
         "6": "Layne Graham / Gigi Juell",
-        "7": "Audrey Beck / Anna Joy Bohlinger",
         "8": "Brynn McIntyre / Olivia Gable",
         "9": "Pash Marouani / Emelynn Ngai",
         "10": "Walker Overholt / Gracen Dinneen",
@@ -398,12 +398,12 @@
         "13": "Riley Harris / Lola Boone"
       },
       "16680": {
-        "3": "Chloe Goncalves / Alexa Norris",
-        "6": "Addie Bolton / Kaylee Braunlich",
         "1": "Charlotte Thornton / Skylar Kral",
-        "2": "Noe Gonzalez / Elise Yoshimura",
         "4": "Melanie Postachian-Silva / Alyssa Andrade",
-        "5": "Sofia Yew / Lily Sutherlin"
+        "2": "Noe Gonzalez / Elise Yoshimura",
+        "5": "Sofia Yew / Lily Sutherlin",
+        "3": "Chloe Goncalves / Alexa Norris",
+        "6": "Addie Bolton / Kaylee Braunlich"
       }
     }
   },
