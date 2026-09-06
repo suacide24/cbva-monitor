@@ -194,6 +194,8 @@
     "playing": {},
     "div_rosters": {
       "16681": {
+        "5": "Cody Krohn / Meghann Torchia",
+        "1": "Duncan Cammayo / Michelle Cammayo",
         "9": "Robert Allen / Madeline Porter",
         "13": "Ryan Wadhams / Nikol Moshenska",
         "2": "Alona Kuzmytska / Alex Stas",
@@ -201,14 +203,12 @@
         "8": "Kevin Staniszewski / Maryam Staniszewski",
         "15": "Jeremy Oms / Catherine Oms",
         "4": "Indy de Smet / Cody Aung",
-        "1": "Duncan Cammayo / Michelle Cammayo",
         "3": "Jack Vermaak / Haylee Stoner",
-        "5": "Cody Krohn / Meghann Torchia",
         "6": "Stella Valentine / Evan McCutchen",
+        "14": "Mindy Bjelde / Daniel Waddell",
         "10": "Christian Cammayo / Makena Cammayo",
         "11": "Tyler Blevins / Ann Blevins",
-        "12": "Hunter Jeppson / Ela Mino",
-        "14": "Mindy Bjelde / Daniel Waddell"
+        "12": "Hunter Jeppson / Ela Mino"
       },
       "16683": {
         "1": "Chloe Hoffman / Elena Fisher",
@@ -225,6 +225,14 @@
         "12": "SABRINA MONTEIRO RODRIGUES / Lu\u00edsa Ianegitz"
       },
       "16682": {
+        "26": "Lucas Sotelle Silva / Pedro Joaquim Joaquim Brand\u00e3o Ribeiro",
+        "10": "Jack Wilson / Troy Fitzgerald",
+        "1": "Jake Shapiro / Trent Lingruen",
+        "27": "Emanuel Santos dos Reis / Erick Daniel",
+        "6": "Kyle Baily / Calvin Sanborn",
+        "13": "Tate Montana / Evan Murray",
+        "17": "Charlie Porter / Clark Porter Jr",
+        "20": "Austin Matautia / Raymond Barsemian",
         "2": "Rowan Henderson / Finn Pommerenke",
         "4": "Timothy Pohlmann / Justin Mckellips",
         "5": "Daniel Lozada / Orlando Rojas",
@@ -235,26 +243,18 @@
         "30": "Gavin Mortensen / Caden Phillips",
         "9": "Ben Apstein / Jimmy McCabe",
         "22": "Mathieu Szymkowiak / Yoav Chetrit",
-        "1": "Jake Shapiro / Trent Lingruen",
         "3": "Samuel Johnston / Joe Schumacher",
-        "6": "Kyle Baily / Calvin Sanborn",
-        "8": "Nicolas Brazao / Pedro Brazao",
-        "10": "Jack Wilson / Troy Fitzgerald",
         "12": "Salvador Pastor / Andrew Nielsen",
-        "13": "Tate Montana / Evan Murray",
+        "18": "Nick Thomas / Sean Mitchell",
+        "21": "Maksim Chicherin / Hunter Lourick",
+        "23": "Antonio Gil / Rob McLean",
+        "29": "Wyatt Wolf / Jake Wolf",
+        "8": "Nicolas Brazao / Pedro Brazao",
         "14": "Jordan C / Matias Moreno",
         "15": "Maxx Feldman / Mert Kurt",
         "16": "Asher Gill / Anthony Bernardo",
-        "17": "Charlie Porter / Clark Porter Jr",
-        "18": "Nick Thomas / Sean Mitchell",
         "19": "Aryan Rasoolian / Logan Perez",
-        "20": "Austin Matautia / Raymond Barsemian",
-        "21": "Maksim Chicherin / Hunter Lourick",
-        "23": "Antonio Gil / Rob McLean",
-        "24": "Christian KC Chow / Tobin Gilmartin",
-        "26": "Lucas Sotelle Silva / Pedro Joaquim Joaquim Brand\u00e3o Ribeiro",
-        "27": "Emanuel Santos dos Reis / Erick Daniel",
-        "29": "Wyatt Wolf / Jake Wolf"
+        "24": "Christian KC Chow / Tobin Gilmartin"
       },
       "16927": {
         "3": "Mason Dean / Reed Sloan",
