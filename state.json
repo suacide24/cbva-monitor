@@ -416,6 +416,8 @@
         "25": "Simon Thies / Joshua Fernando"
       },
       "16704": {
+        "10": "Miranda Roberts / Trish Liszka",
+        "13": "Chelsea Ono Horn / Liz Leahy",
         "1": "Haisley Flanagan / Ciara Cantlen",
         "2": "Kate Schau / Dora Beilin",
         "3": "Kelsey Morrison / Carson Nicodemus",
@@ -425,10 +427,8 @@
         "7": "Desiree Q. Luong / Kyle Hartman",
         "8": "Stacy Vorster / Savanah Schroeder",
         "9": "Susanna Limb / Caitlin Phan",
-        "10": "Miranda Roberts / Trish Liszka",
         "11": "Morgan Moyer / Jenna Tobin",
         "12": "Grace Johnson / Maddie Baumann",
-        "13": "Chelsea Ono Horn / Liz Leahy",
         "14": "Kylee Moore / Ivana Marusic",
         "15": "Lindsay Heller / karimah hay-kammerer",
         "16": "Melissa Powell / Jenna Belton",
@@ -494,23 +494,27 @@
         "25": "Catelin Carter / Brooke Enners"
       },
       "16909": {
+        "6": "Rachel Denton / Corria Paul",
+        "7": "Pon Pongsua / Megann Delgado",
+        "8": "Ella Hais / Addie Paul",
+        "16": "Logan Beitler / Adrienne Graves",
         "1": "Brooke Stimpfig / Lauren Saar",
         "2": "Kitty Wan / Deketa Stubblefield",
         "3": "Rosie Borchert / Bridget Stinson",
         "4": "Simone Augustine / Janie White",
         "5": "Shelby Tamura / Mariah Counts",
-        "6": "Rachel Denton / Corria Paul",
-        "7": "Pon Pongsua / Megann Delgado",
-        "8": "Ella Hais / Addie Paul",
         "9": "Heidi Carlisi / Lily Handley",
         "10": "Leana Jacobs / Alexis Anderson",
         "11": "Vangie Camarena / Esther Cho",
         "12": "Mandy Hansen / Tyler Parouse",
         "14": "Sara Dukes / Mahala Huntsman",
-        "15": "Katie Boyle / Arianna Mariotti",
-        "16": "Logan Beitler / Adrienne Graves"
+        "15": "Katie Boyle / Arianna Mariotti"
       },
       "16910": {
+        "12": "Chris Silva / Nathan Woo",
+        "13": "Peter Hsu / Edward Zheng",
+        "18": "Sean Besser / Matt Gendal",
+        "19": "Noah Tsenter / Cody Eaton",
         "1": "Jan Van Ierland / Adam Klecheski",
         "2": "Dylan Lopez / Michael Lopez",
         "3": "Derek Chung / Ryan Magill",
@@ -522,14 +526,10 @@
         "9": "Logan Zlotnick / Andrew Tenorio",
         "10": "Gregory Kopra / Sam Zagrobelny",
         "11": "Fedor Garin / Jay Muller",
-        "12": "Chris Silva / Nathan Woo",
-        "13": "Peter Hsu / Edward Zheng",
         "14": "Matt Mayer / Eric Vogt",
         "15": "Jorian Rivera / Joey Hall",
         "16": "Phil Hofman / Christopher Wong",
         "17": "David Chavez / Daniel Rice",
-        "18": "Sean Besser / Matt Gendal",
-        "19": "Noah Tsenter / Cody Eaton",
         "20": "Andrew Bialock / Michael Haughey"
       },
       "16911": {
@@ -566,20 +566,8 @@
     },
     "results": {
       "Selina Chhay": {
-        "fingerprint": "[[60692, \"completed\", \"16-21\", false], [60694, \"completed\", \"14-21\", false], [60696, \"completed\", \"9-21\", false]]",
+        "fingerprint": "[[60692, \"completed\", \"16-21\", false], [60694, \"completed\", \"14-21\", false], [60696, \"completed\", \"9-21\", false], [60699, \"completed\", \"10-21\", false]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 9,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 6,
-            "won": null,
-            "court": null,
-            "match_id": 60699
-          },
           {
             "phase": "pool",
             "pool_name": "3",
@@ -615,9 +603,21 @@
             "won": false,
             "court": null,
             "match_id": 60696
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 9,
+            "status": "completed",
+            "score": "10-21",
+            "opp_seed": 6,
+            "won": false,
+            "court": null,
+            "match_id": 60699
           }
         ],
-        "last_updated": "2026-09-12T19:04:35.639007"
+        "last_updated": "2026-09-12T21:35:31.348616"
       }
     }
   },
