@@ -488,20 +488,8 @@
     },
     "results": {
       "Nick Tomasella": {
-        "fingerprint": "[[61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true]]",
+        "fingerprint": "[[61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true], [61252, \"completed\", \"21-12\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 15,
-            "won": null,
-            "court": null,
-            "match_id": 61252
-          },
           {
             "phase": "pool",
             "pool_name": "3",
@@ -537,25 +525,25 @@
             "won": true,
             "court": null,
             "match_id": 61250
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "21-12",
+            "opp_seed": 15,
+            "won": true,
+            "court": null,
+            "match_id": 61252
           }
         ],
-        "last_updated": "2026-09-19T18:30:17.867183"
+        "last_updated": "2026-09-19T19:32:24.052477"
       },
       "Jeffrey Hogan": {
-        "fingerprint": "[[61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true]]",
+        "fingerprint": "[[61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true], [61252, \"completed\", \"21-12\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 15,
-            "won": null,
-            "court": null,
-            "match_id": 61252
-          },
           {
             "phase": "pool",
             "pool_name": "3",
@@ -591,9 +579,21 @@
             "won": true,
             "court": null,
             "match_id": 61250
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "21-12",
+            "opp_seed": 15,
+            "won": true,
+            "court": null,
+            "match_id": 61252
           }
         ],
-        "last_updated": "2026-09-19T18:30:17.867242"
+        "last_updated": "2026-09-19T19:32:24.052540"
       }
     }
   },
