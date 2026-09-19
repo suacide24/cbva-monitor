@@ -368,61 +368,62 @@
       },
       "17103": {
         "1": "Mia Zepeda / Zo\u00eb Zepeda",
-        "2": "Kendall Gorney / Mya Brown",
-        "3": "Alex Jenkins / Avalon Bailey",
         "4": "Mia Ayala / Braelyn Holcomb",
+        "2": "Kendall Gorney / Mya Brown",
         "5": "Peyton Prichard / Jordyn Stoltz",
-        "6": "Regina Flores / Ariana Hernandez",
+        "3": "Alex Jenkins / Avalon Bailey",
         "7": "Addie Bolton / Scarlett Brodie kirby",
-        "8": "Amanda Bennett / Emelia Garland",
         "9": "daniela Martinez / Ivanna Sandoval",
         "10": "Rose Ochoa / Emma Wade",
-        "11": "Sophia Alvarado / Laynee Duguid",
-        "12": "Mila Diaz / Olivia Tims",
+        "6": "Regina Flores / Ariana Hernandez",
+        "8": "Amanda Bennett / Emelia Garland",
         "13": "Jolene Gagne / Layla Zein",
-        "14": "Elizabeth Ketchmere / Charlie Gurnee"
+        "14": "Elizabeth Ketchmere / Charlie Gurnee",
+        "11": "Sophia Alvarado / Laynee Duguid",
+        "12": "Mila Diaz / Olivia Tims"
       },
       "17105": {
         "1": "Mica Indelicato / Bella Henderson",
-        "2": "Noe Gonzalez / Caitlin Hammond",
         "3": "Liz bowles / Claire Reilly",
-        "4": "Chloe Goncalves / Noa Monaghan",
+        "2": "Noe Gonzalez / Caitlin Hammond",
         "5": "Kennedy Kramer / Giulia Coman",
+        "4": "Chloe Goncalves / Noa Monaghan",
         "6": "Evelyn Sitter / Carody Cronkite"
       },
       "16735": {
+        "5": "Alex Barron / Jacob Waern",
+        "9": "Marc Spitaleri / Jacob Gubas",
+        "14": "Aaron Berman / Bastien Bakker",
+        "19": "Ryan Wadhams / Macklin Harrington",
+        "25": "Collin Flintoft / Steven Serrano",
+        "30": "Oyaba Taai / Matt Iamaleava",
         "1": "Michael Lopez / Dylan Lopez",
         "2": "Kevin Tarhan / David Ke",
         "3": "Cole Lum / Drew Lum",
         "4": "Deke Lueker / Steven Lopezlavalle",
-        "5": "Alex Barron / Jacob Waern",
         "6": "Tyler Knight / Micah Regalado",
         "7": "Adam Griffin / Charlie Bickel",
         "8": "Neal OBrien / Ty Sprock",
-        "9": "Marc Spitaleri / Jacob Gubas",
         "10": "Nick Tomasella / Jeffrey Hogan",
         "11": "Joseph Harrington / Luis Orozco",
         "12": "Blair Woodring / Peter Hsu",
         "13": "Duncan Crookston / Ali Tahmasbi",
-        "14": "Aaron Berman / Bastien Bakker",
         "15": "Gytis Joga / Wesley Chung",
         "16": "Bailey Weilbaecher / Leonard Brown",
         "17": "Edward Zheng / Marvyn Kyi",
         "18": "Chris Silva / Alexey Nazarov",
-        "19": "Ryan Wadhams / Macklin Harrington",
         "20": "Drew Schweiger / Michael Madden",
         "21": "Denney Huynh / Adam Rivera",
         "22": "James Burgess / Roman Browne",
         "23": "Joey Hall / Daniel Nuttall",
         "24": "Conner Goen / Mason Bembry",
-        "25": "Collin Flintoft / Steven Serrano",
         "26": "Collin Rusch / Grayson Huggins",
         "27": "Mick Perillo / Roman Perillo",
         "28": "Nolan Prosser / Matthew Prosser",
-        "29": "Evan Burkhardt / Lucas Lin",
-        "30": "Oyaba Taai / Matt Iamaleava"
+        "29": "Evan Burkhardt / Lucas Lin"
       },
       "16736": {
+        "8": "Lucialba Buzzelli / Danielle Larson",
         "1": "Clara Hopkins / Allie Marino",
         "2": "Becky Spear / Frederique Dupuis",
         "3": "Mikaela Vega / Emma Rapp",
@@ -430,7 +431,6 @@
         "5": "Jolene Swiggers / Gemma Waldman",
         "6": "Maya Pokletar / Summer Tonsfeldt",
         "7": "Cat Achy / Julia Bever",
-        "8": "Lucialba Buzzelli / Danielle Larson",
         "9": "Lizzy Ostro / Thera Steele",
         "10": "Lindsay Levine / Sjuzanna Hacatrjana",
         "11": "Mikaela Abundez Toledo / Bianca Ngo",
@@ -439,20 +439,20 @@
         "14": "Elsa Clever / Marly Johnson"
       },
       "16717": {
+        "4": "Patrick Donnelly / Felipe Hernandez",
+        "7": "Maverick Manor / Nolan Durns",
+        "13": "Ben Airola / Dane Holmgren",
+        "14": "Mat Nuttall / David Stanton",
         "1": "Ivan Garcia / Jojo Diaz",
         "2": "Tennessee Fulks / Seth Beil",
         "3": "Jax Bolcer / Ethan Hill",
-        "4": "Patrick Donnelly / Felipe Hernandez",
         "5": "Jake Shapiro / Tom Wilson",
         "6": "Samuel Wallace / William Ruschel",
-        "7": "Maverick Manor / Nolan Durns",
         "8": "Jacob Landel / Kai Rodriguez",
         "9": "Ben Shassol / Eric Smith",
         "10": "Josue Meza / Bryant Barraza Ramirez",
         "11": "Nicolas Hammer / John Arcona",
         "12": "David Ronconi / Matthew Ronconi",
-        "13": "Ben Airola / Dane Holmgren",
-        "14": "Mat Nuttall / David Stanton",
         "15": "Orazio Gallo / Hansen Streeter",
         "16": "Raju Sah / Zain Sah",
         "17": "Sergei Nikiforov / Cody Krohn",
@@ -488,20 +488,8 @@
     },
     "results": {
       "Nick Tomasella": {
-        "fingerprint": "[[61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true], [61252, \"completed\", \"21-12\", true]]",
+        "fingerprint": "[[16730, \"completed\", \"21-12\", true], [61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true], [61252, \"completed\", \"21-12\", true], [61254, \"completed\", \"21-23\", false]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 9,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 3,
-            "won": null,
-            "court": null,
-            "match_id": 61254
-          },
           {
             "phase": "pool",
             "pool_name": "3",
@@ -530,6 +518,18 @@
             "phase": "pool",
             "pool_name": "3",
             "round": null,
+            "match_no": 9,
+            "status": "completed",
+            "score": "21-23",
+            "opp_seed": 3,
+            "won": false,
+            "court": null,
+            "match_id": 61254
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
             "match_no": 7,
             "status": "completed",
             "score": "21-12",
@@ -537,25 +537,38 @@
             "won": true,
             "court": null,
             "match_id": 61252
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 0,
+            "match_no": 5,
+            "status": "completed",
+            "score": "21-12",
+            "opp_seed": 19,
+            "won": true,
+            "court": "Orange Court ",
+            "match_id": 16730
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 1,
+            "match_no": 11,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": null,
+            "won": null,
+            "court": "Court 4",
+            "match_id": 16736
           }
         ],
-        "last_updated": "2026-09-19T19:32:24.052477"
+        "last_updated": "2026-09-19T22:15:59.472813",
+        "playoff_notified": true
       },
       "Jeffrey Hogan": {
-        "fingerprint": "[[61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true], [61252, \"completed\", \"21-12\", true]]",
+        "fingerprint": "[[16730, \"completed\", \"21-12\", true], [61248, \"completed\", \"21-15\", true], [61250, \"completed\", \"21-10\", true], [61252, \"completed\", \"21-12\", true], [61254, \"completed\", \"21-23\", false]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "3",
-            "round": null,
-            "match_no": 9,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 3,
-            "won": null,
-            "court": null,
-            "match_id": 61254
-          },
           {
             "phase": "pool",
             "pool_name": "3",
@@ -584,6 +597,18 @@
             "phase": "pool",
             "pool_name": "3",
             "round": null,
+            "match_no": 9,
+            "status": "completed",
+            "score": "21-23",
+            "opp_seed": 3,
+            "won": false,
+            "court": null,
+            "match_id": 61254
+          },
+          {
+            "phase": "pool",
+            "pool_name": "3",
+            "round": null,
             "match_no": 7,
             "status": "completed",
             "score": "21-12",
@@ -591,9 +616,34 @@
             "won": true,
             "court": null,
             "match_id": 61252
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 0,
+            "match_no": 5,
+            "status": "completed",
+            "score": "21-12",
+            "opp_seed": 19,
+            "won": true,
+            "court": "Orange Court ",
+            "match_id": 16730
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 1,
+            "match_no": 11,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": null,
+            "won": null,
+            "court": "Court 4",
+            "match_id": 16736
           }
         ],
-        "last_updated": "2026-09-19T19:32:24.052540"
+        "last_updated": "2026-09-19T22:15:59.472877",
+        "playoff_notified": true
       }
     }
   },
