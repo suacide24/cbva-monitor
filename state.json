@@ -190,8 +190,28 @@
   "last_rating_check": "2026-09-26",
   "tournament_day": {
     "date": "2026-09-26",
-    "notified": {},
-    "playing": {},
+    "notified": {
+      "rsua95@gmail.com": [
+        "Selina Chhay"
+      ]
+    },
+    "playing": {
+      "Selina Chhay": {
+        "player_name": "Selina Chhay",
+        "profile_id": 61233,
+        "tournament_id": 4785,
+        "tournament_name": "North Beach",
+        "venue": "North Beach, Santa Monica",
+        "division": "Women's B",
+        "division_id": 16885,
+        "partner": "Yesenia Jacobo",
+        "partner_id": 61191,
+        "team_seed": null,
+        "team_id": 135706,
+        "match_team_id": 229425,
+        "finish": null
+      }
+    },
     "div_rosters": {
       "16744": {
         "1": "Skye Rodger / Gregory Standerfer",
@@ -316,6 +336,137 @@
         "17": "Claire Gerard / Karina Siordia",
         "18": "Suz West / Fran Wang",
         "19": "Yuki Hashiguchi-Rosoff / Trish Hildinger"
+      },
+      "16744": {
+        "1": "Skye Rodger / Gregory Standerfer",
+        "2": "Matt Gerpheide / Nicholas Dorsano",
+        "3": "John Oathout / Riker Quintana",
+        "4": "Roman Browne / James Burgess",
+        "5": "Ronald Haynie / Rafael Camacho",
+        "6": "Jack Lamey / Quinn Lamey",
+        "7": "Jonathan Yardley / Daniel Yardley",
+        "8": "Martin Wu / Josue Villalta",
+        "9": "Eric Vogt / Nicolas Smith",
+        "10": "Geoff Lau / Joey Carlson",
+        "11": "Jake Schraufnagel / Robert Pasma",
+        "12": "Peirson Ridenour / David Somogyi",
+        "13": "Adrian Vera / Thomas Nguyen",
+        "14": "Richard Foreman / Richard Michael",
+        "15": "Justin Harshman / Reece Tretheway",
+        "16": "Spencer Neumann / Jasper Timmermans",
+        "17": "Clayton Williams / Noah Zapanta"
+      },
+      "16745": {
+        "1": "Maddy Sando / Adrienne Lee",
+        "2": "Camille Salazar / Giannina Nurena",
+        "3": "Quynh Nguyen / Tanya Altukhov",
+        "4": "Hannah Stayner / Sarah Stayner",
+        "5": "Whitney Carney / Jenna Johns",
+        "6": "Savannah Harris / Julie Harris",
+        "7": "JoJo Lamberson / Ali Wood Lamberson"
+      },
+      "16746": {
+        "1": "Ken Lentin / Weston Fisher",
+        "2": "Kyle Goodenough / Mitchell Sagely",
+        "3": "Daniel Discar Discar / Joh Reeves",
+        "4": "Mario Chavez / Tristan Starck",
+        "5": "Stephen Brown / Lloyd Sicard",
+        "6": "Rick Macaya / Raffe Paulis",
+        "7": "Duncan Cammayo / William Lubs",
+        "8": "Tien Le / Jacoub Rios",
+        "9": "Joe Simmons / Sawyer Shrock",
+        "10": "kian power / Thaddeus Vaughn Doan",
+        "11": "Nick Tom / Robert Sonoda",
+        "12": "Casey Holden / Nick Rodgers",
+        "13": "Jackson Mezera / Josiah Trautman",
+        "14": "Gino Viggiano / Paul Viggiano",
+        "15": "Weston Wilmot / Ryan McGovern",
+        "16": "Sean Shultis / Chris Silva",
+        "17": "Will Gallon / Logan Oliverson",
+        "18": "Jason Gonzalez / John Gonzalez",
+        "19": "Aryan Rasoolian / Brayden Darm",
+        "20": "Dellan Knopp / Dylan Hunter",
+        "21": "Jack Vermaak / Benjamin Gerdeman",
+        "22": "Kendrick Lin / Karl Araujo",
+        "23": "Danny Reilly / Tarik Ceric",
+        "24": "Christian Cammayo / Nestor Olea",
+        "25": "Liam Neale / Matthew McLeod",
+        "26": "Chris Hui / Gregory Duma",
+        "27": "Doug Jones / Joseph Liu",
+        "28": "Danny Nelson / Art Novoselov",
+        "29": "Mason Dean / Reed Sloan"
+      },
+      "16747": {
+        "1": "Justyna Sroka / Carly Balskus",
+        "2": "Kendall Mathison / Ava Paulsen",
+        "3": "Antoinette De la espriella / Lys Atkins",
+        "4": "Kristi Winter / Jess Penner",
+        "5": "Paige Bensing / Indy de Smet",
+        "6": "Maryam Staniszewski / Sjuzanna Hacatrjana",
+        "7": "Liliana Sischka / Audrey McFadden",
+        "8": "Becca Branch / Sydney Bell",
+        "9": "Mindy Cummings / Lara Stone",
+        "10": "Paige Thrush / Nina Hernandez",
+        "11": "Lizzy Ostro / Lexi Oulashin",
+        "12": "Naomi Garcia / Clairie Thomas",
+        "13": "Bailey O'Brien / Sara Davis",
+        "14": "Jessica Duma / Dianne Gan",
+        "15": "Scarlett Dickerson / Maddie Jones",
+        "16": "Mahala Huntsman / Savai Kilaulani",
+        "17": "Logan Beitler / Jordan Crawford",
+        "18": "Kara Mathews / Jessica Sanborn"
+      },
+      "16750": {
+        "1": "Troy Fitzgerald / Manning Lemoine",
+        "2": "Justin Mckellips / Timothy Pohlmann",
+        "3": "Tom Wilson / Tennessee Fulks",
+        "4": "Jackson Reed / Nate Muttera",
+        "5": "Zack Soule / Easton Mueller",
+        "6": "Andrew Nielsen / Wesley Jensen",
+        "7": "Nick Thomas / Ezra Krohn",
+        "8": "Jordan C / Joe Schumacher",
+        "9": "Hunter Lourick / Anthony Bernardo",
+        "10": "Samuel Kaseff / Jake Northrup",
+        "11": "Omid Ghazi / Slater Bird",
+        "12": "Thomas Kleier / Adam Sevier",
+        "13": "Kaleo Nawahine / Kekoa Nawahine",
+        "14": "Yoav Chetrit / Asher Gill",
+        "15": "Tom Dempsey / Andrin Broder",
+        "16": "Logan Preteroti / August Klem"
+      },
+      "16751": {
+        "1": "Josie Schatz / Lauren Saar",
+        "2": "Simrin Adams / Olivia Herron",
+        "3": "Terri Del Conte / Kylie Cordero",
+        "4": "Arika Johnson / Jasmine Hales"
+      },
+      "16728": {
+        "1": "Kylee Moore / Ashleigh Barto",
+        "2": "Miranda Roberts / Erin Portugal",
+        "3": "Trish Liszka / Madelyn Macaskill",
+        "4": "Carson Nicodemus / Erin Trevitt",
+        "5": "Brianna Bain / Heather Taylor",
+        "6": "Emma Geisser / Johanna Langarica",
+        "7": "Katherine Yip / Saskia Nauenberg Dunkell",
+        "8": "Mina Lee Hwong Bartlett / Lekhana Donnies",
+        "9": "Ivana Marusic / Alicia Rector",
+        "10": "Stacy Vorster / Libby Dahlberg",
+        "11": "Jessica Cruz / Chloe Tushar",
+        "12": "Calista Chou / Kathy Strigelskiy",
+        "13": "Gable Brannigan / Taylor R Reed",
+        "14": "Katie Tribley Wilson / Andrea Bicskei",
+        "15": "Katie Hajdik / Lacee Ventura",
+        "16": "Silvia Console Battilana / Avi Elizabeth Vetter",
+        "17": "Claire Gerard / Karina Siordia",
+        "18": "Suz West / Fran Wang",
+        "19": "Yuki Hashiguchi-Rosoff / Trish Hildinger"
+      }
+    },
+    "results": {
+      "Selina Chhay": {
+        "fingerprint": "[]",
+        "records": [],
+        "last_updated": "2026-09-26T19:07:18.656388"
       }
     }
   },
