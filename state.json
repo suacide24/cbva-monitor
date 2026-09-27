@@ -298,38 +298,124 @@
         "2": "Derek Bradford / Marly Johnson",
         "3": "Kristina Kittell / Ryan Kittell",
         "4": "Katie Curci / Alex Knight"
+      },
+      "17106": {
+        "4": "Alessandra Cischke / Caroline Venick",
+        "1": "Ava Vidueira / Isla McNiel",
+        "2": "Gwenyth Purvis / Callie Crisp",
+        "3": "Laylani Malit / Charlotte Ngai",
+        "5": "Clea Smith-Thomas / Temae Berry"
+      },
+      "17108": {
+        "7": "Claire Nakashima / Emelynn Ngai",
+        "1": "Zo\u00eb Zepeda / Mia Zepeda",
+        "2": "Kate Stevenson / Amina Nwankwo",
+        "3": "Lauren Martin / Makena Cammayo",
+        "4": "Zoey Stubbings / Devon Noonan",
+        "5": "Tatiana Cordeiro Luckeroth / Skye Huot",
+        "6": "Walker Overholt / mila bedner",
+        "8": "Harper McKee / Nina Belik-Sriberg",
+        "9": "Laynee Duguid / Rose Ochoa"
+      },
+      "17110": {
+        "3": "Miranda Rivera / Kennedy Kramer",
+        "4": "Julianna Shaby / Paige Nickerson",
+        "1": "Brooklynn Hsu / Naya Nevarez",
+        "2": "Magdelyn Frierson / Madison Hong"
+      },
+      "16885": {
+        "1": "Yesenia Jacobo / Selina Chhay",
+        "2": "Michaela Keller / Shannon Kilty",
+        "3": "JennaVieve Martinez / Cassandra Ransom",
+        "4": "Claire Komadina / Layla Kollock",
+        "5": "Erika Georgiou / Michelle Garratt",
+        "6": "Mickie Arias / Rachel Busch",
+        "7": "Ella Woolf / Madison Stearns",
+        "8": "Rosa Chung / Liz Federowicz",
+        "9": "Miranda Werts / Katharine Yu",
+        "10": "Hannah Weitzenfeld / Jennifer Buczko",
+        "11": "Reagan Bachman / Stephanie Lee"
+      },
+      "16884": {
+        "1": "Owen Willer / Pierce Phillips",
+        "2": "Ryan Magill / Derek Chung",
+        "3": "Tyler King / Kristian Dadacay",
+        "4": "Justin Wu / Neville Morgan",
+        "5": "Armin Pomeroy / Logan Zlotnick",
+        "6": "Sammy Wong / Daniel Henson",
+        "7": "Richard Fillman / Peter Tran",
+        "8": "Jack Lamey / Quinn Lamey",
+        "9": "Alex Gaal / Ethan Montana",
+        "10": "Art Novoselov / Jacob Gubas",
+        "11": "Byron Paidoussi / Edward Zheng",
+        "12": "Brett Nilsson / Adam Kerfoot",
+        "13": "Ryan McLoughlin / Timothy Mcloughlin",
+        "14": "Kade Pace / Kyle Blum",
+        "15": "Chris Silva / Nathan Woo",
+        "16": "Dan Terry / Ben Terry",
+        "17": "Chris Murphy / Gytis Joga",
+        "18": "Sean Besser / Matt Gendal",
+        "19": "Andrew Bialock / Michael Haughey",
+        "20": "Trevor Schultz / Dante Trudo",
+        "21": "Nolan Christensen / Marc Helwee",
+        "22": "Daniel Kim / Charlie Styrbicki",
+        "24": "Joshua Sweigert / Jacob Gise",
+        "25": "Arash Eftekhari / Jesus Payan",
+        "26": "Levi Bethea / Yonah Zimmerman",
+        "27": "Ryan Folsey / Joe Perez",
+        "28": "Atticus Graham / Ethan Davis"
+      },
+      "16883": {
+        "1": "Leana Jacobs / Ian Spetner",
+        "2": "Viv Moro / Ariel Safai",
+        "3": "Dianne Gan / Chris Hui",
+        "4": "Gregory Duma / Jessica Duma",
+        "5": "Thera Steele / Maksim Chicherin",
+        "6": "Jennifer Lias / Adam Alvarez",
+        "7": "Jackson Mezera / Stella Hill",
+        "8": "Marvin Martinez / Estefany Rodriguez Castro",
+        "9": "Sophie Jones / Sergii Shvets",
+        "10": "Lizzy Ostro / Szymon Tralka",
+        "11": "Trey Ovens / Nicole Nelson",
+        "12": "Dustin Ihde / Christina Zins"
+      },
+      "16882": {
+        "1": "Kinley Lindhardt / Mark Antonov",
+        "2": "Derek Bradford / Marly Johnson",
+        "3": "Kristina Kittell / Ryan Kittell",
+        "4": "Katie Curci / Alex Knight"
       }
     },
     "results": {
       "Selina Chhay": {
-        "fingerprint": "[]",
+        "fingerprint": "[[61707, \"completed\", \"21-14, 20-22, 10-15\", false]]",
         "records": [
           {
             "phase": "pool",
             "pool_name": "1",
             "round": null,
-            "match_no": 3,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 6,
-            "won": null,
+            "match_no": 2,
+            "status": "completed",
+            "score": "21-14, 20-22, 10-15",
+            "opp_seed": 7,
+            "won": false,
             "court": null,
-            "match_id": 61708
+            "match_id": 61707
           },
           {
             "phase": "pool",
             "pool_name": "1",
             "round": null,
-            "match_no": 2,
+            "match_no": 3,
             "status": "in_progress",
-            "score": "0-0, 21-14",
-            "opp_seed": 7,
+            "score": "0-0",
+            "opp_seed": 6,
             "won": null,
             "court": null,
-            "match_id": 61707
+            "match_id": 61708
           }
         ],
-        "last_updated": "2026-09-27T18:11:28.829014"
+        "last_updated": "2026-09-27T19:39:13.763975"
       }
     }
   },
