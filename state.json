@@ -573,7 +573,6 @@
         "2": "Elizabeth Willis / Madeleine Waldron",
         "3": "Aubrie Dingman / Greta Pennock",
         "4": "Ella Hamilton / Aubrie Christoffersen",
-        "5": "Kajsa Jeffers / Malia Schilling",
         "6": "Hailey Keller / Lexi Sanders",
         "7": "Cameryn Kovar / Payton Zborowski",
         "8": "Chloe Hernandez / Emma Ramos",
@@ -596,32 +595,8 @@
     },
     "results": {
       "Alex Bonczyk": {
-        "fingerprint": "[[62168, \"completed\", \"21-17\", true], [62170, \"completed\", \"21-17\", true]]",
+        "fingerprint": "[[62168, \"completed\", \"21-17\", true], [62170, \"completed\", \"21-17\", true], [62172, \"completed\", \"21-19\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "1",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 7,
-            "won": null,
-            "court": null,
-            "match_id": 62172
-          },
-          {
-            "phase": "pool",
-            "pool_name": "1",
-            "round": null,
-            "match_no": 9,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 1,
-            "won": null,
-            "court": null,
-            "match_id": 62174
-          },
           {
             "phase": "pool",
             "pool_name": "1",
@@ -645,9 +620,33 @@
             "won": true,
             "court": null,
             "match_id": 62170
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "21-19",
+            "opp_seed": 7,
+            "won": true,
+            "court": null,
+            "match_id": 62172
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 9,
+            "status": "in_progress",
+            "score": "0-0",
+            "opp_seed": 1,
+            "won": null,
+            "court": null,
+            "match_id": 62174
           }
         ],
-        "last_updated": "2026-10-03T19:07:10.866628"
+        "last_updated": "2026-10-03T20:48:48.357380"
       }
     }
   },
