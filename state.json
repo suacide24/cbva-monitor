@@ -230,6 +230,8 @@
     },
     "div_rosters": {
       "17367": {
+        "24": "Alex Sundell / Trevor Anderson",
+        "3": "Jackson Mezera / Tobias Penasse",
         "6": "Lloyd Sicard / Ibrahim Thabata",
         "17": "Mark McDevitt / Alex Placek",
         "1": "Jack Vermaak / Benjamin Gerdeman",
@@ -243,32 +245,30 @@
         "18": "Karl Araujo / Kendrick Lin",
         "19": "Armand Yazdani / Brett Covington",
         "20": "Spencer Heaton / Enzo Grimaud",
-        "3": "Jackson Mezera / Tobias Penasse",
         "7": "Luke Novey / Joseph Fastuca",
         "11": "Kevin Tarhan / Connor Basile",
-        "12": "Ray Montes / Joseph Liu",
         "13": "Spencer Sweeney / Brendan Baron",
-        "14": "Katsuharu Glennon / Myles Plaskonos",
         "15": "Michael Crial / Devin McBride",
-        "21": "David Valenzuela / Christian Bias",
         "22": "Ethan Davis / Atticus Graham",
-        "23": "Jorge Pando / Efe Ertem",
-        "24": "Alex Sundell / Trevor Anderson"
+        "12": "Ray Montes / Joseph Liu",
+        "14": "Katsuharu Glennon / Myles Plaskonos",
+        "21": "David Valenzuela / Christian Bias",
+        "23": "Jorge Pando / Efe Ertem"
       },
       "17366": {
+        "4": "Ivy Yahnke / Lauren Flaming",
+        "8": "Shayna Martinez / Lala S Corrales",
         "2": "Becky Spear / Frederique Dupuis",
+        "9": "Allegra Petasky / Greta Pennock",
         "1": "Lara Stone / Kendall Frisoli",
         "3": "Jenna Denamur / Lia Oishi",
         "6": "Nina Hernandez / Macayla Bass",
         "7": "Jordan Haskel / Colette Wogsland",
         "11": "Malia mercieca / Emersen Turner",
-        "4": "Ivy Yahnke / Lauren Flaming",
         "5": "Sharon Hsia / Jenevieve Petray",
-        "8": "Shayna Martinez / Lala S Corrales",
-        "9": "Allegra Petasky / Greta Pennock",
         "10": "Zahrah Ralph / Sydney Fouts",
-        "12": "Cambri Craner / Mary Williams",
-        "13": "Maya Blair / Elle Schulze"
+        "13": "Maya Blair / Elle Schulze",
+        "12": "Cambri Craner / Mary Williams"
       },
       "17370": {
         "1": "Joseph Harrington / Jake Carreon",
@@ -284,20 +284,24 @@
         "8": "Evren Tanriverdi / Ryan Upmeyer"
       },
       "17369": {
+        "7": "Jessica Smith / Ella Connor",
+        "6": "Terri Del Conte / Mo Gibson",
+        "4": "Emily Sparks / Nicole Yardley",
         "10": "Jackie Wegner / Lena Sokolowski",
         "1": "Simrin Adams / Sienna Castillo",
         "3": "Charlotte Jansen / Jordyn Wilson",
         "5": "Julia Haber / Emily Reinking",
         "8": "Mahala Huntsman / Savai Kilaulani",
         "2": "Kylie Cordero / Kelissa Lemoine",
-        "4": "Emily Sparks / Nicole Yardley",
-        "6": "Terri Del Conte / Mo Gibson",
-        "7": "Jessica Smith / Ella Connor",
         "9": "Austia Mendiola / Kristen Serrano",
         "11": "Claire Demirjian / Alayna Smeltzer",
         "13": "Kate Shackelford / Megan Shepard"
       },
       "17368": {
+        "3": "Dexter Campbell / Earl Schultz",
+        "4": "Jake Shapiro / Julien Pally",
+        "12": "Marcus Nichols / Kaleo Nawahine",
+        "17": "Zeo Meyer / Zachary Meyer",
         "2": "Hunter Lourick / Jett Rocker-Graham",
         "6": "Tanner Smith / Rees Barnett",
         "11": "Easton Mueller / Grayson Bradford",
@@ -306,15 +310,11 @@
         "5": "Andrew Richardson / Nate Muttera",
         "7": "John Moran / Trent Lingruen",
         "9": "John Ferraro / Jonathan Low",
-        "3": "Dexter Campbell / Earl Schultz",
-        "4": "Jake Shapiro / Julien Pally",
         "8": "Mathieu Szymkowiak / Cam Fry",
         "10": "Johnny Fageaux / Justin Tompkins",
-        "12": "Marcus Nichols / Kaleo Nawahine",
         "13": "Peter Munn / Jorge Ruiz del Rio",
         "14": "Sergei Nikiforov / Kamil Popiela",
         "16": "Hamza Berrada / Torin Jeffreys",
-        "17": "Zeo Meyer / Zachary Meyer",
         "18": "Joaquin Corrales / Aj Scott"
       },
       "16778": {
@@ -333,13 +333,13 @@
         "15": "Blake Hromco / Tyler Kime"
       },
       "16780": {
+        "1": "Samuel Hoffman-Kipp / Jos\u00e9 Zavala",
         "2": "Bastian Baudisch / Stefan Huber",
         "5": "Matt Van Smith / Wes Furuta",
         "10": "Colin Troughton / Tobin Mitchell",
         "3": "Patrick Law / Chris Law",
         "6": "Marko Lilic / Justin Justice",
         "8": "Michael Ford / Dan Bondarchuk",
-        "1": "Samuel Hoffman-Kipp / Jos\u00e9 Zavala",
         "4": "Cavan Donohoe / Sean Mitchell",
         "7": "Brady Dinnsen / Raymond Wilson",
         "9": "Ty Reedy / Nick Schultz",
@@ -400,17 +400,17 @@
         "12": "Cambri Craner / Mary Williams"
       },
       "17370": {
+        "8": "Evren Tanriverdi / Ryan Upmeyer",
+        "6": "Richard Michael / Richard Foreman",
         "1": "Joseph Harrington / Jake Carreon",
+        "3": "Grant Lawrence / Nick Helj",
         "9": "Matt Gerpheide / Scott Keefe",
         "10": "Adrian Buran / Steven Zein",
         "11": "Dru Gerhard / Graham Gerhard",
         "12": "Cayman LaFontaine / Dan LaFontaine",
-        "3": "Grant Lawrence / Nick Helj",
-        "4": "Jonathan Huckabay / Jeffrey Miller",
         "5": "Geoff Lau / Ji Han",
-        "6": "Richard Michael / Richard Foreman",
-        "7": "Rene Sussman / Malachi Smith",
-        "8": "Evren Tanriverdi / Ryan Upmeyer"
+        "4": "Jonathan Huckabay / Jeffrey Miller",
+        "7": "Rene Sussman / Malachi Smith"
       },
       "17369": {
         "7": "Jessica Smith / Ella Connor",
