@@ -227,9 +227,10 @@
         "16": "Ben Wilson / Pieter Derksen",
         "17": "Jett Evans / Dylan Mister",
         "18": "Matthew Thornton / Jack Palmer",
-        "19": "Jackson Mezera / Alessandro Spendolini",
-        "20": "Hamza Berrada / Ray Montes",
-        "21": "Vincent Merheb / Julian Merheb"
+        "19": "Kamil Popiela / Aaron Wolfe",
+        "20": "Jackson Mezera / Alessandro Spendolini",
+        "21": "Hamza Berrada / Ray Montes",
+        "22": "Vincent Merheb / Julian Merheb"
       },
       "17162": {
         "1": "Avery Kiedrowski / Josie Adamson",
@@ -241,34 +242,33 @@
         "7": "Lilly Rose Rashid / Kaily Sheng",
         "8": "Nikki Mendoza / Mia Ayala",
         "9": "Reagan Jensen / Elin Kalscheur",
-        "10": "Ellie Pacella / Lexi Jensen",
+        "10": "Madelyn Stanton / Yaretzi Chavez Lopez",
         "11": "Quinn Sweeney / Skye Miller Miller",
-        "12": "Darcy Khan / Mia Altshuler",
-        "13": "Madelyn Stanton / Yaretzi Chavez Lopez"
+        "12": "Ellie Pacella / Lexi Jensen",
+        "13": "Darcy Khan / Mia Altshuler"
       },
       "16784": {
-        "1": "Kyle Baily / Calvin Sanborn",
-        "2": "Hunter Lourick / Jett Rocker-Graham",
-        "3": "Daniel Lozada / Joe Schumacher",
-        "4": "Tanner Smith / Rees Barnett",
-        "5": "Nate Muttera / Andrew Richardson",
-        "6": "Andrew Johnson / Logan Mister",
-        "7": "Etienne Belzile / Jackson Reed",
-        "8": "Mitchell Keddie / Manning Lemoine",
-        "9": "Grayson Bradford / Sean Kelly",
-        "10": "Brett Stetson / Dylan Malit",
-        "11": "David Barney / Jay Panther",
-        "12": "Matt Lorrain / Chris Lindgren",
-        "13": "Kaimana Nawahine / Kaleo Nawahine",
-        "14": "Jacob Stoops / Kyle Donohoe",
-        "15": "Zeo Meyer / Vladimir Kubr",
-        "16": "Ben Wilson / Pieter Derksen",
-        "17": "Jett Evans / Dylan Mister",
-        "18": "Matthew Thornton / Jack Palmer",
-        "19": "Kamil Popiela / Aaron Wolfe",
-        "20": "Jackson Mezera / Alessandro Spendolini",
-        "21": "Hamza Berrada / Ray Montes",
-        "22": "Vincent Merheb / Julian Merheb"
+        "1": "Hunter Lourick / Jett Rocker-Graham",
+        "2": "Daniel Lozada / Joe Schumacher",
+        "3": "Tanner Smith / Rees Barnett",
+        "4": "Nate Muttera / Andrew Richardson",
+        "5": "Andrew Johnson / Logan Mister",
+        "6": "Etienne Belzile / Jackson Reed",
+        "7": "Mitchell Keddie / Manning Lemoine",
+        "8": "Grayson Bradford / Sean Kelly",
+        "9": "Brett Stetson / Dylan Malit",
+        "10": "David Barney / Jay Panther",
+        "11": "Matt Lorrain / Chris Lindgren",
+        "12": "Kaimana Nawahine / Kaleo Nawahine",
+        "13": "Jacob Stoops / Kyle Donohoe",
+        "14": "Zeo Meyer / Vladimir Kubr",
+        "15": "Ben Wilson / Pieter Derksen",
+        "16": "Jett Evans / Dylan Mister",
+        "17": "Matthew Thornton / Jack Palmer",
+        "18": "Kamil Popiela / Aaron Wolfe",
+        "19": "Jackson Mezera / Alessandro Spendolini",
+        "20": "Hamza Berrada / Ray Montes",
+        "21": "Vincent Merheb / Julian Merheb"
       }
     }
   },
@@ -278,7 +278,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-10-17",
+    "city_last_checked": "2026-10-18",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
