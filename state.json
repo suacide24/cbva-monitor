@@ -190,38 +190,94 @@
   "last_rating_check": "2026-10-31",
   "tournament_day": {
     "date": "2026-10-31",
-    "notified": {},
-    "playing": {},
+    "notified": {
+      "rsua95@gmail.com": [
+        "Lia Oishi",
+        "Selina Chhay",
+        "Isaiah Ritchie"
+      ]
+    },
+    "playing": {
+      "Lia Oishi": {
+        "player_name": "Lia Oishi",
+        "profile_id": 27885,
+        "tournament_id": 4761,
+        "tournament_name": "Newland",
+        "venue": "Newland, Huntington Beach",
+        "division": "Women's B",
+        "division_id": 16810,
+        "partner": "Selina Chhay",
+        "partner_id": 61233,
+        "team_seed": 2,
+        "team_id": 136389,
+        "match_team_id": 230447,
+        "finish": null
+      },
+      "Selina Chhay": {
+        "player_name": "Selina Chhay",
+        "profile_id": 61233,
+        "tournament_id": 4761,
+        "tournament_name": "Newland",
+        "venue": "Newland, Huntington Beach",
+        "division": "Women's B",
+        "division_id": 16810,
+        "partner": "Lia Oishi",
+        "partner_id": 27885,
+        "team_seed": 2,
+        "team_id": 136389,
+        "match_team_id": 230447,
+        "finish": null
+      },
+      "Isaiah Ritchie": {
+        "player_name": "Isaiah Ritchie",
+        "profile_id": 17675,
+        "tournament_id": 4761,
+        "tournament_name": "Newland",
+        "venue": "Newland, Huntington Beach",
+        "division": "Men's AA",
+        "division_id": 16812,
+        "partner": "Aaron Wolfe",
+        "partner_id": 17777,
+        "team_seed": 9,
+        "team_id": 137297,
+        "match_team_id": 231148,
+        "finish": null
+      }
+    },
     "div_rosters": {
       "16808": {
+        "6": "Kathrin Winkler / Emily Sparks",
+        "3": "Hayley McCluskey / Kelissa Lemoine",
         "2": "Kylie Cordero / August Raskie",
         "8": "Sienna Mattoon / Emery Oconnor",
         "1": "Cassandra Lew / Amarie Bremel",
         "5": "Haly Herrera / Allison Russell",
         "7": "Sunny Snyder / Megan Kurz",
         "9": "Madison Arnold / Morgan Nash",
-        "4": "Justine Manalastas / Erica Chao",
-        "3": "Hayley McCluskey / Kelissa Lemoine",
-        "6": "Kathrin Winkler / Emily Sparks"
+        "4": "Justine Manalastas / Erica Chao"
       },
       "16807": {
+        "11": "Zeo Meyer / Vladimir Kubr",
+        "14": "Alessandro Spendolini / Jett Rocker-Graham",
         "1": "Timothy Pohlmann / Tennessee Fulks",
         "2": "Etienne Belzile / Trevor Richardson",
         "3": "Easton Mueller / Joe Schumacher",
         "4": "Salvador Pastor / Hunter Lourick",
         "5": "Zack Soule / Ezra Krohn",
-        "6": "Cam Fry / Alessio Signorini",
-        "7": "Johnny Fageaux / Justin Tompkins",
         "8": "Brad Tiller / Jonah May",
+        "7": "Johnny Fageaux / Justin Tompkins",
         "9": "Max McDermott / Jon Burk",
         "10": "Jacob Johnson / Aryan Rasoolian",
-        "11": "Zeo Meyer / Vladimir Kubr",
-        "12": "Cameron Lapuaho / Christopher Marsh",
         "13": "Sergei Nikiforov / Samuel Kaseff",
-        "14": "Jett Rocker-Graham / Alessandro Spendolini",
+        "6": "Alessio Signorini / Cam Fry",
+        "12": "Cameron Lapuaho / Christopher Marsh",
         "15": "Hamza Berrada / Noah Nelson"
       },
       "16805": {
+        "6": "Ali Golestani / Alan Bracewell",
+        "3": "kian power / Kevin Krupa",
+        "4": "Ethan Du / Koby Dykman",
+        "7": "Jorge Pando / Jack Vermaak",
         "1": "Nick Frank / Thomas Cook",
         "2": "Jake Breeler / Mario Draghici",
         "5": "Trevor Southards / Jackson Mezera",
@@ -230,28 +286,26 @@
         "9": "Jerry Santoro / Declan Noriega",
         "10": "Devin McBride / Michael Crial",
         "14": "Joe Raquiza / Pat Licari",
-        "3": "kian power / Kevin Krupa",
-        "4": "Ethan Du / Koby Dykman",
-        "6": "Ali Golestani / Alan Bracewell",
-        "7": "Jorge Pando / Jack Vermaak",
         "11": "Travis Nguyen / Josh Tseng",
         "13": "Slade Klein / Asher Raquiza",
         "15": "Joseph Liu / Tomas Hertzog"
       },
       "16806": {
-        "9": "Katie Boyle / Arianna Mariotti",
-        "8": "Haley Lao / Caitlin Stapp",
-        "1": "Kasey Carter / Jenna Denamur",
+        "6": "Alyssa Kavner / Kendall Frisoli",
         "2": "Frederique Dupuis / Becky Spear",
-        "3": "Raceykay Garnet / Rebekah Noel",
         "4": "Annie Welch / Bre Hance",
         "5": "Lara Stone / Kaili Shewmaker",
-        "6": "Alyssa Kavner / Kendall Frisoli",
+        "1": "Kasey Carter / Jenna Denamur",
+        "3": "Raceykay Garnet / Rebekah Noel",
         "7": "Thera Steele / Lizzy Ostro",
+        "9": "Katie Boyle / Arianna Mariotti",
+        "8": "Haley Lao / Caitlin Stapp",
         "10": "Natalia Am\u00e9rica Jim\u00e9nez Hernandez / Zoe Aparicio",
         "11": "Jo Corniel / Mila Liechty"
       },
       "16804": {
+        "3": "Lucy Criswell / Simon Criswell",
+        "6": "Danny Nelson / lauren bays",
         "8": "Dustin Ihde / Christina Zins",
         "10": "Brian Hudson / Emerson Hastings",
         "2": "Scott Criswell / Carol Criswell",
@@ -259,12 +313,10 @@
         "11": "Chad Willd / Sadie Willd",
         "13": "Abby Gallegos / Matt Gerpheide",
         "4": "Tyler Michael / Katherine Mooney",
-        "1": "Pouya Payan / Neda Farahvash fashandi",
-        "3": "Lucy Criswell / Simon Criswell",
         "5": "Hunter Jeppson / Ela Mino",
-        "6": "Danny Nelson / lauren bays",
         "9": "Diana Gaviria / Dereck Larson",
-        "12": "Bryan Nguyen / Marisa Babb"
+        "12": "Bryan Nguyen / Marisa Babb",
+        "1": "Pouya Payan / Neda Farahvash fashandi"
       },
       "17170": {
         "1": "Josie Adamson / Zoey Judd",
@@ -355,6 +407,98 @@
         "9": "Madison Arnold / Morgan Nash",
         "4": "Justine Manalastas / Erica Chao"
       },
+      "16809": {
+        "1": "Tien Le / Joe Guarnes",
+        "2": "Daniel Henson / Sammy Wong",
+        "3": "Nabil Wadih / Gregory Kopra",
+        "4": "Andrii Tupchii / Mark Dykovchenko",
+        "5": "Zack Lamm / Juvenal Perez",
+        "6": "George Barsukov / Rene Sussman",
+        "7": "Evan Mickelson / Joshua Gomez",
+        "8": "Pat Licari / Erik Willanger",
+        "9": "Douglas Yu / Olof Delight",
+        "10": "Scott Criswell / Simon Criswell",
+        "11": "Dmitri Vaisberg / Travis Wefald",
+        "12": "Ayoub Gouasmi / Jamil Sweis",
+        "13": "Ian Broadbooks / Austin Griffin",
+        "14": "Sam Sepasi / Breadman Ortiz",
+        "15": "Slade Klein / Michael Miller",
+        "16": "Joe Raquiza / Asher Raquiza",
+        "17": "Luke Delacruz / Matt Bretl",
+        "18": "Robert Williams / Morteza Soltani",
+        "19": "Ramon Hernandez / Donavan Walker",
+        "20": "Kurt Speicher / Ethan Troncoso",
+        "22": "Daniel Nguyen / Brian Laub",
+        "23": "Matt Kaufman / Cameron Jones",
+        "24": "Brian Hudson / Noah Osuna",
+        "25": "Jonathan Diaz / Tomas Bedolla",
+        "26": "Noah Gregan / Kevin Gregan",
+        "27": "Elijah Auer / Hayden Ramirez",
+        "28": "Caleb Clark / Mike Clark",
+        "29": "Ryan Pierra / Dick potter"
+      },
+      "16810": {
+        "1": "Yesenia Jacobo / Vanessa Velez",
+        "2": "Lia Oishi / Selina Chhay",
+        "3": "Cait Baldridge / Victoria Verbick",
+        "4": "Shavonne Lascelle / Amanda Sobel",
+        "5": "McKenna Teltscher / Becca Branch",
+        "6": "Tanira Chau / Britney Tran",
+        "7": "Kelley Bailey / Krystle Payne",
+        "8": "Rebecca Cordero / Colleen Long",
+        "9": "Zoe Lee / Marisa Babb",
+        "10": "Trish Platt / Kiki Boyer",
+        "11": "Carol Criswell / Lucy Criswell",
+        "12": "Lauren Steinberg / Sky Cross",
+        "13": "Camila Wilson / Malory Mclemore",
+        "14": "Rachel Ullrich / Emily Laituri",
+        "15": "Liz bowles / Claire Reilly",
+        "16": "Nicole Allen / Karissa Baucom"
+      },
+      "16812": {
+        "1": "David Barney / Jay Panther",
+        "2": "Jason Trip / Brent Curtis",
+        "3": "Brad Tiller / Jonah May",
+        "4": "Kyle Rivas / Tyler Rivas",
+        "5": "Keaton Marks / Giancarlo Alaimo",
+        "6": "Nicholas Summers / Jorge Ruiz del Rio",
+        "7": "Marcus Nichols / Stephen Brown",
+        "8": "Luis Yeme / Kiel Smith",
+        "9": "Aaron Wolfe / Isaiah Ritchie",
+        "10": "Sergei Nikiforov / Barrett Gregan",
+        "11": "Justin Voeller / Raymond Hart",
+        "12": "Joe Simmons / Alexander Svecz",
+        "13": "Dan Ott / Spencer Wade",
+        "14": "Jackson Mezera / Josiah Trautman",
+        "15": "Eduardo Mota / Peter Luong",
+        "16": "Jorge Pando / Tyler DeBerry"
+      },
+      "16813": {
+        "1": "Abby Schneider / Jamie Justo",
+        "2": "Anika Spencer / Bianca Karpinecz",
+        "3": "Hannah Hartin / Delaney Taylor",
+        "4": "Jolene Swiggers / Jordyn Miller",
+        "5": "Sarah Kelly / Miley Cohen",
+        "6": "Tennyson Bowers / Lilly Paull",
+        "7": "Antoinette De la espriella / Jennifer Lias",
+        "8": "Savai Kilaulani / Chara Wondercheck",
+        "9": "Kathea Schamblin / Erin Alexander",
+        "10": "Jenn Henderson / Kaeley KJ Johnston",
+        "11": "Nathalie Smith / Jenifer Sandoval",
+        "12": "Maria Di Franco / Lizzy Ostro"
+      },
+      "16811": {
+        "1": "Hannah Lockhart / David Shippee",
+        "2": "Jordan Cherniss / Viv Moro",
+        "3": "Estefany Rodriguez Castro / Marvin Martinez",
+        "4": "Zain Sah / Maya Sah",
+        "5": "Kyle Goodenough / Hayley Buchanan",
+        "6": "Kat Briggs / Christopher Briggs",
+        "7": "Jake Mitchell / Alyssa Vortouni",
+        "8": "Ashley Midland / Connor Freeman",
+        "9": "Jeremy Oms / Catherine Oms",
+        "10": "Rachel Pop / Maverick Mihele"
+      },
       "17170": {
         "1": "Josie Adamson / Zoey Judd",
         "2": "Reagan Jensen / Juliette Johnson",
@@ -370,6 +514,134 @@
         "12": "Sadie Smith / Carly Pemble",
         "13": "Mia Altshuler / Darcy Khan",
         "14": "Giada Jasmin Console Golkar / Adria Console Golkar"
+      }
+    },
+    "results": {
+      "Lia Oishi": {
+        "fingerprint": "[]",
+        "records": [
+          {
+            "phase": "pool",
+            "pool_name": "2",
+            "round": null,
+            "match_no": 2,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 10,
+            "won": null,
+            "court": null,
+            "match_id": 65611
+          },
+          {
+            "phase": "pool",
+            "pool_name": "2",
+            "round": null,
+            "match_no": 4,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 15,
+            "won": null,
+            "court": null,
+            "match_id": 65613
+          },
+          {
+            "phase": "pool",
+            "pool_name": "2",
+            "round": null,
+            "match_no": 6,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 7,
+            "won": null,
+            "court": null,
+            "match_id": 65615
+          }
+        ],
+        "last_updated": "2026-11-01T05:34:48.069043"
+      },
+      "Selina Chhay": {
+        "fingerprint": "[]",
+        "records": [
+          {
+            "phase": "pool",
+            "pool_name": "2",
+            "round": null,
+            "match_no": 2,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 10,
+            "won": null,
+            "court": null,
+            "match_id": 65611
+          },
+          {
+            "phase": "pool",
+            "pool_name": "2",
+            "round": null,
+            "match_no": 4,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 15,
+            "won": null,
+            "court": null,
+            "match_id": 65613
+          },
+          {
+            "phase": "pool",
+            "pool_name": "2",
+            "round": null,
+            "match_no": 6,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 7,
+            "won": null,
+            "court": null,
+            "match_id": 65615
+          }
+        ],
+        "last_updated": "2026-11-01T05:34:48.069079"
+      },
+      "Isaiah Ritchie": {
+        "fingerprint": "[]",
+        "records": [
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 2,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 1,
+            "won": null,
+            "court": null,
+            "match_id": 65569
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 3,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 8,
+            "won": null,
+            "court": null,
+            "match_id": 65570
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 5,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 16,
+            "won": null,
+            "court": null,
+            "match_id": 65572
+          }
+        ],
+        "last_updated": "2026-11-01T05:34:49.733930"
       }
     }
   },
