@@ -357,20 +357,20 @@
         "4": "Linden Robinson / Katie Drury"
       },
       "16816": {
-        "1": "Kevin Krupa / kian power",
-        "2": "Edgar Kuan / Nathaniel Matthews",
         "3": "Nick Morales / Tyler Ibbetson",
-        "4": "Ryan Kosko / David Gonzalez",
         "5": "Ray Roble / Jesse Pickard",
         "6": "Rick Macaya / Raffe Paulis",
-        "7": "Todd Goodall / Zach Beery",
         "8": "David Ke / Carson Edwards",
+        "14": "Constan Tolentino / Tyler DeBerry",
+        "1": "Kevin Krupa / kian power",
+        "2": "Edgar Kuan / Nathaniel Matthews",
+        "4": "Ryan Kosko / David Gonzalez",
+        "7": "Todd Goodall / Zach Beery",
         "9": "Marko Lilic / Tobin Mitchell",
         "10": "David Chavez / Daniel Rice",
         "11": "Charlie Caldwell / Robert Feathers",
         "12": "Jess Hunt / Viv Moro",
         "13": "Kendrick Lin / Karl Araujo",
-        "14": "Constan Tolentino / Tyler DeBerry",
         "15": "Jakob Troy / Eddie Castellanos",
         "16": "Charlie Styrbicki / Daniel Kim",
         "17": "Bojan Nisavic / Gary Glesener",
@@ -380,27 +380,27 @@
         "21": "Oyaba Taai / Matt Iamaleava"
       },
       "16817": {
+        "7": "Jasmine Lin / Mckenzie Lettice",
+        "10": "Erin Alexander / Kathea Schamblin",
+        "14": "Lizzy Ostro / Lexi Oulashin",
+        "21": "Kendall Mathison / Brooklyn Enriquez",
+        "16": "Adriana Termaat-Matthews / Jaye Meyer",
+        "19": "Nina Hernandez / Paige Thrush",
         "1": "Justyna Sroka / Mele Faiva Corral-Blagojevich",
         "2": "Ariel Safai / Hannah Lockhart",
         "3": "Lara Stone / Kaili Shewmaker",
         "4": "Amie Garcia / Sjuzanna Hacatrjana",
         "5": "Sarah Maloney / Rae Casas",
         "6": "Allie Westrup / Katie Westrup",
-        "7": "Jasmine Lin / Mckenzie Lettice",
         "8": "Alexa Wilson / Kristy Koller",
         "9": "Luisa Nguyen / Kristin McNeese",
-        "10": "Erin Alexander / Kathea Schamblin",
         "11": "Donovan Enriquez / Paige Bensing",
         "12": "Jenn Henderson / Erica Griffiths",
         "13": "Lia Oishi / Elizabeth Rice",
-        "14": "Lizzy Ostro / Lexi Oulashin",
         "15": "Kelly Chang / Caitlin Stapp",
-        "16": "Adriana Termaat-Matthews / Jaye Meyer",
         "17": "Ashley Castellani / Katharina Schmidt",
         "18": "Gabi Fernandez / Maryam Staniszewski",
-        "19": "Nina Hernandez / Paige Thrush",
         "20": "Haley Lao / Rachel Kearon",
-        "21": "Kendall Mathison / Brooklyn Enriquez",
         "22": "Samantha Headley / Allison Cartee",
         "23": "Mackenzie Bowen / Brooke Hansen",
         "24": "Lucie Lefbom / Dana Engebreth",
@@ -411,9 +411,10 @@
         "29": "Alexandra Nekrasova / Teresa Uribe"
       },
       "16818": {
+        "12": "Justin Tompkins / Ryan Giles",
+        "3": "Gunner Welch / Joe Schumacher",
         "1": "Tom Wilson / Tennessee Fulks",
         "2": "Rees Barnett / Easton Mueller",
-        "3": "Gunner Welch / Joe Schumacher",
         "4": "Alexander Koki / Jon Mesko",
         "5": "Grant Friedman / Chris Lindgren",
         "6": "Thomas Zhang / Matt Shassol",
@@ -422,7 +423,6 @@
         "9": "Ben Wilson / Pieter Derksen",
         "10": "Jarod Kyle Bristol / Daniel Tran",
         "11": "Timothy Pohlmann / Maksim Chicherin",
-        "12": "Justin Tompkins / Ryan Giles",
         "13": "Aryan Rasoolian / Brayden Darm",
         "14": "Ian Joyce / Michael Komer"
       },
@@ -470,20 +470,8 @@
     },
     "results": {
       "Lia Oishi": {
-        "fingerprint": "[[65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true]]",
+        "fingerprint": "[[65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true], [65829, \"completed\", \"20-22\", false], [65832, \"completed\", \"21-15\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "1",
-            "round": null,
-            "match_no": 10,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 24,
-            "won": null,
-            "court": null,
-            "match_id": 65832
-          },
           {
             "phase": "pool",
             "pool_name": "1",
@@ -513,31 +501,43 @@
             "pool_name": "1",
             "round": null,
             "match_no": 7,
-            "status": "in_progress",
-            "score": "0-0",
+            "status": "completed",
+            "score": "20-22",
             "opp_seed": 12,
-            "won": null,
+            "won": false,
             "court": null,
             "match_id": 65829
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 10,
+            "status": "completed",
+            "score": "21-15",
+            "opp_seed": 24,
+            "won": true,
+            "court": null,
+            "match_id": 65832
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 1,
+            "match_no": 3,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": 17,
+            "won": null,
+            "court": "Court 15- 2nd round",
+            "match_id": 18054
           }
         ],
-        "last_updated": "2026-11-07T19:59:56.259551"
+        "last_updated": "2026-11-07T22:33:50.344422"
       },
       "Elizabeth Rice": {
-        "fingerprint": "[[65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true]]",
+        "fingerprint": "[[65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true], [65829, \"completed\", \"20-22\", false], [65832, \"completed\", \"21-15\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "1",
-            "round": null,
-            "match_no": 10,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 24,
-            "won": null,
-            "court": null,
-            "match_id": 65832
-          },
           {
             "phase": "pool",
             "pool_name": "1",
@@ -567,43 +567,43 @@
             "pool_name": "1",
             "round": null,
             "match_no": 7,
-            "status": "in_progress",
-            "score": "0-0",
+            "status": "completed",
+            "score": "20-22",
             "opp_seed": 12,
-            "won": null,
+            "won": false,
             "court": null,
             "match_id": 65829
-          }
-        ],
-        "last_updated": "2026-11-07T19:59:56.259600"
-      },
-      "Isaiah Ritchie": {
-        "fingerprint": "[[65763, \"completed\", \"21-11\", true], [65766, \"completed\", \"18-21\", false]]",
-        "records": [
-          {
-            "phase": "pool",
-            "pool_name": "1",
-            "round": null,
-            "match_no": 7,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 6,
-            "won": null,
-            "court": null,
-            "match_id": 65769
           },
           {
             "phase": "pool",
             "pool_name": "1",
             "round": null,
             "match_no": 10,
+            "status": "completed",
+            "score": "21-15",
+            "opp_seed": 24,
+            "won": true,
+            "court": null,
+            "match_id": 65832
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 1,
+            "match_no": 3,
             "status": "scheduled",
             "score": "",
-            "opp_seed": 12,
+            "opp_seed": 17,
             "won": null,
-            "court": null,
-            "match_id": 65772
-          },
+            "court": "Court 15- 2nd round",
+            "match_id": 18054
+          }
+        ],
+        "last_updated": "2026-11-07T22:33:50.344469"
+      },
+      "Isaiah Ritchie": {
+        "fingerprint": "[[65763, \"completed\", \"21-11\", true], [65766, \"completed\", \"18-21\", false], [65769, \"completed\", \"19-21\", false], [65772, \"completed\", \"19-21\", false]]",
+        "records": [
           {
             "phase": "pool",
             "pool_name": "1",
@@ -627,9 +627,33 @@
             "won": false,
             "court": null,
             "match_id": 65766
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 7,
+            "status": "completed",
+            "score": "19-21",
+            "opp_seed": 6,
+            "won": false,
+            "court": null,
+            "match_id": 65769
+          },
+          {
+            "phase": "pool",
+            "pool_name": "1",
+            "round": null,
+            "match_no": 10,
+            "status": "completed",
+            "score": "19-21",
+            "opp_seed": 12,
+            "won": false,
+            "court": null,
+            "match_id": 65772
           }
         ],
-        "last_updated": "2026-11-07T19:59:57.944327"
+        "last_updated": "2026-11-07T22:33:52.174710"
       }
     }
   },
