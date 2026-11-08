@@ -211,7 +211,7 @@
         "team_seed": 13,
         "team_id": 137336,
         "match_team_id": 231191,
-        "finish": null
+        "finish": 5
       },
       "Elizabeth Rice": {
         "player_name": "Elizabeth Rice",
@@ -226,7 +226,7 @@
         "team_seed": 13,
         "team_id": 137336,
         "match_team_id": 231191,
-        "finish": null
+        "finish": 5
       },
       "Isaiah Ritchie": {
         "player_name": "Isaiah Ritchie",
@@ -246,20 +246,20 @@
     },
     "div_rosters": {
       "16816": {
-        "1": "Kevin Krupa / kian power",
-        "2": "Edgar Kuan / Nathaniel Matthews",
         "3": "Nick Morales / Tyler Ibbetson",
-        "4": "Ryan Kosko / David Gonzalez",
         "5": "Ray Roble / Jesse Pickard",
         "6": "Rick Macaya / Raffe Paulis",
-        "7": "Todd Goodall / Zach Beery",
         "8": "David Ke / Carson Edwards",
+        "14": "Constan Tolentino / Tyler DeBerry",
+        "1": "Kevin Krupa / kian power",
+        "2": "Edgar Kuan / Nathaniel Matthews",
+        "4": "Ryan Kosko / David Gonzalez",
+        "7": "Todd Goodall / Zach Beery",
         "9": "Marko Lilic / Tobin Mitchell",
         "10": "David Chavez / Daniel Rice",
         "11": "Charlie Caldwell / Robert Feathers",
         "12": "Jess Hunt / Viv Moro",
         "13": "Kendrick Lin / Karl Araujo",
-        "14": "Constan Tolentino / Tyler DeBerry",
         "15": "Jakob Troy / Eddie Castellanos",
         "16": "Charlie Styrbicki / Daniel Kim",
         "17": "Bojan Nisavic / Gary Glesener",
@@ -269,27 +269,27 @@
         "21": "Oyaba Taai / Matt Iamaleava"
       },
       "16817": {
+        "7": "Jasmine Lin / Mckenzie Lettice",
+        "10": "Erin Alexander / Kathea Schamblin",
+        "14": "Lizzy Ostro / Lexi Oulashin",
+        "21": "Kendall Mathison / Brooklyn Enriquez",
+        "16": "Adriana Termaat-Matthews / Jaye Meyer",
+        "19": "Nina Hernandez / Paige Thrush",
         "1": "Justyna Sroka / Mele Faiva Corral-Blagojevich",
         "2": "Ariel Safai / Hannah Lockhart",
         "3": "Lara Stone / Kaili Shewmaker",
         "4": "Amie Garcia / Sjuzanna Hacatrjana",
         "5": "Sarah Maloney / Rae Casas",
         "6": "Allie Westrup / Katie Westrup",
-        "7": "Jasmine Lin / Mckenzie Lettice",
         "8": "Alexa Wilson / Kristy Koller",
         "9": "Luisa Nguyen / Kristin McNeese",
-        "10": "Erin Alexander / Kathea Schamblin",
         "11": "Donovan Enriquez / Paige Bensing",
         "12": "Jenn Henderson / Erica Griffiths",
         "13": "Lia Oishi / Elizabeth Rice",
-        "14": "Lizzy Ostro / Lexi Oulashin",
         "15": "Kelly Chang / Caitlin Stapp",
-        "16": "Adriana Termaat-Matthews / Jaye Meyer",
         "17": "Ashley Castellani / Katharina Schmidt",
         "18": "Gabi Fernandez / Maryam Staniszewski",
-        "19": "Nina Hernandez / Paige Thrush",
         "20": "Haley Lao / Rachel Kearon",
-        "21": "Kendall Mathison / Brooklyn Enriquez",
         "22": "Samantha Headley / Allison Cartee",
         "23": "Mackenzie Bowen / Brooke Hansen",
         "24": "Lucie Lefbom / Dana Engebreth",
@@ -300,9 +300,10 @@
         "29": "Alexandra Nekrasova / Teresa Uribe"
       },
       "16818": {
+        "12": "Justin Tompkins / Ryan Giles",
+        "3": "Gunner Welch / Joe Schumacher",
         "1": "Tom Wilson / Tennessee Fulks",
         "2": "Rees Barnett / Easton Mueller",
-        "3": "Gunner Welch / Joe Schumacher",
         "4": "Alexander Koki / Jon Mesko",
         "5": "Grant Friedman / Chris Lindgren",
         "6": "Thomas Zhang / Matt Shassol",
@@ -311,7 +312,6 @@
         "9": "Ben Wilson / Pieter Derksen",
         "10": "Jarod Kyle Bristol / Daniel Tran",
         "11": "Timothy Pohlmann / Maksim Chicherin",
-        "12": "Justin Tompkins / Ryan Giles",
         "13": "Aryan Rasoolian / Brayden Darm",
         "14": "Ian Joyce / Michael Komer"
       },
@@ -357,72 +357,72 @@
         "4": "Linden Robinson / Katie Drury"
       },
       "16816": {
+        "11": "Charlie Caldwell / Robert Feathers",
+        "1": "Kevin Krupa / kian power",
+        "7": "Todd Goodall / Zach Beery",
+        "18": "Jacob Brooks / Daniel Villela",
+        "2": "Edgar Kuan / Nathaniel Matthews",
+        "9": "Marko Lilic / Tobin Mitchell",
+        "19": "Marshall Rooney / Caelan Koth",
+        "21": "Oyaba Taai / Matt Iamaleava",
         "3": "Nick Morales / Tyler Ibbetson",
+        "4": "Ryan Kosko / David Gonzalez",
         "5": "Ray Roble / Jesse Pickard",
         "6": "Rick Macaya / Raffe Paulis",
         "8": "David Ke / Carson Edwards",
         "14": "Constan Tolentino / Tyler DeBerry",
-        "1": "Kevin Krupa / kian power",
-        "2": "Edgar Kuan / Nathaniel Matthews",
-        "4": "Ryan Kosko / David Gonzalez",
-        "7": "Todd Goodall / Zach Beery",
-        "9": "Marko Lilic / Tobin Mitchell",
+        "15": "Jakob Troy / Eddie Castellanos",
         "10": "David Chavez / Daniel Rice",
-        "11": "Charlie Caldwell / Robert Feathers",
         "12": "Jess Hunt / Viv Moro",
         "13": "Kendrick Lin / Karl Araujo",
-        "15": "Jakob Troy / Eddie Castellanos",
         "16": "Charlie Styrbicki / Daniel Kim",
         "17": "Bojan Nisavic / Gary Glesener",
-        "18": "Jacob Brooks / Daniel Villela",
-        "19": "Marshall Rooney / Caelan Koth",
-        "20": "Ryan Thomas / Paul Joseph",
-        "21": "Oyaba Taai / Matt Iamaleava"
+        "20": "Ryan Thomas / Paul Joseph"
       },
       "16817": {
+        "1": "Justyna Sroka / Mele Faiva Corral-Blagojevich",
+        "2": "Ariel Safai / Hannah Lockhart",
+        "6": "Allie Westrup / Katie Westrup",
+        "12": "Jenn Henderson / Erica Griffiths",
+        "5": "Sarah Maloney / Rae Casas",
+        "8": "Alexa Wilson / Kristy Koller",
+        "13": "Lia Oishi / Elizabeth Rice",
+        "26": "Lilly Russell / Emma Kramer",
+        "3": "Lara Stone / Kaili Shewmaker",
+        "4": "Amie Garcia / Sjuzanna Hacatrjana",
         "7": "Jasmine Lin / Mckenzie Lettice",
         "10": "Erin Alexander / Kathea Schamblin",
         "14": "Lizzy Ostro / Lexi Oulashin",
+        "17": "Ashley Castellani / Katharina Schmidt",
         "21": "Kendall Mathison / Brooklyn Enriquez",
+        "22": "Samantha Headley / Allison Cartee",
         "16": "Adriana Termaat-Matthews / Jaye Meyer",
         "19": "Nina Hernandez / Paige Thrush",
-        "1": "Justyna Sroka / Mele Faiva Corral-Blagojevich",
-        "2": "Ariel Safai / Hannah Lockhart",
-        "3": "Lara Stone / Kaili Shewmaker",
-        "4": "Amie Garcia / Sjuzanna Hacatrjana",
-        "5": "Sarah Maloney / Rae Casas",
-        "6": "Allie Westrup / Katie Westrup",
-        "8": "Alexa Wilson / Kristy Koller",
         "9": "Luisa Nguyen / Kristin McNeese",
         "11": "Donovan Enriquez / Paige Bensing",
-        "12": "Jenn Henderson / Erica Griffiths",
-        "13": "Lia Oishi / Elizabeth Rice",
         "15": "Kelly Chang / Caitlin Stapp",
-        "17": "Ashley Castellani / Katharina Schmidt",
         "18": "Gabi Fernandez / Maryam Staniszewski",
         "20": "Haley Lao / Rachel Kearon",
-        "22": "Samantha Headley / Allison Cartee",
         "23": "Mackenzie Bowen / Brooke Hansen",
         "24": "Lucie Lefbom / Dana Engebreth",
         "25": "Sharon Hsia / Sarah Seelan",
-        "26": "Lilly Russell / Emma Kramer",
         "27": "Alexandra Beccari / Haley Michel",
         "28": "Leah King / Julia Morales",
         "29": "Alexandra Nekrasova / Teresa Uribe"
       },
       "16818": {
-        "12": "Justin Tompkins / Ryan Giles",
-        "3": "Gunner Welch / Joe Schumacher",
+        "11": "Timothy Pohlmann / Maksim Chicherin",
         "1": "Tom Wilson / Tennessee Fulks",
-        "2": "Rees Barnett / Easton Mueller",
         "4": "Alexander Koki / Jon Mesko",
+        "8": "Brent Benson / Kion Cumme",
         "5": "Grant Friedman / Chris Lindgren",
         "6": "Thomas Zhang / Matt Shassol",
-        "7": "Stephen Brown / Isaiah Ritchie",
-        "8": "Brent Benson / Kion Cumme",
         "9": "Ben Wilson / Pieter Derksen",
+        "12": "Justin Tompkins / Ryan Giles",
+        "3": "Gunner Welch / Joe Schumacher",
+        "2": "Rees Barnett / Easton Mueller",
+        "7": "Stephen Brown / Isaiah Ritchie",
         "10": "Jarod Kyle Bristol / Daniel Tran",
-        "11": "Timothy Pohlmann / Maksim Chicherin",
         "13": "Aryan Rasoolian / Brayden Darm",
         "14": "Ian Joyce / Michael Komer"
       },
@@ -459,7 +459,8 @@
         "8": "Lilly Levine / Bellamy Rudich",
         "9": "Harper Gray / Josephine Ohl",
         "10": "Hayden Knight / Brooke Sattler",
-        "11": "Ashlyn Gonzales / Brielle Morales"
+        "11": "Ashlyn Gonzales / Brielle Morales",
+        "12": "Naomi Allen / Mila Allen"
       },
       "17172": {
         "1": "Phoebe Hansen / Brooke Mannheimer",
@@ -470,7 +471,7 @@
     },
     "results": {
       "Lia Oishi": {
-        "fingerprint": "[[65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true], [65829, \"completed\", \"20-22\", false], [65832, \"completed\", \"21-15\", true]]",
+        "fingerprint": "[[18054, \"completed\", \"21-13\", true], [18062, \"completed\", \"21-23\", false], [65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true], [65829, \"completed\", \"20-22\", false], [65832, \"completed\", \"21-15\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -525,18 +526,31 @@
             "pool_name": null,
             "round": 1,
             "match_no": 3,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "21-13",
             "opp_seed": 17,
-            "won": null,
+            "won": true,
             "court": "Court 15- 2nd round",
             "match_id": 18054
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 2,
+            "match_no": 11,
+            "status": "completed",
+            "score": "21-23",
+            "opp_seed": 6,
+            "won": false,
+            "court": "Court 15",
+            "match_id": 18062
           }
         ],
-        "last_updated": "2026-11-07T22:33:50.344422"
+        "last_updated": "2026-11-08T02:09:05.052176",
+        "playoff_notified": true
       },
       "Elizabeth Rice": {
-        "fingerprint": "[[65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true], [65829, \"completed\", \"20-22\", false], [65832, \"completed\", \"21-15\", true]]",
+        "fingerprint": "[[18054, \"completed\", \"21-13\", true], [18062, \"completed\", \"21-23\", false], [65823, \"completed\", \"21-12\", true], [65826, \"completed\", \"21-18\", true], [65829, \"completed\", \"20-22\", false], [65832, \"completed\", \"21-15\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -591,15 +605,28 @@
             "pool_name": null,
             "round": 1,
             "match_no": 3,
-            "status": "scheduled",
-            "score": "",
+            "status": "completed",
+            "score": "21-13",
             "opp_seed": 17,
-            "won": null,
+            "won": true,
             "court": "Court 15- 2nd round",
             "match_id": 18054
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 2,
+            "match_no": 11,
+            "status": "completed",
+            "score": "21-23",
+            "opp_seed": 6,
+            "won": false,
+            "court": "Court 15",
+            "match_id": 18062
           }
         ],
-        "last_updated": "2026-11-07T22:33:50.344469"
+        "last_updated": "2026-11-08T02:09:05.052236",
+        "playoff_notified": true
       },
       "Isaiah Ritchie": {
         "fingerprint": "[[65763, \"completed\", \"21-11\", true], [65766, \"completed\", \"18-21\", false], [65769, \"completed\", \"19-21\", false], [65772, \"completed\", \"19-21\", false]]",
@@ -663,7 +690,7 @@
     "errors": []
   },
   "tournament_tracker": {
-    "city_last_checked": "2026-11-07",
+    "city_last_checked": "2026-11-08",
     "city_watches": {
       "rsua95@gmail.com:san diego": {
         "seen_tdivs": [
