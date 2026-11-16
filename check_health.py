@@ -24,7 +24,11 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 STATE_FILE = "state.json"
-PT         = timezone(timedelta(hours=-7))
+try:
+    from zoneinfo import ZoneInfo
+    PT = ZoneInfo("America/Los_Angeles")
+except Exception:                       # pragma: no cover
+    PT = timezone(timedelta(hours=-8))
 
 # Staleness thresholds (minutes since last *successful* run).
 #

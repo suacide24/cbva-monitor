@@ -45,8 +45,18 @@ STATUS_FILE   = "status.json"   # per-run heartbeat; NOT committed (gitignored)
 BASE_URL      = "https://cbva.com"
 DEBUG         = os.environ.get("CBVA_DEBUG") == "1"
 
-# PDT = UTC-7 (summer).  Change to -8 (PST) Nov–Mar if needed.
-_PT          = timezone(timedelta(hours=-7))
+# Pacific time, DST-aware (was hardcoded UTC-7, which is an hour off Nov–Mar).
+try:
+    from zoneinfo import ZoneInfo
+    _PT = ZoneInfo("America/Los_Angeles")
+except Exception:                       # pragma: no cover - tzdata missing
+    _PT = timezone(timedelta(hours=-8))  # PST fallback
+
+
+def _pt_today() -> date:
+    """Current calendar date in Pacific time (not the runner's UTC date)."""
+    return datetime.now(_PT).date()
+
 RATING_ORDER = ["N", "U", "B", "A", "AA", "AAA", "Open"]
 _LEVEL_MAP   = {"unrated":"U","n":"N","u":"U","b":"B","a":"A","aa":"AA","aaa":"AAA","open":"Open"}
 
@@ -659,7 +669,7 @@ async def _fetch_upcoming_tournaments(page, weeks: int = 8) -> list[dict]:
             return data
 
     # Fallback: scan upcoming Saturdays and Sundays
-    today = date.today()
+    today = _pt_today()
     seen:  dict[int, dict] = {}
     d = today
     for _ in range(weeks * 7):
@@ -695,7 +705,7 @@ async def check_city_tournaments(page, state: dict, users: list[dict], now_pt: d
         return
 
     tt        = state.setdefault("tournament_tracker", {})
-    today_str = date.today().strftime("%Y-%m-%d")
+    today_str = _pt_today().strftime("%Y-%m-%d")
 
     if tt.get("city_last_checked") == today_str:
         print("[avail] City watch already checked today — skipping.")

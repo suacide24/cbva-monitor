@@ -150,6 +150,22 @@ class TestOrdinal(unittest.TestCase):
     def test_22nd(self): self.assertEqual(monitor._ordinal(22), "22nd")
 
 
+# ── Pacific time (DST-aware) ──────────────────────────────────────────────────
+
+class TestPacificTime(unittest.TestCase):
+    """Regression guard: _PT was hardcoded to UTC-7, an hour off Nov–Mar."""
+
+    def test_pt_is_dst_aware(self):
+        summer = datetime(2026, 7, 1, 12, tzinfo=monitor._PT).utcoffset()
+        winter = datetime(2026, 12, 1, 12, tzinfo=monitor._PT).utcoffset()
+        self.assertEqual(summer, timedelta(hours=-7))   # PDT
+        self.assertEqual(winter, timedelta(hours=-8))   # PST
+        self.assertNotEqual(summer, winter)             # not a fixed offset
+
+    def test_pt_today_returns_date(self):
+        self.assertIsInstance(monitor._pt_today(), date)
+
+
 # ── load_users ────────────────────────────────────────────────────────────────
 
 class TestLoadUsers(unittest.TestCase):
