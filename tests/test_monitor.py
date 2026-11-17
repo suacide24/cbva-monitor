@@ -1430,5 +1430,141 @@ class TestRunAbortsOnCorruptState(unittest.IsolatedAsyncioTestCase):
         self.assertIn("corrupt", email.call_args[0][0])
 
 
+# ── Telegram delivery ─────────────────────────────────────────────────────────
+
+class TestTelegramRouting(unittest.TestCase):
+    TG_USER    = {"email": "a@b.com", "telegram_chat_id": 111}
+    EMAIL_USER = {"email": "a@b.com"}
+
+    def test_email_when_no_chat_id(self):
+        with patch.object(monitor, "TELEGRAM_TOKEN", "tok"), \
+             patch.object(monitor, "_tg_call") as tg, \
+             patch.object(monitor, "send_email") as email:
+            monitor.notify(self.EMAIL_USER, "subj", "<html>", "text")
+        tg.assert_not_called()
+        email.assert_called_once()
+
+    def test_email_when_no_token(self):
+        with patch.object(monitor, "TELEGRAM_TOKEN", ""), \
+             patch.object(monitor, "send_email") as email:
+            monitor.notify(self.TG_USER, "subj", "<html>", "text")
+        email.assert_called_once()
+
+    def test_telegram_replaces_email(self):
+        with patch.object(monitor, "TELEGRAM_TOKEN", "tok"), \
+             patch.object(monitor, "_tg_call", return_value={"message_id": 5}) as tg, \
+             patch.object(monitor, "send_email") as email:
+            monitor.notify(self.TG_USER, "subj", "<html>", "hello")
+        email.assert_not_called()
+        method, payload = tg.call_args[0]
+        self.assertEqual(method, "sendMessage")
+        self.assertEqual(payload["chat_id"], 111)
+        self.assertEqual(payload["text"], "hello")
+
+    def test_falls_back_to_email_when_telegram_fails(self):
+        with patch.object(monitor, "TELEGRAM_TOKEN", "tok"), \
+             patch.object(monitor, "_tg_call", return_value=None), \
+             patch.object(monitor, "send_email") as email:
+            monitor.notify(self.TG_USER, "subj", "<html>", "hello")
+        email.assert_called_once()          # never drop a notification
+
+    def test_button_becomes_inline_keyboard(self):
+        with patch.object(monitor, "TELEGRAM_TOKEN", "tok"), \
+             patch.object(monitor, "_tg_call", return_value={"message_id": 5}) as tg:
+            monitor.send_telegram(111, "t", ("Register now", "https://x"))
+        kb = tg.call_args[0][1]["reply_markup"]["inline_keyboard"]
+        self.assertEqual(kb[0][0], {"text": "Register now", "url": "https://x"})
+
+
+class TestTelegramMessages(unittest.TestCase):
+    def setUp(self):
+        idx = monitor._build_teams_index(_FIXTURE["teams"])
+        self.recs = monitor._collect_player_records(
+            idx["by_roster"][132814], _FIXTURE["pools"], _FIXTURE["playoffs"], idx)
+        self.entry = {"partner": "Pat <P>", "division": "Women's A",
+                      "tournament_name": "East Beach", "tournament_id": 4673,
+                      "division_id": 16540, "finish": 1}
+
+    def test_results_card_has_pool_and_playoffs(self):
+        text = monitor.tg_results_card("Jane Doe", self.entry, self.recs, {})
+        self.assertIn("<b>Jane Doe</b>", text)
+        self.assertIn("<b>Pool 1</b>", text)
+        self.assertIn("<b>Playoffs</b>", text)
+        self.assertIn("pool 3-1", text)                 # summary on the first line
+        self.assertIn("/tournaments/4673/16540", text)
+        self.assertEqual(text.count("✅") + text.count("❌"), 7)   # 4 pool + 3 playoff games
+
+    def test_results_card_escapes_html(self):
+        text = monitor.tg_results_card("A & <B>", self.entry, self.recs, {})
+        self.assertIn("A &amp; &lt;B&gt;", text)
+        self.assertIn("Pat &lt;P&gt;", text)
+
+    def test_results_card_empty_without_completed_games(self):
+        recs = [{"phase": "pool", "status": "scheduled", "match_id": 1}]
+        self.assertEqual(monitor.tg_results_card("X", self.entry, recs, {}), "")
+
+    def test_url_status_button_deeplinks_to_registration(self):
+        text, button = monitor.tg_url_status(
+            "https://cbva.com/tournaments/100/500", "waitlist_full", "open",
+            "SD Open", "Men's A", "Mission Bay", "July 4, 2026")
+        self.assertIn("Registration update", text)
+        self.assertEqual(button[0], "Register now")
+        self.assertIn("%22divisionId%22%3A500", button[1])
+
+    def test_url_status_non_registerable_links_to_tournament(self):
+        _, button = monitor.tg_url_status(
+            "https://cbva.com/tournaments/100/500", "unknown", "coming_soon", "T", "", "", "")
+        self.assertEqual(button, ("View tournament", "https://cbva.com/tournaments/100/500"))
+
+    def test_playing_today_and_new_tournament_text(self):
+        e = {"player_name": "Jane", "division": "Women's A", "tournament_id": 1,
+             "division_id": 2, "tournament_name": "Open", "venue": "Beach", "partner": "Pat"}
+        self.assertIn("<b>Jane</b>", monitor.tg_playing_today([e]))
+        self.assertIn("SD Open", monitor.tg_new_tournaments([_record()]))
+        self.assertIn("/tournaments/100/500", monitor.tg_new_tournaments([_record()]))
+
+
+class TestResultCardReplacement(unittest.TestCase):
+    """The chat keeps one current card per player: send new, then delete old."""
+
+    def setUp(self):
+        idx = monitor._build_teams_index(_FIXTURE["teams"])
+        recs = monitor._collect_player_records(
+            idx["by_roster"][131987], _FIXTURE["pools"], _FIXTURE["playoffs"], idx)
+        self.entry = {"division_id": 16540, "tournament_id": 4673, "partner": "P"}
+        self.updates = [("Lia Oishi", self.entry, recs)]
+        self.user = {"email": "a@b.com", "telegram_chat_id": 111}
+
+    def _state(self, old_id=None):
+        r = {"tg_msgs": {"111": old_id}} if old_id else {}
+        return {"tournament_day": {"results": {"Lia Oishi": r}, "div_rosters": {}}}
+
+    def test_first_card_is_sent_and_remembered(self):
+        state = self._state()
+        with patch.object(monitor, "send_telegram", return_value=42), \
+             patch.object(monitor, "delete_telegram") as delete:
+            failed = monitor.send_result_cards(self.user, self.updates, state)
+        self.assertEqual(failed, [])
+        delete.assert_not_called()
+        self.assertEqual(state["tournament_day"]["results"]["Lia Oishi"]["tg_msgs"]["111"], 42)
+
+    def test_update_deletes_previous_card(self):
+        state = self._state(old_id=42)
+        with patch.object(monitor, "send_telegram", return_value=43), \
+             patch.object(monitor, "delete_telegram") as delete:
+            monitor.send_result_cards(self.user, self.updates, state)
+        delete.assert_called_once_with(111, 42)
+        self.assertEqual(state["tournament_day"]["results"]["Lia Oishi"]["tg_msgs"]["111"], 43)
+
+    def test_failed_send_keeps_old_card_and_reports_failure(self):
+        state = self._state(old_id=42)
+        with patch.object(monitor, "send_telegram", return_value=None), \
+             patch.object(monitor, "delete_telegram") as delete:
+            failed = monitor.send_result_cards(self.user, self.updates, state)
+        self.assertEqual(len(failed), 1)             # caller emails this one
+        delete.assert_not_called()
+        self.assertEqual(state["tournament_day"]["results"]["Lia Oishi"]["tg_msgs"]["111"], 42)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -599,6 +599,7 @@ async function saveToGitHub() {
       const entry = { email: u.email.trim(), players: u.players || [] };
       if ((u.tournament_watches || []).length) entry.tournament_watches = u.tournament_watches;
       if ((u.tournament_urls    || []).length) entry.tournament_urls    = u.tournament_urls;
+      if (u.telegram_chat_id) entry.telegram_chat_id = u.telegram_chat_id;  // set outside the UI; never drop it
       return entry;
     }).filter(u => u.email);
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(clean, null, 2))));

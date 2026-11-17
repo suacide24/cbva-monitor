@@ -71,6 +71,7 @@ jobs:
           EMAIL_PASSWORD:  ${{ secrets.EMAIL_PASSWORD }}
           CBVA_EMAIL:      ${{ secrets.CBVA_EMAIL }}
           CBVA_PASSWORD:   ${{ secrets.CBVA_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           CBVA_DEBUG:      ${{ github.event.inputs.debug == 'true' && '1' || '' }}
         run: python monitor.py
 

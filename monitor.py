@@ -20,11 +20,14 @@ Optional:
 """
 
 import asyncio
+import html as _html
 import json
 import os
 import re
 import smtplib
+import urllib.error
 import urllib.parse
+import urllib.request
 from datetime import date, datetime, timezone, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -39,6 +42,7 @@ EMAIL_TO      = os.environ.get("EMAIL_TO") or EMAIL_FROM  # fallback only
 EMAIL_PASS    = os.environ.get("EMAIL_PASSWORD", "")
 CBVA_EMAIL    = os.environ.get("CBVA_EMAIL", "")
 CBVA_PASSWORD = os.environ.get("CBVA_PASSWORD", "")
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 STATE_FILE    = "state.json"
 PLAYERS_FILE  = "players.json"
 STATUS_FILE   = "status.json"   # per-run heartbeat; NOT committed (gitignored)
@@ -179,6 +183,212 @@ def send_email(subject: str, html: str, to: str = "") -> None:
             if attempt < 2:
                 time.sleep(5)
     print(f"[email] All 3 attempts failed for: {subject}")
+
+
+# ── Telegram ──────────────────────────────────────────────────────────────────
+#
+# A user with "telegram_chat_id" in users.json gets Telegram messages instead
+# of email (when TELEGRAM_BOT_TOKEN is set). Any Telegram failure falls back to
+# email, so a notification is never dropped. Results are one "card" per player
+# that is re-sent and the old one deleted, so the chat holds a single current
+# scorecard instead of a pile of messages.
+
+def _h(value) -> str:
+    return _html.escape(str(value if value is not None else ""), quote=False)
+
+
+def _tg_call(method: str, payload: dict):
+    """Call the Telegram Bot API. Returns the result, or None on any failure."""
+    if not TELEGRAM_TOKEN:
+        return None
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/{method}",
+        data=json.dumps(payload).encode(),
+        headers={"Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            body = json.loads(r.read().decode())
+        return body.get("result") if body.get("ok") else None
+    except urllib.error.HTTPError as e:
+        try:
+            desc = json.loads(e.read().decode()).get("description", "")
+        except Exception:
+            desc = ""
+        print(f"[telegram] {method} failed: HTTP {e.code} {desc}")   # never log the URL (has token)
+    except Exception as e:
+        print(f"[telegram] {method} failed: {type(e).__name__}")
+    return None
+
+
+def uses_telegram(user: dict) -> bool:
+    return bool(TELEGRAM_TOKEN and user.get("telegram_chat_id"))
+
+
+def send_telegram(chat_id, text: str, button: tuple | None = None):
+    """Send an HTML message; returns its message_id, or None if it failed."""
+    payload = {
+        "chat_id": chat_id,
+        "text": text[:4000],
+        "parse_mode": "HTML",
+        "disable_web_page_preview": True,
+    }
+    if button:
+        label, url = button
+        payload["reply_markup"] = {"inline_keyboard": [[{"text": label, "url": url}]]}
+    result = _tg_call("sendMessage", payload)
+    if isinstance(result, dict) and result.get("message_id"):
+        print(f"[telegram] Sent to {chat_id}")
+        return result["message_id"]
+    return None
+
+
+def delete_telegram(chat_id, message_id) -> None:
+    _tg_call("deleteMessage", {"chat_id": chat_id, "message_id": message_id})
+
+
+def notify(user: dict, subject: str, html: str, tg_text: str, button: tuple | None = None) -> None:
+    """Deliver one notification: Telegram if the user has it, otherwise email."""
+    if uses_telegram(user):
+        if send_telegram(user["telegram_chat_id"], tg_text, button) is not None:
+            return
+        print(f"[telegram] Falling back to email for {user['email']}")
+    send_email(subject, html, to=user["email"])
+
+
+def tg_playing_today(entries: list[dict]) -> str:
+    lines = ["🏐 <b>Playing today</b>"]
+    for e in entries:
+        t_url = f"{BASE_URL}/tournaments/{e['tournament_id']}/{e['division_id']}"
+        lines.append(
+            f"\n<b>{_h(e['player_name'])}</b> · {_h(e['division'])}\n"
+            f"<a href=\"{t_url}\">{_h(e['tournament_name'])}</a> · {_h(e['venue'])}\n"
+            f"Partner: {_h(e['partner'])}"
+        )
+    return "\n".join(lines)
+
+
+def tg_rating(alerts: list[dict]) -> str:
+    lines = ["📈 <b>Rating change</b>"]
+    for a in alerts:
+        rc = a.get("rating_change")
+        if rc:
+            arrow = "▲" if rc["increased"] else "▼"
+            lines.append(f"{arrow} <b>{_h(a['name'])}</b>: {_h(rc['from'])} → {_h(rc['to'])}")
+    return "\n".join(lines)
+
+
+def tg_playoffs(updates: list[tuple], state: dict) -> str:
+    div_rosters = state.get("tournament_day", {}).get("div_rosters", {})
+    lines = ["🎉 <b>Made playoffs</b>"]
+    for wname, entry, records in updates:
+        roster  = div_rosters.get(entry.get("division_id"), {})
+        playoff = sorted([r for r in records if r.get("phase") == "playoff"],
+                         key=lambda r: (r.get("round") or 0))
+        first    = playoff[0] if playoff else {}
+        opp_seed = first.get("opp_seed")
+        opp = roster.get(opp_seed, "") or (f"Seed #{opp_seed}" if opp_seed else "TBD")
+        court = first.get("court") or "court TBD"
+        lines.append(
+            f"\n<b>{_h(wname)}</b> · {_h(entry.get('division', ''))}\n"
+            f"{_h(entry.get('tournament_name', ''))}\n"
+            f"First match vs {_h(opp)} · {_h(court)}"
+        )
+    return "\n".join(lines)
+
+
+def tg_results_card(wname: str, entry: dict, records: list, roster: dict | None = None) -> str:
+    """One player's full scorecard for the day (pool + playoffs). '' if no games yet."""
+    recs = sorted([r for r in (records or []) if r.get("status") == "completed"],
+                  key=_record_sort_key)
+    if not recs:
+        return ""
+    summary = _records_summary(records, entry)
+    t_url   = f"{BASE_URL}/tournaments/{entry.get('tournament_id','')}/{entry.get('division_id','')}"
+    lines = [
+        f"🏐 <b>{_h(wname)}</b> — {_h(summary)}",
+        f"{_h(entry.get('division', ''))} · {_h(entry.get('tournament_name', ''))}",
+        f"Partner: {_h(entry.get('partner', ''))}",
+    ]
+    section = None
+    for r in recs:
+        if r.get("phase") == "pool":
+            head = "Pool " + str(r.get("pool_name") or "").strip()
+        else:
+            head = "Playoffs"
+        if head != section:
+            lines.append(f"\n<b>{_h(head.strip())}</b>")
+            section = head
+        opp_seed  = r.get("opp_seed")
+        opp_names = (roster or {}).get(opp_seed, "") if opp_seed else ""
+        if opp_names:
+            opp = opp_names + (f" (#{opp_seed})" if opp_seed else "")
+        elif opp_seed:
+            opp = f"Seed #{opp_seed}"
+        else:
+            opp = "opponent"
+        won  = r.get("won")
+        icon = "✅" if won else ("❌" if won is False else "•")
+        rnd  = f"R{(r.get('round') or 0) + 1} " if r.get("phase") == "playoff" else ""
+        lines.append(f"{icon} {rnd}{_h(r.get('score') or 'n/a')} vs {_h(opp)}")
+    lines.append(f"\n<a href=\"{t_url}\">Full results</a>")
+    return "\n".join(lines)
+
+
+def send_result_cards(user: dict, updates: list[tuple], state: dict) -> list[tuple]:
+    """Send/replace each player's Telegram card. Returns updates that failed
+    (the caller emails those instead)."""
+    chat_id     = user["telegram_chat_id"]
+    td          = state.get("tournament_day", {})
+    div_rosters = td.get("div_rosters", {})
+    failed: list[tuple] = []
+    for wname, entry, records in updates:
+        text = tg_results_card(wname, entry, records, div_rosters.get(entry.get("division_id"), {}))
+        if not text:
+            continue
+        r_state = td.setdefault("results", {}).setdefault(wname, {})
+        msgs    = r_state.setdefault("tg_msgs", {})
+        old_id  = msgs.get(str(chat_id))
+        new_id  = send_telegram(chat_id, text)
+        if new_id is None:
+            failed.append((wname, entry, records))
+            continue
+        if old_id:
+            delete_telegram(chat_id, old_id)   # keep one current card per player
+        msgs[str(chat_id)] = new_id
+    return failed
+
+
+def tg_new_tournaments(records: list[dict]) -> str:
+    lines = ["🆕 <b>New tournament" + ("s" if len(records) > 1 else "") + "</b>"]
+    for r in records:
+        meta = " · ".join(p for p in [r.get("venue_str"), r.get("t_date")] if p)
+        lines.append(f"\n<a href=\"{r['t_url']}\"><b>{_h(r['t_name'])}</b></a>\n{_h(meta)}")
+        for div in r["new_divs"]:
+            div_id = div.get("id") or div.get("tournamentDivisionId")
+            lines.append(f"• <a href=\"{r['t_url']}/{div_id}\">{_h(_division_label(div))}</a>")
+    return "\n".join(lines)
+
+
+def tg_url_status(url: str, old_status: str, new_status: str, t_name: str,
+                  div_name: str, venue_str: str, t_date: str) -> tuple[str, tuple]:
+    """Registration-status message plus its one-tap button (label, url)."""
+    title = t_name + (f" — {div_name}" if div_name else "")
+    meta  = " · ".join(p for p in [venue_str, t_date] if p)
+    emoji = "✅" if new_status == "open" else "🕐"
+    text = (
+        f"{emoji} <b>Registration update</b>\n"
+        f"<b>{_h(title)}</b>\n{_h(meta)}\n"
+        f"<s>{_h(_REG_LABEL.get(old_status, old_status))}</s> → "
+        f"<b>{_h(_REG_LABEL.get(new_status, new_status))}</b>"
+    )
+    m = re.search(r"/tournaments/\d+/(\d+)", url)
+    if new_status in ("open", "waitlist") and m:
+        label  = "Register now" if new_status == "open" else "Join waitlist"
+        button = (label, _register_deeplink(int(m.group(1))))
+    else:
+        button = ("View tournament", url)
+    return text, button
 
 
 # ── CBVA auth ─────────────────────────────────────────────────────────────────
@@ -852,10 +1062,11 @@ async def check_city_tournaments(page, state: dict, users: list[dict], now_pt: d
             cities = ", ".join(dict.fromkeys(r["watch"]["city"] for r in user_new))
             n_t    = len(user_new)
             n_d    = sum(len(r["new_divs"]) for r in user_new)
-            send_email(
+            notify(
+                user,
                 _new_tournament_subject(user_new),
                 _build_new_tournament_email(user_new, now_pt),
-                to=email,
+                tg_new_tournaments(user_new),
             )
             print(f"[avail] City email → {email}: {n_t} tournament(s), {n_d} division(s)")
 
@@ -957,13 +1168,16 @@ async def check_url_statuses(page, state: dict, users: list[dict], now_pt: datet
             if _REG_RANK.get(new_status, 0) > _REG_RANK.get(old_status, 0):
                 for user in users:
                     if url in {_url_entry_url(e) for e in (user.get("tournament_urls") or [])}:
-                        send_email(
+                        tg_text, tg_button = tg_url_status(
+                            url, old_status, new_status, t_name, div_name, venue_str, t_date)
+                        notify(
+                            user,
                             f"CBVA Registration Update — {label}",
                             _build_url_status_email(
                                 url, old_status, new_status,
                                 t_name, div_name, venue_str, t_date, now_pt,
                             ),
-                            to=user["email"],
+                            tg_text, tg_button,
                         )
                         print(f"  [avail] Status email → {user['email']}")
 
@@ -1671,10 +1885,11 @@ async def run() -> None:
                         user_alerts = [a for a in rating_alerts if a["name"] in user["players"]]
                         if user_alerts:
                             names_str = ", ".join(a["name"] for a in user_alerts)
-                            send_email(
+                            notify(
+                                user,
                                 f"CBVA Rating Alert — {_date_str(now_pt)}: {names_str}",
                                 build_rating_email(user_alerts, now_pt),
-                                to=user["email"],
+                                tg_rating(user_alerts),
                             )
                 else:
                     print("\n[ratings] Already checked today — skipping.")
@@ -1705,10 +1920,11 @@ async def run() -> None:
                     if user_new:
                         names_playing = [e["player_name"] for e in user_new]
                         print(f"\nPlaying today (new for {user['email']}): {', '.join(names_playing)}")
-                        send_email(
+                        notify(
+                            user,
                             f"CBVA Playing Today — {_date_str(now_pt)}: {', '.join(names_playing)}",
                             build_playing_today_email(user_new, state, now_pt),
-                            to=user["email"],
+                            tg_playing_today(user_new),
                         )
                         notified.setdefault(user["email"], []).extend(names_playing)
 
@@ -1754,14 +1970,18 @@ async def run() -> None:
                         user_playoffs = [(w, e, d) for w, e, d in playoff_updates if w in user_set]
                         if user_playoffs:
                             names_str = ", ".join(w for w, _, __ in user_playoffs)
-                            send_email(
+                            notify(
+                                user,
                                 f"CBVA Made Playoffs! — {_date_str(now_pt)}: {names_str}",
                                 build_playoffs_email(user_playoffs, state, now_pt),
-                                to=user["email"],
+                                tg_playoffs(user_playoffs, state),
                             )
                             print(f"Playoffs email → {user['email']} ({len(user_playoffs)} player(s)).")
 
                         user_scores = [(w, e, d) for w, e, d in score_updates if w in user_set]
+                        if user_scores and uses_telegram(user):
+                            # One live card per player; only failures fall back to email.
+                            user_scores = send_result_cards(user, user_scores, state)
                         if user_scores:
                             results_html = build_results_email(user_scores, state, now_pt)
                             if results_html:
