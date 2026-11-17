@@ -373,12 +373,14 @@ class TestTelegramChatIdPreserved(UITestBase):
     def test_chat_id_survives_a_save(self):
         # telegram_chat_id is set outside the UI; saving the watchlist must keep it
         self.users_data[0]["telegram_chat_id"] = 123456789
+        self.users_data[0]["telegram_thread_id"] = 2
         self.load()
         self.page.locator("#cards-players .user-card").first.locator(".add-player-input").fill("Tri Bourne")
         self.page.locator("#cards-players .user-card").first.locator(".add-player-input").press("Enter")
         self.save()
         alice = self.user_in(self.last_saved(), "alice@example.com")
         self.assertEqual(alice.get("telegram_chat_id"), 123456789)
+        self.assertEqual(alice.get("telegram_thread_id"), 2)
         self.assertNotIn("telegram_chat_id", self.user_in(self.last_saved(), "bob@example.com"))
 
 

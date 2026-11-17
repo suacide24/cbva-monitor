@@ -1476,6 +1476,36 @@ class TestTelegramRouting(unittest.TestCase):
         self.assertEqual(kb[0][0], {"text": "Register now", "url": "https://x"})
 
 
+class TestTelegramTopics(unittest.TestCase):
+    """telegram_thread_id sends into one topic of a group."""
+    USER = {"email": "a@b.com", "telegram_chat_id": -100123, "telegram_thread_id": 2}
+
+    def test_notify_targets_topic(self):
+        with patch.object(monitor, "TELEGRAM_TOKEN", "tok"), \
+             patch.object(monitor, "_tg_call", return_value={"message_id": 5}) as tg:
+            monitor.notify(self.USER, "subj", "<html>", "hello")
+        payload = tg.call_args[0][1]
+        self.assertEqual(payload["chat_id"], -100123)
+        self.assertEqual(payload["message_thread_id"], 2)
+
+    def test_no_thread_field_without_topic(self):
+        with patch.object(monitor, "TELEGRAM_TOKEN", "tok"), \
+             patch.object(monitor, "_tg_call", return_value={"message_id": 5}) as tg:
+            monitor.notify({"email": "a@b.com", "telegram_chat_id": 111}, "s", "<h>", "t")
+        self.assertNotIn("message_thread_id", tg.call_args[0][1])
+
+    def test_result_cards_target_topic(self):
+        idx = monitor._build_teams_index(_FIXTURE["teams"])
+        recs = monitor._collect_player_records(
+            idx["by_roster"][131987], _FIXTURE["pools"], _FIXTURE["playoffs"], idx)
+        state = {"tournament_day": {"results": {}, "div_rosters": {}}}
+        entry = {"division_id": 16540, "tournament_id": 4673, "partner": "P"}
+        with patch.object(monitor, "TELEGRAM_TOKEN", "tok"), \
+             patch.object(monitor, "_tg_call", return_value={"message_id": 9}) as tg:
+            monitor.send_result_cards(self.USER, [("Lia Oishi", entry, recs)], state)
+        self.assertEqual(tg.call_args[0][1]["message_thread_id"], 2)
+
+
 class TestTelegramMessages(unittest.TestCase):
     def setUp(self):
         idx = monitor._build_teams_index(_FIXTURE["teams"])

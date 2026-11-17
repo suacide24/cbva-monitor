@@ -189,7 +189,8 @@ def send_email(subject: str, html: str, to: str = "") -> None:
 #
 # A user with "telegram_chat_id" in users.json gets Telegram messages instead
 # of email (when TELEGRAM_BOT_TOKEN is set). Any Telegram failure falls back to
-# email, so a notification is never dropped. Results are one "card" per player
+# email, so a notification is never dropped. "telegram_thread_id" (optional)
+# targets one topic inside a group. Results are one "card" per player
 # that is re-sent and the old one deleted, so the chat holds a single current
 # scorecard instead of a pile of messages.
 
@@ -225,14 +226,17 @@ def uses_telegram(user: dict) -> bool:
     return bool(TELEGRAM_TOKEN and user.get("telegram_chat_id"))
 
 
-def send_telegram(chat_id, text: str, button: tuple | None = None):
-    """Send an HTML message; returns its message_id, or None if it failed."""
+def send_telegram(chat_id, text: str, button: tuple | None = None, thread_id=None):
+    """Send an HTML message (optionally into a group topic); returns its
+    message_id, or None if it failed."""
     payload = {
         "chat_id": chat_id,
         "text": text[:4000],
         "parse_mode": "HTML",
         "disable_web_page_preview": True,
     }
+    if thread_id:
+        payload["message_thread_id"] = thread_id
     if button:
         label, url = button
         payload["reply_markup"] = {"inline_keyboard": [[{"text": label, "url": url}]]}
@@ -250,7 +254,8 @@ def delete_telegram(chat_id, message_id) -> None:
 def notify(user: dict, subject: str, html: str, tg_text: str, button: tuple | None = None) -> None:
     """Deliver one notification: Telegram if the user has it, otherwise email."""
     if uses_telegram(user):
-        if send_telegram(user["telegram_chat_id"], tg_text, button) is not None:
+        if send_telegram(user["telegram_chat_id"], tg_text, button,
+                         user.get("telegram_thread_id")) is not None:
             return
         print(f"[telegram] Falling back to email for {user['email']}")
     send_email(subject, html, to=user["email"])
@@ -349,7 +354,7 @@ def send_result_cards(user: dict, updates: list[tuple], state: dict) -> list[tup
         r_state = td.setdefault("results", {}).setdefault(wname, {})
         msgs    = r_state.setdefault("tg_msgs", {})
         old_id  = msgs.get(str(chat_id))
-        new_id  = send_telegram(chat_id, text)
+        new_id  = send_telegram(chat_id, text, thread_id=user.get("telegram_thread_id"))
         if new_id is None:
             failed.append((wname, entry, records))
             continue
