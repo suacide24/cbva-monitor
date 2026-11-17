@@ -1350,5 +1350,85 @@ class TestCheckCityTournamentsAsync(unittest.IsolatedAsyncioTestCase):
         mock_email.assert_not_called()
 
 
+# ── State safety: never silently discard state.json ───────────────────────────
+
+class TestStateSafety(unittest.TestCase):
+    """
+    load_state used to return an empty state on any read error, wiping every
+    rating, watch and results fingerprint. It must now recover or refuse.
+    """
+
+    def setUp(self):
+        self._dir = tempfile.TemporaryDirectory()
+        self._orig = monitor.STATE_FILE
+        monitor.STATE_FILE = str(Path(self._dir.name) / "state.json")
+
+    def tearDown(self):
+        monitor.STATE_FILE = self._orig
+        self._dir.cleanup()
+
+    def _write(self, text):
+        Path(monitor.STATE_FILE).write_text(text)
+
+    def test_missing_file_is_a_fresh_start(self):
+        self.assertEqual(monitor.load_state(), {"players": {}})
+
+    def test_valid_file_loads(self):
+        self._write('{"players": {"A": {}}, "x": 1}')
+        self.assertEqual(monitor.load_state()["x"], 1)
+
+    def test_corrupt_file_without_backup_raises(self):
+        self._write('{"players": {<<<<<<< HEAD')
+        with patch.object(monitor, "_recover_state_from_git", return_value=None):
+            with self.assertRaises(monitor.StateCorruptError):
+                monitor.load_state()
+
+    def test_empty_file_raises_not_resets(self):
+        self._write("")
+        with patch.object(monitor, "_recover_state_from_git", return_value=None):
+            with self.assertRaises(monitor.StateCorruptError):
+                monitor.load_state()
+
+    def test_non_object_json_is_corrupt(self):
+        self._write("[1, 2, 3]")
+        with patch.object(monitor, "_recover_state_from_git", return_value=None):
+            with self.assertRaises(monitor.StateCorruptError):
+                monitor.load_state()
+
+    def test_corrupt_file_recovers_from_git(self):
+        self._write("not json")
+        good = {"players": {"A": {"rating": "B"}}}
+        with patch.object(monitor, "_recover_state_from_git", return_value=dict(good)):
+            state = monitor.load_state()
+        self.assertEqual(state["players"], good["players"])
+        self.assertIn("_recovered_from_git", state)   # run() uses this to notify
+
+    def test_save_is_atomic_and_round_trips(self):
+        monitor.save_state({"players": {"A": {}}, "n": 2})
+        self.assertEqual(monitor.load_state()["n"], 2)
+        self.assertFalse(Path(monitor.STATE_FILE + ".tmp").exists())
+
+    def test_failed_save_leaves_previous_state_intact(self):
+        monitor.save_state({"n": 1})
+        with self.assertRaises(TypeError):
+            monitor.save_state({"n": object()})        # not JSON-serialisable
+        self.assertEqual(monitor.load_state()["n"], 1)
+
+
+class TestRunAbortsOnCorruptState(unittest.IsolatedAsyncioTestCase):
+    async def test_run_stops_without_saving(self):
+        users = [{"email": "a@b.com", "players": ["X"]}]
+        with patch.object(monitor, "load_users", return_value=users), \
+             patch.object(monitor, "load_state", side_effect=monitor.StateCorruptError("bad")), \
+             patch.object(monitor, "save_state") as save, \
+             patch.object(monitor, "send_email") as email:
+            with self.assertRaises(SystemExit) as cm:
+                await monitor.run()
+        self.assertEqual(cm.exception.code, 1)
+        save.assert_not_called()                 # corrupt state is never overwritten
+        email.assert_called_once()
+        self.assertIn("corrupt", email.call_args[0][0])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

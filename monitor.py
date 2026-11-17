@@ -80,16 +80,76 @@ def load_users() -> list[dict]:
         return []
 
 
+class StateCorruptError(Exception):
+    """state.json exists but can't be used, and no good copy could be recovered."""
+
+
+def _parse_state(text: str) -> dict:
+    data = json.loads(text)
+    if not isinstance(data, dict):
+        raise ValueError("state.json is not a JSON object")
+    return data
+
+
+def _recover_state_from_git(max_commits: int = 30) -> dict | None:
+    """Most recent committed state.json that still parses, or None.
+
+    The Actions checkout is shallow, so deepen it first; every step is
+    best-effort and any git failure just means "nothing recovered".
+    """
+    import subprocess
+
+    def git(*args: str) -> str:
+        return subprocess.run(["git", *args], capture_output=True, text=True,
+                              timeout=60, check=True).stdout
+
+    try:
+        try:
+            git("fetch", "--quiet", f"--deepen={max_commits}")
+        except Exception:
+            pass  # full clone or offline — history may already be there
+        for sha in git("log", f"-{max_commits}", "--format=%H", "--", STATE_FILE).split():
+            try:
+                return _parse_state(git("show", f"{sha}:{STATE_FILE}"))
+            except Exception:
+                continue
+    except Exception:
+        pass
+    return None
+
+
 def load_state() -> dict:
+    """Load state.json without ever silently discarding it.
+
+    A missing file is a legitimate first run. An unreadable one used to fall
+    back to an empty state, which wiped every rating, watch and results
+    fingerprint and re-sent everything as new. Now we restore the last good
+    copy from git history, and refuse to run if there isn't one.
+    """
     try:
         with open(STATE_FILE) as f:
-            return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+            text = f.read()
+    except FileNotFoundError:
         return {"players": {}}
 
+    try:
+        return _parse_state(text)
+    except ValueError as exc:  # JSONDecodeError is a ValueError
+        print(f"[state] {STATE_FILE} is unreadable ({exc}) — trying git history.")
+        recovered = _recover_state_from_git()
+        if recovered is None:
+            raise StateCorruptError(str(exc)) from exc
+        print("[state] Restored the last good state from git history.")
+        recovered["_recovered_from_git"] = str(exc)[:200]
+        return recovered
+
+
 def save_state(state: dict) -> None:
-    with open(STATE_FILE, "w") as f:
+    """Write atomically so an interrupted run can't leave a half-written file."""
+    tmp = STATE_FILE + ".tmp"
+    with open(tmp, "w") as f:
         json.dump(state, f, indent=2)
+    os.replace(tmp, STATE_FILE)
 
 
 # ── Email ─────────────────────────────────────────────────────────────────────
@@ -1553,7 +1613,34 @@ async def run() -> None:
     is_weekend = today_pt.weekday() >= 5   # Saturday=5, Sunday=6
     all_players: list[str] = []            # populated in the weekend branch
 
-    state = load_state()
+    try:
+        state = load_state()
+    except StateCorruptError as exc:
+        # Never continue (and never save) on top of unusable state.
+        print(f"[state] FATAL: {STATE_FILE} is corrupt and unrecoverable: {exc}")
+        send_email(
+            "🚨 CBVA Monitor stopped — state.json is corrupt",
+            _wrap(
+                f"<p>The monitor could not read <code>{STATE_FILE}</code> and found no "
+                f"good copy in recent git history, so it stopped without changing "
+                f"anything.</p><p><strong>Error:</strong> {exc}</p>"
+                f"<p>Fix or restore the file in the repo; runs resume on their own.</p>",
+                "CBVA Monitor Stopped", now_pt),
+            to=EMAIL_FROM,
+        )
+        raise SystemExit(1)
+
+    recovered_note = state.pop("_recovered_from_git", None)
+    if recovered_note:
+        send_email(
+            "⚠️ CBVA Monitor restored state.json from git history",
+            _wrap(
+                f"<p><code>{STATE_FILE}</code> was unreadable ({recovered_note}), so the "
+                f"monitor restored the most recent good copy from git history and "
+                f"carried on. Anything recorded after that copy may be re-sent once.</p>",
+                "CBVA Monitor State Restored", now_pt),
+            to=EMAIL_FROM,
+        )
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
