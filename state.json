@@ -260,46 +260,46 @@
         "30": "Ryan Wadhams / Matt Keener"
       },
       "17519": {
+        "2": "Brian Rosa / Weslynne Rosa",
         "4": "Amelia Nathanson / Jonah Nathanson",
         "6": "Violet Humphrey / Jake C LaBreche",
         "7": "Alexandra Nekrasova / George Ivlev",
         "1": "Alona Kuzmytska / Alex Stas",
-        "2": "Brian Rosa / Weslynne Rosa",
         "3": "Elizabeth Candlish / Viv Moro",
         "5": "Matt Danison / gabrielle para"
       },
       "16891": {
+        "6": "Katharine Yu / Miranda Werts",
+        "8": "Allison Hidinger / Ashtyn Huber",
+        "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
         "1": "Caitlin Stapp / Kelly Chang",
         "2": "Lizzy Ostro / Gabi Fernandez",
         "3": "Amar Mann / Parm Mann",
         "4": "Yesenia Jacobo / Selina Chhay",
         "5": "Rosa Chung / Liz Federowicz",
-        "6": "Katharine Yu / Miranda Werts",
         "7": "Sarah Hiyari / True McCullough",
-        "8": "Allison Hidinger / Ashtyn Huber",
         "9": "Hannah Weitzenfeld / Taylor Greig",
         "10": "Liza Shchegrov / Ashley Harkness",
         "11": "Mickie Arias / Rachel Busch",
-        "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
         "14": "Margaret OMara / Camila Wilson",
         "15": "Cait Baldridge / Rachel Ullrich",
         "16": "Olga Plaksina / Ola Iglina"
       },
       "16889": {
+        "7": "Daniel Henson / Sammy Wong",
+        "8": "Ali Tahmasbi / Duncan Crookston",
+        "14": "Arian Guzman / Chris Guzman",
+        "15": "Brian Hempe / Alex Deutsch",
         "1": "Neal OBrien / Wes Regimbal",
         "2": "Neville Morgan / Justin Wu",
         "3": "Mateo Scheidt / Jeran Bruce",
         "4": "Ethan Montana / Alex Gaal",
         "5": "Chris Murphy / Gytis Joga",
         "6": "David Chavez / Daniel Rice",
-        "7": "Daniel Henson / Sammy Wong",
-        "8": "Ali Tahmasbi / Duncan Crookston",
         "9": "Jack Lamey / Quinn Lamey",
         "10": "Richard Fillman / Peter Tran",
         "11": "Joaquin Cielo / Austin Schmidt",
         "12": "Goran Muric / Ben Norman",
-        "14": "Arian Guzman / Chris Guzman",
-        "15": "Brian Hempe / Alex Deutsch",
         "16": "Collin Schumpp / Grey Vugrin",
         "17": "Spencer Neumann / Stone Werner",
         "18": "Phil Zhang / Austin Matsuura",
@@ -328,6 +328,7 @@
         "6": "Katharine Yu / Miranda Werts",
         "8": "Allison Hidinger / Ashtyn Huber",
         "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
+        "14": "Margaret OMara / Camila Wilson",
         "1": "Caitlin Stapp / Kelly Chang",
         "2": "Lizzy Ostro / Gabi Fernandez",
         "3": "Amar Mann / Parm Mann",
@@ -337,7 +338,6 @@
         "9": "Hannah Weitzenfeld / Taylor Greig",
         "10": "Liza Shchegrov / Ashley Harkness",
         "11": "Mickie Arias / Rachel Busch",
-        "14": "Margaret OMara / Camila Wilson",
         "15": "Cait Baldridge / Rachel Ullrich",
         "16": "Olga Plaksina / Ola Iglina"
       }
@@ -386,7 +386,8 @@
         "last_updated": "2026-11-21T20:16:04.058754",
         "tg_msgs": {
           "-1003983050734": 54
-        }
+        },
+        "playoff_notified": true
       },
       "Jacklyn Smith": {
         "fingerprint": "[]",
