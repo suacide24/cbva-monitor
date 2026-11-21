@@ -210,7 +210,7 @@
         "team_seed": 4,
         "team_id": 137260,
         "match_team_id": 231111,
-        "finish": null
+        "finish": 5
       },
       "Jacklyn Smith": {
         "player_name": "Jacklyn Smith",
@@ -269,13 +269,13 @@
         "5": "Matt Danison / gabrielle para"
       },
       "16891": {
+        "1": "Caitlin Stapp / Kelly Chang",
+        "3": "Amar Mann / Parm Mann",
         "6": "Katharine Yu / Miranda Werts",
         "8": "Allison Hidinger / Ashtyn Huber",
         "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
         "14": "Margaret OMara / Camila Wilson",
-        "1": "Caitlin Stapp / Kelly Chang",
         "2": "Lizzy Ostro / Gabi Fernandez",
-        "3": "Amar Mann / Parm Mann",
         "4": "Yesenia Jacobo / Selina Chhay",
         "5": "Rosa Chung / Liz Federowicz",
         "7": "Sarah Hiyari / True McCullough",
@@ -286,6 +286,8 @@
         "16": "Olga Plaksina / Ola Iglina"
       },
       "16889": {
+        "5": "Chris Murphy / Gytis Joga",
+        "11": "Joaquin Cielo / Austin Schmidt",
         "7": "Daniel Henson / Sammy Wong",
         "8": "Ali Tahmasbi / Duncan Crookston",
         "14": "Arian Guzman / Chris Guzman",
@@ -294,11 +296,9 @@
         "2": "Neville Morgan / Justin Wu",
         "3": "Mateo Scheidt / Jeran Bruce",
         "4": "Ethan Montana / Alex Gaal",
-        "5": "Chris Murphy / Gytis Joga",
         "6": "David Chavez / Daniel Rice",
         "9": "Jack Lamey / Quinn Lamey",
         "10": "Richard Fillman / Peter Tran",
-        "11": "Joaquin Cielo / Austin Schmidt",
         "12": "Goran Muric / Ben Norman",
         "16": "Collin Schumpp / Grey Vugrin",
         "17": "Spencer Neumann / Stone Werner",
@@ -327,14 +327,14 @@
       "16891": {
         "1": "Caitlin Stapp / Kelly Chang",
         "3": "Amar Mann / Parm Mann",
+        "4": "Yesenia Jacobo / Selina Chhay",
+        "7": "Sarah Hiyari / True McCullough",
         "6": "Katharine Yu / Miranda Werts",
         "8": "Allison Hidinger / Ashtyn Huber",
         "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
         "14": "Margaret OMara / Camila Wilson",
         "2": "Lizzy Ostro / Gabi Fernandez",
-        "4": "Yesenia Jacobo / Selina Chhay",
         "5": "Rosa Chung / Liz Federowicz",
-        "7": "Sarah Hiyari / True McCullough",
         "9": "Hannah Weitzenfeld / Taylor Greig",
         "10": "Liza Shchegrov / Ashley Harkness",
         "11": "Mickie Arias / Rachel Busch",
@@ -344,7 +344,7 @@
     },
     "results": {
       "Selina Chhay": {
-        "fingerprint": "[[66854, \"completed\", \"0-0, 21-14, 21-12\", true], [66855, \"completed\", \"0-0, 21-16, 21-19\", true]]",
+        "fingerprint": "[[18424, \"completed\", \"17-21\", false], [66854, \"completed\", \"0-0, 21-14, 21-12\", true], [66855, \"completed\", \"0-0, 21-16, 21-19\", true]]",
         "records": [
           {
             "phase": "pool",
@@ -375,17 +375,17 @@
             "pool_name": null,
             "round": 1,
             "match_no": 6,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": null,
-            "won": null,
+            "status": "completed",
+            "score": "17-21",
+            "opp_seed": 2,
+            "won": false,
             "court": "Court 12",
             "match_id": 18424
           }
         ],
-        "last_updated": "2026-11-21T20:16:04.058754",
+        "last_updated": "2026-11-21T22:15:44.614404",
         "tg_msgs": {
-          "-1003983050734": 54
+          "-1003983050734": 58
         },
         "playoff_notified": true
       },
