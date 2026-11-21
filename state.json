@@ -230,6 +230,7 @@
     },
     "div_rosters": {
       "16889": {
+        "4": "Ethan Montana / Alex Gaal",
         "9": "Jack Lamey / Quinn Lamey",
         "1": "Neal OBrien / Wes Regimbal",
         "5": "Chris Murphy / Gytis Joga",
@@ -241,7 +242,6 @@
         "15": "Brian Hempe / Alex Deutsch",
         "2": "Neville Morgan / Justin Wu",
         "3": "Mateo Scheidt / Jeran Bruce",
-        "4": "Ethan Montana / Alex Gaal",
         "10": "Richard Fillman / Peter Tran",
         "12": "Goran Muric / Ben Norman",
         "16": "Collin Schumpp / Grey Vugrin",
@@ -269,6 +269,8 @@
         "7": "Alexandra Nekrasova / George Ivlev"
       },
       "16891": {
+        "2": "Lizzy Ostro / Gabi Fernandez",
+        "10": "Liza Shchegrov / Ashley Harkness",
         "5": "Rosa Chung / Liz Federowicz",
         "9": "Hannah Weitzenfeld / Taylor Greig",
         "1": "Caitlin Stapp / Kelly Chang",
@@ -279,8 +281,6 @@
         "8": "Allison Hidinger / Ashtyn Huber",
         "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
         "14": "Margaret OMara / Camila Wilson",
-        "2": "Lizzy Ostro / Gabi Fernandez",
-        "10": "Liza Shchegrov / Ashley Harkness",
         "11": "Mickie Arias / Rachel Busch",
         "15": "Cait Baldridge / Rachel Ullrich",
         "16": "Olga Plaksina / Ola Iglina"
