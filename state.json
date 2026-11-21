@@ -344,20 +344,8 @@
     },
     "results": {
       "Selina Chhay": {
-        "fingerprint": "[[66854, \"completed\", \"0-0, 21-14, 21-12\", true]]",
+        "fingerprint": "[[66854, \"completed\", \"0-0, 21-14, 21-12\", true], [66855, \"completed\", \"0-0, 21-16, 21-19\", true]]",
         "records": [
-          {
-            "phase": "pool",
-            "pool_name": "4",
-            "round": null,
-            "match_no": 3,
-            "status": "scheduled",
-            "score": "",
-            "opp_seed": 5,
-            "won": null,
-            "court": null,
-            "match_id": 66855
-          },
           {
             "phase": "pool",
             "pool_name": "4",
@@ -369,11 +357,35 @@
             "won": true,
             "court": null,
             "match_id": 66854
+          },
+          {
+            "phase": "pool",
+            "pool_name": "4",
+            "round": null,
+            "match_no": 3,
+            "status": "completed",
+            "score": "0-0, 21-16, 21-19",
+            "opp_seed": 5,
+            "won": true,
+            "court": null,
+            "match_id": 66855
+          },
+          {
+            "phase": "playoff",
+            "pool_name": null,
+            "round": 1,
+            "match_no": 6,
+            "status": "scheduled",
+            "score": "",
+            "opp_seed": null,
+            "won": null,
+            "court": "Court 12",
+            "match_id": 18424
           }
         ],
-        "last_updated": "2026-11-21T19:01:27.077440",
+        "last_updated": "2026-11-21T20:16:04.058754",
         "tg_msgs": {
-          "-1003983050734": 53
+          "-1003983050734": 54
         }
       },
       "Jacklyn Smith": {
