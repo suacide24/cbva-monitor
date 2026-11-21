@@ -230,17 +230,17 @@
     },
     "div_rosters": {
       "16889": {
+        "1": "Neal OBrien / Wes Regimbal",
         "5": "Chris Murphy / Gytis Joga",
+        "6": "David Chavez / Daniel Rice",
         "11": "Joaquin Cielo / Austin Schmidt",
         "7": "Daniel Henson / Sammy Wong",
         "8": "Ali Tahmasbi / Duncan Crookston",
         "14": "Arian Guzman / Chris Guzman",
         "15": "Brian Hempe / Alex Deutsch",
-        "1": "Neal OBrien / Wes Regimbal",
         "2": "Neville Morgan / Justin Wu",
         "3": "Mateo Scheidt / Jeran Bruce",
         "4": "Ethan Montana / Alex Gaal",
-        "6": "David Chavez / Daniel Rice",
         "9": "Jack Lamey / Quinn Lamey",
         "10": "Richard Fillman / Peter Tran",
         "12": "Goran Muric / Ben Norman",
@@ -269,6 +269,7 @@
         "5": "Matt Danison / gabrielle para"
       },
       "16891": {
+        "5": "Rosa Chung / Liz Federowicz",
         "1": "Caitlin Stapp / Kelly Chang",
         "3": "Amar Mann / Parm Mann",
         "4": "Yesenia Jacobo / Selina Chhay",
@@ -278,7 +279,6 @@
         "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
         "14": "Margaret OMara / Camila Wilson",
         "2": "Lizzy Ostro / Gabi Fernandez",
-        "5": "Rosa Chung / Liz Federowicz",
         "9": "Hannah Weitzenfeld / Taylor Greig",
         "10": "Liza Shchegrov / Ashley Harkness",
         "11": "Mickie Arias / Rachel Busch",
@@ -286,6 +286,7 @@
         "16": "Olga Plaksina / Ola Iglina"
       },
       "16889": {
+        "9": "Jack Lamey / Quinn Lamey",
         "1": "Neal OBrien / Wes Regimbal",
         "5": "Chris Murphy / Gytis Joga",
         "6": "David Chavez / Daniel Rice",
@@ -297,7 +298,6 @@
         "2": "Neville Morgan / Justin Wu",
         "3": "Mateo Scheidt / Jeran Bruce",
         "4": "Ethan Montana / Alex Gaal",
-        "9": "Jack Lamey / Quinn Lamey",
         "10": "Richard Fillman / Peter Tran",
         "12": "Goran Muric / Ben Norman",
         "16": "Collin Schumpp / Grey Vugrin",
@@ -316,16 +316,17 @@
         "30": "Ryan Wadhams / Matt Keener"
       },
       "17519": {
-        "2": "Brian Rosa / Weslynne Rosa",
-        "4": "Amelia Nathanson / Jonah Nathanson",
-        "6": "Violet Humphrey / Jake C LaBreche",
-        "7": "Alexandra Nekrasova / George Ivlev",
         "1": "Alona Kuzmytska / Alex Stas",
         "3": "Elizabeth Candlish / Viv Moro",
-        "5": "Matt Danison / gabrielle para"
+        "2": "Brian Rosa / Weslynne Rosa",
+        "6": "Violet Humphrey / Jake C LaBreche",
+        "4": "Amelia Nathanson / Jonah Nathanson",
+        "5": "Matt Danison / gabrielle para",
+        "7": "Alexandra Nekrasova / George Ivlev"
       },
       "16891": {
         "5": "Rosa Chung / Liz Federowicz",
+        "9": "Hannah Weitzenfeld / Taylor Greig",
         "1": "Caitlin Stapp / Kelly Chang",
         "3": "Amar Mann / Parm Mann",
         "4": "Yesenia Jacobo / Selina Chhay",
@@ -335,7 +336,6 @@
         "12": "Ligia Costa de Alencar Amaral Muniz Costa / Grace Magrisso",
         "14": "Margaret OMara / Camila Wilson",
         "2": "Lizzy Ostro / Gabi Fernandez",
-        "9": "Hannah Weitzenfeld / Taylor Greig",
         "10": "Liza Shchegrov / Ashley Harkness",
         "11": "Mickie Arias / Rachel Busch",
         "15": "Cait Baldridge / Rachel Ullrich",
