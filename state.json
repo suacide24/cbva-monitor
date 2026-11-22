@@ -216,12 +216,12 @@
       "16838": {
         "2": "Kylee-Jo (JoJo) Wilson / Thalia Lindahl",
         "6": "Jordyn Wilson / Lerin Rosenthal",
+        "7": "Victoria Ashkinos / Katherine Reilly",
         "11": "Madison Arnold / Morgan Nash",
         "1": "Cassandra Lew / Amarie Bremel",
         "3": "Rachel Kuhn / Elena Eckhardt",
         "4": "Terri Del Conte / Mo Gibson",
         "5": "Michele Mendizabal / Jasmin Suarez",
-        "7": "Victoria Ashkinos / Katherine Reilly",
         "8": "Wendy Bergstresser / Madelyn Williams",
         "9": "Paloma Bowman / Taylor Hagenah",
         "10": "Brenna Dougherty / Summer Hanks",
@@ -233,6 +233,7 @@
         "17": "Madison Gillinger / Marley Robinson"
       },
       "16893": {
+        "15": "Antoinette De la espriella / Cynthia Hinojosa",
         "7": "Elizabeth Holland / Morgan Gatzlaff",
         "8": "Julia Lee / Kellen Hastings",
         "14": "Jasmine Lin / Stephanie Paul",
@@ -247,7 +248,6 @@
         "11": "Lilly Paull / Sadie Calderone",
         "12": "Deketa Stubblefield / Kaeley KJ Johnston",
         "13": "Charlotte Bieber / Sawyer Aigner-Swesey",
-        "15": "Antoinette De la espriella / Cynthia Hinojosa",
         "16": "Kate Summers / Katelyn Tom",
         "18": "Logan Beitler / Lizzy Ostro"
       },
@@ -274,8 +274,8 @@
         "20": "Jake Green / Trent Buyert"
       },
       "16895": {
-        "1": "Tevin Pak / Brandon Fitzgerald",
         "2": "Dylan Lopez / Michael Lopez",
+        "1": "Tevin Pak / Brandon Fitzgerald",
         "3": "Wes Furuta / Kandi the Ladyboi Baolorpet",
         "4": "George Miller / Davis Richardson",
         "5": "Alexander Svecz / Matthew Gonzales",
@@ -337,13 +337,14 @@
         "17": "Madison Gillinger / Marley Robinson"
       },
       "16893": {
+        "2": "Simone Augustine / Kitty Wan",
+        "13": "Charlotte Bieber / Sawyer Aigner-Swesey",
         "15": "Antoinette De la espriella / Cynthia Hinojosa",
         "7": "Elizabeth Holland / Morgan Gatzlaff",
         "8": "Julia Lee / Kellen Hastings",
         "14": "Jasmine Lin / Stephanie Paul",
         "17": "Sofia Peterson / Sophia Graham",
         "1": "Abby Schneider / Jamie Justo",
-        "2": "Simone Augustine / Kitty Wan",
         "4": "Rosie Borchert / Megann Delgado",
         "5": "Amanda Yee / Sara Makanani",
         "6": "Kelsey Brandin / Arina Gerasimova",
@@ -351,7 +352,6 @@
         "10": "Katie Westrup / Bridget Stinson",
         "11": "Lilly Paull / Sadie Calderone",
         "12": "Deketa Stubblefield / Kaeley KJ Johnston",
-        "13": "Charlotte Bieber / Sawyer Aigner-Swesey",
         "16": "Kate Summers / Katelyn Tom",
         "18": "Logan Beitler / Lizzy Ostro"
       },
@@ -379,13 +379,13 @@
       },
       "16895": {
         "2": "Dylan Lopez / Michael Lopez",
+        "8": "Ian Spetner / Ryan Magill",
         "1": "Tevin Pak / Brandon Fitzgerald",
         "3": "Wes Furuta / Kandi the Ladyboi Baolorpet",
         "4": "George Miller / Davis Richardson",
         "5": "Alexander Svecz / Matthew Gonzales",
         "6": "Jon Waltman / Christopher Minar",
         "7": "Sam Zive / Kyle Brignall",
-        "8": "Ian Spetner / Ryan Magill",
         "9": "Chris Caskey / Nick Frank",
         "10": "Greg Smith / Stephen Brown",
         "11": "Ray Roble / Jesse Pickard",
