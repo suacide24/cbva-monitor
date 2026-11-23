@@ -214,16 +214,16 @@
     },
     "div_rosters": {
       "16838": {
+        "9": "Paloma Bowman / Taylor Hagenah",
+        "1": "Cassandra Lew / Amarie Bremel",
         "4": "Terri Del Conte / Mo Gibson",
         "5": "Michele Mendizabal / Jasmin Suarez",
         "2": "Kylee-Jo (JoJo) Wilson / Thalia Lindahl",
         "6": "Jordyn Wilson / Lerin Rosenthal",
         "7": "Victoria Ashkinos / Katherine Reilly",
         "11": "Madison Arnold / Morgan Nash",
-        "1": "Cassandra Lew / Amarie Bremel",
         "3": "Rachel Kuhn / Elena Eckhardt",
         "8": "Wendy Bergstresser / Madelyn Williams",
-        "9": "Paloma Bowman / Taylor Hagenah",
         "10": "Brenna Dougherty / Summer Hanks",
         "12": "Nathalie Smith / Hannah Glick",
         "13": "Ariel Safai / Hannah Lockhart",
@@ -233,6 +233,7 @@
         "17": "Madison Gillinger / Marley Robinson"
       },
       "16893": {
+        "6": "Kelsey Brandin / Arina Gerasimova",
         "11": "Lilly Paull / Sadie Calderone",
         "2": "Simone Augustine / Kitty Wan",
         "12": "Deketa Stubblefield / Kaeley KJ Johnston",
@@ -245,7 +246,6 @@
         "1": "Abby Schneider / Jamie Justo",
         "4": "Rosie Borchert / Megann Delgado",
         "5": "Amanda Yee / Sara Makanani",
-        "6": "Kelsey Brandin / Arina Gerasimova",
         "9": "Kara Boas / Stacy Balestrieri",
         "10": "Katie Westrup / Bridget Stinson",
         "16": "Kate Summers / Katelyn Tom",
@@ -253,6 +253,7 @@
       },
       "16892": {
         "1": "River Reyes / Ryan Foreman",
+        "3": "Samuel Hoffman-Kipp / Grant Nolan Linford",
         "17": "John Graybill / Stephen Moye",
         "18": "Eduardo Mota / Peter Luong",
         "4": "Aryan Rasoolian / Jacob Johnson",
@@ -260,7 +261,6 @@
         "19": "Luke Powers / Justin Eitner",
         "20": "Jake Green / Trent Buyert",
         "2": "Cavan Donohoe / Sean Mitchell",
-        "3": "Samuel Hoffman-Kipp / Grant Nolan Linford",
         "5": "Reece Baxter / Matt Hammack",
         "6": "John Frank / Eric Shallal-Ayzin",
         "7": "Zane Middaugh / Orion Burl",
@@ -296,22 +296,22 @@
         "19": "Ryan Kimura / Christian Neibert"
       },
       "16894": {
+        "3": "Nicole Henry / Justyn St. Charles",
         "4": "Summer Tonsfeldt / Lucialba Buzzelli",
         "6": "Annie Welch / Bre Hance",
+        "14": "Ava Paulsen / Uakea Huddleston",
         "7": "Lauren Miller / Cathryn Cheek",
         "8": "Olivia Kilpatrick / Ava Salvo",
         "17": "McKenna Teltscher / Rachel Ullrich",
         "18": "Julia Morales / Lindsay Levine",
         "1": "Jenna Denamur / Allison Cartee",
         "2": "Kiara Barrett / Sydney Summerville",
-        "3": "Nicole Henry / Justyn St. Charles",
         "5": "Amie Garcia / Sjuzanna Hacatrjana",
         "9": "Camille Eckelman / Lexi Oulashin",
         "10": "Clara Hopkins / Maryam Staniszewski",
         "11": "Paige Gordon / Irina Meroi",
         "12": "Gina Fiorini / Nicole Baker",
         "13": "Sharon Hsia / Sarah Razo",
-        "14": "Ava Paulsen / Uakea Huddleston",
         "15": "Haley Lao / Rachel Kearon",
         "16": "Becca Branch / Lauren Steinberg",
         "19": "Natalie Manders / Lillian Sims",
@@ -356,6 +356,7 @@
         "18": "Logan Beitler / Lizzy Ostro"
       },
       "16892": {
+        "15": "Jakob Troy / Cameron Taylor",
         "1": "River Reyes / Ryan Foreman",
         "3": "Samuel Hoffman-Kipp / Grant Nolan Linford",
         "17": "John Graybill / Stephen Moye",
@@ -374,7 +375,6 @@
         "11": "Kevin Lawson / Adam Ernst",
         "12": "Brian Hom / Thomas Alexander",
         "13": "Tobin Mitchell / Thomas Moore",
-        "15": "Jakob Troy / Cameron Taylor",
         "16": "Jackson Mezera / Atticus Graham"
       },
       "16895": {
