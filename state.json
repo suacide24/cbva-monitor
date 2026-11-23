@@ -252,6 +252,7 @@
         "18": "Logan Beitler / Lizzy Ostro"
       },
       "16892": {
+        "15": "Jakob Troy / Cameron Taylor",
         "1": "River Reyes / Ryan Foreman",
         "3": "Samuel Hoffman-Kipp / Grant Nolan Linford",
         "17": "John Graybill / Stephen Moye",
@@ -270,7 +271,6 @@
         "11": "Kevin Lawson / Adam Ernst",
         "12": "Brian Hom / Thomas Alexander",
         "13": "Tobin Mitchell / Thomas Moore",
-        "15": "Jakob Troy / Cameron Taylor",
         "16": "Jackson Mezera / Atticus Graham"
       },
       "16895": {
@@ -336,26 +336,8 @@
         "16": "Ava Champagne / Jordyn Flynn",
         "17": "Madison Gillinger / Marley Robinson"
       },
-      "16893": {
-        "6": "Kelsey Brandin / Arina Gerasimova",
-        "11": "Lilly Paull / Sadie Calderone",
-        "2": "Simone Augustine / Kitty Wan",
-        "12": "Deketa Stubblefield / Kaeley KJ Johnston",
-        "13": "Charlotte Bieber / Sawyer Aigner-Swesey",
-        "15": "Antoinette De la espriella / Cynthia Hinojosa",
-        "7": "Elizabeth Holland / Morgan Gatzlaff",
-        "8": "Julia Lee / Kellen Hastings",
-        "14": "Jasmine Lin / Stephanie Paul",
-        "17": "Sofia Peterson / Sophia Graham",
-        "1": "Abby Schneider / Jamie Justo",
-        "4": "Rosie Borchert / Megann Delgado",
-        "5": "Amanda Yee / Sara Makanani",
-        "9": "Kara Boas / Stacy Balestrieri",
-        "10": "Katie Westrup / Bridget Stinson",
-        "16": "Kate Summers / Katelyn Tom",
-        "18": "Logan Beitler / Lizzy Ostro"
-      },
       "16892": {
+        "9": "Joseph Sarafian / Jos\u00e9 Zavala",
         "15": "Jakob Troy / Cameron Taylor",
         "1": "River Reyes / Ryan Foreman",
         "3": "Samuel Hoffman-Kipp / Grant Nolan Linford",
@@ -370,7 +352,6 @@
         "6": "John Frank / Eric Shallal-Ayzin",
         "7": "Zane Middaugh / Orion Burl",
         "8": "Kurt Gurdal / Szymon Tralka",
-        "9": "Joseph Sarafian / Jos\u00e9 Zavala",
         "10": "Samuel Kaseff / Sergei Nikiforov",
         "11": "Kevin Lawson / Adam Ernst",
         "12": "Brian Hom / Thomas Alexander",
@@ -378,6 +359,7 @@
         "16": "Jackson Mezera / Atticus Graham"
       },
       "16895": {
+        "5": "Alexander Svecz / Matthew Gonzales",
         "10": "Greg Smith / Stephen Brown",
         "11": "Ray Roble / Jesse Pickard",
         "14": "Brock Bishop / Brad Bishop",
@@ -388,7 +370,6 @@
         "8": "Ian Spetner / Ryan Magill",
         "3": "Wes Furuta / Kandi the Ladyboi Baolorpet",
         "4": "George Miller / Davis Richardson",
-        "5": "Alexander Svecz / Matthew Gonzales",
         "7": "Sam Zive / Kyle Brignall",
         "9": "Chris Caskey / Nick Frank",
         "12": "Byron Paidoussi / Andrew Plotkin",
@@ -400,6 +381,8 @@
         "19": "Ryan Kimura / Christian Neibert"
       },
       "16894": {
+        "5": "Amie Garcia / Sjuzanna Hacatrjana",
+        "12": "Gina Fiorini / Nicole Baker",
         "3": "Nicole Henry / Justyn St. Charles",
         "4": "Summer Tonsfeldt / Lucialba Buzzelli",
         "6": "Annie Welch / Bre Hance",
@@ -410,16 +393,33 @@
         "18": "Julia Morales / Lindsay Levine",
         "1": "Jenna Denamur / Allison Cartee",
         "2": "Kiara Barrett / Sydney Summerville",
-        "5": "Amie Garcia / Sjuzanna Hacatrjana",
         "9": "Camille Eckelman / Lexi Oulashin",
         "10": "Clara Hopkins / Maryam Staniszewski",
         "11": "Paige Gordon / Irina Meroi",
-        "12": "Gina Fiorini / Nicole Baker",
         "13": "Sharon Hsia / Sarah Razo",
         "15": "Haley Lao / Rachel Kearon",
         "16": "Becca Branch / Lauren Steinberg",
         "19": "Natalie Manders / Lillian Sims",
         "20": "Skylar Bowyer / Anh Tu"
+      },
+      "16893": {
+        "9": "Kara Boas / Stacy Balestrieri",
+        "1": "Abby Schneider / Jamie Justo",
+        "6": "Kelsey Brandin / Arina Gerasimova",
+        "11": "Lilly Paull / Sadie Calderone",
+        "2": "Simone Augustine / Kitty Wan",
+        "12": "Deketa Stubblefield / Kaeley KJ Johnston",
+        "13": "Charlotte Bieber / Sawyer Aigner-Swesey",
+        "15": "Antoinette De la espriella / Cynthia Hinojosa",
+        "7": "Elizabeth Holland / Morgan Gatzlaff",
+        "8": "Julia Lee / Kellen Hastings",
+        "14": "Jasmine Lin / Stephanie Paul",
+        "17": "Sofia Peterson / Sophia Graham",
+        "4": "Rosie Borchert / Megann Delgado",
+        "5": "Amanda Yee / Sara Makanani",
+        "10": "Katie Westrup / Bridget Stinson",
+        "16": "Kate Summers / Katelyn Tom",
+        "18": "Logan Beitler / Lizzy Ostro"
       }
     },
     "results": {
